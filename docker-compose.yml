@@ -1,0 +1,18 @@
+services:
+  # ─── Next.js App ───────────────────────────────────────────────
+  app:
+    build:
+      context: ./motor-presupuestacion
+      dockerfile: Dockerfile
+    container_name: logmetal_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - FLEXXUS_API_URL=${FLEXXUS_API_URL}
+      - FLEXXUS_API_KEY=${FLEXXUS_API_KEY}
+      - NODE_OPTIONS=--dns-result-order=ipv4first
