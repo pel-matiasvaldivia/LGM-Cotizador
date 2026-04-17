@@ -341,7 +341,7 @@ export default function CotizadorWizard() {
               <div className="flex gap-3 mt-4">
                 <button onClick={prevStep} className="flex-1 bg-slate-100 text-slate-700 py-3 rounded-xl font-semibold hover:bg-slate-200">Atrás</button>
                 <button onClick={nextStep} disabled={!formData.ancho_m || !formData.largo_m || !formData.altura_libre_m}
-                  className="flex-[2] bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700 disabled:opacity-40">
+                  className="flex-1 bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700 disabled:opacity-40">
                   Continuar <ChevronRight className="inline" />
                 </button>
               </div>
@@ -366,7 +366,7 @@ export default function CotizadorWizard() {
 
               <div className="flex gap-3">
                 <button onClick={prevStep} className={btnSecondary}>Atrás</button>
-                <button onClick={nextStep} className="flex-[2] bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700">
+                <button onClick={nextStep} className="flex-1 bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700">
                   Continuar <ChevronRight className="inline" />
                 </button>
               </div>
@@ -434,7 +434,7 @@ export default function CotizadorWizard() {
 
               <div className="flex gap-3 mt-2">
                 <button onClick={prevStep} className={btnSecondary}>Atrás</button>
-                <button onClick={nextStep} className="flex-[2] bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700">
+                <button onClick={nextStep} className="flex-1 bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700">
                   Continuar <ChevronRight className="inline" />
                 </button>
               </div>
@@ -461,7 +461,7 @@ export default function CotizadorWizard() {
 
               <div className="flex gap-3">
                 <button onClick={prevStep} className={btnSecondary}>Atrás</button>
-                <button onClick={nextStep} className="flex-[2] bg-slate-200 text-slate-700 py-3 rounded-xl font-bold hover:bg-slate-300">
+                <button onClick={nextStep} className="flex-1 bg-slate-200 text-slate-700 py-3 rounded-xl font-bold hover:bg-slate-300">
                   Omitir y continuar
                 </button>
               </div>
@@ -529,22 +529,36 @@ export default function CotizadorWizard() {
               <div className="flex gap-3">
                 <button onClick={prevStep} className="flex-1 bg-slate-100 text-slate-700 py-3 rounded-xl font-semibold hover:bg-slate-200">Atrás</button>
                 <button onClick={handleSubmit} disabled={!formData.cliente_email || submitting}
-                  className={`flex-[2] ${btnPrimary}`}>
+                  className={`flex-1 ${btnPrimary}`}>
                   {submitting ? <><Loader2 className="animate-spin mr-2" /> Calculando...</> : '⚡ Generar Presupuesto R-04'}
                 </button>
               </div>
             </motion.div>
           )}
 
-          {/* STEP FINAL: DESCARGADO */}
+          {/* STEP FINAL: GRACIAS */}
           {step === 7 && (
             <motion.div key="s7" {...slideProps} className="p-10 min-h-[480px] flex flex-col items-center justify-center text-center">
-              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
-                <Check className="w-10 h-10 text-green-600" />
+              <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-6 shadow-lg">
+                <Check className="w-12 h-12 text-green-600" />
               </div>
-              <h2 className="text-3xl font-bold text-[#1B2A47] mb-3">¡Presupuesto R-04 generado!</h2>
-              <p className="text-slate-500 mb-6">El PDF se descargó automáticamente. Nuestro equipo comercial también recibirá una copia.</p>
-              <button onClick={() => window.location.href = '/'} className="bg-[#F05A28] text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-orange-600 transition-all">
+              <h2 className="text-3xl font-bold text-[#1B2A47] mb-3">¡Gracias por tu consulta!</h2>
+              <p className="text-slate-600 text-lg mb-2">
+                Tu <strong>Presupuesto R-04</strong> se descargó automáticamente.
+              </p>
+              <p className="text-slate-500 mb-8 max-w-sm">
+                También te enviamos una copia a tu correo. Nuestro equipo comercial se pondrá en contacto
+                a la brevedad para asesorarte.
+              </p>
+              <div className="bg-orange-50 border border-orange-200 rounded-2xl px-6 py-4 mb-8 max-w-xs text-sm text-[#1B2A47]">
+                <p className="font-bold mb-1">📞 ¿Querés hablar con un asesor ahora?</p>
+                <a href="https://wa.me/5492616666666" target="_blank" rel="noreferrer"
+                  className="text-[#F05A28] font-semibold hover:underline">
+                  Contactanos por WhatsApp →
+                </a>
+              </div>
+              <button onClick={() => window.location.href = '/'}
+                className="bg-[#1B2A47] text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-slate-700 transition-all">
                 Volver al inicio
               </button>
             </motion.div>
