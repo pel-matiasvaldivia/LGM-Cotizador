@@ -9,8 +9,9 @@ export function createClient() {
   }
 
   if (!url || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    throw new Error('Supabase environment variables not set')
+    console.warn('Supabase environment variables not set at build time.')
+    url = url || 'https://placeholder.supabase.co'
   }
   
-  return createSupabaseClient(url, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+  return createSupabaseClient(url, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder')
 }
