@@ -228,7 +228,7 @@ export default function CotizadorWizard() {
       {/* HEADER */}
       <div className="bg-slate-50 px-8 py-5 border-b border-gray-100">
         <div className="flex items-center justify-between mb-3">
-          <div className="text-xl font-bold text-[#1B2A47]">LOG<span className="text-[#F05A28]">METAL</span></div>
+          <img src="/logo.png" alt="Log Metal" className="h-10 w-auto" />
           <div className="text-sm text-gray-400 font-medium">
             {step === 0 ? 'Cotizador Inteligente' : `Paso ${step} de ${TOTAL_STEPS - 1}`}
           </div>

@@ -1,5 +1,13 @@
 import React from 'react'
-import { Document, Page, Text, View, StyleSheet, renderToBuffer } from '@react-pdf/renderer'
+import { Document, Page, Text, View, StyleSheet, renderToBuffer, Image } from '@react-pdf/renderer'
+import path from 'path'
+import fs from 'fs'
+
+// Read logo as base64 from public folder at render time
+const logoPath = path.join(process.cwd(), 'public', 'logo.png')
+const logoBase64 = fs.existsSync(logoPath)
+  ? `data:image/png;base64,${fs.readFileSync(logoPath).toString('base64')}`
+  : null
 
 const styles = StyleSheet.create({
   page: { padding: 40, fontSize: 9, fontFamily: 'Helvetica' },
@@ -25,8 +33,11 @@ export async function generarR04PDF(presupuesto: any, items: any[]) {
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.title}>LOG METAL SRL</Text>
-            <Text>PRESUPUESTO — R-04</Text>
+            {logoBase64
+              ? <Image src={logoBase64} style={{ width: 130, height: 'auto' }} />
+              : <Text style={styles.title}>LOG METAL SRL</Text>
+            }
+            <Text style={{ fontSize: 8, color: '#888', marginTop: 2 }}>PRESUPUESTO — R-04</Text>
           </View>
           <View style={{ alignItems: 'flex-end' }}>
             <Text>Código: R-04 | Rev. 01</Text>
