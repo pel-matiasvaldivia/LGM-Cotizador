@@ -1,9 +1,7 @@
 services:
   # ─── Next.js App ───────────────────────────────────────────────
   app:
-    build:
-      context: ./motor-presupuestacion
-      dockerfile: Dockerfile
+    image: ghcr.io/pel-matiasvaldivia/lgm-cotizador:main
     container_name: logmetal_app
     restart: unless-stopped
     ports:
