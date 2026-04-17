@@ -1,9 +1,7 @@
 import OpenAI from 'openai';
 
-if (!process.env.OPENAI_API_KEY) {
-  throw new Error('Missing OPENAI_API_KEY environment variable');
-}
-
+// Se instancia con delay para no crashear Next.js durante 'npm run build'
+// ya que las env variables sólo estarán presentes en Runtime.
 export const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY || 'missing-key',
 });
