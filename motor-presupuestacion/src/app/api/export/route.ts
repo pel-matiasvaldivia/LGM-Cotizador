@@ -24,34 +24,36 @@ export async function GET(req: Request) {
       throw new Error('Proyecto no encontrado')
     }
 
-    // Traer los items asociados (para el draft comercial)
-    const { data: items, error: errorItems } = await supabase
+    // Traer los items asociados con join de subrubros → rubros para obtener nombre de rubro
+    const { data: items } = await supabase
       .from('presupuesto_base_items')
-      .select('*')
+      .select('*, subrubros(nombre, rubros(nombre))')
       .eq('proyecto_id', proyectoId)
 
-    // Si aún no hay items en BD (porque es un preview previo a persistir items finales),
-    // el generador podría necesitar lógica extra o recibir items por body.
-    // Para simplificar el MVP, asubimos que los items se guardan antes o se pasan.
-
     // Calcular totales sobre los items retornados del motor base 0
-    const itemsData = items || []
+    const itemsData = (items || []).map((item: any) => ({
+      ...item,
+      rubro_nombre: item.subrubros?.rubros?.nombre || 'Otros'
+    }))
     
-    const total_venta_usd = itemsData.reduce((acc, item) => acc + Number(item.precio_venta_usd || 0), 0)
+    const total_venta_usd = itemsData.reduce((acc: number, item: any) => acc + Number(item.precio_venta_usd || 0), 0)
     const toneladas = itemsData
-       .filter(item => item.unidad === 'kg/m2' && item.descripcion?.toLowerCase().includes('estructura'))
-       .reduce((acc, item) => acc + Number(item.cantidad || 0), 0) / 1000
+       .filter((item: any) => (item.unidad === 'kg' || item.unidad === 'kg/m2') && item.rubro_nombre?.toLowerCase().includes('estructura'))
+       .reduce((acc: number, item: any) => acc + Number(item.cantidad || 0), 0) / 1000
 
     const datosTecnicos = proyecto.datos_tecnicos?.[0] || {}
 
-    // Enriquecer y mockear el payload para el Comercial
+    // Enriquecer payload para el Document Comercial
     const payloadR04 = {
        ...proyecto,
+       cliente: proyecto.cliente,
+       ubicacion: proyecto.ubicacion,
+       tipologia: datosTecnicos.tipologia || '',
        superficie_m2: datosTecnicos.superficie || datosTecnicos.superficie_m2 || 0,
        tn_estructura: toneladas,
        total_venta_usd,
        total_con_iva_usd: total_venta_usd * 1.21,
-       tipo_cambio_usd: 1050, // mock / deberia venir de config
+       tipo_cambio_usd: 1050, // a futuro: leer de tabla configuracion
        validez_oferta_dias: 15,
        condiciones_pago: "30% Anticipo - 70% Avance"
     }

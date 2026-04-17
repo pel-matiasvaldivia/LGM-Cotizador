@@ -2,8 +2,9 @@ import { createClient } from '@/lib/supabase'
 
 export interface DatosTecnicos {
   superficie_m2: number
-  altura_libre_m: number
-  tipologia: string
+  altura_libre_m?: number
+  tipologia: string          // ALVEOLAR | ALMA_LLENA | RETICULADA
+  tipo_cubierta?: string     // CHAPA_TRAPEZOIDAL | PANEL_SANDWICH
   incluye_fabricacion: boolean
   incluye_montaje: boolean
   incluye_cubierta: boolean
@@ -12,6 +13,7 @@ export interface DatosTecnicos {
   incluye_piso_industrial: boolean
   incluye_instalacion_electrica: boolean
   incluye_instalacion_sanitaria: boolean
+  cantidad_portones?: number
   [key: string]: unknown
 }
 
@@ -71,10 +73,14 @@ function calcularCantidad(ratio: any, datos: DatosTecnicos): number {
   switch (ratio.unidad) {
     case 'kg/m2':
       return ratioCantidad * superficie
+    case 'kg':
+      // kg indicates a ratio per m2, multiply by surface
+      return ratioCantidad * superficie
     case 'm2':
       return ratioCantidad * superficie
     case 'uni':
-      return ratioCantidad
+      // For portones use cantidad_portones, default to 1
+      return ratioCantidad * (Number(datos.cantidad_portones) || 1)
     case 'm3':
       return ratioCantidad * superficie
     default:
@@ -87,23 +93,52 @@ function esRubroIncluido(rubroNombre: string | undefined, subrubroNombre: string
   const r = rubroNombre.toLowerCase()
   const s = subrubroNombre.toLowerCase()
 
+  // ESTRUCTURA METALICA: filtro por tipologia activa
   if (r.includes('estructura')) {
     if (!datos.incluye_fabricacion) return false
     
-    // Filtro mutualmente exclusivo por tipologia
     if (datos.tipologia) {
-      const tipo = datos.tipologia.toLowerCase()
-      if (tipo === 'alveolar' && !s.includes('alveolar')) return false
-      if (tipo.includes('alma') && !s.includes('alma llena')) return false
-      if (tipo.includes('reticulad') && !s.includes('reticulada')) return false
+      const tipo = datos.tipologia.toLowerCase().replace(/_/g, ' ')
+      const isAlveolar    = tipo === 'alveolar'
+      const isAlmaLlena   = tipo.includes('alma') || tipo === 'alma_llena'
+      const isReticulada  = tipo.includes('reticulad')
+
+      if (isAlveolar   && !s.includes('alveolar'))   return false
+      if (isAlmaLlena  && !s.includes('alma llena'))  return false
+      if (isReticulada && !s.includes('reticulada'))  return false
+
+      // Si no coincide con ninguna tipología conocida, excluir tipologías específicas
+      if (!isAlveolar && !isAlmaLlena && !isReticulada) {
+        if (s.includes('alveolar') || s.includes('alma llena') || s.includes('reticulada')) return false
+      }
     }
   }
 
-  if (r.includes('cubierta') && !datos.incluye_cubierta) return false
+  // CUBIERTA: filtro por tipo_cubierta (chapa vs panel sandwich)
+  if (r.includes('cerramiento cubierta') || r.includes('cubierta')) {
+    if (!datos.incluye_cubierta) return false
+    if (datos.tipo_cubierta) {
+      const tc = datos.tipo_cubierta.toLowerCase().replace(/_/g, ' ')
+      const isChapa  = tc.includes('chapa') || tc.includes('trapezoidal')
+      const isPanel  = tc.includes('panel') || tc.includes('sandwich')
+      if (isChapa  && s.includes('panel sandwich'))    return false
+      if (isPanel  && s.includes('chapa trapezoidal')) return false
+    } else {
+      // Default: chapa trapezoidal, excluir panel sandwich
+      if (s.includes('panel sandwich')) return false
+    }
+  }
+
+  // CERRAMIENTO LATERAL
   if (r.includes('cerramiento lateral') && !datos.incluye_cerramiento_lateral) return false
-  if (r.includes('porton') && !datos.incluye_portones) return false
-  if (r.includes('piso') && !datos.incluye_piso_industrial) return false
-  if (r.includes('electrica') && !datos.incluye_instalacion_electrica) return false
-  if (r.includes('sanitaria') && !datos.incluye_instalacion_sanitaria) return false
+
+  // PORTONES
+  if (r.includes('porton') || r.includes('portones')) {
+    if (!datos.incluye_portones) return false
+  }
+
+  if (r.includes('piso')     && !datos.incluye_piso_industrial)          return false
+  if (r.includes('electrica') && !datos.incluye_instalacion_electrica)   return false
+  if (r.includes('sanitaria') && !datos.incluye_instalacion_sanitaria)   return false
   return true
 }
