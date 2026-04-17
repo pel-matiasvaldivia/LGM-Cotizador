@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server'
-import OpenAI from 'openai'
+import { openai } from '@/lib/openai'
 
-// Asegúrate de que OPENAI_API_KEY esté seteada en tu .env.local / Supabase
-const openai = new OpenAI()
 
 export async function POST(req: Request) {
   try {
