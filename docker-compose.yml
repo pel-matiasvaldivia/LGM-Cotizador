@@ -1,16 +1,12 @@
 services:
   app:
-    build:
-      context: ./motor-presupuestacion
-      dockerfile: Dockerfile.dev
+    image: ghcr.io/pel-matiasvaldivia/lgm-cotizador:master
     container_name: logmetal_app
     restart: unless-stopped
     ports:
       - "3000:3000"
     env_file:
       - .env
-    volumes:
-      - ./motor-presupuestacion:/app
-      - /app/node_modules
     environment:
-      - NODE_OPTIONS=--dns-result-order=ipv4first
+      - NODE_ENV=production
+      - HOSTNAME=0.0.0.0
