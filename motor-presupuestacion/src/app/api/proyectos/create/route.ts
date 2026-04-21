@@ -12,24 +12,29 @@ export async function POST(req: Request) {
 
     const supabase = createClient()
 
-    // 1. Crear el proyecto
     const codigo = `PROY-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
-    
+
+    const nombreCompleto = [variables.cliente_nombre, variables.cliente_apellido]
+      .filter(Boolean).join(' ').trim() || variables.cliente || 'Consumidor Final'
+
     const { data: proyecto, error: pError } = await supabase
       .from('proyectos')
       .insert({
         codigo,
-        cliente: variables.cliente || 'Consumidor Final',
-        ubicacion: variables.ubicacion || '',
+        cliente: nombreCompleto,
+        razon_social: variables.cliente_empresa || null,
+        contacto: nombreCompleto,
+        telefono: variables.cliente_telefono || null,
+        email: variables.cliente_email || null,
+        ubicacion: variables.ubicacion || variables.ubicacion_obra || '',
         canal_origen: canal || 'manual',
-        estado: 'borrador'
+        estado: 'borrador',
       })
       .select()
       .single()
 
     if (pError) throw pError
 
-    // 2. Guardar datos técnicos (R-09)
     const { error: dError } = await supabase
       .from('datos_tecnicos')
       .insert({
@@ -39,12 +44,19 @@ export async function POST(req: Request) {
         superficie: variables.superficie_m2,
         altura_libre: variables.altura_libre_m,
         tipologia: variables.tipologia,
-        incluye_fabricacion: variables.incluye_fabricacion,
-        incluye_montaje: variables.incluye_montaje,
-        incluye_cubierta: variables.incluye_cubierta,
-        incluye_cerramiento_lateral: variables.incluye_cerramiento_lateral,
-        incluye_portones: variables.incluye_portones,
-        raw_data: variables
+        incluye_fabricacion: variables.incluye_fabricacion ?? true,
+        incluye_montaje: variables.incluye_montaje ?? true,
+        incluye_cubierta: variables.incluye_cubierta ?? true,
+        incluye_cerramiento_lateral: variables.incluye_cerramiento_lateral ?? false,
+        incluye_portones: variables.incluye_portones ?? false,
+        incluye_piso: variables.incluye_piso_industrial ?? false,
+        incluye_electrica: variables.incluye_instalacion_electrica ?? false,
+        incluye_sanitaria: variables.incluye_instalacion_sanitaria ?? false,
+        tipo_cubierta: variables.tipo_cubierta,
+        tipo_cerramiento: variables.tipo_cerramiento,
+        cantidad_portones: variables.cantidad_portones || null,
+        especificaciones_adicionales: variables.observaciones || null,
+        raw_data: variables,
       })
 
     if (dError) throw dError

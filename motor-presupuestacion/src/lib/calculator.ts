@@ -17,35 +17,29 @@ export interface DatosTecnicos {
   [key: string]: unknown
 }
 
-export async function calcularBase0(proyectoId: string, datos: DatosTecnicos) {
-  const supabase = createClient()
+export interface EstimacionResult {
+  totalCostoUSD: number
+  totalVentaUSD: number
+  cantidadItems: number
+}
 
-  // Obtener ratios de costo vigentes
-  const { data: ratios, error: ratiosError } = await supabase
-    .from('ratios_costos')
-    .select('*, subrubros(*, rubros(*))')
-    .eq('vigente', true)
-
-  if (ratiosError || !ratios) throw new Error('No hay ratios de costo configurados')
-
+// Función pura: calcula ítems sin tocar la DB
+export function calcularItems(datos: DatosTecnicos, ratios: any[]): any[] {
   const items = []
-
   let orden = 1
+
   for (const ratio of ratios) {
     const subrubro = ratio.subrubros as any
     const rubro = subrubro?.rubros as any
 
-    // Verificar si el rubro/subrubro está incluido en el alcance
     const incluido = esRubroIncluido(rubro?.nombre, subrubro?.nombre, datos)
     if (!incluido) continue
 
-    // Calcular cantidad según unidad y ratio
     const cantidad = calcularCantidad(ratio, datos)
     const costoARS = cantidad * ratio.precio_unitario_ars
     const costoUSD = cantidad * ratio.precio_unitario_usd
 
     items.push({
-      proyecto_id: proyectoId,
       rubro_id: rubro?.id,
       subrubro_id: subrubro?.id,
       descripcion: subrubro?.nombre,
@@ -55,15 +49,55 @@ export async function calcularBase0(proyectoId: string, datos: DatosTecnicos) {
       precio_unitario_usd: ratio.precio_unitario_usd,
       costo_total_ars: costoARS,
       costo_total_usd: costoUSD,
-      margen: 0.20, // 20% default, editable
+      margen: 0.20,
       precio_venta_ars: costoARS * 1.20,
       precio_venta_usd: costoUSD * 1.20,
       incluido: true,
-      orden: orden++
+      orden: orden++,
     })
   }
 
   return items
+}
+
+// Calcula y guarda en DB
+export async function calcularBase0(proyectoId: string, datos: DatosTecnicos) {
+  const supabase = createClient()
+
+  const { data: ratios, error: ratiosError } = await supabase
+    .from('ratios_costos')
+    .select('*, subrubros(*, rubros(*))')
+    .eq('vigente', true)
+
+  if (ratiosError || !ratios) throw new Error('No hay ratios de costo configurados')
+
+  const items = calcularItems(datos, ratios).map(item => ({
+    ...item,
+    proyecto_id: proyectoId,
+  }))
+
+  return items
+}
+
+// Estima el total SIN guardar en DB (para precio en vivo del wizard)
+export async function estimarCosto(datos: DatosTecnicos): Promise<EstimacionResult> {
+  const supabase = createClient()
+
+  const { data: ratios, error } = await supabase
+    .from('ratios_costos')
+    .select('*, subrubros(*, rubros(*))')
+    .eq('vigente', true)
+
+  if (error || !ratios) {
+    return { totalCostoUSD: 0, totalVentaUSD: 0, cantidadItems: 0 }
+  }
+
+  const items = calcularItems(datos, ratios)
+
+  const totalCostoUSD = items.reduce((sum, i) => sum + (i.costo_total_usd || 0), 0)
+  const totalVentaUSD = items.reduce((sum, i) => sum + (i.precio_venta_usd || 0), 0)
+
+  return { totalCostoUSD, totalVentaUSD, cantidadItems: items.length }
 }
 
 function calcularCantidad(ratio: any, datos: DatosTecnicos): number {
@@ -72,17 +106,12 @@ function calcularCantidad(ratio: any, datos: DatosTecnicos): number {
 
   switch (ratio.unidad) {
     case 'kg/m2':
-      return ratioCantidad * superficie
     case 'kg':
-      // kg indicates a ratio per m2, multiply by surface
-      return ratioCantidad * superficie
     case 'm2':
-      return ratioCantidad * superficie
-    case 'uni':
-      // For portones use cantidad_portones, default to 1
-      return ratioCantidad * (Number(datos.cantidad_portones) || 1)
     case 'm3':
       return ratioCantidad * superficie
+    case 'uni':
+      return ratioCantidad * (Number(datos.cantidad_portones) || 1)
     default:
       return ratioCantidad
   }
@@ -96,49 +125,46 @@ function esRubroIncluido(rubroNombre: string | undefined, subrubroNombre: string
   // ESTRUCTURA METALICA: filtro por tipologia activa
   if (r.includes('estructura')) {
     if (!datos.incluye_fabricacion) return false
-    
+
     if (datos.tipologia) {
       const tipo = datos.tipologia.toLowerCase().replace(/_/g, ' ')
-      const isAlveolar    = tipo === 'alveolar'
-      const isAlmaLlena   = tipo.includes('alma') || tipo === 'alma_llena'
-      const isReticulada  = tipo.includes('reticulad')
+      const isAlveolar   = tipo === 'alveolar'
+      const isAlmaLlena  = tipo.includes('alma') || tipo === 'alma_llena'
+      const isReticulada = tipo.includes('reticulad')
 
       if (isAlveolar   && !s.includes('alveolar'))   return false
       if (isAlmaLlena  && !s.includes('alma llena'))  return false
       if (isReticulada && !s.includes('reticulada'))  return false
 
-      // Si no coincide con ninguna tipología conocida, excluir tipologías específicas
       if (!isAlveolar && !isAlmaLlena && !isReticulada) {
         if (s.includes('alveolar') || s.includes('alma llena') || s.includes('reticulada')) return false
       }
     }
   }
 
-  // CUBIERTA: filtro por tipo_cubierta (chapa vs panel sandwich)
+  // CUBIERTA
   if (r.includes('cerramiento cubierta') || r.includes('cubierta')) {
     if (!datos.incluye_cubierta) return false
     if (datos.tipo_cubierta) {
       const tc = datos.tipo_cubierta.toLowerCase().replace(/_/g, ' ')
-      const isChapa  = tc.includes('chapa') || tc.includes('trapezoidal')
-      const isPanel  = tc.includes('panel') || tc.includes('sandwich')
-      if (isChapa  && s.includes('panel sandwich'))    return false
-      if (isPanel  && s.includes('chapa trapezoidal')) return false
+      const isChapa = tc.includes('chapa') || tc.includes('trapezoidal')
+      const isPanel = tc.includes('panel') || tc.includes('sandwich')
+      if (isChapa && s.includes('panel sandwich'))    return false
+      if (isPanel && s.includes('chapa trapezoidal')) return false
     } else {
-      // Default: chapa trapezoidal, excluir panel sandwich
       if (s.includes('panel sandwich')) return false
     }
   }
 
-  // CERRAMIENTO LATERAL
   if (r.includes('cerramiento lateral') && !datos.incluye_cerramiento_lateral) return false
 
-  // PORTONES
   if (r.includes('porton') || r.includes('portones')) {
     if (!datos.incluye_portones) return false
   }
 
-  if (r.includes('piso')     && !datos.incluye_piso_industrial)          return false
+  if (r.includes('piso')      && !datos.incluye_piso_industrial)         return false
   if (r.includes('electrica') && !datos.incluye_instalacion_electrica)   return false
   if (r.includes('sanitaria') && !datos.incluye_instalacion_sanitaria)   return false
+
   return true
 }
