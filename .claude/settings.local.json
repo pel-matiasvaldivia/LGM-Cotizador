@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir /s /b \"c:\\\\Users\\\\USER\\\\OneDrive\\\\PC Programacion\\\\Trabajo\\\\LGMCotizador\\\\motor-presupuestacion\\\\src\")",
+      "Bash(powershell -Command \"Get-ChildItem -Path 'c:\\\\Users\\\\USER\\\\OneDrive\\\\PC Programacion\\\\Trabajo\\\\LGMCotizador\\\\motor-presupuestacion\\\\src' -Recurse -File | Select-Object -ExpandProperty FullName\")",
+      "Bash(npm install *)",
+      "Bash(cmd /c \"cd /d \\\\\"c:\\\\Users\\\\USER\\\\OneDrive\\\\PC Programacion\\\\Trabajo\\\\LGMCotizador\\\\motor-presupuestacion\\\\\" && npm install @supabase/ssr\")",
+      "Bash(/usr/bin/env node *)",
+      "Bash(\"/c/Program Files/nodejs/npm\" install @supabase/ssr --prefix \"c:/Users/USER/OneDrive/PC Programacion/Trabajo/LGMCotizador/motor-presupuestacion\")",
+      "Bash(node -e \"const {execSync} = require\\('child_process'\\); console.log\\(execSync\\('npm install @supabase/ssr', {encoding:'utf8'}\\)\\);\")",
+      "Bash(\"/c/Program Files/nodejs/node.exe\" -e \"const {execSync}=require\\('child_process'\\);console.log\\(execSync\\('npm install @supabase/ssr',{cwd:'c:/Users/USER/OneDrive/PC Programacion/Trabajo/LGMCotizador/motor-presupuestacion',encoding:'utf8'}\\)\\)\")"
+    ]
+  }
+}

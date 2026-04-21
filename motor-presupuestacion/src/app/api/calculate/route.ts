@@ -12,12 +12,13 @@ export async function POST(req: Request) {
 
     const itemsCalculados = await calcularBase0(proyectoId, datosTecnicos)
 
-    // Save to database so PDF exporter and other flows can read them
+    // Delete existing items and re-insert (evita duplicados en recálculo)
     if (itemsCalculados.length > 0) {
-       const { createClient } = await import('@/lib/supabase')
-       const supabase = createClient()
-       const { error: insertError } = await supabase.from('presupuesto_base_items').insert(itemsCalculados)
-       if (insertError) throw insertError
+      const { createClient } = await import('@/lib/supabase')
+      const supabase = createClient()
+      await supabase.from('presupuesto_base_items').delete().eq('proyecto_id', proyectoId)
+      const { error: insertError } = await supabase.from('presupuesto_base_items').insert(itemsCalculados)
+      if (insertError) throw insertError
     }
 
     return NextResponse.json({ items: itemsCalculados })
