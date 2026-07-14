@@ -68,6 +68,9 @@ export const proyectos = pgTable('proyectos', {
   canalOrigen: text('canal_origen').notNull().default('manual'),
   estado: text('estado', { enum: ['borrador', 'enviado', 'preaprobado', 'aprobado'] }).notNull().default('borrador'),
   observaciones: text('observaciones'),
+  // Códigos para la exportación a Flexxus (se asignan al exportar)
+  codigoProyectoFlexxus: integer('codigo_proyecto_flexxus'),
+  codigoClienteFlexxus: text('codigo_cliente_flexxus'),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 }, (t) => [uniqueIndex('proyectos_codigo_idx').on(t.codigo), index('proyectos_email_idx').on(t.email)])
 

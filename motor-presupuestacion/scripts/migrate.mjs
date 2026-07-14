@@ -214,6 +214,9 @@ async function seedParametros(pool) {
     viajes_camion: 0,
     viajes_camioneta: 0,
     ubicacion_base: process.env.UBICACION_BASE || '',
+    // Exportación a Flexxus: código de cliente por defecto y base del correlativo de proyecto
+    codigo_cliente_flexxus: process.env.CODIGO_CLIENTE_FLEXXUS || '00149',
+    flexxus_proyecto_base: Number(process.env.FLEXXUS_PROYECTO_BASE || 100),
     zonas: {},
   }
   for (const [clave, valor] of Object.entries(defaults)) {
