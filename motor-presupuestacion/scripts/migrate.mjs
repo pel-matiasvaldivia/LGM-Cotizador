@@ -142,6 +142,9 @@ async function seedCatalogo(pool) {
       ['Estructura Alma Llena', 'm2', 1, 19.4, 34.1],
       ['Estructura Reticulada', 'm2', 1, 13.0, 26.0],
     ]],
+    ['Escaleras', 54, 360, [
+      ['Escalera metálica', 'global', 1, 1955, 2546],
+    ]],
     ['Cerramiento Lateral', 51, 352, [
       ['Cerramiento Lateral Chapa', 'm2', 1, 17.7, 4.4],
     ]],
@@ -161,11 +164,23 @@ async function seedCatalogo(pool) {
     ['Veredín', 59, 373, [
       ['Veredín perimetral H-25', 'm2', 1, 1.76, 1.45],
     ]],
+    // Rubros del módulo "oficina interior" (Tabiques, Revestimientos, Obra Civil).
+    // Sus m² escalan con el área de la oficina, no con la superficie de nave.
+    ['Tabiques Livianos y Cielorraso', 60, 375, [
+      ['Tabique y cielorraso interior', 'm2', 1, 15.0, 12.0],
+    ]],
+    ['Revestimientos', 62, 379, [
+      ['Revestimientos y pisos de oficina', 'm2', 1, 22.0, 10.0],
+    ]],
+    ['Obra Civil', 67, 391, [
+      ['Losa/entrepiso y mampostería', 'm2', 1, 25.0, 22.0],
+    ]],
     ['Instalación Eléctrica', 64, 384, [
       ['Instalación Eléctrica Nave', 'm2', 1, 9.5, 0],
     ]],
+    // Baño interior: costeo por artefactos, escala con la cantidad de baños.
     ['Instalación Sanitaria', 63, 380, [
-      ['Instalación Sanitaria Nave', 'm2', 1, 6.0, 0],
+      ['Baño completo (artefactos + instalación)', 'bano', 1, 900, 300],
     ]],
     ['Montaje', 50, 348, [
       ['Montaje en Obra', 'm2', 1, 0, 20.0],
