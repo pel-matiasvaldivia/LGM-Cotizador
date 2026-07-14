@@ -170,11 +170,18 @@ function ordenDeHojas(entradas: Map<string, Buffer>): Array<{ nombre: string; ar
   const workbook = entradas.get('xl/workbook.xml')?.toString('utf8') || ''
   const rels = entradas.get('xl/_rels/workbook.xml.rels')?.toString('utf8') || ''
 
-  // rId -> Target (p. ej. worksheets/sheet1.xml)
+  // rId -> Target (p. ej. worksheets/sheet1.xml). El orden de atributos varía
+  // según quién generó el archivo (Excel pone Id primero; openpyxl, último),
+  // así que se extraen Id y Target por separado de cada tag <Relationship>.
   const relMap = new Map<string, string>()
-  const reRel = /<Relationship\b[^>]*Id="([^"]+)"[^>]*Target="([^"]+)"[^>]*\/>/g
+  const reRel = /<Relationship\b[^>]*?\/>/g
   let mr: RegExpExecArray | null
-  while ((mr = reRel.exec(rels))) relMap.set(mr[1], mr[2])
+  while ((mr = reRel.exec(rels))) {
+    const tag = mr[0]
+    const id = /\bId="([^"]+)"/.exec(tag)?.[1]
+    const target = /\bTarget="([^"]+)"/.exec(tag)?.[1]
+    if (id && target) relMap.set(id, target)
+  }
 
   const hojas: Array<{ nombre: string; archivo: string }> = []
   const reSheet = /<sheet\b[^>]*\/>/g
@@ -184,7 +191,12 @@ function ordenDeHojas(entradas: Map<string, Buffer>): Array<{ nombre: string; ar
     const nombre = /name="([^"]*)"/.exec(tag)?.[1] || ''
     const rid = /r:id="([^"]+)"/.exec(tag)?.[1] || ''
     let target = relMap.get(rid) || ''
-    if (target && !target.startsWith('xl/')) target = 'xl/' + target.replace(/^\/?/, '')
+    // El Target puede ser relativo ("worksheets/sheet1.xml") o absoluto dentro
+    // del paquete ("/xl/worksheets/sheet1.xml"). Normalizar a "xl/...".
+    if (target) {
+      target = target.replace(/^\//, '')
+      if (!target.startsWith('xl/')) target = 'xl/' + target
+    }
     hojas.push({ nombre: desescapar(nombre), archivo: target })
   }
   return hojas
