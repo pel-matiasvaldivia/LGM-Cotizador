@@ -43,6 +43,10 @@ export const ratiosCostos = pgTable('ratios_costos', {
   subrubroId: uuid('subrubro_id').notNull().references(() => subrubros.id, { onDelete: 'cascade' }),
   unidad: text('unidad').notNull(),
   ratioCantidad: doublePrecision('ratio_cantidad').notNull().default(0),
+  // Costo unitario desglosado (USD): material y mano de obra (fabricación + montaje)
+  precioMaterialUsd: doublePrecision('precio_material_usd').notNull().default(0),
+  precioMoUsd: doublePrecision('precio_mo_usd').notNull().default(0),
+  // Total (= material + mo). Se mantiene por compatibilidad con la UI existente.
   precioUnitarioArs: doublePrecision('precio_unitario_ars').notNull().default(0),
   precioUnitarioUsd: doublePrecision('precio_unitario_usd').notNull().default(0),
   vigente: boolean('vigente').notNull().default(true),
@@ -74,6 +78,7 @@ export const datosTecnicos = pgTable('datos_tecnicos', {
   largo: doublePrecision('largo'),
   superficie: doublePrecision('superficie'),
   alturaLibre: doublePrecision('altura_libre'),
+  distanciaObraKm: doublePrecision('distancia_obra_km'),
   tipologia: text('tipologia'),
   tipoCubierta: text('tipo_cubierta'),
   tipoCerramiento: text('tipo_cerramiento'),
@@ -101,6 +106,10 @@ export const presupuestoBaseItems = pgTable('presupuesto_base_items', {
   cantidad: doublePrecision('cantidad').notNull().default(0),
   precioUnitarioArs: doublePrecision('precio_unitario_ars').notNull().default(0),
   precioUnitarioUsd: doublePrecision('precio_unitario_usd').notNull().default(0),
+  // Costo desglosado (USD) y su peso en el costo directo
+  costoMaterialUsd: doublePrecision('costo_material_usd').notNull().default(0),
+  costoMoUsd: doublePrecision('costo_mo_usd').notNull().default(0),
+  incidencia: doublePrecision('incidencia').notNull().default(0),
   costoTotalArs: doublePrecision('costo_total_ars').notNull().default(0),
   costoTotalUsd: doublePrecision('costo_total_usd').notNull().default(0),
   margen: doublePrecision('margen').notNull().default(0.2),

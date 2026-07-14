@@ -97,13 +97,27 @@ export async function generarR04PDF(presupuesto: any, items: any[]) {
           <Text>u$d {Number(presupuesto.total_venta_usd || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</Text>
         </View>
         <View style={{ flexDirection: 'row', padding: 6, backgroundColor: '#FAFAFA' }}>
-          <Text style={{ flex: 1 }}>IVA 21%</Text>
-          <Text>u$d {(Number(presupuesto.total_venta_usd || 0) * 0.21).toLocaleString('en-US', { minimumFractionDigits: 2 })}</Text>
+          <Text style={{ flex: 1 }}>IVA {((presupuesto.iva_pct ?? 0.21) * 100).toFixed(0)}%</Text>
+          <Text>u$d {Number(presupuesto.iva_usd ?? Number(presupuesto.total_venta_usd || 0) * 0.21).toLocaleString('en-US', { minimumFractionDigits: 2 })}</Text>
         </View>
         <View style={[styles.totalRow, { backgroundColor: '#1B2A47' }]}>
           <Text style={{ flex: 1 }}>TOTAL CON IVA</Text>
           <Text>u$d {Number(presupuesto.total_con_iva_usd || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</Text>
         </View>
+
+        {/* Indicadores por m² */}
+        {presupuesto.precio_m2_usd ? (
+          <View style={{ flexDirection: 'row', marginTop: 12, gap: 8 }}>
+            <View style={{ flex: 1, padding: 8, backgroundColor: '#F8F9FA', borderRadius: 4 }}>
+              <Text style={{ fontSize: 7, color: '#888' }}>COSTO POR m²</Text>
+              <Text style={{ fontSize: 12, color: '#1B2A47', fontWeight: 'bold' }}>u$d {Number(presupuesto.costo_m2_usd || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</Text>
+            </View>
+            <View style={{ flex: 1, padding: 8, backgroundColor: '#F8F9FA', borderRadius: 4 }}>
+              <Text style={{ fontSize: 7, color: '#888' }}>PRECIO POR m²</Text>
+              <Text style={{ fontSize: 12, color: '#F05A28', fontWeight: 'bold' }}>u$d {Number(presupuesto.precio_m2_usd || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</Text>
+            </View>
+          </View>
+        ) : null}
 
         {/* Condiciones comerciales */}
         <View style={{ marginTop: 20, fontSize: 8 }}>

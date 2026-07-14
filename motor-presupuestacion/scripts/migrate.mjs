@@ -84,6 +84,7 @@ async function main() {
 
   await seedAdmin(pool)
   await seedCatalogo(pool)
+  await seedParametros(pool)
   await pool.end()
   console.log('[migrate] listo')
 }
@@ -115,39 +116,61 @@ async function seedAdmin(pool) {
   console.log(`[seed] usuario admin maestro creado: ${email}`)
 }
 
-// Catálogo mínimo de rubros/subrubros/ratios para que el cotizador funcione
-// desde el primer arranque. Valores de ejemplo: ajustarlos desde /configuracion/ratios.
+// Catálogo inicial de rubros/subrubros/ratios. Valores por m² calibrados a
+// partir de un presupuesto Base 0 real (ajustables desde /configuracion/ratios).
+// Cada subrubro: [nombre, unidad, ratioCantidad, materialUsd, moUsd]
 async function seedCatalogo(pool) {
   const { rows } = await pool.query('SELECT count(*)::int AS n FROM rubros')
   if (rows[0].n > 0) return
 
   const catalogo = [
-    ['Estructura Metálica', [
-      ['Estructura Alveolar', 'kg/m2', 18, 12.6],
-      ['Estructura Alma Llena', 'kg/m2', 28, 12.2],
-      ['Estructura Reticulada', 'kg/m2', 15, 11.8],
+    ['Honorarios', [
+      ['Honorarios y dirección de obra', 'm2', 1, 0, 13.1],
     ]],
-    ['Cerramiento Cubierta', [
-      ['Cubierta Chapa Trapezoidal', 'm2', 1.05, 14.5],
-      ['Cubierta Panel Sandwich', 'm2', 1.05, 32.0],
+    ['Preliminares', [
+      ['Obrador, replanteo y varios', 'm2', 1, 0, 0.85],
+    ]],
+    ['Movimiento de Suelo', [
+      ['Excavación, relleno y compactación', 'm2', 1, 7.62, 4.47],
+    ]],
+    ['Fundaciones', [
+      ['Hormigón, hierros y pilotes', 'm2', 1, 7.7, 7.78],
+    ]],
+    ['Estructura Metálica', [
+      ['Estructura Alveolar', 'm2', 1, 15.0, 30.0],
+      ['Estructura Alma Llena', 'm2', 1, 19.4, 34.1],
+      ['Estructura Reticulada', 'm2', 1, 13.0, 26.0],
     ]],
     ['Cerramiento Lateral', [
-      ['Cerramiento Lateral Chapa', 'm2', 0.8, 13.0],
+      ['Cerramiento Lateral Chapa', 'm2', 1, 17.7, 4.4],
+    ]],
+    ['Cerramiento Cubierta', [
+      ['Cubierta Chapa Trapezoidal', 'm2', 1, 24.3, 6.5],
+      ['Cubierta Panel Sandwich', 'm2', 1, 40.0, 6.5],
+    ]],
+    ['Zinguería', [
+      ['Zinguería y babetas', 'm2', 1, 0.3, 0.77],
     ]],
     ['Portones', [
-      ['Portón Corredizo Metálico', 'uni', 1, 1850],
+      ['Portón Corredizo Metálico', 'uni', 1, 1500, 350],
     ]],
     ['Piso Industrial', [
-      ['Piso Hormigón H-25 c/cuarzo', 'm2', 1, 26.0],
+      ['Piso Hormigón H-25 c/cuarzo', 'm2', 1, 20.1, 5.11],
+    ]],
+    ['Veredín', [
+      ['Veredín perimetral H-25', 'm2', 1, 1.76, 1.45],
     ]],
     ['Instalación Eléctrica', [
-      ['Instalación Eléctrica Nave', 'm2', 1, 9.5],
+      ['Instalación Eléctrica Nave', 'm2', 1, 9.5, 0],
     ]],
     ['Instalación Sanitaria', [
-      ['Instalación Sanitaria Nave', 'm2', 1, 6.0],
+      ['Instalación Sanitaria Nave', 'm2', 1, 6.0, 0],
     ]],
     ['Montaje', [
-      ['Montaje en Obra', 'kg/m2', 18, 3.2],
+      ['Montaje en Obra', 'm2', 1, 0, 20.0],
+    ]],
+    ['Final de Obra', [
+      ['Limpieza final y puesta en marcha', 'm2', 1, 0, 1.9],
     ]],
   ]
 
@@ -158,24 +181,47 @@ async function seedCatalogo(pool) {
       'INSERT INTO rubros (nombre, orden) VALUES ($1, $2) RETURNING id',
       [rubroNombre, ordenRubro++]
     )
-    for (const [subNombre, unidad, ratio, usd] of items) {
+    for (const [subNombre, unidad, ratio, material, mo] of items) {
       const { rows: [sub] } = await pool.query(
         'INSERT INTO subrubros (rubro_id, nombre) VALUES ($1, $2) RETURNING id',
         [rubro.id, subNombre]
       )
+      const total = material + mo
       await pool.query(
-        `INSERT INTO ratios_costos (subrubro_id, unidad, ratio_cantidad, precio_unitario_usd, precio_unitario_ars)
-         VALUES ($1, $2, $3, $4, $5)`,
-        [sub.id, unidad, ratio, usd, usd * tipoCambio]
+        `INSERT INTO ratios_costos
+           (subrubro_id, unidad, ratio_cantidad, precio_material_usd, precio_mo_usd, precio_unitario_usd, precio_unitario_ars)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [sub.id, unidad, ratio, material, mo, total, total * tipoCambio]
       )
     }
   }
-  await pool.query(
-    `INSERT INTO configuracion (clave, valor) VALUES ('tipo_cambio_usd', $1)
-     ON CONFLICT (clave) DO NOTHING`,
-    [JSON.stringify(tipoCambio)]
-  )
-  console.log('[seed] catálogo de rubros/ratios inicial creado (valores de ejemplo)')
+  console.log('[seed] catálogo de rubros/ratios inicial creado (calibrado, con material/MO)')
+}
+
+// Parámetros globales del costeo (cascada directo → indirectos → beneficio → IVA).
+// Se insertan solo si faltan; no pisan valores ya configurados.
+async function seedParametros(pool) {
+  const tipoCambio = Number(process.env.TIPO_CAMBIO_INICIAL || 1050)
+  const defaults = {
+    tipo_cambio_usd: tipoCambio,
+    iva: 0.21,
+    costos_indirectos: 0.05,
+    beneficio: 0.1251,
+    desperdicios: 0,
+    coeficiente_zona: 0,
+    flete_camion_usd_km: 1.76,
+    flete_camioneta_usd_km: 1.76,
+    viajes_camion: 0,
+    viajes_camioneta: 0,
+    zonas: {},
+  }
+  for (const [clave, valor] of Object.entries(defaults)) {
+    await pool.query(
+      `INSERT INTO configuracion (clave, valor) VALUES ($1, $2) ON CONFLICT (clave) DO NOTHING`,
+      [clave, JSON.stringify(valor)]
+    )
+  }
+  console.log('[seed] parámetros de costeo inicializados')
 }
 
 main().catch((err) => {

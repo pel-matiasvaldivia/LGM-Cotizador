@@ -2,7 +2,8 @@ import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import { db } from '@/db'
 import { presupuestoBaseItems, proyectos } from '@/db/schema'
-import { calcularBase0 } from '@/lib/calculator'
+import { calcularBase0, calcularResumen } from '@/lib/calculator'
+import { getParametros } from '@/lib/parametros'
 import { requireUser } from '@/lib/auth'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
 import { itemToRow } from '@/lib/serializers'
@@ -33,6 +34,11 @@ export const POST = withErrorHandling(async (req: Request) => {
     return tx.insert(presupuestoBaseItems).values(itemsCalculados).returning()
   })
 
+  // Cascada de costeo (directo → indirectos → beneficio → IVA) con parámetros globales
+  const params = await getParametros()
+  const superficie = Number(datosTecnicos.superficie_m2 ?? datosTecnicos.superficie ?? 0)
+  const resumen = calcularResumen(items, params, superficie, proyecto.ubicacion)
+
   // El front espera snake_case (mismo shape que las filas de la tabla)
-  return NextResponse.json({ items: items.map(itemToRow) })
+  return NextResponse.json({ items: items.map(itemToRow), resumen })
 })
