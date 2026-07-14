@@ -8,9 +8,14 @@ type Db = NodePgDatabase<typeof schema>
 const globalForDb = globalThis as unknown as { __lgmDb?: Db }
 
 function createDb(): Db {
+  // Preferir variables discretas (PGHOST/PGUSER/PGPASSWORD/PGDATABASE/PGPORT):
+  // evitan el problema de contraseñas con caracteres especiales dentro de la URL.
+  if (process.env.PGHOST) {
+    return drizzle(new Pool({ max: 10 }), { schema })
+  }
   const connectionString = process.env.DATABASE_URL
   if (!connectionString) {
-    throw new Error('DATABASE_URL no está configurada')
+    throw new Error('Configurar PGHOST/PGUSER/PGPASSWORD/PGDATABASE (o DATABASE_URL)')
   }
   return drizzle(new Pool({ connectionString, max: 10 }), { schema })
 }

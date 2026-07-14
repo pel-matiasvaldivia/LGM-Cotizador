@@ -10,7 +10,13 @@ services:
     environment:
       - NODE_ENV=production
       - HOSTNAME=0.0.0.0
-      - DATABASE_URL=postgres://lgm:${POSTGRES_PASSWORD:?definir POSTGRES_PASSWORD en .env}@db:5432/cotizador
+      # Credenciales como variables separadas: soporta contraseñas con
+      # caracteres especiales (@, /, #, :) que romperían una DATABASE_URL.
+      - PGHOST=db
+      - PGPORT=5432
+      - PGUSER=lgm
+      - PGPASSWORD=${POSTGRES_PASSWORD:?definir POSTGRES_PASSWORD en .env}
+      - PGDATABASE=cotizador
     depends_on:
       db:
         condition: service_healthy
