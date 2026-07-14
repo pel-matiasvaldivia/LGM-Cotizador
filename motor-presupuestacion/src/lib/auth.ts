@@ -1,5 +1,5 @@
 import { createHash, randomBytes } from 'node:crypto'
-import { cookies } from 'next/headers'
+import { cookies, headers } from 'next/headers'
 import { eq, lt } from 'drizzle-orm'
 import { db } from '@/db'
 import { sesiones, usuarios, type Usuario } from '@/db/schema'
@@ -10,6 +10,17 @@ const SESSION_DAYS = 30
 
 function sha256(value: string) {
   return createHash('sha256').update(value).digest('hex')
+}
+
+// La cookie solo debe marcarse Secure si realmente se sirve por HTTPS; de lo
+// contrario el navegador la descarta y la sesión nunca persiste. Se puede
+// forzar con COOKIE_SECURE=true|false; si no, se detecta por X-Forwarded-Proto.
+async function cookieSecure(): Promise<boolean> {
+  const override = process.env.COOKIE_SECURE
+  if (override === 'true') return true
+  if (override === 'false') return false
+  const proto = (await headers()).get('x-forwarded-proto')
+  return proto === 'https'
 }
 
 // Crea la sesión en DB y setea la cookie. Llamar solo desde Route Handlers / Server Actions.
@@ -24,7 +35,7 @@ export async function createSession(usuarioId: string) {
   const cookieStore = await cookies()
   cookieStore.set(SESSION_COOKIE, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: await cookieSecure(),
     sameSite: 'lax',
     path: '/',
     expires: expiresAt,

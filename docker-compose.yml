@@ -17,6 +17,9 @@ services:
       - PGUSER=lgm
       - PGPASSWORD=${POSTGRES_PASSWORD:?definir POSTGRES_PASSWORD en .env}
       - PGDATABASE=cotizador
+      # Servís por HTTP: la cookie de sesión NO debe ser Secure (si no, el
+      # navegador la descarta y no persiste el login). Poner true al usar HTTPS.
+      - COOKIE_SECURE=${COOKIE_SECURE:-false}
     depends_on:
       db:
         condition: service_healthy

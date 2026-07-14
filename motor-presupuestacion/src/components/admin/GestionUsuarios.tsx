@@ -183,7 +183,7 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
                     placeholder="Nombre"
                     value={form.nombre}
                     onChange={(e) => setForm({ ...form, nombre: e.target.value })}
-                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
+                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-[#1B2A47] placeholder:text-slate-400 focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
                   />
                   <input
                     type="email"
@@ -191,12 +191,12 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
                     placeholder="email@empresa.com"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
+                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-[#1B2A47] placeholder:text-slate-400 focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
                   />
                   <select
                     value={form.rol}
                     onChange={(e) => setForm({ ...form, rol: e.target.value as Usuario['rol'] })}
-                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"
+                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-[#1B2A47] focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
                   >
                     {ROLES.map((r) => (
                       <option key={r} value={r}>
@@ -209,7 +209,7 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
                     placeholder={editId ? 'Contraseña (vacío = sin cambio)' : 'Contraseña (mín. 6)'}
                     value={form.password}
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
-                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm"
+                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-[#1B2A47] placeholder:text-slate-400 focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
                   />
                 </div>
                 <div className="flex items-center gap-2">
