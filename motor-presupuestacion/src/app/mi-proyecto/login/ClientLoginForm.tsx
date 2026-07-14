@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase-browser'
 import { Loader2, Lock, Mail, Eye, EyeOff } from 'lucide-react'
 
 export default function ClientLoginForm() {
@@ -20,32 +19,14 @@ export default function ClientLoginForm() {
     setLoading(true)
     setError('')
 
-    const supabase = createClient()
-    let { error: authError } = await supabase.auth.signInWithPassword({ email, password })
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    })
 
-    // Si el email no está confirmado, confirmarlo automáticamente y reintentar
-    if (authError) {
-      const msg = authError.message.toLowerCase()
-      if (msg.includes('confirm') || msg.includes('verified') || msg.includes('not confirmed')) {
-        const confirmRes = await fetch('/api/auth/confirm', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email }),
-        })
-        if (confirmRes.ok) {
-          const retry = await supabase.auth.signInWithPassword({ email, password })
-          authError = retry.error ?? null
-        }
-      }
-    }
-
-    if (authError) {
-      const msg = authError.message.toLowerCase()
-      if (msg.includes('invalid') || msg.includes('credentials') || msg.includes('password')) {
-        setError('Email o contraseña incorrectos. Verificá tus datos.')
-      } else {
-        setError(authError.message)
-      }
+    if (!res.ok) {
+      setError('Email o contraseña incorrectos. Verificá tus datos.')
       setLoading(false)
       return
     }

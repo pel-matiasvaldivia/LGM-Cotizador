@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase-browser'
 import { Loader2, Lock, Eye, EyeOff, UserPlus, LogIn, CheckCircle2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -28,18 +27,17 @@ export default function ClientAuthStep({
   const [error, setError] = useState('')
 
   useEffect(() => {
-    const supabase = createClient()
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session?.user?.email) {
-        setExistingEmail(data.session.user.email)
-      }
-      setCheckingSession(false)
-    })
+    fetch('/api/auth/me')
+      .then(res => res.json())
+      .then(data => {
+        if (data.user?.email) setExistingEmail(data.user.email)
+      })
+      .catch(() => {})
+      .finally(() => setCheckingSession(false))
   }, [])
 
   const handleSignOut = async () => {
-    const supabase = createClient()
-    await supabase.auth.signOut()
+    await fetch('/api/auth/logout', { method: 'POST' })
     setExistingEmail(null)
   }
 
@@ -57,10 +55,9 @@ export default function ClientAuthStep({
     }
 
     setLoading(true)
-    const supabase = createClient()
 
     if (mode === 'register') {
-      // Usar API server-side para crear usuario con email auto-confirmado
+      // El registro crea la cuenta y deja la sesión iniciada
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -78,32 +75,13 @@ export default function ClientAuthStep({
         setLoading(false)
         return
       }
-
-      // Cuenta creada y confirmada — iniciar sesión para obtener la sesión
-      const { error: loginError } = await supabase.auth.signInWithPassword({ email, password })
-      if (loginError) {
-        setError('Cuenta creada, pero no se pudo iniciar sesión. Intentá de nuevo.')
-        setLoading(false)
-        return
-      }
     } else {
-      let { error: loginError } = await supabase.auth.signInWithPassword({ email, password })
-      if (loginError) {
-        const msg = loginError.message.toLowerCase()
-        if (msg.includes('confirm') || msg.includes('verified') || msg.includes('not confirmed')) {
-          // Auto-confirmar si el email no fue confirmado y reintentar
-          const confirmRes = await fetch('/api/auth/confirm', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email }),
-          })
-          if (confirmRes.ok) {
-            const retry = await supabase.auth.signInWithPassword({ email, password })
-            loginError = retry.error ?? null
-          }
-        }
-      }
-      if (loginError) {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+      if (!res.ok) {
         setError('Contraseña incorrecta. Verificá tus datos.')
         setLoading(false)
         return

@@ -1,34 +1,29 @@
 'use client'
 
-import { useState } from "react"
-import { createClient } from "@/lib/supabase"
+import { useEffect, useState } from "react"
 
 export default function TipoCambioPage() {
   const [usd, setUsd] = useState(1050.50)
   const [loading, setLoading] = useState(false)
 
+  useEffect(() => {
+    fetch('/api/tipo-cambio')
+      .then(res => res.json())
+      .then(data => { if (data.tipo_cambio) setUsd(data.tipo_cambio) })
+      .catch(() => {})
+  }, [])
+
   async function handleUpdate() {
     setLoading(true)
     try {
-      const supabase = createClient()
-      
-      // 1. Obtener todos los ratios vigentes
-      const { data: ratios } = await supabase.from('ratios_costos').select('*').eq('vigente', true)
-      
-      if (!ratios) return
-
-      // 2. Actualizar precio_unitario_ars basado en el nuevo USD
-      const updates = (ratios as any[]).map((r: any) => ({
-        ...r,
-        precio_unitario_ars: r.precio_unitario_usd * usd,
-        fecha_actualizacion: new Date().toISOString()
-      }))
-
-      const { error } = await supabase.from('ratios_costos').upsert(updates)
-      if (error) throw error
-
+      const res = await fetch('/api/tipo-cambio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tipo_cambio: usd }),
+      })
+      if (!res.ok) throw new Error()
       alert('Tipo de cambio actualizado y ratios recalculados.')
-    } catch (e) {
+    } catch {
       alert('Error actualizando tipo de cambio')
     } finally {
       setLoading(false)

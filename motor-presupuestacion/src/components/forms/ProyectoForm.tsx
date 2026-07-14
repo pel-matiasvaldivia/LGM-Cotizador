@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import R09Form from './R09Form'
 import Base0Table from '../presupuesto/Base0Table'
 
@@ -277,9 +278,9 @@ export default function ProyectoForm() {
             <div className="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto text-3xl">✓</div>
             <h2 className="text-2xl font-semibold text-[#1B2A47]">¡Completado!</h2>
             <p className="text-gray-600">El presupuesto R-04 fue guardado y está listo para enviar.</p>
-            <a href="/proyectos" className="mt-6 bg-[#1B2A47] text-white px-6 py-2 rounded font-semibold hover:bg-[#1B2A47]/90 inline-block">
+            <Link href="/proyectos" className="mt-6 bg-[#1B2A47] text-white px-6 py-2 rounded font-semibold hover:bg-[#1B2A47]/90 inline-block">
               Ir a Proyectos
-            </a>
+            </Link>
           </div>
         )}
 

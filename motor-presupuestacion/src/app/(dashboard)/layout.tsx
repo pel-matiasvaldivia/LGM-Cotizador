@@ -1,30 +1,17 @@
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase-server'
+import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import LogoutButton from '@/components/auth/LogoutButton'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
 
   if (!user) redirect('/login')
-
-  const { data: perfil, error: perfilError } = await supabase
-    .from('perfiles')
-    .select('nombre, rol')
-    .eq('id', user.id)
-    .single()
-
-  // Si la tabla perfiles no existe aún (migración pendiente), permitir acceso igual
-  const rolValido = perfilError || !perfil
-    ? true
-    : ['comercial', 'admin'].includes(perfil.rol)
-
-  if (!rolValido) {
+  if (!['comercial', 'admin'].includes(user.rol)) {
     redirect('/login?error=sin_acceso')
   }
 
-  const displayName = perfil?.nombre || user.email || 'Usuario'
+  const displayName = user.nombre || user.email || 'Usuario'
 
   return (
     <div className="min-h-screen bg-[#F4F5F7] flex flex-col">
@@ -57,7 +44,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <div className="flex items-center gap-4">
           <div className="text-right">
             <p className="text-sm font-semibold leading-tight">{displayName}</p>
-            <p className="text-xs text-slate-400 capitalize">{perfil?.rol ?? 'comercial'}</p>
+            <p className="text-xs text-slate-400 capitalize">{user.rol}</p>
           </div>
           <LogoutButton />
         </div>

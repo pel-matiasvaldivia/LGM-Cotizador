@@ -1,4 +1,8 @@
-import { createClient } from '@/lib/supabase-server'
+import { desc, eq } from 'drizzle-orm'
+import { db } from '@/db'
+import { proyectos as proyectosTable } from '@/db/schema'
+import { datosTecnicosToRow, proyectoToRow } from '@/lib/serializers'
+import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import LogoutButton from '@/components/auth/LogoutButton'
@@ -14,20 +18,22 @@ const estadoInfo: Record<string, { label: string; desc: string; color: string; b
 }
 
 export default async function MiProyectoPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
 
   if (!user) {
     redirect('/mi-proyecto/login')
   }
 
-  const { data: proyectos } = await supabase
-    .from('proyectos')
-    .select('*, datos_tecnicos(*)')
-    .eq('email', user.email!)
-    .order('created_at', { ascending: false })
+  const filas = await db.query.proyectos.findMany({
+    where: eq(proyectosTable.email, user.email),
+    orderBy: desc(proyectosTable.createdAt),
+    with: { datosTecnicos: true },
+  })
 
-  const proyecto = proyectos?.[0] ?? null
+  const primero = filas[0] ?? null
+  const proyecto = primero
+    ? { ...proyectoToRow(primero), datos_tecnicos: primero.datosTecnicos.map(datosTecnicosToRow) }
+    : null
 
   const estadoIndex = proyecto ? ESTADOS.indexOf(proyecto.estado as any) : -1
 

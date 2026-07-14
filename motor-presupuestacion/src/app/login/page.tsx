@@ -1,5 +1,5 @@
 import LoginForm from '@/components/auth/LoginForm'
-import { createClient } from '@/lib/supabase-server'
+import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
@@ -9,8 +9,7 @@ export default async function LoginPage({
   searchParams: Promise<{ next?: string; error?: string }>
 }) {
   const params = await searchParams
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
 
   if (user) {
     redirect(params.next || '/proyectos')

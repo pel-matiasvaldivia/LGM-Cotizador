@@ -1,8 +1,12 @@
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase-server'
+import { and, desc, eq, ilike, or, type SQL } from 'drizzle-orm'
+import { db } from '@/db'
+import { proyectos } from '@/db/schema'
+import { proyectoToRow } from '@/lib/serializers'
 import ProyectosFiltros from '@/components/comercial/ProyectosFiltros'
 
 const ESTADOS = ['borrador', 'enviado', 'preaprobado', 'aprobado'] as const
+type Estado = (typeof ESTADOS)[number]
 
 const estadoConfig: Record<string, { label: string; color: string }> = {
   borrador:    { label: 'Borrador',    color: 'bg-slate-100 text-slate-600' },
@@ -17,21 +21,21 @@ export default async function ProyectosPage({
   searchParams: Promise<{ q?: string; estado?: string }>
 }) {
   const { q, estado } = await searchParams
-  const supabase = await createClient()
 
-  let query = supabase
-    .from('proyectos')
-    .select('*')
-    .order('created_at', { ascending: false })
-
-  if (estado && ESTADOS.includes(estado as any)) {
-    query = query.eq('estado', estado)
+  const condiciones: SQL[] = []
+  if (estado && ESTADOS.includes(estado as Estado)) {
+    condiciones.push(eq(proyectos.estado, estado as Estado))
   }
   if (q) {
-    query = query.or(`codigo.ilike.%${q}%,cliente.ilike.%${q}%`)
+    const patron = `%${q}%`
+    condiciones.push(or(ilike(proyectos.codigo, patron), ilike(proyectos.cliente, patron))!)
   }
 
-  const { data: proyectos } = await query
+  const filas = await db.query.proyectos.findMany({
+    where: condiciones.length > 0 ? and(...condiciones) : undefined,
+    orderBy: desc(proyectos.createdAt),
+  })
+  const lista = filas.map(proyectoToRow)
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -39,7 +43,7 @@ export default async function ProyectosPage({
         <div>
           <h1 className="text-3xl font-bold text-[#1B2A47]">Proyectos</h1>
           <p className="text-slate-500 text-sm mt-1">
-            {proyectos?.length ?? 0} resultado{proyectos?.length !== 1 ? 's' : ''}
+            {lista.length} resultado{lista.length !== 1 ? 's' : ''}
             {estado ? ` · ${estadoConfig[estado]?.label ?? estado}` : ''}
             {q ? ` · "${q}"` : ''}
           </p>
@@ -69,7 +73,7 @@ export default async function ProyectosPage({
             </tr>
           </thead>
           <tbody>
-            {(proyectos ?? []).length === 0 ? (
+            {lista.length === 0 ? (
               <tr>
                 <td colSpan={6} className="px-6 py-16 text-center text-slate-400">
                   <p className="text-base font-medium mb-1">Sin resultados</p>
@@ -77,7 +81,7 @@ export default async function ProyectosPage({
                 </td>
               </tr>
             ) : (
-              (proyectos ?? []).map((p: any) => {
+              lista.map((p) => {
                 const cfg = estadoConfig[p.estado] ?? { label: p.estado, color: 'bg-gray-100 text-gray-600' }
                 return (
                   <tr key={p.id} className="border-b border-gray-50 hover:bg-slate-50 transition-colors">
