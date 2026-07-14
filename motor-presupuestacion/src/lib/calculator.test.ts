@@ -137,15 +137,31 @@ describe('calcularItems', () => {
     expect(flete.costoMaterialUsd).toBeCloseTo(10 * 200 * 1.76)
   })
 
-  it('excluye los rubros opcionales apagados', () => {
+  it('incluye todo el catálogo por defecto (no depende de flags de alcance)', () => {
     const nombres = calcularItems(datos(), CATALOGO, PARAMS).map((i) => i.descripcion)
-    expect(nombres).not.toContain('Cerramiento Lateral Chapa')
-    expect(nombres).not.toContain('Piso Hormigón H-25 c/cuarzo')
+    expect(nombres).toContain('Cerramiento Lateral Chapa')
+    expect(nombres).toContain('Piso Hormigón H-25 c/cuarzo')
+    expect(nombres).toContain('Instalación Eléctrica Nave')
   })
 
-  it('sin fabricación no incluye estructura', () => {
-    const items = calcularItems(datos({ incluye_fabricacion: false }), CATALOGO, PARAMS)
-    expect(items.some((i) => i.descripcion?.includes('Estructura'))).toBe(false)
+  it('excluye el rubro Montaje cuando no se incluye montaje', () => {
+    const conMontaje = calcularItems(datos({ incluye_montaje: true }), CATALOGO, PARAMS)
+    expect(conMontaje.some((i) => i.descripcion?.includes('Montaje'))).toBe(true)
+    const sinMontaje = calcularItems(datos({ incluye_montaje: false }), CATALOGO, PARAMS)
+    expect(sinMontaje.some((i) => i.descripcion?.includes('Montaje'))).toBe(false)
+  })
+
+  it('descarta la porción de MO Montaje del split cuando no se incluye montaje', () => {
+    const catalogo = [ratio('Estructura Metálica', 'Estructura Alveolar', 'm2', 1, 15, 50, 30, 20)]
+    const sinMontaje = calcularItems(
+      datos({ superficie_m2: 100, incluye_montaje: false }),
+      catalogo,
+      PARAMS,
+    )
+    const est = sinMontaje.find((i) => i.descripcion === 'Estructura Alveolar')!
+    expect(est.costoMoMontajeUsd).toBe(0)
+    expect(est.costoMoFabUsd).toBeCloseTo(100 * 30)
+    expect(est.costoMoUsd).toBeCloseTo(100 * 30) // sólo fabricación
   })
 })
 
