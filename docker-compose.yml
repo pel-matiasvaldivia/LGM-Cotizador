@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/pel-matiasvaldivia/lgm-cotizador:master
+    image: ghcr.io/pel-matiasvaldivia/lgm-cotizador:main
     container_name: logmetal_app
     restart: unless-stopped
     ports:
