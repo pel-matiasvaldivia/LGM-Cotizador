@@ -7,3 +7,6 @@ node_modules/
 *.pem
 certbot/
 LGM-Cotizador/
+*.swp
+*.swo
+backups/

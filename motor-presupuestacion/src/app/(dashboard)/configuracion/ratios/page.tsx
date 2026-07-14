@@ -1,33 +1,32 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { createClient } from "@/lib/supabase"
 
 export default function ConfiguracionRatiosPage() {
   const [ratios, setRatios] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    fetchRatios()
-  }, [])
-
   async function fetchRatios() {
-    const supabase = createClient()
-    const { data } = await supabase.from('ratios_costos').select('*, subrubros(nombre)')
-    setRatios(data || [])
+    const res = await fetch('/api/ratios')
+    const data = await res.json()
+    setRatios(data.ratios || [])
     setLoading(false)
   }
 
   async function handleUpdate(id: string, field: string, value: number) {
-    const supabase = createClient()
-    const { error } = await supabase
-      .from('ratios_costos')
-      .update({ [field]: value, fecha_actualizacion: new Date().toISOString() })
-      .eq('id', id)
-    
-    if (error) alert('Error al actualizar ratio')
+    const res = await fetch('/api/ratios', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, field, value }),
+    })
+    if (!res.ok) alert('Error al actualizar ratio')
     else fetchRatios()
   }
+
+  useEffect(() => {
+    fetchRatios()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (loading) return <div className="p-10 text-center">Cargando ratios...</div>
 

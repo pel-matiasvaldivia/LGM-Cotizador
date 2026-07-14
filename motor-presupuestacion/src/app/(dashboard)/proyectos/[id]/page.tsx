@@ -1,5 +1,9 @@
-import { createClient } from '@/lib/supabase-server'
+import { asc, eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
+import { db } from '@/db'
+import { datosTecnicos, presupuestoBaseItems, proyectos } from '@/db/schema'
+import { datosTecnicosToRow, itemToRow, proyectoToRow } from '@/lib/serializers'
+import { isUuid } from '@/lib/api-helpers'
 import ProyectoDetalle from '@/components/comercial/ProyectoDetalle'
 
 export default async function ProyectoDetallePage({
@@ -8,33 +12,24 @@ export default async function ProyectoDetallePage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const supabase = await createClient()
+  if (!isUuid(id)) notFound()
 
-  const { data: proyecto } = await supabase
-    .from('proyectos')
-    .select('*')
-    .eq('id', id)
-    .single()
-
+  const proyecto = await db.query.proyectos.findFirst({ where: eq(proyectos.id, id) })
   if (!proyecto) notFound()
 
-  const { data: datosTecnicos } = await supabase
-    .from('datos_tecnicos')
-    .select('*')
-    .eq('proyecto_id', id)
-    .single()
+  const dt = await db.query.datosTecnicos.findFirst({ where: eq(datosTecnicos.proyectoId, id) })
 
-  const { data: items } = await supabase
-    .from('presupuesto_base_items')
-    .select('*, rubros(nombre), subrubros(nombre)')
-    .eq('proyecto_id', id)
-    .order('orden')
+  const items = await db.query.presupuestoBaseItems.findMany({
+    where: eq(presupuestoBaseItems.proyectoId, id),
+    with: { rubro: true, subrubro: true },
+    orderBy: asc(presupuestoBaseItems.orden),
+  })
 
   return (
     <ProyectoDetalle
-      proyecto={proyecto}
-      datosTecnicos={datosTecnicos}
-      initialItems={items || []}
+      proyecto={proyectoToRow(proyecto)}
+      datosTecnicos={dt ? datosTecnicosToRow(dt) : null}
+      initialItems={items.map(itemToRow)}
     />
   )
 }

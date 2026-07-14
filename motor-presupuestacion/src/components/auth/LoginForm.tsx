@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase-browser'
 import { Loader2, Lock, Mail, Eye, EyeOff } from 'lucide-react'
 
 export default function LoginForm({ nextUrl }: { nextUrl?: string }) {
@@ -20,13 +19,13 @@ export default function LoginForm({ nextUrl }: { nextUrl?: string }) {
     setLoading(true)
     setError('')
 
-    const supabase = createClient()
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
     })
 
-    if (authError) {
+    if (!res.ok) {
       setError('Credenciales incorrectas. Verificá tu email y contraseña.')
       setLoading(false)
       return

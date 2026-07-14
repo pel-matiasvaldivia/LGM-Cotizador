@@ -1,69 +1,71 @@
-import { createClient } from '@/lib/supabase'
 import { NextResponse } from 'next/server'
+import { db } from '@/db'
+import { datosTecnicos, proyectos } from '@/db/schema'
+import { requireUser } from '@/lib/auth'
+import { withErrorHandling } from '@/lib/api-helpers'
 
-export async function POST(req: Request) {
-  try {
-    const body = await req.json()
-    const { canal, variables } = body
+export const POST = withErrorHandling(async (req: Request) => {
+  // El wizard público registra/loguea al visitante antes de llegar acá,
+  // así que siempre hay sesión (cliente, comercial o admin).
+  const user = await requireUser()
 
-    if (!variables) {
-      return NextResponse.json({ error: 'Faltan variables' }, { status: 400 })
-    }
-
-    const supabase = createClient()
-
-    const codigo = `PROY-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
-
-    const nombreCompleto = [variables.cliente_nombre, variables.cliente_apellido]
-      .filter(Boolean).join(' ').trim() || variables.cliente || 'Consumidor Final'
-
-    const { data: proyecto, error: pError } = await supabase
-      .from('proyectos')
-      .insert({
-        codigo,
-        cliente: nombreCompleto,
-        razon_social: variables.cliente_empresa || null,
-        contacto: nombreCompleto,
-        telefono: variables.cliente_telefono || null,
-        email: variables.cliente_email || null,
-        ubicacion: variables.ubicacion || variables.ubicacion_obra || '',
-        canal_origen: canal || 'manual',
-        estado: 'borrador',
-      })
-      .select()
-      .single()
-
-    if (pError) throw pError
-
-    const { error: dError } = await supabase
-      .from('datos_tecnicos')
-      .insert({
-        proyecto_id: proyecto.id,
-        ancho: variables.ancho_m,
-        largo: variables.largo_m,
-        superficie: variables.superficie_m2,
-        altura_libre: variables.altura_libre_m,
-        tipologia: variables.tipologia,
-        incluye_fabricacion: variables.incluye_fabricacion ?? true,
-        incluye_montaje: variables.incluye_montaje ?? true,
-        incluye_cubierta: variables.incluye_cubierta ?? true,
-        incluye_cerramiento_lateral: variables.incluye_cerramiento_lateral ?? false,
-        incluye_portones: variables.incluye_portones ?? false,
-        incluye_piso: variables.incluye_piso_industrial ?? false,
-        incluye_electrica: variables.incluye_instalacion_electrica ?? false,
-        incluye_sanitaria: variables.incluye_instalacion_sanitaria ?? false,
-        tipo_cubierta: variables.tipo_cubierta,
-        tipo_cerramiento: variables.tipo_cerramiento,
-        cantidad_portones: variables.cantidad_portones || null,
-        especificaciones_adicionales: variables.observaciones || null,
-        raw_data: variables,
-      })
-
-    if (dError) throw dError
-
-    return NextResponse.json({ proyectoId: proyecto.id, codigo: proyecto.codigo })
-  } catch (error: any) {
-    console.error('Error creando proyecto:', error)
-    return NextResponse.json({ error: error.message || 'Error interno' }, { status: 500 })
+  const { canal, variables } = await req.json()
+  if (!variables) {
+    return NextResponse.json({ error: 'Faltan variables' }, { status: 400 })
   }
+
+  const codigo = `PROY-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
+
+  const nombreCompleto = [variables.cliente_nombre, variables.cliente_apellido]
+    .filter(Boolean).join(' ').trim() || variables.cliente || 'Consumidor Final'
+
+  // Un cliente solo puede crear proyectos asociados a su propio email
+  const email = user.rol === 'cliente' ? user.email : (variables.cliente_email || null)
+
+  const proyecto = await db.transaction(async (tx) => {
+    const [p] = await tx.insert(proyectos).values({
+      codigo,
+      cliente: nombreCompleto,
+      razonSocial: variables.cliente_empresa || null,
+      contacto: nombreCompleto,
+      dni: variables.cliente_dni || null,
+      telefono: variables.cliente_telefono || null,
+      email,
+      ubicacion: variables.ubicacion || variables.ubicacion_obra || '',
+      canalOrigen: canal || 'manual',
+      estado: 'borrador',
+      observaciones: variables.observaciones || null,
+    }).returning()
+
+    await tx.insert(datosTecnicos).values({
+      proyectoId: p.id,
+      ancho: numOrNull(variables.ancho_m),
+      largo: numOrNull(variables.largo_m),
+      superficie: numOrNull(variables.superficie_m2),
+      alturaLibre: numOrNull(variables.altura_libre_m),
+      tipologia: variables.tipologia || null,
+      tipoCubierta: variables.tipo_cubierta || null,
+      tipoCerramiento: variables.tipo_cerramiento || null,
+      incluyeFabricacion: variables.incluye_fabricacion ?? true,
+      incluyeMontaje: variables.incluye_montaje ?? true,
+      incluyeCubierta: variables.incluye_cubierta ?? true,
+      incluyeCerramientoLateral: variables.incluye_cerramiento_lateral ?? false,
+      incluyePortones: variables.incluye_portones ?? false,
+      incluyePiso: variables.incluye_piso_industrial ?? false,
+      incluyeElectrica: variables.incluye_instalacion_electrica ?? false,
+      incluyeSanitaria: variables.incluye_instalacion_sanitaria ?? false,
+      cantidadPortones: variables.cantidad_portones ? Number(variables.cantidad_portones) : null,
+      especificacionesAdicionales: variables.observaciones || null,
+      rawData: variables,
+    })
+
+    return p
+  })
+
+  return NextResponse.json({ proyectoId: proyecto.id, codigo: proyecto.codigo })
+})
+
+function numOrNull(value: unknown): number | null {
+  const n = Number(value)
+  return Number.isFinite(n) && n !== 0 ? n : null
 }

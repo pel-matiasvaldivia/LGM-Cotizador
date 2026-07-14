@@ -10,3 +10,45 @@ services:
     environment:
       - NODE_ENV=production
       - HOSTNAME=0.0.0.0
+      - DATABASE_URL=postgres://lgm:${POSTGRES_PASSWORD:?definir POSTGRES_PASSWORD en .env}@db:5432/cotizador
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    container_name: logmetal_db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=lgm
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?definir POSTGRES_PASSWORD en .env}
+      - POSTGRES_DB=cotizador
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lgm -d cotizador"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  # Backup diario de la base a ./backups (rotación: 14 días)
+  backup:
+    image: postgres:16-alpine
+    container_name: logmetal_backup
+    restart: unless-stopped
+    environment:
+      - PGPASSWORD=${POSTGRES_PASSWORD:?definir POSTGRES_PASSWORD en .env}
+    volumes:
+      - ./backups:/backups
+    entrypoint: >
+      sh -c 'while true; do
+        pg_dump -h db -U lgm cotizador | gzip > /backups/cotizador_$$(date +%Y%m%d_%H%M).sql.gz &&
+        find /backups -name "*.sql.gz" -mtime +14 -delete;
+        sleep 86400;
+      done'
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
