@@ -44,6 +44,24 @@ describe('construirLineasFlexxus', () => {
     const lineas = construirLineasFlexxus(items, 1, 1000)
     expect(lineas).toHaveLength(1) // solo material, MO=0 no genera línea
   })
+
+  it('cubre rubros nuevos de Flexxus (Escaleras → 54)', () => {
+    const items = [{ descripcion: 'Escalera metálica', rubro_nombre: 'Escaleras', costo_material_usd: 40, costo_mo_usd: 20 }]
+    const lineas = construirLineasFlexxus(items, 1, 1000)
+    expect(lineas).toContainEqual({ codigoRubro: 54, codigoSubrubro: 360, montoArs: 40000 }) // materiales
+    expect(lineas).toContainEqual({ codigoRubro: 54, codigoSubrubro: 358, montoArs: 20000 }) // MO fabricación
+  })
+
+  it('separa MO Fabricación y Montaje cuando el ítem trae el desglose', () => {
+    const items = [{
+      descripcion: 'Estructura', rubro_nombre: 'Estructura Metálica',
+      costo_material_usd: 0, costo_mo_usd: 0,
+      costo_mo_fab_usd: 30, costo_mo_montaje_usd: 20,
+    }]
+    const lineas = construirLineasFlexxus(items, 1, 1000)
+    expect(lineas).toContainEqual({ codigoRubro: 50, codigoSubrubro: 347, montoArs: 30000 }) // fab
+    expect(lineas).toContainEqual({ codigoRubro: 50, codigoSubrubro: 348, montoArs: 20000 }) // montaje
+  })
 })
 
 describe('generarCsvFlexxus', () => {

@@ -118,73 +118,74 @@ async function seedAdmin(pool) {
 
 // Catálogo inicial de rubros/subrubros/ratios. Valores por m² calibrados a
 // partir de un presupuesto Base 0 real (ajustables desde /configuracion/ratios).
+// Cada rubro: [nombre, codigoFlexxusRubro, subMaterial, [subrubros...]]
 // Cada subrubro: [nombre, unidad, ratioCantidad, materialUsd, moUsd]
 async function seedCatalogo(pool) {
   const { rows } = await pool.query('SELECT count(*)::int AS n FROM rubros')
   if (rows[0].n > 0) return
 
   const catalogo = [
-    ['Honorarios', [
+    ['Honorarios', 46, 333, [
       ['Honorarios y dirección de obra', 'm2', 1, 0, 13.1],
     ]],
-    ['Preliminares', [
+    ['Preliminares', 47, 339, [
       ['Obrador, replanteo y varios', 'm2', 1, 0, 0.85],
     ]],
-    ['Movimiento de Suelo', [
+    ['Movimiento de Suelo', 48, 343, [
       ['Excavación, relleno y compactación', 'm2', 1, 7.62, 4.47],
     ]],
-    ['Fundaciones', [
+    ['Fundaciones', 49, 346, [
       ['Hormigón, hierros y pilotes', 'm2', 1, 7.7, 7.78],
     ]],
-    ['Estructura Metálica', [
+    ['Estructura Metálica', 50, 349, [
       ['Estructura Alveolar', 'm2', 1, 15.0, 30.0],
       ['Estructura Alma Llena', 'm2', 1, 19.4, 34.1],
       ['Estructura Reticulada', 'm2', 1, 13.0, 26.0],
     ]],
-    ['Cerramiento Lateral', [
+    ['Cerramiento Lateral', 51, 352, [
       ['Cerramiento Lateral Chapa', 'm2', 1, 17.7, 4.4],
     ]],
-    ['Cerramiento Cubierta', [
+    ['Cerramiento Cubierta', 52, 354, [
       ['Cubierta Chapa Trapezoidal', 'm2', 1, 24.3, 6.5],
       ['Cubierta Panel Sandwich', 'm2', 1, 40.0, 6.5],
     ]],
-    ['Zinguería', [
+    ['Zinguería', 56, 366, [
       ['Zinguería y babetas', 'm2', 1, 0.3, 0.77],
     ]],
-    ['Portones', [
+    ['Portones', 53, 357, [
       ['Portón Corredizo Metálico', 'uni', 1, 1500, 350],
     ]],
-    ['Piso Industrial', [
+    ['Piso Industrial', 58, 371, [
       ['Piso Hormigón H-25 c/cuarzo', 'm2', 1, 20.1, 5.11],
     ]],
-    ['Veredín', [
+    ['Veredín', 59, 373, [
       ['Veredín perimetral H-25', 'm2', 1, 1.76, 1.45],
     ]],
-    ['Instalación Eléctrica', [
+    ['Instalación Eléctrica', 64, 384, [
       ['Instalación Eléctrica Nave', 'm2', 1, 9.5, 0],
     ]],
-    ['Instalación Sanitaria', [
+    ['Instalación Sanitaria', 63, 380, [
       ['Instalación Sanitaria Nave', 'm2', 1, 6.0, 0],
     ]],
-    ['Montaje', [
+    ['Montaje', 50, 348, [
       ['Montaje en Obra', 'm2', 1, 0, 20.0],
     ]],
-    ['Final de Obra', [
+    ['Final de Obra', 70, 399, [
       ['Limpieza final y puesta en marcha', 'm2', 1, 0, 1.9],
     ]],
   ]
 
   const tipoCambio = Number(process.env.TIPO_CAMBIO_INICIAL || 1050)
   let ordenRubro = 1
-  for (const [rubroNombre, items] of catalogo) {
+  for (const [rubroNombre, codigoRubro, subMaterial, items] of catalogo) {
     const { rows: [rubro] } = await pool.query(
-      'INSERT INTO rubros (nombre, orden) VALUES ($1, $2) RETURNING id',
-      [rubroNombre, ordenRubro++]
+      'INSERT INTO rubros (nombre, orden, codigo_flexxus) VALUES ($1, $2, $3) RETURNING id',
+      [rubroNombre, ordenRubro++, codigoRubro]
     )
     for (const [subNombre, unidad, ratio, material, mo] of items) {
       const { rows: [sub] } = await pool.query(
-        'INSERT INTO subrubros (rubro_id, nombre) VALUES ($1, $2) RETURNING id',
-        [rubro.id, subNombre]
+        'INSERT INTO subrubros (rubro_id, nombre, codigo_flexxus) VALUES ($1, $2, $3) RETURNING id',
+        [rubro.id, subNombre, subMaterial]
       )
       const total = material + mo
       await pool.query(
@@ -195,7 +196,7 @@ async function seedCatalogo(pool) {
       )
     }
   }
-  console.log('[seed] catálogo de rubros/ratios inicial creado (calibrado, con material/MO)')
+  console.log('[seed] catálogo de rubros/ratios inicial creado (calibrado, con material/MO y códigos Flexxus)')
 }
 
 // Parámetros globales del costeo (cascada directo → indirectos → beneficio → IVA).
