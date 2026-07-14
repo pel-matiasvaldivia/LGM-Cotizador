@@ -55,8 +55,15 @@ export const MAPEO_FLEXXUS: Record<string, MapeoRubro> = {
 // Rubro Flexxus para la logística/flete (ítems sintéticos sin rubro del catálogo).
 const FLETE_FLEXXUS: MapeoRubro = { codigoRubro: 69, subMaterial: 397, subMoFab: 397, subMoMontaje: 397 }
 
-function normalizar(s: string): string {
+export function normalizar(s: string): string {
   return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim()
+}
+
+// Resuelve el mapeo Flexxus por nombre de rubro (normalizado). Devuelve null si
+// el rubro no est\u00e1 en el cat\u00e1logo Flexxus. Lo usa el importador de Base 0 para
+// asignar c\u00f3digos a los rubros que ingiere.
+export function resolverMapeoRubro(nombre: string): MapeoRubro | null {
+  return MAPEO_FLEXXUS[normalizar(nombre)] ?? null
 }
 
 // Resuelve el mapeo Flexxus de un ítem por el nombre de su rubro; si es un

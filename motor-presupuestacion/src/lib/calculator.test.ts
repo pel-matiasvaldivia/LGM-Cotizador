@@ -17,6 +17,8 @@ function ratio(
     ratioCantidad,
     precioMaterialUsd: material,
     precioMoUsd: mo,
+    precioMoFabUsd: 0,
+    precioMoMontajeUsd: 0,
     precioUnitarioArs: (material + mo) * 1000,
     precioUnitarioUsd: material + mo,
     vigente: true,

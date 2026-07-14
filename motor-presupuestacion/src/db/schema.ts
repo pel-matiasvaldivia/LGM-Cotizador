@@ -46,6 +46,10 @@ export const ratiosCostos = pgTable('ratios_costos', {
   // Costo unitario desglosado (USD): material y mano de obra (fabricación + montaje)
   precioMaterialUsd: doublePrecision('precio_material_usd').notNull().default(0),
   precioMoUsd: doublePrecision('precio_mo_usd').notNull().default(0),
+  // Desglose real de la MO (Base 0): fabricación y montaje por separado.
+  // precioMoUsd se mantiene como la suma (compatibilidad con el costeo actual).
+  precioMoFabUsd: doublePrecision('precio_mo_fab_usd').notNull().default(0),
+  precioMoMontajeUsd: doublePrecision('precio_mo_montaje_usd').notNull().default(0),
   // Total (= material + mo). Se mantiene por compatibilidad con la UI existente.
   precioUnitarioArs: doublePrecision('precio_unitario_ars').notNull().default(0),
   precioUnitarioUsd: doublePrecision('precio_unitario_usd').notNull().default(0),
