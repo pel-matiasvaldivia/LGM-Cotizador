@@ -88,20 +88,31 @@ async function main() {
   console.log('[migrate] listo')
 }
 
-// Crea el usuario admin inicial si la tabla está vacía.
-// Credenciales por env: ADMIN_EMAIL / ADMIN_PASSWORD (nunca hardcodeadas).
+// Garantiza que el usuario admin maestro exista en cada arranque (idempotente).
+// Si el email ya existe NO se toca su contraseña (puede haberse cambiado desde
+// el panel). Si falta, se crea. Override con ADMIN_EMAIL / ADMIN_PASSWORD.
+// Con ADMIN_FORCE_RESET=true, además resetea su contraseña al valor de env.
 async function seedAdmin(pool) {
-  const { rows } = await pool.query('SELECT count(*)::int AS n FROM usuarios')
-  if (rows[0].n > 0) return
-
-  // Usuario maestro por defecto (override con ADMIN_EMAIL / ADMIN_PASSWORD en .env)
-  const email = process.env.ADMIN_EMAIL || 'admin@logmetal.com.ar'
+  const email = (process.env.ADMIN_EMAIL || 'admin@logmetal.com.ar').toLowerCase()
   const password = process.env.ADMIN_PASSWORD || 'L4gm2t1l_2026'
+
+  const { rows } = await pool.query('SELECT id FROM usuarios WHERE email = $1', [email])
+  if (rows.length > 0) {
+    if (process.env.ADMIN_FORCE_RESET === 'true') {
+      await pool.query(`UPDATE usuarios SET password_hash = $2, rol = 'admin' WHERE email = $1`, [
+        email,
+        hashPassword(password),
+      ])
+      console.log(`[seed] contraseña del admin maestro reseteada (ADMIN_FORCE_RESET): ${email}`)
+    }
+    return
+  }
+
   await pool.query(
     `INSERT INTO usuarios (email, password_hash, nombre, rol) VALUES ($1, $2, $3, 'admin')`,
-    [email.toLowerCase(), hashPassword(password), 'Administrador']
+    [email, hashPassword(password), 'Administrador']
   )
-  console.log(`[seed] usuario admin creado: ${email}`)
+  console.log(`[seed] usuario admin maestro creado: ${email}`)
 }
 
 // Catálogo mínimo de rubros/subrubros/ratios para que el cotizador funcione
