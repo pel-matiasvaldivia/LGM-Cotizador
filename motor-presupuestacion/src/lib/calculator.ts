@@ -65,7 +65,7 @@ export function calcularItems(
     if (!esRubroIncluido(rubro?.nombre, subrubro?.nombre, datos)) continue
 
     const cantidad = calcularCantidad(ratio, datos)
-    const { material, mo } = preciosUnitarios(ratio)
+    const { material, mo, moFab, moMontaje } = preciosUnitarios(ratio)
     const costoMaterialUsd = cantidad * material
     const costoMoUsd = cantidad * mo
     const costoUSD = costoMaterialUsd + costoMoUsd
@@ -80,6 +80,8 @@ export function calcularItems(
       precioUnitarioUsd: material + mo,
       costoMaterialUsd,
       costoMoUsd,
+      costoMoFabUsd: cantidad * moFab,
+      costoMoMontajeUsd: cantidad * moMontaje,
       incidencia: 0, // se completa abajo, con el total conocido
       costoTotalArs: costoUSD * params.tipoCambio,
       costoTotalUsd: costoUSD,
@@ -128,6 +130,8 @@ function calcularLogistica(datos: DatosTecnicos, params: Parametros, ordenInicia
       precioUnitarioUsd: tarifa,
       costoMaterialUsd: costo, // el flete se cuenta como costo directo (no MO de obra)
       costoMoUsd: 0,
+      costoMoFabUsd: 0,
+      costoMoMontajeUsd: 0,
       incidencia: 0,
       costoTotalArs: costo * params.tipoCambio,
       costoTotalUsd: costo,
@@ -211,13 +215,19 @@ export async function estimarCosto(datos: DatosTecnicos): Promise<EstimacionResu
 
 // Costo unitario material/MO del ratio, con fallback a versiones previas
 // (donde solo existía precio_unitario_usd → se toma como material).
-function preciosUnitarios(ratio: RatioConCatalogo): { material: number; mo: number } {
+// moFab/moMontaje traen el desglose real (Base 0); si el ratio no lo tiene,
+// quedan en 0 y la MO combinada (mo) sigue siendo la fuente del costeo.
+function preciosUnitarios(
+  ratio: RatioConCatalogo,
+): { material: number; mo: number; moFab: number; moMontaje: number } {
   const material = Number(ratio.precioMaterialUsd || 0)
   const mo = Number(ratio.precioMoUsd || 0)
+  const moFab = Number(ratio.precioMoFabUsd || 0)
+  const moMontaje = Number(ratio.precioMoMontajeUsd || 0)
   if (material === 0 && mo === 0) {
-    return { material: Number(ratio.precioUnitarioUsd || 0), mo: 0 }
+    return { material: Number(ratio.precioUnitarioUsd || 0), mo: 0, moFab: 0, moMontaje: 0 }
   }
-  return { material, mo }
+  return { material, mo, moFab, moMontaje }
 }
 
 function calcularCantidad(ratio: RatioConCatalogo, datos: DatosTecnicos): number {

@@ -116,6 +116,10 @@ export const presupuestoBaseItems = pgTable('presupuesto_base_items', {
   // Costo desglosado (USD) y su peso en el costo directo
   costoMaterialUsd: doublePrecision('costo_material_usd').notNull().default(0),
   costoMoUsd: doublePrecision('costo_mo_usd').notNull().default(0),
+  // Desglose real de la MO (Base 0): fabricación y montaje por separado.
+  // costoMoUsd se mantiene como la suma (fuente del costeo actual).
+  costoMoFabUsd: doublePrecision('costo_mo_fab_usd').notNull().default(0),
+  costoMoMontajeUsd: doublePrecision('costo_mo_montaje_usd').notNull().default(0),
   incidencia: doublePrecision('incidencia').notNull().default(0),
   costoTotalArs: doublePrecision('costo_total_ars').notNull().default(0),
   costoTotalUsd: doublePrecision('costo_total_usd').notNull().default(0),

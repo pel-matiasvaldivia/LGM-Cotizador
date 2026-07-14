@@ -9,6 +9,8 @@ function ratio(
   ratioCantidad: number,
   material: number,
   mo = 0,
+  moFab = 0,
+  moMontaje = 0,
 ): RatioConCatalogo {
   return {
     id: `ratio-${subrubroNombre}`,
@@ -17,8 +19,8 @@ function ratio(
     ratioCantidad,
     precioMaterialUsd: material,
     precioMoUsd: mo,
-    precioMoFabUsd: 0,
-    precioMoMontajeUsd: 0,
+    precioMoFabUsd: moFab,
+    precioMoMontajeUsd: moMontaje,
     precioUnitarioArs: (material + mo) * 1000,
     precioUnitarioUsd: material + mo,
     vigente: true,
@@ -87,6 +89,25 @@ describe('calcularItems', () => {
     expect(est.costoMaterialUsd).toBeCloseTo(500 * 19)
     expect(est.costoMoUsd).toBeCloseTo(500 * 54)
     expect(est.costoTotalUsd).toBeCloseTo(500 * 73)
+  })
+
+  it('propaga el split de MO (fabricación/montaje) del ratio al ítem', () => {
+    // Ratio de estructura con la MO desglosada (como la carga el importador Base 0).
+    const catalogo = [ratio('Estructura Metálica', 'Estructura Alveolar', 'm2', 1, 15, 50, 30, 20)]
+    const items = calcularItems(datos({ superficie_m2: 100 }), catalogo, PARAMS)
+    const est = items.find((i) => i.descripcion === 'Estructura Alveolar')!
+    expect(est.costoMaterialUsd).toBeCloseTo(100 * 15)
+    expect(est.costoMoUsd).toBeCloseTo(100 * 50)
+    expect(est.costoMoFabUsd).toBeCloseTo(100 * 30)
+    expect(est.costoMoMontajeUsd).toBeCloseTo(100 * 20)
+  })
+
+  it('deja el split en cero cuando el ratio sólo tiene MO combinada', () => {
+    const items = calcularItems(datos({ superficie_m2: 100 }), CATALOGO, PARAMS)
+    const est = items.find((i) => i.descripcion === 'Estructura Alveolar')!
+    expect(est.costoMoUsd).toBeCloseTo(100 * 54)
+    expect(est.costoMoFabUsd).toBe(0)
+    expect(est.costoMoMontajeUsd).toBe(0)
   })
 
   it('la incidencia suma 1 sobre el costo directo', () => {

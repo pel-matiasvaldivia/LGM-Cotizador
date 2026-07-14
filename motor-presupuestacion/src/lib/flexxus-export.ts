@@ -59,6 +59,8 @@ export async function csvFlexxusDeProyecto(proyectoId: string): Promise<{ csv: s
       rubro_nombre: i.subrubro?.rubro?.nombre ?? null,
       costo_material_usd: Number(i.costoMaterialUsd || 0),
       costo_mo_usd: Number(i.costoMoUsd || 0),
+      costo_mo_fab_usd: Number(i.costoMoFabUsd || 0),
+      costo_mo_montaje_usd: Number(i.costoMoMontajeUsd || 0),
     })),
     markup,
     params.tipoCambio,
