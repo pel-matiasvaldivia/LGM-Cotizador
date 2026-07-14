@@ -94,12 +94,9 @@ async function seedAdmin(pool) {
   const { rows } = await pool.query('SELECT count(*)::int AS n FROM usuarios')
   if (rows[0].n > 0) return
 
-  const email = process.env.ADMIN_EMAIL
-  const password = process.env.ADMIN_PASSWORD
-  if (!email || !password) {
-    console.warn('[seed] sin usuarios y sin ADMIN_EMAIL/ADMIN_PASSWORD — no se creó admin')
-    return
-  }
+  // Usuario maestro por defecto (override con ADMIN_EMAIL / ADMIN_PASSWORD en .env)
+  const email = process.env.ADMIN_EMAIL || 'admin@logmetal.com.ar'
+  const password = process.env.ADMIN_PASSWORD || 'L4gm2t1l_2026'
   await pool.query(
     `INSERT INTO usuarios (email, password_hash, nombre, rol) VALUES ($1, $2, $3, 'admin')`,
     [email.toLowerCase(), hashPassword(password), 'Administrador']
