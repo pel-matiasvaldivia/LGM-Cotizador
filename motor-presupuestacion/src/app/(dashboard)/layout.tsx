@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import LogoutButton from '@/components/auth/LogoutButton'
+import GestionUsuarios from '@/components/admin/GestionUsuarios'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const user = await getCurrentUser()
@@ -39,6 +40,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           >
             Configuración
           </Link>
+          {user.rol === 'admin' && <GestionUsuarios currentUserId={user.id} />}
         </nav>
 
         <div className="flex items-center gap-4">
