@@ -22,6 +22,7 @@ export default function ProyectoDetalle({
   const [resumen, setResumen] = useState<any>(initialResumen)
   const [downloading, setDownloading] = useState(false)
   const [downloadingCad, setDownloadingCad] = useState<'dxf' | 'ifc' | null>(null)
+  const [downloadingFlexxus, setDownloadingFlexxus] = useState(false)
   const [recalculating, setRecalculating] = useState(false)
   const [distanciaKm, setDistanciaKm] = useState<number>(Number(datosTecnicos?.distancia_obra_km) || 0)
   const [calcDist, setCalcDist] = useState(false)
@@ -95,6 +96,28 @@ export default function ProyectoDetalle({
       alert('Error generando PDF: ' + err.message)
     } finally {
       setDownloading(false)
+    }
+  }
+
+  const handleDownloadFlexxus = async () => {
+    setDownloadingFlexxus(true)
+    try {
+      const res = await fetch(`/api/export/flexxus?proyectoId=${proyecto.id}`)
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data.error || 'Error generando CSV Flexxus')
+      }
+      const blob = await res.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `flexxus_${proyecto.codigo}.csv`
+      a.click()
+      window.URL.revokeObjectURL(url)
+    } catch (err: any) {
+      alert(err.message)
+    } finally {
+      setDownloadingFlexxus(false)
     }
   }
 
@@ -180,6 +203,15 @@ export default function ProyectoDetalle({
           >
             {downloadingCad === 'ifc' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Box className="w-4 h-4" />}
             Tekla
+          </button>
+          <button
+            onClick={handleDownloadFlexxus}
+            disabled={downloadingFlexxus || items.length === 0}
+            title="Exportar presupuesto a Flexxus (CSV por rubro/subrubro)"
+            className="flex items-center gap-2 bg-white text-[#1B2A47] border border-gray-200 px-4 py-2.5 rounded-xl font-bold hover:border-[#1B2A47] transition-all disabled:opacity-40"
+          >
+            {downloadingFlexxus ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
+            Flexxus
           </button>
           <button
             onClick={handleDownloadPDF}

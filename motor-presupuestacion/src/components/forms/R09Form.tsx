@@ -44,23 +44,15 @@ export default function R09Form({ variables, onChange }: { variables: any, onCha
           />
         </div>
       </div>
-      <div className="mt-6 flex flex-wrap gap-4">
+      <div className="mt-6">
         <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={!!variables.incluye_fabricacion} onChange={(e) => onChange({...variables, incluye_fabricacion: e.target.checked})} />
-          Incluye Fabricación
+          <input type="checkbox" checked={variables.incluye_montaje !== false} onChange={(e) => onChange({...variables, incluye_montaje: e.target.checked})} />
+          Incluye Montaje en obra
         </label>
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={!!variables.incluye_montaje} onChange={(e) => onChange({...variables, incluye_montaje: e.target.checked})} />
-          Incluye Montaje
-        </label>
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={!!variables.incluye_cerramiento_lateral} onChange={(e) => onChange({...variables, incluye_cerramiento_lateral: e.target.checked})} />
-          Cerramiento Lateral
-        </label>
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={!!variables.incluye_cubierta} onChange={(e) => onChange({...variables, incluye_cubierta: e.target.checked})} />
-          Cubierta
-        </label>
+        <p className="text-xs text-gray-500 mt-1">
+          El presupuesto incluye todos los rubros del catálogo vigente. El montaje es la única
+          opción de alcance: al desactivarlo se descuenta la mano de obra de montaje.
+        </p>
       </div>
     </div>
   )

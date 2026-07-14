@@ -65,9 +65,17 @@ export function calcularItems(
     if (!esRubroIncluido(rubro?.nombre, subrubro?.nombre, datos)) continue
 
     const cantidad = calcularCantidad(ratio, datos)
-    const { material, mo } = preciosUnitarios(ratio)
+    const { material, mo, moFab, moMontaje } = preciosUnitarios(ratio)
+
+    // Montaje: única opción de alcance. Si no se incluye, se descarta la porción
+    // de MO de Montaje del ratio (cuando viene desglosada, p. ej. del Base 0).
+    const incluyeMontaje = datos.incluye_montaje !== false
+    const moMontajeEfectivo = incluyeMontaje ? moMontaje : 0
+    const tieneSplit = moFab > 0 || moMontaje > 0
+    const moEfectivo = tieneSplit ? moFab + moMontajeEfectivo : mo
+
     const costoMaterialUsd = cantidad * material
-    const costoMoUsd = cantidad * mo
+    const costoMoUsd = cantidad * moEfectivo
     const costoUSD = costoMaterialUsd + costoMoUsd
 
     items.push({
@@ -76,10 +84,12 @@ export function calcularItems(
       descripcion: subrubro?.nombre ?? '',
       unidad: ratio.unidad,
       cantidad,
-      precioUnitarioArs: (material + mo) * params.tipoCambio,
-      precioUnitarioUsd: material + mo,
+      precioUnitarioArs: (material + moEfectivo) * params.tipoCambio,
+      precioUnitarioUsd: material + moEfectivo,
       costoMaterialUsd,
       costoMoUsd,
+      costoMoFabUsd: cantidad * moFab,
+      costoMoMontajeUsd: cantidad * moMontajeEfectivo,
       incidencia: 0, // se completa abajo, con el total conocido
       costoTotalArs: costoUSD * params.tipoCambio,
       costoTotalUsd: costoUSD,
@@ -128,6 +138,8 @@ function calcularLogistica(datos: DatosTecnicos, params: Parametros, ordenInicia
       precioUnitarioUsd: tarifa,
       costoMaterialUsd: costo, // el flete se cuenta como costo directo (no MO de obra)
       costoMoUsd: 0,
+      costoMoFabUsd: 0,
+      costoMoMontajeUsd: 0,
       incidencia: 0,
       costoTotalArs: costo * params.tipoCambio,
       costoTotalUsd: costo,
@@ -211,13 +223,19 @@ export async function estimarCosto(datos: DatosTecnicos): Promise<EstimacionResu
 
 // Costo unitario material/MO del ratio, con fallback a versiones previas
 // (donde solo existía precio_unitario_usd → se toma como material).
-function preciosUnitarios(ratio: RatioConCatalogo): { material: number; mo: number } {
+// moFab/moMontaje traen el desglose real (Base 0); si el ratio no lo tiene,
+// quedan en 0 y la MO combinada (mo) sigue siendo la fuente del costeo.
+function preciosUnitarios(
+  ratio: RatioConCatalogo,
+): { material: number; mo: number; moFab: number; moMontaje: number } {
   const material = Number(ratio.precioMaterialUsd || 0)
   const mo = Number(ratio.precioMoUsd || 0)
+  const moFab = Number(ratio.precioMoFabUsd || 0)
+  const moMontaje = Number(ratio.precioMoMontajeUsd || 0)
   if (material === 0 && mo === 0) {
-    return { material: Number(ratio.precioUnitarioUsd || 0), mo: 0 }
+    return { material: Number(ratio.precioUnitarioUsd || 0), mo: 0, moFab: 0, moMontaje: 0 }
   }
-  return { material, mo }
+  return { material, mo, moFab, moMontaje }
 }
 
 function calcularCantidad(ratio: RatioConCatalogo, datos: DatosTecnicos): number {
@@ -243,6 +261,11 @@ function normalizar(texto: string): string {
   return texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
 
+// El catálogo (Base 0 importado) define QUÉ se cotiza: todos sus rubros entran
+// al presupuesto. La única opción de alcance es el montaje. Las tipologías y
+// tipos de cubierta sólo eligen entre variantes cuando el catálogo las ofrece
+// (p. ej. el seed con Estructura Alveolar/Alma Llena/Reticulada); un ratio
+// genérico —sin variante en el nombre— se incluye siempre.
 export function esRubroIncluido(
   rubroNombre: string | undefined,
   subrubroNombre: string | undefined,
@@ -252,50 +275,29 @@ export function esRubroIncluido(
   const r = normalizar(rubroNombre)
   const s = normalizar(subrubroNombre)
 
-  // ESTRUCTURA METALICA: filtro por tipologia activa
-  if (r.includes('estructura')) {
-    if (!datos.incluye_fabricacion) return false
+  // Montaje: única opción de alcance. Excluye el rubro "Montaje" si el cliente
+  // no lo incluye (la porción de MO Montaje desglosada se maneja en calcularItems).
+  if (r.includes('montaje') && datos.incluye_montaje === false) return false
 
-    if (datos.tipologia) {
+  // ESTRUCTURA: si el catálogo trae variantes por tipología, elegir la activa.
+  if (r.includes('estructura') && datos.tipologia) {
+    const nombraTipologia =
+      s.includes('alveolar') || s.includes('alma llena') || s.includes('reticulada')
+    if (nombraTipologia) {
       const tipo = normalizar(datos.tipologia).replace(/_/g, ' ')
-      const isAlveolar   = tipo === 'alveolar'
-      const isAlmaLlena  = tipo.includes('alma') || tipo === 'alma_llena'
-      const isReticulada = tipo.includes('reticulad')
-
-      if (isAlveolar   && !s.includes('alveolar'))   return false
-      if (isAlmaLlena  && !s.includes('alma llena'))  return false
-      if (isReticulada && !s.includes('reticulada'))  return false
-
-      if (!isAlveolar && !isAlmaLlena && !isReticulada) {
-        if (s.includes('alveolar') || s.includes('alma llena') || s.includes('reticulada')) return false
-      }
+      if (tipo === 'alveolar' && !s.includes('alveolar')) return false
+      if (tipo.includes('alma') && !s.includes('alma llena')) return false
+      if (tipo.includes('reticulad') && !s.includes('reticulada')) return false
     }
   }
 
-  // CUBIERTA
-  if (r.includes('cerramiento cubierta') || r.includes('cubierta')) {
-    if (!datos.incluye_cubierta) return false
-    if (datos.tipo_cubierta) {
-      const tc = normalizar(datos.tipo_cubierta).replace(/_/g, ' ')
-      const isChapa = tc.includes('chapa') || tc.includes('trapezoidal')
-      const isPanel = tc.includes('panel') || tc.includes('sandwich')
-      if (isChapa && s.includes('panel sandwich'))    return false
-      if (isPanel && s.includes('chapa trapezoidal')) return false
-    } else {
-      if (s.includes('panel sandwich')) return false
-    }
+  // CUBIERTA: elegir la variante según el tipo de cubierta, si hay variantes.
+  if (r.includes('cubierta') && datos.tipo_cubierta) {
+    const tc = normalizar(datos.tipo_cubierta).replace(/_/g, ' ')
+    const isPanel = tc.includes('panel') || tc.includes('sandwich')
+    if (isPanel && s.includes('chapa trapezoidal')) return false
+    if (!isPanel && s.includes('panel sandwich')) return false
   }
-
-  if (r.includes('cerramiento lateral') && !datos.incluye_cerramiento_lateral) return false
-
-  if (r.includes('porton') || r.includes('portones')) {
-    if (!datos.incluye_portones) return false
-  }
-
-  if (r.includes('montaje')   && !datos.incluye_montaje)                 return false
-  if (r.includes('piso')      && !datos.incluye_piso_industrial)         return false
-  if (r.includes('electrica') && !datos.incluye_instalacion_electrica)   return false
-  if (r.includes('sanitaria') && !datos.incluye_instalacion_sanitaria)   return false
 
   return true
 }

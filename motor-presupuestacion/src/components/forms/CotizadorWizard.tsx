@@ -37,13 +37,6 @@ const CUBIERTAS = [
   { id: 'PANEL_SANDWICH', title: 'Panel Sandwich 50mm', desc: 'Aislación térmica/acústica superior.' },
 ]
 
-const CERRAMIENTOS = [
-  { id: 'CHAPA',    title: 'Chapa Metálica',      desc: 'Estándar, bajo costo.' },
-  { id: 'PANEL',    title: 'Panel Sandwich',       desc: 'Con aislación térmica.' },
-  { id: 'MIXTO',    title: 'Mixto (Chapa+Panel)',  desc: 'Zona inferior chapa, superior panel.' },
-  { id: 'SIN_CERR', title: 'Sin cerramiento',      desc: 'Solo estructura y cubierta.' },
-]
-
 // Steps: 0=Bienvenida 1=Tipología 2=Dimensiones 3=Cubierta 4=Alcance 5=Planos 6=Contacto 7=Auth 8=Gracias
 const TOTAL_STEPS = 9
 
@@ -212,12 +205,7 @@ export default function CotizadorWizard() {
     formData.ancho_m,
     formData.largo_m,
     formData.tipo_cubierta,
-    formData.incluye_cerramiento_lateral,
-    formData.incluye_portones,
-    formData.cantidad_portones,
-    formData.incluye_piso_industrial,
-    formData.incluye_instalacion_electrica,
-    formData.incluye_instalacion_sanitaria,
+    formData.incluye_montaje,
     step,
   ])
 
@@ -466,66 +454,40 @@ export default function CotizadorWizard() {
             </motion.div>
           )}
 
-          {/* STEP 4: ALCANCE */}
+          {/* STEP 4: ALCANCE — única opción: montaje en obra */}
           {step === 4 && (
-            <motion.div key="s4" {...slideProps} className="p-8 min-h-[480px] flex flex-col justify-center">
+            <motion.div key="s4" {...slideProps} className="p-8 min-h-[480px] flex flex-col justify-center max-w-xl mx-auto w-full">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
                   <ToggleLeft className="w-5 h-5 text-green-600" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-[#1B2A47]">Alcance del proyecto</h2>
-                  <p className="text-slate-500 text-sm">¿Qué ítems incluye tu presupuesto?</p>
+                  <h2 className="text-2xl font-bold text-[#1B2A47]">Montaje en obra</h2>
+                  <p className="text-slate-500 text-sm">Tu presupuesto incluye todos los rubros del proyecto.</p>
                 </div>
               </div>
 
-              <div className="space-y-3 mb-6">
-                {[
-                  { field: 'incluye_cerramiento_lateral', label: 'Cerramiento lateral', desc: 'Chapa o panel en las paredes laterales' },
-                  { field: 'incluye_portones', label: 'Portones metálicos', desc: 'Portones corredizos o abatibles' },
-                  { field: 'incluye_piso_industrial', label: 'Piso industrial', desc: 'Hormigón H-25 con cuarzo' },
-                  { field: 'incluye_instalacion_electrica', label: 'Instalación eléctrica', desc: 'Tablero, bocas, iluminación LED' },
-                  { field: 'incluye_instalacion_sanitaria', label: 'Instalación sanitaria', desc: 'Vestuarios, baños, cocina' },
-                ].map(item => (
-                  <div key={item.field}
-                    onClick={() => set(item.field, !formData[item.field])}
-                    className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${formData[item.field] ? 'border-[#F05A28] bg-orange-50' : 'border-gray-100 hover:border-gray-300'}`}>
-                    <div>
-                      <p className="font-semibold text-[#1B2A47]">{item.label}</p>
-                      <p className="text-xs text-gray-500">{item.desc}</p>
-                    </div>
-                    <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 ${formData[item.field] ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
-                      <div className="w-4 h-4 bg-white rounded-full shadow" />
-                    </div>
-                  </div>
-                ))}
+              <div
+                onClick={() => set('incluye_montaje', !formData.incluye_montaje)}
+                className={`flex items-center justify-between p-5 rounded-xl border-2 cursor-pointer transition-all ${formData.incluye_montaje ? 'border-[#F05A28] bg-orange-50' : 'border-gray-100 hover:border-gray-300'}`}>
+                <div className="pr-4">
+                  <p className="font-semibold text-[#1B2A47]">Incluir montaje en obra</p>
+                  <p className="text-xs text-gray-500">
+                    Nuestro equipo arma la estructura en tu terreno. Si el montaje lo realizás
+                    por tu cuenta, desactivalo y se descuenta la mano de obra de montaje.
+                  </p>
+                </div>
+                <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${formData.incluye_montaje ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+                  <div className="w-4 h-4 bg-white rounded-full shadow" />
+                </div>
               </div>
 
-              {formData.incluye_portones && (
-                <div className="mb-4">
-                  <label className={labelClass}>Cantidad de portones</label>
-                  <input type="number" value={formData.cantidad_portones} onChange={e => set('cantidad_portones', e.target.value)}
-                    className={inputClass} min="1" max="20" placeholder="Ej: 2" />
-                </div>
-              )}
+              <div className="flex items-start gap-2 mt-4 text-xs text-slate-500 bg-slate-50 rounded-xl p-3">
+                <Info className="w-4 h-4 shrink-0 mt-0.5 text-slate-400" />
+                <span>El alcance definitivo (instalaciones, terminaciones y adicionales) lo ajusta nuestro equipo comercial según el catálogo vigente.</span>
+              </div>
 
-              {formData.incluye_cerramiento_lateral && (
-                <div className="mb-4">
-                  <p className="font-semibold text-[#1B2A47] mb-3 text-sm">Tipo de cerramiento lateral:</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {CERRAMIENTOS.map(c => (
-                      <div key={c.id} className="relative">
-                        <SelectionCard selected={formData.tipo_cerramiento === c.id} onClick={() => set('tipo_cerramiento', c.id)} className="!p-3">
-                          <p className="font-semibold text-sm">{c.title}</p>
-                          <p className="text-xs text-gray-400">{c.desc}</p>
-                        </SelectionCard>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <div className="flex gap-3 mt-2">
+              <div className="flex gap-3 mt-6">
                 <button onClick={prevStep} className={btnSecondary}>Atrás</button>
                 <button onClick={nextStep} className="flex-1 bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700">
                   Continuar <ChevronRight className="inline" />
@@ -628,6 +590,7 @@ export default function CotizadorWizard() {
                   <span>Dimensiones:</span><span className="font-semibold">{formData.ancho_m}m × {formData.largo_m}m × {formData.altura_libre_m}m alt.</span>
                   <span>Superficie:</span><span className="font-semibold">{(Number(formData.ancho_m) * Number(formData.largo_m)).toFixed(0)} m²</span>
                   <span>Cubierta:</span><span className="font-semibold">{formData.tipo_cubierta?.replace(/_/g, ' ')}</span>
+                  <span>Montaje en obra:</span><span className="font-semibold">{formData.incluye_montaje ? 'Incluido' : 'No incluido'}</span>
                   {estimatedPrice !== null && estimatedPrice > 0 && (
                     <><span>Precio estimado:</span><span className="font-bold text-emerald-600">USD {estimatedPrice.toLocaleString('es-AR', { maximumFractionDigits: 0 })}</span></>
                   )}

@@ -46,6 +46,10 @@ export const ratiosCostos = pgTable('ratios_costos', {
   // Costo unitario desglosado (USD): material y mano de obra (fabricación + montaje)
   precioMaterialUsd: doublePrecision('precio_material_usd').notNull().default(0),
   precioMoUsd: doublePrecision('precio_mo_usd').notNull().default(0),
+  // Desglose real de la MO (Base 0): fabricación y montaje por separado.
+  // precioMoUsd se mantiene como la suma (compatibilidad con el costeo actual).
+  precioMoFabUsd: doublePrecision('precio_mo_fab_usd').notNull().default(0),
+  precioMoMontajeUsd: doublePrecision('precio_mo_montaje_usd').notNull().default(0),
   // Total (= material + mo). Se mantiene por compatibilidad con la UI existente.
   precioUnitarioArs: doublePrecision('precio_unitario_ars').notNull().default(0),
   precioUnitarioUsd: doublePrecision('precio_unitario_usd').notNull().default(0),
@@ -68,6 +72,9 @@ export const proyectos = pgTable('proyectos', {
   canalOrigen: text('canal_origen').notNull().default('manual'),
   estado: text('estado', { enum: ['borrador', 'enviado', 'preaprobado', 'aprobado'] }).notNull().default('borrador'),
   observaciones: text('observaciones'),
+  // Códigos para la exportación a Flexxus (se asignan al exportar)
+  codigoProyectoFlexxus: integer('codigo_proyecto_flexxus'),
+  codigoClienteFlexxus: text('codigo_cliente_flexxus'),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 }, (t) => [uniqueIndex('proyectos_codigo_idx').on(t.codigo), index('proyectos_email_idx').on(t.email)])
 
@@ -109,6 +116,10 @@ export const presupuestoBaseItems = pgTable('presupuesto_base_items', {
   // Costo desglosado (USD) y su peso en el costo directo
   costoMaterialUsd: doublePrecision('costo_material_usd').notNull().default(0),
   costoMoUsd: doublePrecision('costo_mo_usd').notNull().default(0),
+  // Desglose real de la MO (Base 0): fabricación y montaje por separado.
+  // costoMoUsd se mantiene como la suma (fuente del costeo actual).
+  costoMoFabUsd: doublePrecision('costo_mo_fab_usd').notNull().default(0),
+  costoMoMontajeUsd: doublePrecision('costo_mo_montaje_usd').notNull().default(0),
   incidencia: doublePrecision('incidencia').notNull().default(0),
   costoTotalArs: doublePrecision('costo_total_ars').notNull().default(0),
   costoTotalUsd: doublePrecision('costo_total_usd').notNull().default(0),

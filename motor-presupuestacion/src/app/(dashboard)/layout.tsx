@@ -46,6 +46,14 @@ export default async function DashboardLayout({ children }: { children: React.Re
           >
             Parámetros
           </Link>
+          {user.rol === 'admin' && (
+            <Link
+              href="/configuracion/importar"
+              className="hover:text-[#F05A28] transition-colors text-sm uppercase font-semibold tracking-wider"
+            >
+              Importar Base 0
+            </Link>
+          )}
           {user.rol === 'admin' && <GestionUsuarios currentUserId={user.id} />}
         </nav>
 
