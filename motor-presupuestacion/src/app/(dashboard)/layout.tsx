@@ -38,7 +38,13 @@ export default async function DashboardLayout({ children }: { children: React.Re
             href="/configuracion/ratios"
             className="hover:text-[#F05A28] transition-colors text-sm uppercase font-semibold tracking-wider"
           >
-            Configuración
+            Ratios
+          </Link>
+          <Link
+            href="/configuracion/parametros"
+            className="hover:text-[#F05A28] transition-colors text-sm uppercase font-semibold tracking-wider"
+          >
+            Parámetros
           </Link>
           {user.rol === 'admin' && <GestionUsuarios currentUserId={user.id} />}
         </nav>

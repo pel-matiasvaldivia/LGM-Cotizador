@@ -4,6 +4,8 @@ import { db } from '@/db'
 import { datosTecnicos, presupuestoBaseItems, proyectos } from '@/db/schema'
 import { datosTecnicosToRow, itemToRow, proyectoToRow } from '@/lib/serializers'
 import { isUuid } from '@/lib/api-helpers'
+import { calcularResumen } from '@/lib/calculator'
+import { getParametros } from '@/lib/parametros'
 import ProyectoDetalle from '@/components/comercial/ProyectoDetalle'
 
 export default async function ProyectoDetallePage({
@@ -25,11 +27,15 @@ export default async function ProyectoDetallePage({
     orderBy: asc(presupuestoBaseItems.orden),
   })
 
+  const parametros = await getParametros()
+  const resumen = calcularResumen(items, parametros, dt?.superficie ?? 0, proyecto.ubicacion)
+
   return (
     <ProyectoDetalle
       proyecto={proyectoToRow(proyecto)}
       datosTecnicos={dt ? datosTecnicosToRow(dt) : null}
       initialItems={items.map(itemToRow)}
+      initialResumen={resumen}
     />
   )
 }

@@ -1,8 +1,9 @@
 import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import { db } from '@/db'
-import { presupuestoBaseItems, proyectos } from '@/db/schema'
-import { calcularBase0 } from '@/lib/calculator'
+import { datosTecnicos as datosTecnicosTable, presupuestoBaseItems, proyectos } from '@/db/schema'
+import { calcularBase0, calcularResumen } from '@/lib/calculator'
+import { getParametros } from '@/lib/parametros'
 import { requireUser } from '@/lib/auth'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
 import { itemToRow } from '@/lib/serializers'
@@ -24,6 +25,15 @@ export const POST = withErrorHandling(async (req: Request) => {
     return NextResponse.json({ error: 'Sin permisos sobre este proyecto' }, { status: 403 })
   }
 
+  // Persiste la distancia a obra (para que la logística se recalcule igual la próxima vez)
+  const distanciaKm = Number(datosTecnicos.distancia_obra_km)
+  if (Number.isFinite(distanciaKm) && distanciaKm >= 0) {
+    await db
+      .update(datosTecnicosTable)
+      .set({ distanciaObraKm: distanciaKm })
+      .where(eq(datosTecnicosTable.proyectoId, proyectoId))
+  }
+
   const itemsCalculados = await calcularBase0(proyectoId, datosTecnicos)
 
   // Delete + insert atómico: si el insert falla no se pierde el presupuesto anterior
@@ -33,6 +43,11 @@ export const POST = withErrorHandling(async (req: Request) => {
     return tx.insert(presupuestoBaseItems).values(itemsCalculados).returning()
   })
 
+  // Cascada de costeo (directo → indirectos → beneficio → IVA) con parámetros globales
+  const params = await getParametros()
+  const superficie = Number(datosTecnicos.superficie_m2 ?? datosTecnicos.superficie ?? 0)
+  const resumen = calcularResumen(items, params, superficie, proyecto.ubicacion)
+
   // El front espera snake_case (mismo shape que las filas de la tabla)
-  return NextResponse.json({ items: items.map(itemToRow) })
+  return NextResponse.json({ items: items.map(itemToRow), resumen })
 })

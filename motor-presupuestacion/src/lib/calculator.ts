@@ -1,6 +1,7 @@
 import { eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { ratiosCostos, type RatioCosto, type Rubro, type Subrubro, type NuevoPresupuestoItem } from '@/db/schema'
+import { getParametros, resolverCoefZona, type Parametros } from '@/lib/parametros'
 
 export interface DatosTecnicos {
   superficie_m2: number
@@ -16,6 +17,8 @@ export interface DatosTecnicos {
   incluye_instalacion_electrica: boolean
   incluye_instalacion_sanitaria: boolean
   cantidad_portones?: number
+  distancia_obra_km?: number
+  ubicacion?: string
   [key: string]: unknown
 }
 
@@ -23,19 +26,35 @@ export type RatioConCatalogo = RatioCosto & { subrubro: Subrubro & { rubro: Rubr
 
 export type ItemCalculado = Omit<NuevoPresupuestoItem, 'proyectoId' | 'id'>
 
+// Cascada de costeo: de costo directo a precio final (replica la planilla Base 0)
+export interface ResumenCosteo {
+  costoMaterialUsd: number
+  costoMoUsd: number
+  costoDirectoUsd: number       // (material·(1+desperdicio) + mo) · (1+coefZona)
+  costosIndirectosUsd: number
+  subtotalUsd: number
+  beneficioUsd: number
+  totalSinIvaUsd: number
+  ivaUsd: number
+  totalConIvaUsd: number
+  costoM2Usd: number            // subtotal / superficie
+  precioM2Usd: number           // total s/IVA / superficie
+  coefZona: number
+  parametros: Parametros
+}
+
 export interface EstimacionResult {
   totalCostoUSD: number
   totalVentaUSD: number
   cantidadItems: number
+  resumen: ResumenCosteo
 }
 
-const MARGEN_DEFAULT = 0.2
-
-// Función pura: calcula ítems sin tocar la DB
+// Función pura: calcula los ítems (costos desglosados material/MO) sin tocar la DB.
 export function calcularItems(
   datos: DatosTecnicos,
   ratios: RatioConCatalogo[],
-  margen: number = MARGEN_DEFAULT,
+  params: Parametros,
 ): ItemCalculado[] {
   const items: ItemCalculado[] = []
   let orden = 1
@@ -43,13 +62,13 @@ export function calcularItems(
   for (const ratio of ratios) {
     const subrubro = ratio.subrubro
     const rubro = subrubro?.rubro
-
-    const incluido = esRubroIncluido(rubro?.nombre, subrubro?.nombre, datos)
-    if (!incluido) continue
+    if (!esRubroIncluido(rubro?.nombre, subrubro?.nombre, datos)) continue
 
     const cantidad = calcularCantidad(ratio, datos)
-    const costoARS = cantidad * ratio.precioUnitarioArs
-    const costoUSD = cantidad * ratio.precioUnitarioUsd
+    const { material, mo } = preciosUnitarios(ratio)
+    const costoMaterialUsd = cantidad * material
+    const costoMoUsd = cantidad * mo
+    const costoUSD = costoMaterialUsd + costoMoUsd
 
     items.push({
       rubroId: rubro?.id ?? null,
@@ -57,19 +76,107 @@ export function calcularItems(
       descripcion: subrubro?.nombre ?? '',
       unidad: ratio.unidad,
       cantidad,
-      precioUnitarioArs: ratio.precioUnitarioArs,
-      precioUnitarioUsd: ratio.precioUnitarioUsd,
-      costoTotalArs: costoARS,
+      precioUnitarioArs: (material + mo) * params.tipoCambio,
+      precioUnitarioUsd: material + mo,
+      costoMaterialUsd,
+      costoMoUsd,
+      incidencia: 0, // se completa abajo, con el total conocido
+      costoTotalArs: costoUSD * params.tipoCambio,
       costoTotalUsd: costoUSD,
-      margen,
-      precioVentaArs: costoARS * (1 + margen),
-      precioVentaUsd: costoUSD * (1 + margen),
+      margen: 0,
+      precioVentaArs: costoUSD * params.tipoCambio,
+      precioVentaUsd: costoUSD,
       incluido: true,
       orden: orden++,
     })
   }
 
+  // Logística por distancia a obra (fletes). Solo si se cargó la distancia.
+  items.push(...calcularLogistica(datos, params, orden))
+
+  // Incidencia = costo del ítem / costo directo total
+  const totalDirecto = items.reduce((s, i) => s + (i.costoTotalUsd || 0), 0)
+  if (totalDirecto > 0) {
+    for (const it of items) it.incidencia = (it.costoTotalUsd || 0) / totalDirecto
+  }
+
   return items
+}
+
+// Ítems de logística (camión + camioneta), generados a partir de la distancia.
+function calcularLogistica(datos: DatosTecnicos, params: Parametros, ordenInicial: number): ItemCalculado[] {
+  const km = Number(datos.distancia_obra_km || 0)
+  if (!(km > 0)) return []
+
+  const salidas: Array<[string, number, number]> = [
+    ['Flete camión', params.viajesCamion, params.fleteCamionUsdKm],
+    ['Flete camioneta', params.viajesCamioneta, params.fleteCamionetaUsdKm],
+  ]
+  const items: ItemCalculado[] = []
+  let orden = ordenInicial
+  for (const [nombre, viajes, tarifa] of salidas) {
+    if (!(viajes > 0) || !(tarifa > 0)) continue
+    const cantidad = viajes * km // km totales (viajes × distancia)
+    const costo = cantidad * tarifa
+    items.push({
+      rubroId: null,
+      subrubroId: null,
+      descripcion: nombre,
+      unidad: 'km',
+      cantidad,
+      precioUnitarioArs: tarifa * params.tipoCambio,
+      precioUnitarioUsd: tarifa,
+      costoMaterialUsd: costo, // el flete se cuenta como costo directo (no MO de obra)
+      costoMoUsd: 0,
+      incidencia: 0,
+      costoTotalArs: costo * params.tipoCambio,
+      costoTotalUsd: costo,
+      margen: 0,
+      precioVentaArs: costo * params.tipoCambio,
+      precioVentaUsd: costo,
+      incluido: true,
+      orden: orden++,
+    })
+  }
+  return items
+}
+
+// Cascada: de la suma de ítems al precio final, aplicando los parámetros.
+export function calcularResumen(
+  items: Pick<ItemCalculado, 'costoMaterialUsd' | 'costoMoUsd'>[],
+  params: Parametros,
+  superficieM2: number,
+  ubicacion?: string | null,
+): ResumenCosteo {
+  const coefZona = resolverCoefZona(ubicacion, params)
+  const costoMaterialUsd = items.reduce((s, i) => s + (i.costoMaterialUsd || 0), 0)
+  const costoMoUsd = items.reduce((s, i) => s + (i.costoMoUsd || 0), 0)
+
+  const materialAjustado = costoMaterialUsd * (1 + params.desperdicios)
+  const costoDirectoUsd = (materialAjustado + costoMoUsd) * (1 + coefZona)
+  const costosIndirectosUsd = costoDirectoUsd * params.costosIndirectos
+  const subtotalUsd = costoDirectoUsd + costosIndirectosUsd
+  const beneficioUsd = subtotalUsd * params.beneficio
+  const totalSinIvaUsd = subtotalUsd + beneficioUsd
+  const ivaUsd = totalSinIvaUsd * params.iva
+  const totalConIvaUsd = totalSinIvaUsd + ivaUsd
+
+  const sup = superficieM2 > 0 ? superficieM2 : 0
+  return {
+    costoMaterialUsd,
+    costoMoUsd,
+    costoDirectoUsd,
+    costosIndirectosUsd,
+    subtotalUsd,
+    beneficioUsd,
+    totalSinIvaUsd,
+    ivaUsd,
+    totalConIvaUsd,
+    costoM2Usd: sup ? subtotalUsd / sup : 0,
+    precioM2Usd: sup ? totalSinIvaUsd / sup : 0,
+    coefZona,
+    parametros: params,
+  }
 }
 
 export async function fetchRatiosVigentes(): Promise<RatioConCatalogo[]> {
@@ -80,23 +187,37 @@ export async function fetchRatiosVigentes(): Promise<RatioConCatalogo[]> {
   return ratios as RatioConCatalogo[]
 }
 
-// Calcula los ítems del presupuesto Base 0 para un proyecto (sin persistir)
+// Calcula los ítems del presupuesto Base 0 para un proyecto (sin persistir).
 export async function calcularBase0(proyectoId: string, datos: DatosTecnicos): Promise<NuevoPresupuestoItem[]> {
-  const ratios = await fetchRatiosVigentes()
+  const [ratios, params] = await Promise.all([fetchRatiosVigentes(), getParametros()])
   if (ratios.length === 0) throw new Error('No hay ratios de costo configurados')
 
-  return calcularItems(datos, ratios).map((item) => ({ ...item, proyectoId }))
+  return calcularItems(datos, ratios, params).map((item) => ({ ...item, proyectoId }))
 }
 
-// Estima el total SIN guardar en DB (para precio en vivo del wizard)
+// Estima el total SIN guardar (para el precio en vivo del wizard) + cascada.
 export async function estimarCosto(datos: DatosTecnicos): Promise<EstimacionResult> {
-  const ratios = await fetchRatiosVigentes()
-  const items = calcularItems(datos, ratios)
+  const [ratios, params] = await Promise.all([fetchRatiosVigentes(), getParametros()])
+  const items = calcularItems(datos, ratios, params)
+  const resumen = calcularResumen(items, params, Number(datos.superficie_m2 || 0), datos.ubicacion)
 
-  const totalCostoUSD = items.reduce((sum, i) => sum + (i.costoTotalUsd || 0), 0)
-  const totalVentaUSD = items.reduce((sum, i) => sum + (i.precioVentaUsd || 0), 0)
+  return {
+    totalCostoUSD: resumen.costoDirectoUsd,
+    totalVentaUSD: resumen.totalSinIvaUsd,
+    cantidadItems: items.length,
+    resumen,
+  }
+}
 
-  return { totalCostoUSD, totalVentaUSD, cantidadItems: items.length }
+// Costo unitario material/MO del ratio, con fallback a versiones previas
+// (donde solo existía precio_unitario_usd → se toma como material).
+function preciosUnitarios(ratio: RatioConCatalogo): { material: number; mo: number } {
+  const material = Number(ratio.precioMaterialUsd || 0)
+  const mo = Number(ratio.precioMoUsd || 0)
+  if (material === 0 && mo === 0) {
+    return { material: Number(ratio.precioUnitarioUsd || 0), mo: 0 }
+  }
+  return { material, mo }
 }
 
 function calcularCantidad(ratio: RatioConCatalogo, datos: DatosTecnicos): number {
@@ -108,6 +229,7 @@ function calcularCantidad(ratio: RatioConCatalogo, datos: DatosTecnicos): number
     case 'kg':
     case 'm2':
     case 'm3':
+    case 'gl':
       return ratioCantidad * superficie
     case 'uni':
       return ratioCantidad * (Number(datos.cantidad_portones) || 1)

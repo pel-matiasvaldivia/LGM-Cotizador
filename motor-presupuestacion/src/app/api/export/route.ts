@@ -1,8 +1,10 @@
 import { asc, eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import { db } from '@/db'
-import { configuracion, datosTecnicos, presupuestoBaseItems, proyectos } from '@/db/schema'
+import { datosTecnicos, presupuestoBaseItems, proyectos } from '@/db/schema'
 import { generarR04PDF } from '@/lib/pdf-generator'
+import { calcularResumen } from '@/lib/calculator'
+import { getParametros } from '@/lib/parametros'
 import { requireUser } from '@/lib/auth'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
 
@@ -26,24 +28,24 @@ export const GET = withErrorHandling(async (req: Request) => {
     orderBy: asc(presupuestoBaseItems.orden),
   })
 
+  // Cascada de costeo (directo → indirectos → beneficio → IVA)
+  const params = await getParametros()
+  const resumen = calcularResumen(items, params, dt?.superficie ?? 0, proyecto.ubicacion)
+  // Distribuye el precio de venta por línea proporcional al costo
+  const markup = resumen.costoDirectoUsd ? resumen.totalSinIvaUsd / resumen.costoDirectoUsd : 1
+
   const itemsData = items.map((item) => ({
     descripcion: item.descripcion,
     unidad: item.unidad,
     cantidad: item.cantidad,
-    precio_unitario_usd: item.precioUnitarioUsd,
-    precio_venta_usd: item.precioVentaUsd,
+    precio_unitario_usd: Number(item.precioUnitarioUsd || 0) * markup,
+    precio_venta_usd: Number(item.costoTotalUsd || 0) * markup,
     rubro_nombre: item.subrubro?.rubro?.nombre || 'Otros',
   }))
 
-  const total_venta_usd = itemsData.reduce((acc, item) => acc + Number(item.precio_venta_usd || 0), 0)
-  const toneladas = itemsData
-    .filter((item) => (item.unidad === 'kg' || item.unidad === 'kg/m2') && item.rubro_nombre?.toLowerCase().includes('estructura'))
+  const toneladas = items
+    .filter((item) => (item.unidad === 'kg' || item.unidad === 'kg/m2') && (item.subrubro?.rubro?.nombre || '').toLowerCase().includes('estructura'))
     .reduce((acc, item) => acc + Number(item.cantidad || 0), 0) / 1000
-
-  const config = await db.query.configuracion.findFirst({
-    where: eq(configuracion.clave, 'tipo_cambio_usd'),
-  })
-  const tipoCambio = typeof config?.valor === 'number' ? config.valor : 1050
 
   const payloadR04 = {
     codigo: proyecto.codigo,
@@ -53,9 +55,13 @@ export const GET = withErrorHandling(async (req: Request) => {
     tipologia: dt?.tipologia || '',
     superficie_m2: dt?.superficie || 0,
     tn_estructura: toneladas,
-    total_venta_usd,
-    total_con_iva_usd: total_venta_usd * 1.21,
-    tipo_cambio_usd: tipoCambio,
+    total_venta_usd: resumen.totalSinIvaUsd,
+    total_con_iva_usd: resumen.totalConIvaUsd,
+    iva_usd: resumen.ivaUsd,
+    iva_pct: params.iva,
+    costo_m2_usd: resumen.costoM2Usd,
+    precio_m2_usd: resumen.precioM2Usd,
+    tipo_cambio_usd: params.tipoCambio,
     validez_oferta_dias: 15,
     condiciones_pago: '30% Anticipo - 70% Avance',
   }
