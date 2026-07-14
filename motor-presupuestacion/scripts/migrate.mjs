@@ -213,6 +213,7 @@ async function seedParametros(pool) {
     flete_camioneta_usd_km: 1.76,
     viajes_camion: 0,
     viajes_camioneta: 0,
+    ubicacion_base: process.env.UBICACION_BASE || '',
     zonas: {},
   }
   for (const [clave, valor] of Object.entries(defaults)) {

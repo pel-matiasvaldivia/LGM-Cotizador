@@ -38,6 +38,12 @@ export const PATCH = withErrorHandling(async (req: Request) => {
     }
     updates.push({ clave, valor: n })
   }
+  if (body.ubicacion_base !== undefined) {
+    if (typeof body.ubicacion_base !== 'string') {
+      return NextResponse.json({ error: 'ubicacion_base debe ser texto' }, { status: 400 })
+    }
+    updates.push({ clave: 'ubicacion_base', valor: body.ubicacion_base.trim() })
+  }
   if (body.zonas !== undefined) {
     if (typeof body.zonas !== 'object' || body.zonas === null || Array.isArray(body.zonas)) {
       return NextResponse.json({ error: 'zonas debe ser un objeto { provincia: coeficiente }' }, { status: 400 })

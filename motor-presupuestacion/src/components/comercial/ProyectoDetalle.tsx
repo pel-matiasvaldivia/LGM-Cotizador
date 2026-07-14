@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Download, FileText, Calculator, Loader2, ArrowLeft, User, MapPin, Building2, Send, Box } from 'lucide-react'
+import { Download, FileText, Calculator, Loader2, ArrowLeft, User, MapPin, Building2, Send, Box, Truck } from 'lucide-react'
 import Link from 'next/link'
 
 type Tab = 'base0' | 'cliente'
@@ -23,6 +23,29 @@ export default function ProyectoDetalle({
   const [downloading, setDownloading] = useState(false)
   const [downloadingCad, setDownloadingCad] = useState<'dxf' | 'ifc' | null>(null)
   const [recalculating, setRecalculating] = useState(false)
+  const [distanciaKm, setDistanciaKm] = useState<number>(Number(datosTecnicos?.distancia_obra_km) || 0)
+  const [calcDist, setCalcDist] = useState(false)
+  const [distMsg, setDistMsg] = useState<string | null>(null)
+
+  const handleCalcularDistancia = async () => {
+    setCalcDist(true)
+    setDistMsg(null)
+    try {
+      const res = await fetch(`/api/distancia?proyectoId=${proyecto.id}`)
+      const data = await res.json()
+      if (!res.ok) {
+        setDistMsg(data.error || 'No se pudo calcular la distancia.')
+        return
+      }
+      setDistanciaKm(data.km)
+      const fuente = data.fuente === 'estimada' ? ' (estimada)' : ''
+      setDistMsg(`${data.km} km${fuente}. Recalculá para aplicar el flete.`)
+    } catch {
+      setDistMsg('No se pudo calcular la distancia. Cargala a mano.')
+    } finally {
+      setCalcDist(false)
+    }
+  }
 
   const handleRecalculate = async () => {
     if (!datosTecnicos) return
@@ -41,7 +64,7 @@ export default function ProyectoDetalle({
         incluye_instalacion_electrica: datosTecnicos.incluye_electrica,
         incluye_instalacion_sanitaria: datosTecnicos.incluye_sanitaria,
         cantidad_portones: datosTecnicos.cantidad_portones,
-        distancia_obra_km: datosTecnicos.distancia_obra_km,
+        distancia_obra_km: distanciaKm,
       }
       const res = await fetch('/api/calculate', {
         method: 'POST',
@@ -251,6 +274,42 @@ export default function ProyectoDetalle({
               {recalculating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Calculator className="w-3.5 h-3.5" />}
               Recalcular
             </button>
+          </div>
+
+          {/* Logística: distancia a obra para el flete */}
+          <div className="px-6 py-4 border-b border-gray-100 bg-slate-50/60">
+            <div className="flex flex-wrap items-end gap-3">
+              <div>
+                <label className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">
+                  <Truck className="w-3.5 h-3.5" /> Distancia a obra
+                </label>
+                <div className="relative w-40">
+                  <input
+                    type="number"
+                    min={0}
+                    step="any"
+                    value={distanciaKm || ''}
+                    onChange={(e) => setDistanciaKm(Number(e.target.value) || 0)}
+                    placeholder="0"
+                    className="block w-full rounded-lg border border-gray-200 bg-white p-2 pr-10 text-[#1B2A47] focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
+                  />
+                  <span className="absolute inset-y-0 right-3 flex items-center text-slate-400 text-sm">km</span>
+                </div>
+              </div>
+              <button
+                onClick={handleCalcularDistancia}
+                disabled={calcDist}
+                title="Calcula la distancia por ruta entre la ubicación base y la dirección de la obra"
+                className="flex items-center gap-2 text-sm bg-white text-[#1B2A47] border border-gray-200 px-4 py-2 rounded-lg font-semibold hover:border-[#1B2A47] transition-colors disabled:opacity-40"
+              >
+                {calcDist ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <MapPin className="w-3.5 h-3.5" />}
+                Calcular por dirección
+              </button>
+              {distMsg && <p className="text-xs text-slate-500 pb-2">{distMsg}</p>}
+            </div>
+            <p className="text-[11px] text-slate-400 mt-2">
+              El flete = viajes × distancia × tarifa (configurados en Parámetros). Podés cargar la distancia a mano o calcularla desde la dirección de la obra.
+            </p>
           </div>
 
           <div className="overflow-x-auto">

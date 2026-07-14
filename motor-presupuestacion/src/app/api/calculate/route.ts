@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import { db } from '@/db'
-import { presupuestoBaseItems, proyectos } from '@/db/schema'
+import { datosTecnicos as datosTecnicosTable, presupuestoBaseItems, proyectos } from '@/db/schema'
 import { calcularBase0, calcularResumen } from '@/lib/calculator'
 import { getParametros } from '@/lib/parametros'
 import { requireUser } from '@/lib/auth'
@@ -23,6 +23,15 @@ export const POST = withErrorHandling(async (req: Request) => {
   // Un cliente solo puede recalcular sus propios proyectos
   if (user.rol === 'cliente' && proyecto.email?.toLowerCase() !== user.email) {
     return NextResponse.json({ error: 'Sin permisos sobre este proyecto' }, { status: 403 })
+  }
+
+  // Persiste la distancia a obra (para que la logística se recalcule igual la próxima vez)
+  const distanciaKm = Number(datosTecnicos.distancia_obra_km)
+  if (Number.isFinite(distanciaKm) && distanciaKm >= 0) {
+    await db
+      .update(datosTecnicosTable)
+      .set({ distanciaObraKm: distanciaKm })
+      .where(eq(datosTecnicosTable.proyectoId, proyectoId))
   }
 
   const itemsCalculados = await calcularBase0(proyectoId, datosTecnicos)

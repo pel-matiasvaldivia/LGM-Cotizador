@@ -13,6 +13,7 @@ type Params = {
   fleteCamionetaUsdKm: number
   viajesCamion: number
   viajesCamioneta: number
+  ubicacionBase: string
   zonas: Record<string, number>
 }
 
@@ -49,6 +50,7 @@ export default function ParametrosPage() {
         flete_camioneta_usd_km: p.fleteCamionetaUsdKm,
         viajes_camion: p.viajesCamion,
         viajes_camioneta: p.viajesCamioneta,
+        ubicacion_base: p.ubicacionBase ?? '',
       }
       const res = await fetch('/api/parametros', {
         method: 'PATCH',
@@ -115,13 +117,26 @@ export default function ParametrosPage() {
         <section className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
           <h2 className="font-semibold text-[#1B2A47] mb-1">Logística (fletes)</h2>
           <p className="text-xs text-slate-400 mb-4">
-            El costo de flete = viajes × distancia a obra (km) × tarifa. La distancia se carga por proyecto.
+            El costo de flete = viajes × distancia a obra (km) × tarifa. La distancia se carga (o se calcula por dirección) en cada proyecto.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Num k="fleteCamionUsdKm" label="Tarifa camión (USD/km)" suffix="US$" />
             <Num k="viajesCamion" label="Viajes de camión" />
             <Num k="fleteCamionetaUsdKm" label="Tarifa camioneta (USD/km)" suffix="US$" />
             <Num k="viajesCamioneta" label="Viajes de camioneta" />
+          </div>
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-slate-600 mb-1">Ubicación base (origen de los fletes)</label>
+            <input
+              type="text"
+              value={p.ubicacionBase ?? ''}
+              onChange={(e) => setP((prev) => (prev ? { ...prev, ubicacionBase: e.target.value } : prev))}
+              placeholder="Ej: Av. San Martín 1234, Godoy Cruz, Mendoza"
+              className="block w-full rounded-lg border border-gray-200 bg-white p-2.5 text-[#1B2A47] focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
+            />
+            <p className="text-xs text-slate-400 mt-1">
+              Dirección del taller/depósito. Se usa para calcular automáticamente la distancia a cada obra.
+            </p>
           </div>
         </section>
 

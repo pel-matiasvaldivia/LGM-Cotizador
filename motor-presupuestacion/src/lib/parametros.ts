@@ -16,6 +16,7 @@ export interface Parametros {
   fleteCamionetaUsdKm: number // tarifa USD por km (camioneta)
   viajesCamion: number // viajes de camión considerados
   viajesCamioneta: number // viajes de camioneta considerados
+  ubicacionBase: string // dirección del taller/base (origen de los fletes)
   zonas: Record<string, number> // provincia/keyword -> coeficiente
 }
 
@@ -30,6 +31,7 @@ export const PARAMETROS_DEFAULT: Parametros = {
   fleteCamionetaUsdKm: 1.76,
   viajesCamion: 0,
   viajesCamioneta: 0,
+  ubicacionBase: '',
   zonas: {},
 }
 
@@ -45,6 +47,7 @@ const CLAVES: Record<string, keyof Parametros> = {
   flete_camioneta_usd_km: 'fleteCamionetaUsdKm',
   viajes_camion: 'viajesCamion',
   viajes_camioneta: 'viajesCamioneta',
+  ubicacion_base: 'ubicacionBase',
   zonas: 'zonas',
 }
 
@@ -58,6 +61,8 @@ export async function getParametros(): Promise<Parametros> {
     if (!campo) continue
     if (campo === 'zonas') {
       if (fila.valor && typeof fila.valor === 'object') p.zonas = fila.valor as Record<string, number>
+    } else if (campo === 'ubicacionBase') {
+      if (typeof fila.valor === 'string') p.ubicacionBase = fila.valor
     } else if (typeof fila.valor === 'number' && Number.isFinite(fila.valor)) {
       ;(p[campo] as number) = fila.valor
     }
