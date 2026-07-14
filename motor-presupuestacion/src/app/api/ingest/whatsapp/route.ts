@@ -20,8 +20,19 @@ export const POST = withErrorHandling(async (req: Request) => {
 
   let transcripcion = textMessage || ''
 
-  // Si viene audio, transcribir con Whisper
+  // Si viene audio, transcribir con Whisper (OpenAI). Claude no transcribe audio,
+  // así que este canal requiere OPENAI_API_KEY; si no está, se pide texto.
   if (audioFile) {
+    if (!process.env.OPENAI_API_KEY) {
+      return NextResponse.json(
+        {
+          error:
+            'La transcripción de audio no está disponible (falta OPENAI_API_KEY). ' +
+            'Claude no transcribe audio: enviá el mensaje como texto y se procesará con Claude.',
+        },
+        { status: 501 },
+      )
+    }
     const transcription = await openai.audio.transcriptions.create({
       file: audioFile,
       model: 'whisper-1',
