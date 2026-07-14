@@ -19,11 +19,17 @@ function hashPassword(password) {
 }
 
 async function main() {
-  if (!process.env.DATABASE_URL) {
-    console.error('[migrate] DATABASE_URL no está configurada')
+  // Preferir PGHOST/PGUSER/PGPASSWORD/PGDATABASE/PGPORT (sin URL: cualquier
+  // contraseña vale). DATABASE_URL queda como alternativa.
+  let pool
+  if (process.env.PGHOST) {
+    pool = new Pool()
+  } else if (process.env.DATABASE_URL) {
+    pool = new Pool({ connectionString: process.env.DATABASE_URL })
+  } else {
+    console.error('[migrate] configurar PGHOST/PGUSER/PGPASSWORD/PGDATABASE (o DATABASE_URL)')
     process.exit(1)
   }
-  const pool = new Pool({ connectionString: process.env.DATABASE_URL })
 
   // Esperar a que Postgres acepte conexiones (arranque en frío de docker compose)
   for (let i = 0; ; i++) {
@@ -31,8 +37,17 @@ async function main() {
       await pool.query('SELECT 1')
       break
     } catch (err) {
+      // Errores de configuración: no tiene sentido reintentar
+      if (err.code === 'ERR_INVALID_URL') {
+        console.error('[migrate] DATABASE_URL inválida (¿contraseña con caracteres especiales?). Usar PGHOST/PGUSER/PGPASSWORD/PGDATABASE en su lugar.')
+        process.exit(1)
+      }
+      if (err.code === '28P01' || err.code === '28000') {
+        console.error('[migrate] autenticación rechazada por Postgres: revisar usuario/contraseña')
+        process.exit(1)
+      }
       if (i >= 30) throw err
-      console.log(`[migrate] esperando a Postgres... (${i + 1})`)
+      console.log(`[migrate] esperando a Postgres... (${i + 1}: ${err.message})`)
       await new Promise((r) => setTimeout(r, 2000))
     }
   }

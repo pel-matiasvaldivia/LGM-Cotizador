@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Download, FileText, Calculator, Loader2, ArrowLeft, User, MapPin, Building2, Send } from 'lucide-react'
+import { Download, FileText, Calculator, Loader2, ArrowLeft, User, MapPin, Building2, Send, Box } from 'lucide-react'
 import Link from 'next/link'
 
 type Tab = 'base0' | 'cliente'
@@ -18,6 +18,7 @@ export default function ProyectoDetalle({
   const [tab, setTab] = useState<Tab>('base0')
   const [items, setItems] = useState<any[]>(initialItems)
   const [downloading, setDownloading] = useState(false)
+  const [downloadingCad, setDownloadingCad] = useState<'dxf' | 'ifc' | null>(null)
   const [recalculating, setRecalculating] = useState(false)
 
   const updateMargen = (index: number, newMargen: number) => {
@@ -77,6 +78,25 @@ export default function ProyectoDetalle({
     }
   }
 
+  const handleDownloadCad = async (formato: 'dxf' | 'ifc') => {
+    setDownloadingCad(formato)
+    try {
+      const res = await fetch(`/api/export/cad?proyectoId=${proyecto.id}&formato=${formato}`)
+      if (!res.ok) throw new Error(`Error generando ${formato.toUpperCase()}`)
+      const blob = await res.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${proyecto.codigo}.${formato}`
+      a.click()
+      window.URL.revokeObjectURL(url)
+    } catch (err: any) {
+      alert(err.message)
+    } finally {
+      setDownloadingCad(null)
+    }
+  }
+
   const totalCostoUSD = items.reduce((s, i) => s + (i.costo_total_usd || 0), 0)
   const totalVentaUSD = items.reduce((s, i) => s + (i.precio_venta_usd || 0), 0)
   const ivaUSD = totalVentaUSD * 0.21
@@ -118,14 +138,34 @@ export default function ProyectoDetalle({
           </div>
         </div>
 
-        <button
-          onClick={handleDownloadPDF}
-          disabled={downloading || items.length === 0}
-          className="flex items-center gap-2 bg-[#F05A28] text-white px-5 py-2.5 rounded-xl font-bold hover:bg-orange-600 transition-all disabled:opacity-40 shadow-md shadow-orange-200"
-        >
-          {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-          Descargar R-04
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => handleDownloadCad('dxf')}
+            disabled={downloadingCad !== null}
+            title="Planta + sección para AutoCAD (.dxf)"
+            className="flex items-center gap-2 bg-white text-[#1B2A47] border border-gray-200 px-4 py-2.5 rounded-xl font-bold hover:border-[#1B2A47] transition-all disabled:opacity-40"
+          >
+            {downloadingCad === 'dxf' ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
+            AutoCAD
+          </button>
+          <button
+            onClick={() => handleDownloadCad('ifc')}
+            disabled={downloadingCad !== null}
+            title="Modelo 3D de referencia para Tekla (.ifc)"
+            className="flex items-center gap-2 bg-white text-[#1B2A47] border border-gray-200 px-4 py-2.5 rounded-xl font-bold hover:border-[#1B2A47] transition-all disabled:opacity-40"
+          >
+            {downloadingCad === 'ifc' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Box className="w-4 h-4" />}
+            Tekla
+          </button>
+          <button
+            onClick={handleDownloadPDF}
+            disabled={downloading || items.length === 0}
+            className="flex items-center gap-2 bg-[#F05A28] text-white px-5 py-2.5 rounded-xl font-bold hover:bg-orange-600 transition-all disabled:opacity-40 shadow-md shadow-orange-200"
+          >
+            {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+            Descargar R-04
+          </button>
+        </div>
       </div>
 
       {/* Datos del cliente y proyecto */}
