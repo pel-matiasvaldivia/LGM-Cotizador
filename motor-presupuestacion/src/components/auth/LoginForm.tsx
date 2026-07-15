@@ -31,8 +31,12 @@ export default function LoginForm({ nextUrl }: { nextUrl?: string }) {
       return
     }
 
-    // Redirigir — el loading se mantiene hasta que la página nueva cargue
-    router.push(nextUrl || '/proyectos')
+    // Redirigir según el rol: los clientes van a su portal de seguimiento; el
+    // equipo interno, al panel (o al destino pedido). El loading se mantiene
+    // hasta que cargue la página nueva.
+    const data = await res.json().catch(() => ({} as { rol?: string }))
+    const destino = data.rol === 'cliente' ? '/mi-proyecto' : (nextUrl || '/proyectos')
+    router.push(destino)
     router.refresh()
     // Timeout de seguridad por si la navegación no completa
     setTimeout(() => setLoading(false), 4000)

@@ -8,8 +8,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const user = await getCurrentUser()
 
   if (!user) redirect('/login')
+  // Un cliente autenticado no accede al panel interno: se lo envía a su portal
+  // de seguimiento (evita el rebote /proyectos → /login → /proyectos).
   if (!['comercial', 'admin'].includes(user.rol)) {
-    redirect('/login?error=sin_acceso')
+    redirect('/mi-proyecto')
   }
 
   const displayName = user.nombre || user.email || 'Usuario'
