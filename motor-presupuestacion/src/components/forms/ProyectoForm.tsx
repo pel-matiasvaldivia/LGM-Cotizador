@@ -48,10 +48,23 @@ export default function ProyectoForm() {
   const handleProcess = async () => {
     setLoading(true)
     try {
-      if (canal === 'whatsapp_audio' || canal === 'documento') {
+      if (canal === 'documento') {
+        // Documentos (PDF de plano/pliego) → lectura con IA (Claude documento).
+        const formData = new FormData()
+        if (file) formData.append('file', file)
+
+        const res = await fetch('/api/ingest/documento', {
+          method: 'POST',
+          body: formData,
+        })
+        const data = await res.json()
+        if (data.error) throw new Error(data.error)
+        if (!data.variables) throw new Error('No se pudieron extraer variables.')
+        setVariables(data.variables)
+      } else if (canal === 'whatsapp_audio') {
         const formData = new FormData()
         if (file) formData.append('audio', file)
-        
+
         const res = await fetch('/api/ingest/whatsapp', {
           method: 'POST',
           body: formData,
@@ -151,14 +164,14 @@ export default function ProyectoForm() {
                     <span className="text-3xl">📁</span>
                   </div>
                   <p className="text-lg font-medium text-gray-800">Sube tu archivo</p>
-                  <p className="text-sm text-gray-500 mb-6">{canal === 'whatsapp_audio' ? '.ogg, .mp3, .wav' : '.pdf, .docx'}</p>
-                  
-                  <input 
-                    type="file" 
-                    id="file-upload" 
-                    className="hidden" 
+                  <p className="text-sm text-gray-500 mb-6">{canal === 'whatsapp_audio' ? '.ogg, .mp3, .wav' : '.pdf'}</p>
+
+                  <input
+                    type="file"
+                    id="file-upload"
+                    className="hidden"
                     onChange={(e) => setFile(e.target.files?.[0] || null)}
-                    accept={canal === 'whatsapp_audio' ? "audio/*" : ".pdf,.doc,.docx"}
+                    accept={canal === 'whatsapp_audio' ? "audio/*" : ".pdf,application/pdf"}
                   />
                   <label 
                     htmlFor="file-upload" 
