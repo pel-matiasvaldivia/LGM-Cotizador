@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm'
+import { and, asc, eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import { db } from '@/db'
 import { datosTecnicos as datosTecnicosTable, presupuestoBaseItems, proyectos } from '@/db/schema'
@@ -36,11 +36,21 @@ export const POST = withErrorHandling(async (req: Request) => {
 
   const itemsCalculados = await calcularBase0(proyectoId, datosTecnicos)
 
-  // Delete + insert atómico: si el insert falla no se pierde el presupuesto anterior
+  // Delete + insert atómico. Sólo se reemplazan los ítems 'base0' (generados por
+  // el motor); los 'manual' que agregó el comercial se preservan. Al final se
+  // relee todo el presupuesto (base0 recalculado + manuales) ordenado.
   const items = await db.transaction(async (tx) => {
-    await tx.delete(presupuestoBaseItems).where(eq(presupuestoBaseItems.proyectoId, proyectoId))
-    if (itemsCalculados.length === 0) return []
-    return tx.insert(presupuestoBaseItems).values(itemsCalculados).returning()
+    await tx
+      .delete(presupuestoBaseItems)
+      .where(and(eq(presupuestoBaseItems.proyectoId, proyectoId), eq(presupuestoBaseItems.origen, 'base0')))
+    if (itemsCalculados.length > 0) {
+      await tx.insert(presupuestoBaseItems).values(itemsCalculados)
+    }
+    return tx.query.presupuestoBaseItems.findMany({
+      where: eq(presupuestoBaseItems.proyectoId, proyectoId),
+      with: { rubro: true, subrubro: true },
+      orderBy: asc(presupuestoBaseItems.orden),
+    })
   })
 
   // Cascada de costeo (directo → indirectos → beneficio → IVA) con parámetros globales

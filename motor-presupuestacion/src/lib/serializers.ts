@@ -23,6 +23,7 @@ export function itemToRow(i: PresupuestoItem & { rubro?: { nombre: string } | nu
     precio_venta_ars: i.precioVentaArs,
     precio_venta_usd: i.precioVentaUsd,
     incluido: i.incluido,
+    origen: i.origen,
     orden: i.orden,
     rubros: i.rubro ? { nombre: i.rubro.nombre } : null,
     subrubros: i.subrubro ? { nombre: i.subrubro.nombre, rubros: i.subrubro.rubro ? { nombre: i.subrubro.rubro.nombre } : null } : null,

@@ -84,6 +84,7 @@ async function main() {
 
   await seedAdmin(pool)
   await seedCatalogo(pool)
+  await seedPreciosReferencia(pool)
   await seedParametros(pool)
   await pool.end()
   console.log('[migrate] listo')
@@ -212,6 +213,45 @@ async function seedCatalogo(pool) {
     }
   }
   console.log('[seed] catálogo de rubros/ratios inicial creado (calibrado, con material/MO y códigos Flexxus)')
+}
+
+// Biblioteca de precios de referencia (Revista Cifras). Se siembra desde
+// scripts/precios-referencia.json (extraído de la hoja de costos unitarios).
+// Upsert idempotente por (codigo, descripcion): re-ejecutar actualiza precios
+// sin duplicar. Sólo corre si el JSON está presente.
+async function seedPreciosReferencia(pool) {
+  let datos
+  try {
+    const raw = readFileSync(path.join(process.cwd(), 'scripts', 'precios-referencia.json'), 'utf8')
+    datos = JSON.parse(raw)
+  } catch {
+    console.log('[seed] precios-referencia.json ausente, se omite la biblioteca de precios')
+    return
+  }
+  if (!Array.isArray(datos) || datos.length === 0) return
+
+  let insertados = 0
+  for (const it of datos) {
+    const total = Number(it.costoTotalUsd) || (Number(it.costoMaterialUsd) || 0) + (Number(it.costoEjecucionUsd) || 0)
+    await pool.query(
+      `INSERT INTO precios_referencia
+         (categoria, codigo, descripcion, unidad, costo_material_usd, costo_ejecucion_usd, costo_total_usd, fuente)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, 'Revista Cifras')
+       ON CONFLICT (codigo, descripcion) DO UPDATE SET
+         categoria = EXCLUDED.categoria,
+         unidad = EXCLUDED.unidad,
+         costo_material_usd = EXCLUDED.costo_material_usd,
+         costo_ejecucion_usd = EXCLUDED.costo_ejecucion_usd,
+         costo_total_usd = EXCLUDED.costo_total_usd,
+         updated_at = now()`,
+      [
+        it.categoria || '', it.codigo || '', it.descripcion, it.unidad || '',
+        Number(it.costoMaterialUsd) || 0, Number(it.costoEjecucionUsd) || 0, total,
+      ],
+    )
+    insertados++
+  }
+  console.log(`[seed] biblioteca de precios de referencia: ${insertados} ítems (upsert)`)
 }
 
 // Parámetros globales del costeo (cascada directo → indirectos → beneficio → IVA).

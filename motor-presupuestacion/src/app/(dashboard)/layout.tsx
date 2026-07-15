@@ -46,6 +46,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
           >
             Parámetros
           </Link>
+          <Link
+            href="/configuracion/precios"
+            className="hover:text-[#F05A28] transition-colors text-sm uppercase font-semibold tracking-wider"
+          >
+            Precios
+          </Link>
           {user.rol === 'admin' && (
             <Link
               href="/configuracion/importar"
