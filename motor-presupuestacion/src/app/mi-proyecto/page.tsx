@@ -5,9 +5,11 @@ import { datosTecnicosToRow, proyectoToRow } from '@/lib/serializers'
 import { getCurrentUser } from '@/lib/auth'
 import { calcularResumen } from '@/lib/calculator'
 import { getParametros } from '@/lib/parametros'
+import { linkReunion } from '@/lib/email'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import LogoutButton from '@/components/auth/LogoutButton'
+import PreaprobarOferta from '@/components/cliente/PreaprobarOferta'
 import { CheckCircle2, Circle, Clock, FileText, Download } from 'lucide-react'
 
 const ESTADOS = ['borrador', 'enviado', 'preaprobado', 'aprobado'] as const
@@ -62,6 +64,7 @@ export default async function MiProyectoPage() {
   }
   const superficieM2 = Number(primero?.datosTecnicos[0]?.superficie ?? 0)
   const precioM2 = resumen && superficieM2 > 0 ? resumen.totalConIvaUsd / superficieM2 : 0
+  const reunionUrl = primero ? linkReunion(primero) : null
 
   return (
     <div className="min-h-screen bg-[#F4F5F7]">
@@ -197,6 +200,7 @@ export default async function MiProyectoPage() {
                   </div>
                 </div>
                 <p className="text-xs text-slate-400 mt-4">Valores expresados en dólares estadounidenses.</p>
+                <PreaprobarOferta proyectoId={proyecto.id} estado={proyecto.estado} reunionUrl={reunionUrl} />
               </div>
             )}
 

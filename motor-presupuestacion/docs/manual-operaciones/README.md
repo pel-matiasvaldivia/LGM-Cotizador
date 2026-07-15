@@ -159,10 +159,11 @@ habilita la vista del presupuesto en el portal del cliente.
 
 ---
 
-## D · El cliente ve el presupuesto actualizado
+## D · El cliente ve el presupuesto y pre-aprueba
 
-Portal del cliente · `/mi-proyecto`. El cliente vuelve a entrar y ahora encuentra
-el presupuesto disponible, con el precio y la descarga del PDF.
+Portal del cliente · `/mi-proyecto`. El cliente vuelve a entrar, encuentra el
+presupuesto disponible (precio + PDF) y, si quiere avanzar, lo pre-aprueba: eso
+dispara la coordinación de una reunión por Google Meet.
 
 ### 20 · Presupuesto disponible
 La línea de tiempo avanzó a **Presupuesto** y aparece la tarjeta **Tu
@@ -171,3 +172,41 @@ el botón **Descargar PDF**. Los valores coinciden exactamente con los del
 comercial.
 
 ![Portal cliente - Presupuesto](img/23-cliente-portal-presupuesto.jpg)
+
+### 21 · Pre-aprobar la oferta
+Debajo del presupuesto, el cliente encuentra el botón **Pre-aprobar la oferta**
+para avanzar con el proyecto.
+
+![Pre-aprobar la oferta](img/25-cliente-preaprobar-boton.jpg)
+
+### 22 · Reunión por Google Meet
+Al pre-aprobar, el estado pasa a **Preaprobado** y aparece “Oferta pre-aprobada”
+con el botón **Agendar reunión (Google Meet)**. En paralelo, el equipo comercial
+recibe el aviso por mail para coordinar la reunión.
+
+![Oferta pre-aprobada](img/26-cliente-preaprobado.jpg)
+
+---
+
+## Notificaciones automáticas por email
+
+Desde que el cliente deja su email, la plataforma envía notificaciones en los
+cuatro momentos clave. Se configuran con un proveedor de email (Resend) y la
+lista del equipo comercial (ver `.env.example`). Si no están configuradas, el
+flujo funciona igual y los envíos quedan registrados en el log.
+
+| Momento | Destinatario | Contenido |
+| --- | --- | --- |
+| El cliente registra su consulta | Cliente | Bienvenida: “Recibimos tu consulta, el equipo comercial te enviará la cotización formal a la brevedad”, con el código y el link al portal. |
+| El cliente registra su consulta | Equipo comercial | Aviso: “El cliente X creó la cotización PROY-xxx-xxx y está a la espera de tu revisión”. |
+| El comercial presiona “Enviar cotización” | Cliente | Link a la plataforma (login con su email) + **PDF R-04 adjunto**, invitándolo a pre-aprobar. |
+| El cliente pre-aprueba | Equipo comercial + cliente | Dispara la reunión: mail para **agendar por Google Meet** (evento de Google Calendar con el cliente invitado) + confirmación al cliente. |
+
+### Configuración
+
+```bash
+RESEND_API_KEY=...                                   # proveedor de email
+EMAIL_FROM=LOG METAL <no-reply@logmetal.com.ar>      # remitente verificado
+EQUIPO_COMERCIAL_EMAILS=comercial@logmetal.com.ar    # avisos internos (coma-separado)
+APP_URL=https://cotizador.logmetal.com.ar            # base para los links de los mails
+```

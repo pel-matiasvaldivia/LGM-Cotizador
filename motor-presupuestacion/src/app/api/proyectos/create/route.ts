@@ -3,6 +3,7 @@ import { db } from '@/db'
 import { datosTecnicos, proyectos } from '@/db/schema'
 import { requireUser } from '@/lib/auth'
 import { withErrorHandling } from '@/lib/api-helpers'
+import { notificarConsultaRecibida } from '@/lib/notificaciones'
 
 export const POST = withErrorHandling(async (req: Request) => {
   // El wizard público registra/loguea al visitante antes de llegar acá,
@@ -61,6 +62,10 @@ export const POST = withErrorHandling(async (req: Request) => {
 
     return p
   })
+
+  // Bienvenida al cliente + aviso al equipo comercial (no bloquea la respuesta
+  // si el mail falla o no está configurado).
+  await notificarConsultaRecibida(proyecto)
 
   return NextResponse.json({ proyectoId: proyecto.id, codigo: proyecto.codigo })
 })
