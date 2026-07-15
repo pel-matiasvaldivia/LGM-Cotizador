@@ -1,21 +1,28 @@
-import { desc, eq } from 'drizzle-orm'
+import { asc, desc, eq } from 'drizzle-orm'
 import { db } from '@/db'
-import { proyectos as proyectosTable } from '@/db/schema'
+import { proyectos as proyectosTable, presupuestoBaseItems } from '@/db/schema'
 import { datosTecnicosToRow, proyectoToRow } from '@/lib/serializers'
 import { getCurrentUser } from '@/lib/auth'
+import { calcularResumen } from '@/lib/calculator'
+import { getParametros } from '@/lib/parametros'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import LogoutButton from '@/components/auth/LogoutButton'
-import { CheckCircle2, Circle, Clock } from 'lucide-react'
+import { CheckCircle2, Circle, Clock, FileText, Download } from 'lucide-react'
 
 const ESTADOS = ['borrador', 'enviado', 'preaprobado', 'aprobado'] as const
 
+// Estados en los que el cliente ya puede ver y descargar su presupuesto.
+const ESTADOS_CON_PRESUPUESTO = ['enviado', 'preaprobado', 'aprobado']
+
 const estadoInfo: Record<string, { label: string; desc: string; color: string; bg: string }> = {
   borrador:    { label: 'Recibido',     desc: 'Tu solicitud fue recibida y está siendo revisada por nuestro equipo.',          color: 'text-slate-600',  bg: 'bg-slate-100' },
-  enviado:     { label: 'En proceso',   desc: 'Estamos analizando los detalles técnicos y preparando tu presupuesto.',         color: 'text-blue-700',   bg: 'bg-blue-100' },
+  enviado:     { label: 'Presupuesto',  desc: '¡Tu presupuesto ya está disponible! Podés verlo y descargarlo desde acá.',      color: 'text-blue-700',   bg: 'bg-blue-100' },
   preaprobado: { label: 'Preaprobado',  desc: 'Tu presupuesto está listo. Nos pondremos en contacto para coordinar la reunión.', color: 'text-amber-700',  bg: 'bg-amber-100' },
   aprobado:    { label: 'Aprobado',     desc: '¡Proyecto aprobado! El equipo de Log Metal estará en contacto para comenzar.',   color: 'text-emerald-700', bg: 'bg-emerald-100' },
 }
+
+const usd = (n: number) => '$ ' + (n || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' USD'
 
 export default async function MiProyectoPage() {
   const user = await getCurrentUser()
@@ -36,6 +43,25 @@ export default async function MiProyectoPage() {
     : null
 
   const estadoIndex = proyecto ? ESTADOS.indexOf(proyecto.estado as any) : -1
+
+  // Si el presupuesto ya fue enviado, calculamos el resumen de venta para
+  // mostrarle al cliente el total y el precio por m² (sin exponer costos).
+  const mostrarPresupuesto = !!primero && !!proyecto && ESTADOS_CON_PRESUPUESTO.includes(proyecto.estado)
+  let resumen: ReturnType<typeof calcularResumen> | null = null
+  if (mostrarPresupuesto && primero) {
+    const items = await db.query.presupuestoBaseItems.findMany({
+      where: eq(presupuestoBaseItems.proyectoId, primero.id),
+      with: { subrubro: { with: { rubro: true } } },
+      orderBy: asc(presupuestoBaseItems.orden),
+    })
+    if (items.length > 0) {
+      const params = await getParametros()
+      const superficie = primero.datosTecnicos[0]?.superficie ?? 0
+      resumen = calcularResumen(items, params, superficie, primero.ubicacion)
+    }
+  }
+  const superficieM2 = Number(primero?.datosTecnicos[0]?.superficie ?? 0)
+  const precioM2 = resumen && superficieM2 > 0 ? resumen.totalConIvaUsd / superficieM2 : 0
 
   return (
     <div className="min-h-screen bg-[#F4F5F7]">
@@ -134,6 +160,45 @@ export default async function MiProyectoPage() {
                 </div>
               )}
             </div>
+
+            {/* Presupuesto (visible sólo cuando fue enviado) */}
+            {mostrarPresupuesto && resumen && (
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
+                <div className="flex items-center justify-between gap-4 flex-wrap mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center">
+                      <FileText className="w-6 h-6 text-[#F05A28]" />
+                    </div>
+                    <div>
+                      <h2 className="text-lg font-bold text-[#1B2A47]">Tu presupuesto</h2>
+                      <p className="text-sm text-slate-500">Formulario R-04 · Validez 15 días</p>
+                    </div>
+                  </div>
+                  <a
+                    href={`/api/export?proyectoId=${proyecto.id}`}
+                    className="inline-flex items-center gap-2 bg-[#F05A28] text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-orange-600 transition-colors"
+                  >
+                    <Download className="w-4 h-4" />
+                    Descargar PDF
+                  </a>
+                </div>
+                <div className="grid sm:grid-cols-3 gap-4">
+                  <div className="bg-slate-50 rounded-xl p-4 border border-gray-100">
+                    <p className="text-[11px] uppercase tracking-wide text-slate-400 font-semibold">Subtotal (sin IVA)</p>
+                    <p className="text-xl font-black text-[#1B2A47] tabular-nums mt-1">{usd(resumen.totalSinIvaUsd)}</p>
+                  </div>
+                  <div className="bg-slate-50 rounded-xl p-4 border border-gray-100">
+                    <p className="text-[11px] uppercase tracking-wide text-slate-400 font-semibold">Precio por m²</p>
+                    <p className="text-xl font-black text-[#1B2A47] tabular-nums mt-1">{precioM2 > 0 ? usd(precioM2) : '—'}</p>
+                  </div>
+                  <div className="bg-[#1B2A47] rounded-xl p-4">
+                    <p className="text-[11px] uppercase tracking-wide text-blue-200 font-semibold">Total (IVA incluido)</p>
+                    <p className="text-xl font-black text-[#F05A28] tabular-nums mt-1">{usd(resumen.totalConIvaUsd)}</p>
+                  </div>
+                </div>
+                <p className="text-xs text-slate-400 mt-4">Valores expresados en dólares estadounidenses.</p>
+              </div>
+            )}
 
             {/* Detalles del proyecto */}
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">

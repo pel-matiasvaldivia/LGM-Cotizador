@@ -9,7 +9,7 @@ import { requireUser } from '@/lib/auth'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
 
 export const GET = withErrorHandling(async (req: Request) => {
-  await requireUser(['comercial', 'admin'])
+  const user = await requireUser()
 
   const url = new URL(req.url)
   const proyectoId = url.searchParams.get('proyectoId')
@@ -19,6 +19,16 @@ export const GET = withErrorHandling(async (req: Request) => {
 
   const proyecto = await db.query.proyectos.findFirst({ where: eq(proyectos.id, proyectoId) })
   if (!proyecto) throw new Error('Proyecto no encontrado')
+
+  // El comercial/admin puede descargar cualquier presupuesto. El cliente sólo
+  // el suyo (mismo email) y únicamente una vez enviado.
+  const esStaff = user.rol === 'comercial' || user.rol === 'admin'
+  if (!esStaff) {
+    const propio = proyecto.email && proyecto.email.toLowerCase() === user.email.toLowerCase()
+    if (!propio || proyecto.estado === 'borrador') {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 403 })
+    }
+  }
 
   const dt = await db.query.datosTecnicos.findFirst({ where: eq(datosTecnicos.proyectoId, proyectoId) })
 

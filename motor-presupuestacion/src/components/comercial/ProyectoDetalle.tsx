@@ -30,6 +30,8 @@ export default function ProyectoDetalle({
   const [distMsg, setDistMsg] = useState<string | null>(null)
   const [showAdd, setShowAdd] = useState(false)
   const [savingItem, setSavingItem] = useState(false)
+  const [estado, setEstado] = useState<string>(proyecto.estado)
+  const [enviando, setEnviando] = useState(false)
 
   // Agrega un ítem manual (desde la biblioteca de precios o a medida).
   const addItem = async (payload: Record<string, unknown>) => {
@@ -57,6 +59,26 @@ export default function ProyectoDetalle({
     if (data.error) { alert(data.error); return }
     if (data.items) setItems(data.items)
     if (data.resumen) setResumen(data.resumen)
+  }
+
+  // Envía el presupuesto al cliente: cambia el estado a 'enviado', lo que
+  // habilita en el portal del cliente la vista del precio y la descarga del PDF.
+  const handleEnviar = async () => {
+    if (items.length === 0) { alert('Calculá el presupuesto antes de enviarlo.'); return }
+    if (estado === 'borrador' && !confirm('¿Enviar el presupuesto al cliente? Podrá verlo y descargarlo desde su portal.')) return
+    setEnviando(true)
+    try {
+      const res = await fetch('/api/proyectos/estado', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ proyectoId: proyecto.id, estado: 'enviado' }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) { alert(data.error || 'No se pudo enviar'); return }
+      setEstado('enviado')
+    } finally {
+      setEnviando(false)
+    }
   }
 
   const handleCalcularDistancia = async () => {
@@ -206,8 +228,8 @@ export default function ProyectoDetalle({
           <div>
             <div className="flex items-center gap-3">
               <h1 className="text-2xl font-bold text-[#1B2A47]">{proyecto.codigo}</h1>
-              <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${estadoColors[proyecto.estado] || 'bg-gray-100 text-gray-700'}`}>
-                {estadoLabels[proyecto.estado] ?? proyecto.estado}
+              <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${estadoColors[estado] || 'bg-gray-100 text-gray-700'}`}>
+                {estadoLabels[estado] ?? estado}
               </span>
             </div>
             <p className="text-slate-500 text-sm mt-0.5">
@@ -561,14 +583,21 @@ export default function ProyectoDetalle({
                 Validez de la oferta: 15 días · Valores en dólares estadounidenses
               </p>
 
-              <div className="flex justify-end mt-6 pt-4 border-t border-gray-100">
+              <div className="flex justify-end items-center gap-3 mt-6 pt-4 border-t border-gray-100">
+                {estado !== 'borrador' && (
+                  <span className="text-sm text-emerald-600 font-semibold flex items-center gap-1.5">
+                    <Send className="w-4 h-4" />
+                    Presupuesto enviado al cliente
+                  </span>
+                )}
                 <button
-                  disabled
-                  className="flex items-center gap-2 bg-[#1B2A47] text-white px-6 py-3 rounded-xl font-bold text-sm opacity-60 cursor-not-allowed"
-                  title="Próximamente"
+                  onClick={handleEnviar}
+                  disabled={enviando || items.length === 0}
+                  className="flex items-center gap-2 bg-[#1B2A47] text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  title={items.length === 0 ? 'Calculá el presupuesto primero' : 'Enviar al portal del cliente'}
                 >
-                  <Send className="w-4 h-4" />
-                  Enviar presupuesto al cliente
+                  {enviando ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                  {estado === 'borrador' ? 'Enviar presupuesto al cliente' : 'Reenviar al cliente'}
                 </button>
               </div>
             </div>
