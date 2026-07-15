@@ -41,6 +41,7 @@ export const GET = withErrorHandling(async (req: Request) => {
     precio_unitario_usd: Number(item.precioUnitarioUsd || 0) * markup,
     precio_venta_usd: Number(item.costoTotalUsd || 0) * markup,
     rubro_nombre: item.subrubro?.rubro?.nombre || 'Otros',
+    subrubro_nombre: item.subrubro?.nombre || '',
   }))
 
   const toneladas = items
@@ -59,9 +60,11 @@ export const GET = withErrorHandling(async (req: Request) => {
     total_con_iva_usd: resumen.totalConIvaUsd,
     iva_usd: resumen.ivaUsd,
     iva_pct: params.iva,
-    costo_m2_usd: resumen.costoM2Usd,
+    // Nota: el costo por m² (interno) NO se envía al PDF del cliente; sólo el
+    // precio de venta por m².
     precio_m2_usd: resumen.precioM2Usd,
     tipo_cambio_usd: params.tipoCambio,
+    fecha: new Date(),
     validez_oferta_dias: 15,
     condiciones_pago: '30% Anticipo - 70% Avance',
   }
