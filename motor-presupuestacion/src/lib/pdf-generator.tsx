@@ -40,13 +40,20 @@ export async function generarR04PDF(presupuesto: any, items: any[]) {
             <Text style={{ fontSize: 8, color: '#888', marginTop: 2 }}>PRESUPUESTO — R-04</Text>
           </View>
           <View style={{ alignItems: 'flex-end' }}>
-            <Text>Código: R-04 | Rev. 01</Text>
-            <Text>Fecha: {new Date().toLocaleDateString('es-AR')}</Text>
+            <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#1B2A47' }}>
+              Presupuesto N° {presupuesto.codigo || '—'}
+            </Text>
+            <Text style={{ fontSize: 8, color: '#888', marginTop: 2 }}>Formulario R-04 | Rev. 01</Text>
+            <Text style={{ fontSize: 8, color: '#888' }}>
+              Fecha: {(presupuesto.fecha ? new Date(presupuesto.fecha) : new Date()).toLocaleDateString('es-AR')}
+            </Text>
           </View>
         </View>
 
         {/* Datos del proyecto */}
         <View style={{ marginBottom: 16, padding: 8, backgroundColor: '#F8F9FA' }}>
+          <Text>N° PRESUPUESTO: {presupuesto.codigo || '—'}</Text>
+          {presupuesto.razon_social ? <Text>CLIENTE: {presupuesto.razon_social}</Text> : null}
           <Text>OBRA: {presupuesto.cliente || presupuesto.proyecto?.cliente || ''}</Text>
           <Text>UBICACIÓN: {presupuesto.ubicacion || presupuesto.proyecto?.ubicacion || ''}</Text>
           <Text>TIPOLOGÍA: {presupuesto.tipologia || ''}</Text>
@@ -76,7 +83,7 @@ export async function generarR04PDF(presupuesto: any, items: any[]) {
               </View>
               {rubItems.map((item: any, i: number) => (
                 <View key={i} style={[styles.tableRow, { backgroundColor: i % 2 === 0 ? 'white' : '#F8FAFB' }]}>
-                  <Text style={[styles.tableCell, { flex: 3 }]}>{item.descripcion}</Text>
+                  <Text style={[styles.tableCell, { flex: 3 }]}>{item.subrubro_nombre || item.descripcion}</Text>
                   <Text style={[styles.tableCell, { flex: 0.8 }]}>{item.unidad}</Text>
                   <Text style={[styles.tableCell, { flex: 1.2 }]}>{Number(item.cantidad || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</Text>
                   <Text style={[styles.tableCell, { flex: 1.5 }]}>
@@ -105,13 +112,10 @@ export async function generarR04PDF(presupuesto: any, items: any[]) {
           <Text>u$d {Number(presupuesto.total_con_iva_usd || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</Text>
         </View>
 
-        {/* Indicadores por m² */}
+        {/* Indicador de precio por m² (venta). El costo por m² es interno y no
+            se muestra al cliente. */}
         {presupuesto.precio_m2_usd ? (
           <View style={{ flexDirection: 'row', marginTop: 12, gap: 8 }}>
-            <View style={{ flex: 1, padding: 8, backgroundColor: '#F8F9FA', borderRadius: 4 }}>
-              <Text style={{ fontSize: 7, color: '#888' }}>COSTO POR m²</Text>
-              <Text style={{ fontSize: 12, color: '#1B2A47', fontWeight: 'bold' }}>u$d {Number(presupuesto.costo_m2_usd || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</Text>
-            </View>
             <View style={{ flex: 1, padding: 8, backgroundColor: '#F8F9FA', borderRadius: 4 }}>
               <Text style={{ fontSize: 7, color: '#888' }}>PRECIO POR m²</Text>
               <Text style={{ fontSize: 12, color: '#F05A28', fontWeight: 'bold' }}>u$d {Number(presupuesto.precio_m2_usd || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</Text>
