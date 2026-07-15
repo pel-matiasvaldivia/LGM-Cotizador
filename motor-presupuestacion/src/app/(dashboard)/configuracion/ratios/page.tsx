@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 
 interface SubrubroRow {
   ratioId: string
+  subrubroId: string
   subrubroNombre: string
   codigoFlexxus: number
   unidad: string
@@ -35,7 +36,16 @@ export default function ConfiguracionRatiosPage() {
   }
 
   useEffect(() => {
-    fetchRatios()
+    let activo = true
+    ;(async () => {
+      const res = await fetch('/api/ratios')
+      const data = await res.json()
+      if (!activo) return
+      setRubros(data.rubros || [])
+      setTipoCambio(Number(data.tipoCambio) || 0)
+      setLoading(false)
+    })()
+    return () => { activo = false }
   }, [])
 
   // Actualiza una fila en el estado local (optimista) recomputando el total.
@@ -53,17 +63,35 @@ export default function ConfiguracionRatiosPage() {
     )
   }
 
-  // Persiste un campo (siempre en USD; la fuente de verdad es el USD).
-  async function guardar(ratioId: string, field: 'ratio_cantidad' | 'precio_material_usd' | 'precio_mo_usd', valueUsd: number) {
+  // Persiste un campo (numérico en USD, o el nombre del subrubro).
+  async function guardar(ratioId: string, field: string, value: number | string) {
     const res = await fetch('/api/ratios', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: ratioId, field, value: Number(valueUsd) || 0 }),
+      body: JSON.stringify({ id: ratioId, field, value }),
     })
     if (!res.ok) {
-      alert('Error al actualizar el precio')
+      alert('Error al actualizar')
       fetchRatios()
     }
+  }
+
+  async function agregarSubrubro(rubroId: string | null) {
+    if (!rubroId) return
+    const res = await fetch('/api/ratios', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rubroId, nombre: 'Nuevo subrubro', unidad: 'm2' }),
+    })
+    if (!res.ok) { alert('No se pudo agregar el subrubro'); return }
+    await fetchRatios()
+  }
+
+  async function eliminarSubrubro(ratioId: string, nombre: string) {
+    if (!confirm(`¿Eliminar el subrubro "${nombre}"?`)) return
+    const res = await fetch(`/api/ratios?id=${ratioId}`, { method: 'DELETE' })
+    if (!res.ok) { alert('No se pudo eliminar'); return }
+    await fetchRatios()
   }
 
   const usd = (n: number) => (n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
@@ -86,23 +114,32 @@ export default function ConfiguracionRatiosPage() {
         </div>
       </div>
       <p className="text-sm text-gray-500 mb-6">
-        Estructura por rubro y subrubro (igual que Flexxus). Editá el costo por unidad en <strong>USD</strong> o
-        en <strong>ARS</strong>; la conversión usa el tipo de cambio de Parámetros. Los cambios impactan en nuevos presupuestos.
+        Estructura por rubro y subrubro (igual que Flexxus). Cada subrubro es una línea independiente: editá su
+        costo por unidad en <strong>USD</strong> o <strong>ARS</strong> (conversión con el tipo de cambio de Parámetros),
+        renombralo, agregá nuevos o eliminalos. Los cambios impactan en nuevos presupuestos.
       </p>
 
       <div className="space-y-6">
         {rubros.map((ru) => (
           <div key={ru.id ?? ru.nombre} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="flex items-center gap-3 px-5 py-3 bg-[#1B2A47] text-white">
-              <span className="text-xs font-mono bg-white/15 rounded px-2 py-0.5">{ru.codigoFlexxus || '—'}</span>
-              <h2 className="font-bold">{ru.nombre}</h2>
+            <div className="flex items-center justify-between gap-3 px-5 py-3 bg-[#1B2A47] text-white">
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-mono bg-white/15 rounded px-2 py-0.5">{ru.codigoFlexxus || '—'}</span>
+                <h2 className="font-bold">{ru.nombre}</h2>
+                <span className="text-xs text-white/50">{ru.subrubros.length} subrubro(s)</span>
+              </div>
+              <button
+                onClick={() => agregarSubrubro(ru.id)}
+                className="text-xs font-semibold bg-[#F05A28] hover:bg-orange-600 rounded-lg px-3 py-1.5 transition-colors"
+              >
+                + Agregar subrubro
+              </button>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-gray-700">
                 <thead className="bg-slate-50 text-slate-500 text-xs uppercase tracking-wide">
                   <tr>
-                    <th className="px-4 py-2 text-left font-semibold">Subrubro</th>
-                    <th className="px-4 py-2 text-center font-semibold">Cód.</th>
+                    <th className="px-4 py-2 text-left font-semibold min-w-[220px]">Subrubro</th>
                     <th className="px-4 py-2 text-center font-semibold">Unid.</th>
                     <th className="px-4 py-2 text-center font-semibold">Ratio</th>
                     <th className="px-4 py-2 text-right font-semibold">Material USD</th>
@@ -111,13 +148,23 @@ export default function ConfiguracionRatiosPage() {
                     <th className="px-4 py-2 text-right font-semibold">M. Obra ARS</th>
                     <th className="px-4 py-2 text-right font-semibold">Total USD</th>
                     <th className="px-4 py-2 text-right font-semibold">Total ARS</th>
+                    <th className="px-4 py-2 text-center font-semibold w-10"></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {ru.subrubros.map((s) => (
+                  {ru.subrubros.length === 0 ? (
+                    <tr><td colSpan={10} className="text-center py-6 text-slate-400">Sin subrubros. Agregá el primero.</td></tr>
+                  ) : ru.subrubros.map((s) => (
                     <tr key={s.ratioId} className="border-t border-gray-100 hover:bg-slate-50/60">
-                      <td className="px-4 py-2 font-medium text-[#1B2A47]">{s.subrubroNombre}</td>
-                      <td className="px-4 py-2 text-center text-slate-400 text-xs font-mono">{s.codigoFlexxus || '—'}</td>
+                      <td className="px-4 py-2">
+                        <input
+                          type="text"
+                          className="w-full p-1.5 border border-transparent hover:border-gray-200 focus:border-gray-300 rounded font-medium text-[#1B2A47] focus:ring-1 focus:ring-[#F05A28] outline-none"
+                          value={s.subrubroNombre}
+                          onChange={(e) => actualizarLocal(s.ratioId, { subrubroNombre: e.target.value })}
+                          onBlur={(e) => guardar(s.ratioId, 'subrubro_nombre', e.target.value)}
+                        />
+                      </td>
                       <td className="px-4 py-2 text-center text-slate-400">{s.unidad}</td>
                       <td className="px-4 py-2 text-center">
                         <input
@@ -165,6 +212,15 @@ export default function ConfiguracionRatiosPage() {
                       {/* Total (derivado) */}
                       <td className="px-4 py-2 text-right font-semibold text-[#1B2A47]">{usd(s.totalUsd)}</td>
                       <td className="px-4 py-2 text-right font-semibold text-slate-500">$ {ars(aArs(s.totalUsd))}</td>
+                      <td className="px-4 py-2 text-center">
+                        <button
+                          onClick={() => eliminarSubrubro(s.ratioId, s.subrubroNombre)}
+                          title="Eliminar subrubro"
+                          className="text-slate-300 hover:text-red-500 transition-colors text-lg leading-none"
+                        >
+                          ×
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
