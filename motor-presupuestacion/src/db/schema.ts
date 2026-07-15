@@ -127,8 +127,28 @@ export const presupuestoBaseItems = pgTable('presupuesto_base_items', {
   precioVentaArs: doublePrecision('precio_venta_ars').notNull().default(0),
   precioVentaUsd: doublePrecision('precio_venta_usd').notNull().default(0),
   incluido: boolean('incluido').notNull().default(true),
+  // 'base0' = generado por el motor (se reemplaza en cada recálculo);
+  // 'manual' = agregado por el comercial (sobrevive al recálculo).
+  origen: text('origen').notNull().default('base0'),
   orden: integer('orden').notNull().default(0),
 }, (t) => [index('presupuesto_items_proyecto_idx').on(t.proyectoId)])
+
+// ─── Biblioteca de precios de referencia (Revista Cifras) ──────
+// Costos unitarios directos (material + ejecución) que el comercial consulta
+// para agregar/ajustar ítems al editar una cotización Base 0 en borrador.
+export const preciosReferencia = pgTable('precios_referencia', {
+  id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+  categoria: text('categoria').notNull().default(''),
+  codigo: text('codigo').notNull().default(''),
+  descripcion: text('descripcion').notNull(),
+  unidad: text('unidad').notNull().default(''),
+  costoMaterialUsd: doublePrecision('costo_material_usd').notNull().default(0),
+  costoEjecucionUsd: doublePrecision('costo_ejecucion_usd').notNull().default(0),
+  costoTotalUsd: doublePrecision('costo_total_usd').notNull().default(0),
+  fuente: text('fuente').notNull().default('Revista Cifras'),
+  activo: boolean('activo').notNull().default(true),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+}, (t) => [uniqueIndex('precios_referencia_codigo_desc_idx').on(t.codigo, t.descripcion)])
 
 // ─── Ingestas (WhatsApp / audio / texto crudo) ─────────────────
 
@@ -193,3 +213,5 @@ export type NuevoPresupuestoItem = typeof presupuestoBaseItems.$inferInsert
 export type RatioCosto = typeof ratiosCostos.$inferSelect
 export type Rubro = typeof rubros.$inferSelect
 export type Subrubro = typeof subrubros.$inferSelect
+export type PrecioReferencia = typeof preciosReferencia.$inferSelect
+export type NuevoPrecioReferencia = typeof preciosReferencia.$inferInsert

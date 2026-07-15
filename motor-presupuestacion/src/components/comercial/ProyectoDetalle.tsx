@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Download, FileText, Calculator, Loader2, ArrowLeft, User, MapPin, Building2, Send, Box, Truck } from 'lucide-react'
+import { Download, FileText, Calculator, Loader2, ArrowLeft, User, MapPin, Building2, Send, Box, Truck, Plus, Trash2 } from 'lucide-react'
 import Link from 'next/link'
+import AgregarItemModal from './AgregarItemModal'
 
 type Tab = 'base0' | 'cliente'
 
@@ -27,6 +28,36 @@ export default function ProyectoDetalle({
   const [distanciaKm, setDistanciaKm] = useState<number>(Number(datosTecnicos?.distancia_obra_km) || 0)
   const [calcDist, setCalcDist] = useState(false)
   const [distMsg, setDistMsg] = useState<string | null>(null)
+  const [showAdd, setShowAdd] = useState(false)
+  const [savingItem, setSavingItem] = useState(false)
+
+  // Agrega un ítem manual (desde la biblioteca de precios o a medida).
+  const addItem = async (payload: Record<string, unknown>) => {
+    setSavingItem(true)
+    try {
+      const res = await fetch('/api/proyectos/items', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ proyectoId: proyecto.id, ...payload }),
+      })
+      const data = await res.json()
+      if (data.error) { alert(data.error); return }
+      if (data.items) setItems(data.items)
+      if (data.resumen) setResumen(data.resumen)
+      setShowAdd(false)
+    } finally {
+      setSavingItem(false)
+    }
+  }
+
+  const removeItem = async (id: string) => {
+    if (!confirm('¿Eliminar este ítem del presupuesto?')) return
+    const res = await fetch(`/api/proyectos/items?id=${id}`, { method: 'DELETE' })
+    const data = await res.json()
+    if (data.error) { alert(data.error); return }
+    if (data.items) setItems(data.items)
+    if (data.resumen) setResumen(data.resumen)
+  }
 
   const handleCalcularDistancia = async () => {
     setCalcDist(true)
@@ -298,14 +329,22 @@ export default function ProyectoDetalle({
               <h2 className="font-bold text-[#1B2A47]">Presupuesto Base 0 — Interno</h2>
               <p className="text-xs text-slate-400 mt-0.5">Costo real de la empresa. No se comparte con el cliente.</p>
             </div>
-            <button
-              onClick={handleRecalculate}
-              disabled={recalculating}
-              className="flex items-center gap-2 text-sm bg-slate-100 text-slate-700 px-4 py-2 rounded-lg font-semibold hover:bg-slate-200 transition-colors disabled:opacity-40"
-            >
-              {recalculating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Calculator className="w-3.5 h-3.5" />}
-              Recalcular
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowAdd(true)}
+                className="flex items-center gap-2 text-sm bg-[#F05A28] text-white px-4 py-2 rounded-lg font-semibold hover:bg-orange-600 transition-colors"
+              >
+                <Plus className="w-3.5 h-3.5" /> Agregar ítem
+              </button>
+              <button
+                onClick={handleRecalculate}
+                disabled={recalculating}
+                className="flex items-center gap-2 text-sm bg-slate-100 text-slate-700 px-4 py-2 rounded-lg font-semibold hover:bg-slate-200 transition-colors disabled:opacity-40"
+              >
+                {recalculating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Calculator className="w-3.5 h-3.5" />}
+                Recalcular
+              </button>
+            </div>
           </div>
 
           {/* Logística: distancia a obra para el flete */}
@@ -354,24 +393,38 @@ export default function ProyectoDetalle({
                   <th className="px-4 py-3 font-semibold text-right">Mano de obra</th>
                   <th className="px-4 py-3 font-semibold text-right">Costo USD</th>
                   <th className="px-4 py-3 font-semibold text-right w-24">Incid.</th>
+                  <th className="px-4 py-3 font-semibold text-center w-12"></th>
                 </tr>
               </thead>
               <tbody>
                 {items.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="text-center py-10 text-slate-400">
-                      No hay ítems calculados. Presioná <strong>Recalcular</strong>.
+                    <td colSpan={7} className="text-center py-10 text-slate-400">
+                      No hay ítems calculados. Presioná <strong>Recalcular</strong> o <strong>Agregar ítem</strong>.
                     </td>
                   </tr>
                 ) : (
                   items.map((item, idx) => (
-                    <tr key={idx} className={`border-b border-gray-50 hover:bg-slate-50 ${idx % 2 === 0 ? '' : 'bg-slate-50/50'}`}>
-                      <td className="px-4 py-3">{item.descripcion || '—'}</td>
+                    <tr key={item.id || idx} className={`border-b border-gray-50 hover:bg-slate-50 ${idx % 2 === 0 ? '' : 'bg-slate-50/50'}`}>
+                      <td className="px-4 py-3">
+                        {item.descripcion || '—'}
+                        {item.origen === 'manual' && (
+                          <span className="ml-2 text-[10px] font-bold uppercase tracking-wide text-[#F05A28] bg-orange-50 border border-orange-200 rounded px-1.5 py-0.5">manual</span>
+                        )}
+                      </td>
                       <td className="px-4 py-3 text-center text-slate-500">{Number(item.cantidad || 0).toFixed(1)} {item.unidad}</td>
                       <td className="px-4 py-3 text-right text-slate-500">{usd(item.costo_material_usd)}</td>
                       <td className="px-4 py-3 text-right text-slate-500">{usd(item.costo_mo_usd)}</td>
                       <td className="px-4 py-3 text-right font-semibold text-[#1B2A47]">{usd(item.costo_total_usd)}</td>
                       <td className="px-4 py-3 text-right text-slate-400">{pct(item.incidencia)}</td>
+                      <td className="px-4 py-3 text-center">
+                        {item.origen === 'manual' && (
+                          <button onClick={() => removeItem(item.id)} title="Eliminar ítem"
+                            className="text-slate-300 hover:text-red-500 transition-colors">
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        )}
+                      </td>
                     </tr>
                   ))
                 )}
@@ -383,6 +436,7 @@ export default function ProyectoDetalle({
                     <td className="px-4 py-3 text-right text-slate-600">{usd(totalMaterial)}</td>
                     <td className="px-4 py-3 text-right text-slate-600">{usd(totalMO)}</td>
                     <td className="px-4 py-3 text-right text-[#1B2A47]">{usd(totalMaterial + totalMO)}</td>
+                    <td />
                     <td />
                   </tr>
                 </tfoot>
@@ -412,6 +466,14 @@ export default function ProyectoDetalle({
                 {r.coefZona ? <Kpi k="Coef. de zona" v={pct(r.coefZona)} /> : null}
               </div>
             </div>
+          )}
+
+          {showAdd && (
+            <AgregarItemModal
+              saving={savingItem}
+              onClose={() => setShowAdd(false)}
+              onAdd={addItem}
+            />
           )}
         </div>
       )}

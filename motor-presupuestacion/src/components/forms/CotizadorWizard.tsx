@@ -75,6 +75,24 @@ function SelectionCard({
   )
 }
 
+function ToggleRow({
+  active, onToggle, title, desc,
+}: { active: boolean; onToggle: () => void; title: string; desc: string }) {
+  return (
+    <div
+      onClick={onToggle}
+      className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${active ? 'border-[#F05A28] bg-orange-50' : 'border-gray-100 hover:border-gray-300'}`}>
+      <div className="pr-4">
+        <p className="font-semibold text-[#1B2A47]">{title}</p>
+        <p className="text-xs text-gray-500">{desc}</p>
+      </div>
+      <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${active ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+        <div className="w-4 h-4 bg-white rounded-full shadow" />
+      </div>
+    </div>
+  )
+}
+
 function PriceBadge({ price, loading }: { price: number | null; loading: boolean }) {
   if (price === null && !loading) return null
 
@@ -123,6 +141,13 @@ export default function CotizadorWizard() {
     incluye_piso_industrial: false,
     incluye_instalacion_electrica: false,
     incluye_instalacion_sanitaria: false,
+    // Módulos opcionales (oficina interior + baño)
+    incluye_oficina: false,
+    oficina_ancho_m: '',
+    oficina_largo_m: '',
+    oficina_planta_alta: false,
+    incluye_bano: false,
+    cantidad_banos: 1,
     tiene_puente_grua: false,
     carga_puente_grua_tn: '',
     ubicacion_obra: '',
@@ -179,6 +204,12 @@ export default function CotizadorWizard() {
           incluye_instalacion_electrica: data.incluye_instalacion_electrica ?? false,
           incluye_instalacion_sanitaria: data.incluye_instalacion_sanitaria ?? false,
           cantidad_portones: Number(data.cantidad_portones) || 1,
+          incluye_oficina: data.incluye_oficina ?? false,
+          oficina_ancho_m: Number(data.oficina_ancho_m) || 0,
+          oficina_largo_m: Number(data.oficina_largo_m) || 0,
+          oficina_planta_alta: data.oficina_planta_alta ?? false,
+          incluye_bano: data.incluye_bano ?? false,
+          cantidad_banos: Number(data.cantidad_banos) || 1,
         }
         const res = await fetch('/api/estimate', {
           method: 'POST',
@@ -206,6 +237,14 @@ export default function CotizadorWizard() {
     formData.largo_m,
     formData.tipo_cubierta,
     formData.incluye_montaje,
+    formData.incluye_oficina,
+    formData.oficina_ancho_m,
+    formData.oficina_largo_m,
+    formData.oficina_planta_alta,
+    formData.incluye_bano,
+    formData.cantidad_banos,
+    formData.incluye_instalacion_electrica,
+    formData.incluye_portones,
     step,
   ])
 
@@ -454,37 +493,114 @@ export default function CotizadorWizard() {
             </motion.div>
           )}
 
-          {/* STEP 4: ALCANCE — única opción: montaje en obra */}
+          {/* STEP 4: ALCANCE — montaje + módulos opcionales (oficina, baño, etc.) */}
           {step === 4 && (
             <motion.div key="s4" {...slideProps} className="p-8 min-h-[480px] flex flex-col justify-center max-w-xl mx-auto w-full">
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-3 mb-5">
                 <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
                   <ToggleLeft className="w-5 h-5 text-green-600" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-[#1B2A47]">Montaje en obra</h2>
-                  <p className="text-slate-500 text-sm">Tu presupuesto incluye todos los rubros del proyecto.</p>
+                  <h2 className="text-2xl font-bold text-[#1B2A47]">Alcance del proyecto</h2>
+                  <p className="text-slate-500 text-sm">Activá lo que necesitás. La nave (estructura, cerramientos, cubierta y piso) ya está incluida.</p>
                 </div>
               </div>
 
-              <div
-                onClick={() => set('incluye_montaje', !formData.incluye_montaje)}
-                className={`flex items-center justify-between p-5 rounded-xl border-2 cursor-pointer transition-all ${formData.incluye_montaje ? 'border-[#F05A28] bg-orange-50' : 'border-gray-100 hover:border-gray-300'}`}>
-                <div className="pr-4">
-                  <p className="font-semibold text-[#1B2A47]">Incluir montaje en obra</p>
-                  <p className="text-xs text-gray-500">
-                    Nuestro equipo arma la estructura en tu terreno. Si el montaje lo realizás
-                    por tu cuenta, desactivalo y se descuenta la mano de obra de montaje.
-                  </p>
+              <div className="space-y-3">
+                <ToggleRow
+                  active={formData.incluye_montaje}
+                  onToggle={() => set('incluye_montaje', !formData.incluye_montaje)}
+                  title="Montaje en obra"
+                  desc="Nuestro equipo arma la estructura en tu terreno. Si lo hacés por tu cuenta, desactivalo y se descuenta la MO de montaje."
+                />
+
+                {/* MÓDULO OFICINA INTERIOR */}
+                <div className={`rounded-xl border-2 transition-all ${formData.incluye_oficina ? 'border-[#F05A28]' : 'border-gray-100'}`}>
+                  <div
+                    onClick={() => set('incluye_oficina', !formData.incluye_oficina)}
+                    className={`flex items-center justify-between p-4 cursor-pointer ${formData.incluye_oficina ? 'bg-orange-50 rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
+                    <div className="pr-4">
+                      <p className="font-semibold text-[#1B2A47]">Oficina interior</p>
+                      <p className="text-xs text-gray-500">Incluye tabiques, cielorraso, revestimientos y obra civil de la oficina.</p>
+                    </div>
+                    <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${formData.incluye_oficina ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+                      <div className="w-4 h-4 bg-white rounded-full shadow" />
+                    </div>
+                  </div>
+                  {formData.incluye_oficina && (
+                    <div className="p-4 pt-2 space-y-3">
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className={labelClass}>Ancho oficina (m)</label>
+                          <input type="number" min="0" value={formData.oficina_ancho_m}
+                            onChange={e => set('oficina_ancho_m', e.target.value)}
+                            className={inputClass} placeholder="Ej: 5" />
+                        </div>
+                        <div>
+                          <label className={labelClass}>Largo oficina (m)</label>
+                          <input type="number" min="0" value={formData.oficina_largo_m}
+                            onChange={e => set('oficina_largo_m', e.target.value)}
+                            className={inputClass} placeholder="Ej: 8" />
+                        </div>
+                      </div>
+                      <ToggleRow
+                        active={formData.oficina_planta_alta}
+                        onToggle={() => set('oficina_planta_alta', !formData.oficina_planta_alta)}
+                        title="Con planta alta (entrepiso)"
+                        desc="Duplica la superficie de oficina y agrega escalera metálica."
+                      />
+                    </div>
+                  )}
                 </div>
-                <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${formData.incluye_montaje ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
-                  <div className="w-4 h-4 bg-white rounded-full shadow" />
+
+                {/* MÓDULO BAÑO */}
+                <div className={`rounded-xl border-2 transition-all ${formData.incluye_bano ? 'border-[#F05A28]' : 'border-gray-100'}`}>
+                  <div
+                    onClick={() => set('incluye_bano', !formData.incluye_bano)}
+                    className={`flex items-center justify-between p-4 cursor-pointer ${formData.incluye_bano ? 'bg-orange-50 rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
+                    <div className="pr-4">
+                      <p className="font-semibold text-[#1B2A47]">Baño interior</p>
+                      <p className="text-xs text-gray-500">Instalación sanitaria completa con artefactos.</p>
+                    </div>
+                    <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${formData.incluye_bano ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+                      <div className="w-4 h-4 bg-white rounded-full shadow" />
+                    </div>
+                  </div>
+                  {formData.incluye_bano && (
+                    <div className="p-4 pt-2">
+                      <label className={labelClass}>Cantidad de baños</label>
+                      <input type="number" min="1" value={formData.cantidad_banos}
+                        onChange={e => set('cantidad_banos', e.target.value)}
+                        className={inputClass} placeholder="1" />
+                    </div>
+                  )}
                 </div>
+
+                <ToggleRow
+                  active={formData.incluye_instalacion_electrica}
+                  onToggle={() => set('incluye_instalacion_electrica', !formData.incluye_instalacion_electrica)}
+                  title="Instalación eléctrica"
+                  desc="Tablero, bocas e iluminación de la nave."
+                />
+                <ToggleRow
+                  active={formData.incluye_portones}
+                  onToggle={() => set('incluye_portones', !formData.incluye_portones)}
+                  title="Portones"
+                  desc="Portones corredizos metálicos de acceso."
+                />
+                {formData.incluye_portones && (
+                  <div className="px-1">
+                    <label className={labelClass}>Cantidad de portones</label>
+                    <input type="number" min="1" value={formData.cantidad_portones}
+                      onChange={e => set('cantidad_portones', e.target.value)}
+                      className={inputClass} placeholder="1" />
+                  </div>
+                )}
               </div>
 
               <div className="flex items-start gap-2 mt-4 text-xs text-slate-500 bg-slate-50 rounded-xl p-3">
                 <Info className="w-4 h-4 shrink-0 mt-0.5 text-slate-400" />
-                <span>El alcance definitivo (instalaciones, terminaciones y adicionales) lo ajusta nuestro equipo comercial según el catálogo vigente.</span>
+                <span>El alcance definitivo lo confirma nuestro equipo comercial. Los adicionales que actives ajustan el precio estimado en vivo.</span>
               </div>
 
               <div className="flex gap-3 mt-6">
@@ -591,6 +707,18 @@ export default function CotizadorWizard() {
                   <span>Superficie:</span><span className="font-semibold">{(Number(formData.ancho_m) * Number(formData.largo_m)).toFixed(0)} m²</span>
                   <span>Cubierta:</span><span className="font-semibold">{formData.tipo_cubierta?.replace(/_/g, ' ')}</span>
                   <span>Montaje en obra:</span><span className="font-semibold">{formData.incluye_montaje ? 'Incluido' : 'No incluido'}</span>
+                  {formData.incluye_oficina && (
+                    <><span>Oficina interior:</span><span className="font-semibold">{Number(formData.oficina_ancho_m) || 0}m × {Number(formData.oficina_largo_m) || 0}m{formData.oficina_planta_alta ? ' + planta alta' : ''}</span></>
+                  )}
+                  {formData.incluye_bano && (
+                    <><span>Baños:</span><span className="font-semibold">{Number(formData.cantidad_banos) || 1}</span></>
+                  )}
+                  {formData.incluye_instalacion_electrica && (
+                    <><span>Instalación eléctrica:</span><span className="font-semibold">Incluida</span></>
+                  )}
+                  {formData.incluye_portones && (
+                    <><span>Portones:</span><span className="font-semibold">{Number(formData.cantidad_portones) || 1}</span></>
+                  )}
                   {estimatedPrice !== null && estimatedPrice > 0 && (
                     <><span>Precio estimado:</span><span className="font-bold text-emerald-600">USD {estimatedPrice.toLocaleString('es-AR', { maximumFractionDigits: 0 })}</span></>
                   )}

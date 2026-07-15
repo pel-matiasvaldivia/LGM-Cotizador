@@ -1,0 +1,2126 @@
+[
+ {
+  "categoria": "PRELIMINARES DE OBRA",
+  "codigo": "01.01",
+  "descripcion": "Cartel de Obra",
+  "unidad": "m2",
+  "costoMaterialUsd": 36.2147,
+  "costoEjecucionUsd": 36.8872,
+  "costoTotalUsd": 73.1019
+ },
+ {
+  "categoria": "PRELIMINARES DE OBRA",
+  "codigo": "01.02",
+  "descripcion": "Cerco de Obra",
+  "unidad": "m",
+  "costoMaterialUsd": 18.6633,
+  "costoEjecucionUsd": 13.5568,
+  "costoTotalUsd": 32.2201
+ },
+ {
+  "categoria": "PRELIMINARES DE OBRA",
+  "codigo": "01.03",
+  "descripcion": "Limpieza inicial terreno; retiros grales.",
+  "unidad": "m2",
+  "costoMaterialUsd": 0.3125,
+  "costoEjecucionUsd": 2.7649,
+  "costoTotalUsd": 3.0773
+ },
+ {
+  "categoria": "PRELIMINARES DE OBRA",
+  "codigo": "01.04",
+  "descripcion": "Nivelación y replanteo de obra",
+  "unidad": "m2",
+  "costoMaterialUsd": 0.0937,
+  "costoEjecucionUsd": 4.9258,
+  "costoTotalUsd": 5.0195
+ },
+ {
+  "categoria": "PRELIMINARES DE OBRA",
+  "codigo": "01.05",
+  "descripcion": "Obrador, construcciones provisorias",
+  "unidad": "m2",
+  "costoMaterialUsd": 29.8137,
+  "costoEjecucionUsd": 97.6979,
+  "costoTotalUsd": 127.5115
+ },
+ {
+  "categoria": "PRELIMINARES DE OBRA",
+  "codigo": "01.06",
+  "descripcion": "Contenedor, volquete 5m3 (alquiler)",
+  "unidad": "día",
+  "costoMaterialUsd": 0.0,
+  "costoEjecucionUsd": 73.2364,
+  "costoTotalUsd": 73.2364
+ },
+ {
+  "categoria": "PRELIMINARES DE OBRA",
+  "codigo": "01.07",
+  "descripcion": "Demolición de contrapisos y otros solados",
+  "unidad": "m2",
+  "costoMaterialUsd": 0.0,
+  "costoEjecucionUsd": 10.7105,
+  "costoTotalUsd": 10.7105
+ },
+ {
+  "categoria": "PRELIMINARES DE OBRA",
+  "codigo": "01.08",
+  "descripcion": "Demolición estructuras de hormigón armado",
+  "unidad": "m3",
+  "costoMaterialUsd": 0.0,
+  "costoEjecucionUsd": 180.6071,
+  "costoTotalUsd": 180.6071
+ },
+ {
+  "categoria": "PRELIMINARES DE OBRA",
+  "codigo": "01.09",
+  "descripcion": "Demolición mamposterías ladrillos comunes",
+  "unidad": "m3",
+  "costoMaterialUsd": 0.0,
+  "costoEjecucionUsd": 76.2622,
+  "costoTotalUsd": 76.2622
+ },
+ {
+  "categoria": "PRELIMINARES DE OBRA",
+  "codigo": "01.10",
+  "descripcion": "Demolición mamposterías ladrillos huecos",
+  "unidad": "m2",
+  "costoMaterialUsd": 0.0,
+  "costoEjecucionUsd": 13.1944,
+  "costoTotalUsd": 13.1944
+ },
+ {
+  "categoria": "PRELIMINARES DE OBRA",
+  "codigo": "01.11",
+  "descripcion": "Picado de revoques",
+  "unidad": "m2",
+  "costoMaterialUsd": 0.0,
+  "costoEjecucionUsd": 9.3599,
+  "costoTotalUsd": 9.3599
+ },
+ {
+  "categoria": "PRELIMINARES DE OBRA",
+  "codigo": "01.12",
+  "descripcion": "Retiro de pisos/revestimientos",
+  "unidad": "m2",
+  "costoMaterialUsd": 0.0,
+  "costoEjecucionUsd": 10.0352,
+  "costoTotalUsd": 10.0352
+ },
+ {
+  "categoria": "MOVIMIENTO DE TIERRA",
+  "codigo": "02.01",
+  "descripcion": "Desmonte; Terraplenamientos y rellenos a máquina",
+  "unidad": "m3",
+  "costoMaterialUsd": 0.0,
+  "costoEjecucionUsd": 25.9878,
+  "costoTotalUsd": 25.9878
+ },
+ {
+  "categoria": "MOVIMIENTO DE TIERRA",
+  "codigo": "02.02",
+  "descripcion": "Desmonte; Terraplenamientos y rellenos manual",
+  "unidad": "m3",
+  "costoMaterialUsd": 0.0,
+  "costoEjecucionUsd": 21.4904,
+  "costoTotalUsd": 21.4904
+ },
+ {
+  "categoria": "MOVIMIENTO DE TIERRA",
+  "codigo": "02.03",
+  "descripcion": "Excavación a máquina para subsuelo",
+  "unidad": "m3",
+  "costoMaterialUsd": 0.0,
+  "costoEjecucionUsd": 32.1163,
+  "costoTotalUsd": 32.1163
+ },
+ {
+  "categoria": "MOVIMIENTO DE TIERRA",
+  "codigo": "02.04",
+  "descripcion": "Excavación manual para bases de columnas",
+  "unidad": "m3",
+  "costoMaterialUsd": 0.0,
+  "costoEjecucionUsd": 32.3908,
+  "costoTotalUsd": 32.3908
+ },
+ {
+  "categoria": "MOVIMIENTO DE TIERRA",
+  "codigo": "02.05",
+  "descripcion": "Excavación manual para zapata de muros",
+  "unidad": "m3",
+  "costoMaterialUsd": 0.0,
+  "costoEjecucionUsd": 24.0894,
+  "costoTotalUsd": 24.0894
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.00",
+  "descripcion": "Bases H°A° -H21/50kg",
+  "unidad": "m3",
+  "costoMaterialUsd": 226.2037,
+  "costoEjecucionUsd": 135.0067,
+  "costoTotalUsd": 361.2104
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.01",
+  "descripcion": "Columnas H°A° - H21/90kg",
+  "unidad": "m3",
+  "costoMaterialUsd": 322.5935,
+  "costoEjecucionUsd": 272.7906,
+  "costoTotalUsd": 595.384
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.02",
+  "descripcion": "Encadenado H°A° - H21/65kg",
+  "unidad": "m3",
+  "costoMaterialUsd": 260.931,
+  "costoEjecucionUsd": 270.9503,
+  "costoTotalUsd": 531.8813
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.03",
+  "descripcion": "Escalera H°A° - H21/65kg",
+  "unidad": "m3",
+  "costoMaterialUsd": 278.6792,
+  "costoEjecucionUsd": 292.503,
+  "costoTotalUsd": 571.1822
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.04",
+  "descripcion": "Losa HºAº con viguetas y ladrillón cerámico 12cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 30.1486,
+  "costoEjecucionUsd": 42.3773,
+  "costoTotalUsd": 72.5259
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.05",
+  "descripcion": "Losa HºAº con viguetas y ladrillón poliestireno exp.12cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 37.8292,
+  "costoEjecucionUsd": 40.314,
+  "costoTotalUsd": 78.1432
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.06",
+  "descripcion": "Losa HºAº macizas H21/60kg",
+  "unidad": "m3",
+  "costoMaterialUsd": 271.4781,
+  "costoEjecucionUsd": 268.5611,
+  "costoTotalUsd": 540.0392
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.07",
+  "descripcion": "Tabiques H°A° - H21/70kg",
+  "unidad": "m3",
+  "costoMaterialUsd": 272.255,
+  "costoEjecucionUsd": 390.3163,
+  "costoTotalUsd": 662.5713
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.08",
+  "descripcion": "Tanques H°A° - H21/120kg",
+  "unidad": "m3",
+  "costoMaterialUsd": 291.2742,
+  "costoEjecucionUsd": 426.8091,
+  "costoTotalUsd": 718.0833
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.09",
+  "descripcion": "Vigas H°A° - H21/120kg",
+  "unidad": "m3",
+  "costoMaterialUsd": 391.9156,
+  "costoEjecucionUsd": 368.2177,
+  "costoTotalUsd": 760.1333
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.10",
+  "descripcion": "Zapata corrida muros Hº cascotes",
+  "unidad": "m3",
+  "costoMaterialUsd": 136.7246,
+  "costoEjecucionUsd": 39.1751,
+  "costoTotalUsd": 175.8997
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.11",
+  "descripcion": "Zapata corrida muros HºAº",
+  "unidad": "m3",
+  "costoMaterialUsd": 196.4189,
+  "costoEjecucionUsd": 81.5306,
+  "costoTotalUsd": 277.9495
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.12",
+  "descripcion": "Hierros redondos",
+  "unidad": "kg",
+  "costoMaterialUsd": 2.2908,
+  "costoEjecucionUsd": 3.8136,
+  "costoTotalUsd": 6.1044
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.13",
+  "descripcion": "Perfiles ángulo",
+  "unidad": "kg",
+  "costoMaterialUsd": 6.6434,
+  "costoEjecucionUsd": 5.6059,
+  "costoTotalUsd": 12.2493
+ },
+ {
+  "categoria": "ESTRUCTURAS",
+  "codigo": "03.14",
+  "descripcion": "Perfiles normales",
+  "unidad": "kg",
+  "costoMaterialUsd": 5.7271,
+  "costoEjecucionUsd": 4.8051,
+  "costoTotalUsd": 10.5321
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.01",
+  "descripcion": "Bloques hcca 10x25x50cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 21.0228,
+  "costoEjecucionUsd": 14.4028,
+  "costoTotalUsd": 35.4256
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.02",
+  "descripcion": "Bloques hcca 15x25x50cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 32.3088,
+  "costoEjecucionUsd": 16.8551,
+  "costoTotalUsd": 49.1639
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.03",
+  "descripcion": "Bloques hcca 20x25x50cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 43.2071,
+  "costoEjecucionUsd": 19.3075,
+  "costoTotalUsd": 62.5147
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.04",
+  "descripcion": "Bloques hormigón 10x20x40cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 14.392,
+  "costoEjecucionUsd": 18.6069,
+  "costoTotalUsd": 32.9989
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.05",
+  "descripcion": "Bloques hormigón 20x20x40cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 17.9855,
+  "costoEjecucionUsd": 21.7599,
+  "costoTotalUsd": 39.7454
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.06",
+  "descripcion": "Ladrillos cerámicos decorativos 12x18x25cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 20.598,
+  "costoEjecucionUsd": 20.1496,
+  "costoTotalUsd": 40.7476
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.07",
+  "descripcion": "Ladrillos cerámicos huecos 08x18x33cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 8.876,
+  "costoEjecucionUsd": 18.9519,
+  "costoTotalUsd": 27.8279
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.08",
+  "descripcion": "Ladrillos cerámicos huecos 12x18x33cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 13.2574,
+  "costoEjecucionUsd": 20.3877,
+  "costoTotalUsd": 33.6451
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.09",
+  "descripcion": "Ladrillos cerámicos huecos 18x18x33cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 18.2611,
+  "costoEjecucionUsd": 21.8236,
+  "costoTotalUsd": 40.0847
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.10",
+  "descripcion": "Ladrillos comunes a la vista en elevación",
+  "unidad": "m3",
+  "costoMaterialUsd": 177.813,
+  "costoEjecucionUsd": 120.4343,
+  "costoTotalUsd": 298.2473
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.11",
+  "descripcion": "Ladrillos comunes en cimientos",
+  "unidad": "m3",
+  "costoMaterialUsd": 108.4968,
+  "costoEjecucionUsd": 75.8404,
+  "costoTotalUsd": 184.3372
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.12",
+  "descripcion": "Ladrillos comunes en elevación",
+  "unidad": "m3",
+  "costoMaterialUsd": 110.2152,
+  "costoEjecucionUsd": 101.0275,
+  "costoTotalUsd": 211.2427
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.13",
+  "descripcion": "Placa cementícia doble esp.12,5cm exterior, con aislación",
+  "unidad": "m2",
+  "costoMaterialUsd": 14.6964,
+  "costoEjecucionUsd": 10.492,
+  "costoTotalUsd": 25.1883
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.14",
+  "descripcion": "Placa de yeso doble esp.12,5cm, con aislación",
+  "unidad": "m2",
+  "costoMaterialUsd": 12.2374,
+  "costoEjecucionUsd": 8.6296,
+  "costoTotalUsd": 20.867
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.15",
+  "descripcion": "Placa de yeso resistente a la humedad esp.9,5cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 13.9384,
+  "costoEjecucionUsd": 8.8021,
+  "costoTotalUsd": 22.7405
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.16",
+  "descripcion": "Placa de yeso simple esp.8,5cm medio tabique interior",
+  "unidad": "m2",
+  "costoMaterialUsd": 5.5144,
+  "costoEjecucionUsd": 4.1473,
+  "costoTotalUsd": 9.6617
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.17",
+  "descripcion": "Placa de yeso simple esp.9,5cm interior, con aislación",
+  "unidad": "m2",
+  "costoMaterialUsd": 8.6806,
+  "costoEjecucionUsd": 4.6346,
+  "costoTotalUsd": 13.3152
+ },
+ {
+  "categoria": "MAMPOSTERÍAS Y TABIQUERÍAS",
+  "codigo": "04.18",
+  "descripcion": "Placa de yeso simple esp.9,5cm interior, sin aislación",
+  "unidad": "m2",
+  "costoMaterialUsd": 7.0408,
+  "costoEjecucionUsd": 4.4494,
+  "costoTotalUsd": 11.4902
+ },
+ {
+  "categoria": "AISLACIONES",
+  "codigo": "05.01",
+  "descripcion": "Aislante acústico lana en rollo tipo Acustiver",
+  "unidad": "m2",
+  "costoMaterialUsd": 3.0903,
+  "costoEjecucionUsd": 2.9374,
+  "costoTotalUsd": 6.0277
+ },
+ {
+  "categoria": "AISLACIONES",
+  "codigo": "05.02",
+  "descripcion": "Aislante acústico panel fonoabsorbente tipo Fonac",
+  "unidad": "m2",
+  "costoMaterialUsd": 25.7524,
+  "costoEjecucionUsd": 3.3764,
+  "costoTotalUsd": 29.1288
+ },
+ {
+  "categoria": "AISLACIONES",
+  "codigo": "05.03",
+  "descripcion": "Cementícia doble horizontal en muros",
+  "unidad": "m2",
+  "costoMaterialUsd": 6.1721,
+  "costoEjecucionUsd": 4.0516,
+  "costoTotalUsd": 10.2238
+ },
+ {
+  "categoria": "AISLACIONES",
+  "codigo": "05.04",
+  "descripcion": "Cementícia doble vertical en muros",
+  "unidad": "m2",
+  "costoMaterialUsd": 4.3762,
+  "costoEjecucionUsd": 3.3764,
+  "costoTotalUsd": 7.7526
+ },
+ {
+  "categoria": "AISLACIONES",
+  "codigo": "05.05",
+  "descripcion": "Cementícia vertical con tabique panderete para subsuelo",
+  "unidad": "m2",
+  "costoMaterialUsd": 16.2439,
+  "costoEjecucionUsd": 17.1548,
+  "costoTotalUsd": 33.3987
+ },
+ {
+  "categoria": "AISLACIONES",
+  "codigo": "05.06",
+  "descripcion": "Lana de vidrio con cara aluminio 50mm",
+  "unidad": "m2",
+  "costoMaterialUsd": 5.0151,
+  "costoEjecucionUsd": 1.3724,
+  "costoTotalUsd": 6.3875
+ },
+ {
+  "categoria": "AISLACIONES",
+  "codigo": "05.07",
+  "descripcion": "Membrana espuma polietileno 10mm bajo techo",
+  "unidad": "m2",
+  "costoMaterialUsd": 5.9832,
+  "costoEjecucionUsd": 1.8396,
+  "costoTotalUsd": 7.8228
+ },
+ {
+  "categoria": "AISLACIONES",
+  "codigo": "05.08",
+  "descripcion": "Pintura asfáltica sobre paramentos",
+  "unidad": "m2",
+  "costoMaterialUsd": 1.5406,
+  "costoEjecucionUsd": 1.7155,
+  "costoTotalUsd": 3.256
+ },
+ {
+  "categoria": "AISLACIONES",
+  "codigo": "05.09",
+  "descripcion": "Pintura impermeabilizante sobre paramentos",
+  "unidad": "m2",
+  "costoMaterialUsd": 3.1398,
+  "costoEjecucionUsd": 1.8396,
+  "costoTotalUsd": 4.9795
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.01",
+  "descripcion": "Chapas HºGºNº25 color sobre estructura madera",
+  "unidad": "m2",
+  "costoMaterialUsd": 39.6769,
+  "costoEjecucionUsd": 15.7325,
+  "costoTotalUsd": 55.4094
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.02",
+  "descripcion": "Chapas HºGºNº25 color sobre estructura metálica",
+  "unidad": "m2",
+  "costoMaterialUsd": 45.6365,
+  "costoEjecucionUsd": 17.8129,
+  "costoTotalUsd": 63.4494
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.03",
+  "descripcion": "Chapas HºGºNº25 color sobre estructura mixta",
+  "unidad": "m2",
+  "costoMaterialUsd": 41.6922,
+  "costoEjecucionUsd": 17.6491,
+  "costoTotalUsd": 59.3414
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.04",
+  "descripcion": "Chapas HºGºNº25 sobre estructura madera",
+  "unidad": "m2",
+  "costoMaterialUsd": 24.3168,
+  "costoEjecucionUsd": 15.0572,
+  "costoTotalUsd": 39.374
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.05",
+  "descripcion": "Chapas HºGºNº25 sobre estructura metálica",
+  "unidad": "m2",
+  "costoMaterialUsd": 37.2228,
+  "costoEjecucionUsd": 17.448,
+  "costoTotalUsd": 54.6707
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.06",
+  "descripcion": "Chapas HºGºNº25 sobre estructura mixta",
+  "unidad": "m2",
+  "costoMaterialUsd": 32.4416,
+  "costoEjecucionUsd": 16.6089,
+  "costoTotalUsd": 49.0506
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.07",
+  "descripcion": "Plana completa terminación azotea verde",
+  "unidad": "m2",
+  "costoMaterialUsd": 58.1479,
+  "costoEjecucionUsd": 31.9765,
+  "costoTotalUsd": 90.1244
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.08",
+  "descripcion": "Plana completa terminación baldosa cerámica",
+  "unidad": "m2",
+  "costoMaterialUsd": 30.9996,
+  "costoEjecucionUsd": 22.9967,
+  "costoTotalUsd": 53.9964
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.09",
+  "descripcion": "Plana completa terminación doblado ladrillos comunes",
+  "unidad": "m2",
+  "costoMaterialUsd": 31.8482,
+  "costoEjecucionUsd": 20.9962,
+  "costoTotalUsd": 52.8444
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.10",
+  "descripcion": "Plana completa terminación membrana asfáltica c/aluminio",
+  "unidad": "m2",
+  "costoMaterialUsd": 22.8243,
+  "costoEjecucionUsd": 17.9049,
+  "costoTotalUsd": 40.7292
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.11",
+  "descripcion": "Plana completa terminación membrana geotextil",
+  "unidad": "m2",
+  "costoMaterialUsd": 26.3543,
+  "costoEjecucionUsd": 20.2957,
+  "costoTotalUsd": 46.6499
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.12",
+  "descripcion": "Tejas francesas esmaltadas (color) sobre losa c/ aisl.",
+  "unidad": "m2",
+  "costoMaterialUsd": 40.8396,
+  "costoEjecucionUsd": 15.7325,
+  "costoTotalUsd": 56.5721
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.13",
+  "descripcion": "Tejas francesas esmaltadas (color), est. madera sin cepillar c/ aisl.",
+  "unidad": "m2",
+  "costoMaterialUsd": 63.8966,
+  "costoEjecucionUsd": 24.4019,
+  "costoTotalUsd": 88.2985
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.14",
+  "descripcion": "Tejas francesas esmaltadas (color), est. madera vista c/ aisl.",
+  "unidad": "m2",
+  "costoMaterialUsd": 79.1003,
+  "costoEjecucionUsd": 26.738,
+  "costoTotalUsd": 105.8383
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.15",
+  "descripcion": "Tejas francesas esmaltadas sobre losa c/ aisl.",
+  "unidad": "m2",
+  "costoMaterialUsd": 32.1462,
+  "costoEjecucionUsd": 15.0572,
+  "costoTotalUsd": 47.2034
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.16",
+  "descripcion": "Tejas francesas esmaltadas, est. madera sin cepillar c/ aisl.",
+  "unidad": "m2",
+  "costoMaterialUsd": 55.3919,
+  "costoEjecucionUsd": 24.037,
+  "costoTotalUsd": 79.4288
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.17",
+  "descripcion": "Tejas francesas esmaltadas, est. madera vista c/ aisl.",
+  "unidad": "m2",
+  "costoMaterialUsd": 70.5956,
+  "costoEjecucionUsd": 26.3731,
+  "costoTotalUsd": 96.9687
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.18",
+  "descripcion": "Tejas francesas natural sobre losa c/ aisl.",
+  "unidad": "m2",
+  "costoMaterialUsd": 27.1138,
+  "costoEjecucionUsd": 14.7469,
+  "costoTotalUsd": 41.8607
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.19",
+  "descripcion": "Tejas francesas natural, est. madera sin cepillar c/ aisl.",
+  "unidad": "m2",
+  "costoMaterialUsd": 50.4853,
+  "costoEjecucionUsd": 23.3617,
+  "costoTotalUsd": 73.847
+ },
+ {
+  "categoria": "CUBIERTA",
+  "codigo": "06.20",
+  "descripcion": "Tejas francesas natural, est. madera vista c/ aisl.",
+  "unidad": "m2",
+  "costoMaterialUsd": 65.689,
+  "costoEjecucionUsd": 25.6978,
+  "costoTotalUsd": 91.3869
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.01",
+  "descripcion": "Azotado impermeable",
+  "unidad": "m2",
+  "costoMaterialUsd": 0.8799,
+  "costoEjecucionUsd": 6.1285,
+  "costoTotalUsd": 7.0084
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.02",
+  "descripcion": "Azotado impermeable en muro doble",
+  "unidad": "m2",
+  "costoMaterialUsd": 0.8518,
+  "costoEjecucionUsd": 7.1723,
+  "costoTotalUsd": 8.024
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.03",
+  "descripcion": "Exterior a la cal común completo",
+  "unidad": "m2",
+  "costoMaterialUsd": 3.0085,
+  "costoEjecucionUsd": 16.2066,
+  "costoTotalUsd": 19.2151
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.04",
+  "descripcion": "Exterior completo, terminación material de frente",
+  "unidad": "m2",
+  "costoMaterialUsd": 3.8387,
+  "costoEjecucionUsd": 17.6328,
+  "costoTotalUsd": 21.4715
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.05",
+  "descripcion": "Fino a la cal",
+  "unidad": "m2",
+  "costoMaterialUsd": 1.0355,
+  "costoEjecucionUsd": 7.1543,
+  "costoTotalUsd": 8.1897
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.06",
+  "descripcion": "Fino/Estucado yeso",
+  "unidad": "m2",
+  "costoMaterialUsd": 0.9603,
+  "costoEjecucionUsd": 10.1847,
+  "costoTotalUsd": 11.145
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.07",
+  "descripcion": "Grueso común",
+  "unidad": "m2",
+  "costoMaterialUsd": 1.1046,
+  "costoEjecucionUsd": 6.6136,
+  "costoTotalUsd": 7.7183
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.08",
+  "descripcion": "Impermeable de cemento",
+  "unidad": "m2",
+  "costoMaterialUsd": 7.3943,
+  "costoEjecucionUsd": 18.5225,
+  "costoTotalUsd": 25.9168
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.09",
+  "descripcion": "Interior a la cal común completo",
+  "unidad": "m2",
+  "costoMaterialUsd": 1.9845,
+  "costoEjecucionUsd": 11.0227,
+  "costoTotalUsd": 13.0072
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.10",
+  "descripcion": "Interior azotado y grueso b/ revestimientos",
+  "unidad": "m2",
+  "costoMaterialUsd": 2.1783,
+  "costoEjecucionUsd": 8.3216,
+  "costoTotalUsd": 10.5
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.11",
+  "descripcion": "Premezclado fino exterior (manual)",
+  "unidad": "m2",
+  "costoMaterialUsd": 1.6413,
+  "costoEjecucionUsd": 9.1067,
+  "costoTotalUsd": 10.7479
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.12",
+  "descripcion": "Premezclado fino interior (manual)",
+  "unidad": "m2",
+  "costoMaterialUsd": 1.4851,
+  "costoEjecucionUsd": 7.8475,
+  "costoTotalUsd": 9.3326
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.13",
+  "descripcion": "Premezclado grueso y fino interior (manual)",
+  "unidad": "m2",
+  "costoMaterialUsd": 15.6282,
+  "costoEjecucionUsd": 8.8877,
+  "costoTotalUsd": 24.5159
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.14",
+  "descripcion": "Premezclado grueso y fino interior (proyectable)",
+  "unidad": "m2",
+  "costoMaterialUsd": 15.9427,
+  "costoEjecucionUsd": 7.5372,
+  "costoTotalUsd": 23.4798
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.15",
+  "descripcion": "Premezclado impermeable, grueso y fino exterior (manual)",
+  "unidad": "m2",
+  "costoMaterialUsd": 17.8242,
+  "costoEjecucionUsd": 10.2929,
+  "costoTotalUsd": 28.117
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.16",
+  "descripcion": "Premezclado impermeable, grueso y fino exterior (proyectable)",
+  "unidad": "m2",
+  "costoMaterialUsd": 18.0129,
+  "costoEjecucionUsd": 8.2343,
+  "costoTotalUsd": 26.2472
+ },
+ {
+  "categoria": "REVOQUES",
+  "codigo": "07.17",
+  "descripcion": "Toma de juntas de ladrillos vistos",
+  "unidad": "m2",
+  "costoMaterialUsd": 0.5929,
+  "costoEjecucionUsd": 14.856,
+  "costoTotalUsd": 15.449
+ },
+ {
+  "categoria": "CONTRAPISOS",
+  "codigo": "08.01",
+  "descripcion": "Hormigón alivianado c/ poliestireno expandido e=06cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 8.3451,
+  "costoEjecucionUsd": 8.3591,
+  "costoTotalUsd": 16.7042
+ },
+ {
+  "categoria": "CONTRAPISOS",
+  "codigo": "08.02",
+  "descripcion": "Hormigón alivianado c/ poliestireno expandido e=08cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 9.8473,
+  "costoEjecucionUsd": 9.2785,
+  "costoTotalUsd": 19.1258
+ },
+ {
+  "categoria": "CONTRAPISOS",
+  "codigo": "08.03",
+  "descripcion": "Hormigón alivianado c/ poliestireno expandido e=20cm, para rellenos",
+  "unidad": "m2",
+  "costoMaterialUsd": 23.2596,
+  "costoEjecucionUsd": 11.8222,
+  "costoTotalUsd": 35.0818
+ },
+ {
+  "categoria": "CONTRAPISOS",
+  "codigo": "08.04",
+  "descripcion": "Hormigón alivianado elaborado H8 e=6cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 7.6685,
+  "costoEjecucionUsd": 7.0085,
+  "costoTotalUsd": 14.6771
+ },
+ {
+  "categoria": "CONTRAPISOS",
+  "codigo": "08.05",
+  "descripcion": "Hormigón alivianado elaborado H8 e=8cm, para banquinas",
+  "unidad": "m2",
+  "costoMaterialUsd": 8.9585,
+  "costoEjecucionUsd": 7.3188,
+  "costoTotalUsd": 16.2773
+ },
+ {
+  "categoria": "CONTRAPISOS",
+  "codigo": "08.06",
+  "descripcion": "Hormigón armado e=12cm terminación a la llana",
+  "unidad": "m2",
+  "costoMaterialUsd": 25.9587,
+  "costoEjecucionUsd": 14.5763,
+  "costoTotalUsd": 40.5351
+ },
+ {
+  "categoria": "CONTRAPISOS",
+  "codigo": "08.07",
+  "descripcion": "Hormigón de cascotes e=08cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 3.9765,
+  "costoEjecucionUsd": 7.885,
+  "costoTotalUsd": 11.8615
+ },
+ {
+  "categoria": "CONTRAPISOS",
+  "codigo": "08.08",
+  "descripcion": "Hormigón de cascotes e=10cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 6.312,
+  "costoEjecucionUsd": 9.8562,
+  "costoTotalUsd": 16.1682
+ },
+ {
+  "categoria": "CONTRAPISOS",
+  "codigo": "08.09",
+  "descripcion": "Hormigón de cascotes e=12cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 7.4482,
+  "costoEjecucionUsd": 10.9404,
+  "costoTotalUsd": 18.3885
+ },
+ {
+  "categoria": "CONTRAPISOS",
+  "codigo": "08.10",
+  "descripcion": "Mortero elaborado RDC CUC=150kg/m3) e=6 cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 7.5881,
+  "costoEjecucionUsd": 6.0775,
+  "costoTotalUsd": 13.6656
+ },
+ {
+  "categoria": "CIELORRASOS",
+  "codigo": "09.01",
+  "descripcion": "Hormigón visto (terminaciones)",
+  "unidad": "m2",
+  "costoMaterialUsd": 0.1373,
+  "costoEjecucionUsd": 5.6346,
+  "costoTotalUsd": 5.7719
+ },
+ {
+  "categoria": "CIELORRASOS",
+  "codigo": "09.02",
+  "descripcion": "Madera machimbrada suspendido con estructura madera",
+  "unidad": "m2",
+  "costoMaterialUsd": 19.9298,
+  "costoEjecucionUsd": 9.9164,
+  "costoTotalUsd": 29.8463
+ },
+ {
+  "categoria": "CIELORRASOS",
+  "codigo": "09.03",
+  "descripcion": "Mortero a la cal aplicado bajo losa",
+  "unidad": "m2",
+  "costoMaterialUsd": 2.7279,
+  "costoEjecucionUsd": 15.5303,
+  "costoTotalUsd": 18.2582
+ },
+ {
+  "categoria": "CIELORRASOS",
+  "codigo": "09.04",
+  "descripcion": "Placa de yeso común junta tomada, con aislación",
+  "unidad": "m2",
+  "costoMaterialUsd": 8.9504,
+  "costoEjecucionUsd": 7.1329,
+  "costoTotalUsd": 16.0833
+ },
+ {
+  "categoria": "CIELORRASOS",
+  "codigo": "09.05",
+  "descripcion": "Placa de yeso común junta tomada, sin aislación",
+  "unidad": "m2",
+  "costoMaterialUsd": 7.9807,
+  "costoEjecucionUsd": 6.9733,
+  "costoTotalUsd": 14.9541
+ },
+ {
+  "categoria": "CIELORRASOS",
+  "codigo": "09.06",
+  "descripcion": "Placa de yeso común para cajones, taparrollos",
+  "unidad": "m2",
+  "costoMaterialUsd": 8.3527,
+  "costoEjecucionUsd": 8.2481,
+  "costoTotalUsd": 16.6007
+ },
+ {
+  "categoria": "CIELORRASOS",
+  "codigo": "09.07",
+  "descripcion": "Placa de yeso resistente a la humedad junta tomada",
+  "unidad": "m2",
+  "costoMaterialUsd": 9.8972,
+  "costoEjecucionUsd": 7.3999,
+  "costoTotalUsd": 17.2971
+ },
+ {
+  "categoria": "CIELORRASOS",
+  "codigo": "09.08",
+  "descripcion": "Placa vinílica texturada desmontable, sin aislación",
+  "unidad": "m2",
+  "costoMaterialUsd": 8.4936,
+  "costoEjecucionUsd": 7.8762,
+  "costoTotalUsd": 16.3698
+ },
+ {
+  "categoria": "CIELORRASOS",
+  "codigo": "09.09",
+  "descripcion": "Yeso aplicado bajo losa",
+  "unidad": "m2",
+  "costoMaterialUsd": 1.3947,
+  "costoEjecucionUsd": 15.5303,
+  "costoTotalUsd": 16.9249
+ },
+ {
+  "categoria": "CIELORRASOS",
+  "codigo": "09.10",
+  "descripcion": "Yeso armado, con estructura madera",
+  "unidad": "m2",
+  "costoMaterialUsd": 10.5508,
+  "costoEjecucionUsd": 26.6625,
+  "costoTotalUsd": 37.2132
+ },
+ {
+  "categoria": "REVESTIMIENTOS",
+  "codigo": "10.01",
+  "descripcion": "Cemento alisado",
+  "unidad": "m2",
+  "costoMaterialUsd": 5.3861,
+  "costoEjecucionUsd": 23.6195,
+  "costoTotalUsd": 29.0055
+ },
+ {
+  "categoria": "REVESTIMIENTOS",
+  "codigo": "10.02",
+  "descripcion": "Cerámicos esmaltados",
+  "unidad": "m2",
+  "costoMaterialUsd": 19.3349,
+  "costoEjecucionUsd": 13.7832,
+  "costoTotalUsd": 33.1181
+ },
+ {
+  "categoria": "REVESTIMIENTOS",
+  "codigo": "10.03",
+  "descripcion": "Granito reconstituido en escalones e:2,5cm (h/ch/z)",
+  "unidad": "m2",
+  "costoMaterialUsd": 181.4648,
+  "costoEjecucionUsd": 42.202,
+  "costoTotalUsd": 223.6668
+ },
+ {
+  "categoria": "REVESTIMIENTOS",
+  "codigo": "10.04",
+  "descripcion": "Mesada de granito natural e=2,5cm, comp. (gris mara)",
+  "unidad": "m2",
+  "costoMaterialUsd": 114.1866,
+  "costoEjecucionUsd": 25.051,
+  "costoTotalUsd": 139.2376
+ },
+ {
+  "categoria": "REVESTIMIENTOS",
+  "codigo": "10.05",
+  "descripcion": "Mesada de piedra natural e=2,5cm, comp. (travertino)",
+  "unidad": "m2",
+  "costoMaterialUsd": 200.2396,
+  "costoEjecucionUsd": 30.7148,
+  "costoTotalUsd": 230.9544
+ },
+ {
+  "categoria": "REVESTIMIENTOS",
+  "codigo": "10.06",
+  "descripcion": "Plástico texturado",
+  "unidad": "m2",
+  "costoMaterialUsd": 7.493,
+  "costoEjecucionUsd": 17.4651,
+  "costoTotalUsd": 24.9581
+ },
+ {
+  "categoria": "REVESTIMIENTOS",
+  "codigo": "10.07",
+  "descripcion": "Porcellanato canto rectificado",
+  "unidad": "m2",
+  "costoMaterialUsd": 50.7996,
+  "costoEjecucionUsd": 14.7142,
+  "costoTotalUsd": 65.5138
+ },
+ {
+  "categoria": "REVESTIMIENTOS",
+  "codigo": "10.08",
+  "descripcion": "Porcellanato sin rectificar",
+  "unidad": "m2",
+  "costoMaterialUsd": 30.6068,
+  "costoEjecucionUsd": 12.0009,
+  "costoTotalUsd": 42.6077
+ },
+ {
+  "categoria": "REVESTIMIENTOS",
+  "codigo": "10.09",
+  "descripcion": "Tejuelas refractarias",
+  "unidad": "m2",
+  "costoMaterialUsd": 18.1983,
+  "costoEjecucionUsd": 18.4336,
+  "costoTotalUsd": 36.6318
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.01",
+  "descripcion": "Alfombra alto tránsito 8mm",
+  "unidad": "m2",
+  "costoMaterialUsd": 24.5839,
+  "costoEjecucionUsd": 6.9205,
+  "costoTotalUsd": 31.5044
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.02",
+  "descripcion": "Carpeta cemento bajo pisos",
+  "unidad": "m2",
+  "costoMaterialUsd": 3.8197,
+  "costoEjecucionUsd": 5.5659,
+  "costoTotalUsd": 9.3857
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.03",
+  "descripcion": "Cemento alisado",
+  "unidad": "m2",
+  "costoMaterialUsd": 4.1258,
+  "costoEjecucionUsd": 6.2412,
+  "costoTotalUsd": 10.367
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.04",
+  "descripcion": "Cemento term.a la llana mecánica, incl.H° e=4cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 8.7227,
+  "costoEjecucionUsd": 7.3338,
+  "costoTotalUsd": 16.0564
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.05",
+  "descripcion": "Cemento term.texturado/raspinado, incl.H° e=4cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 8.2046,
+  "costoEjecucionUsd": 7.6441,
+  "costoTotalUsd": 15.8487
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.06",
+  "descripcion": "Cerámicas esmaltadas",
+  "unidad": "m2",
+  "costoMaterialUsd": 20.3218,
+  "costoEjecucionUsd": 13.4346,
+  "costoTotalUsd": 33.7564
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.07",
+  "descripcion": "Cerámicas rojas",
+  "unidad": "m2",
+  "costoMaterialUsd": 14.5467,
+  "costoEjecucionUsd": 12.7593,
+  "costoTotalUsd": 27.306
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.08",
+  "descripcion": "Losetas de Hº 40x60cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 19.122,
+  "costoEjecucionUsd": 11.3331,
+  "costoTotalUsd": 30.4551
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.09",
+  "descripcion": "Losetas graníticas 40x40cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 17.3165,
+  "costoEjecucionUsd": 13.5055,
+  "costoTotalUsd": 30.822
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.10",
+  "descripcion": "Madera flotante simil algarrobo e=8mm",
+  "unidad": "m2",
+  "costoMaterialUsd": 18.5361,
+  "costoEjecucionUsd": 15.8962,
+  "costoTotalUsd": 34.4323
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.11",
+  "descripcion": "Madera parquet algarrobo e=19mm",
+  "unidad": "m2",
+  "costoMaterialUsd": 17.9813,
+  "costoEjecucionUsd": 15.5313,
+  "costoTotalUsd": 33.5126
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.12",
+  "descripcion": "Madera semidura tipo deck",
+  "unidad": "m2",
+  "costoMaterialUsd": 16.7048,
+  "costoEjecucionUsd": 12.1549,
+  "costoTotalUsd": 28.8597
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.13",
+  "descripcion": "Mosaicos graníticos 30x30cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 16.7725,
+  "costoEjecucionUsd": 15.3301,
+  "costoTotalUsd": 32.1027
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.14",
+  "descripcion": "Pavimento con adoquín intertrabado e=8cm",
+  "unidad": "m2",
+  "costoMaterialUsd": 18.8678,
+  "costoEjecucionUsd": 12.8302,
+  "costoTotalUsd": 31.698
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.15",
+  "descripcion": "Porcellanato pulido",
+  "unidad": "m2",
+  "costoMaterialUsd": 47.0179,
+  "costoEjecucionUsd": 15.4604,
+  "costoTotalUsd": 62.4783
+ },
+ {
+  "categoria": "PISOS",
+  "codigo": "11.16",
+  "descripcion": "Porcellanato sin pulir",
+  "unidad": "m2",
+  "costoMaterialUsd": 28.3283,
+  "costoEjecucionUsd": 12.6095,
+  "costoTotalUsd": 40.9378
+ },
+ {
+  "categoria": "ZOCALOS",
+  "codigo": "12.01",
+  "descripcion": "Cemento alisado h=10 cm",
+  "unidad": "m",
+  "costoMaterialUsd": 0.1984,
+  "costoEjecucionUsd": 3.431,
+  "costoTotalUsd": 3.6293
+ },
+ {
+  "categoria": "ZOCALOS",
+  "codigo": "12.02",
+  "descripcion": "Cerámico Esmaltado",
+  "unidad": "m",
+  "costoMaterialUsd": 3.7911,
+  "costoEjecucionUsd": 2.3908,
+  "costoTotalUsd": 6.1819
+ },
+ {
+  "categoria": "ZOCALOS",
+  "codigo": "12.03",
+  "descripcion": "Cerámico Gres",
+  "unidad": "m",
+  "costoMaterialUsd": 2.822,
+  "costoEjecucionUsd": 2.3908,
+  "costoTotalUsd": 5.2128
+ },
+ {
+  "categoria": "ZOCALOS",
+  "codigo": "12.04",
+  "descripcion": "Madera",
+  "unidad": "m",
+  "costoMaterialUsd": 2.6423,
+  "costoEjecucionUsd": 2.3178,
+  "costoTotalUsd": 4.9601
+ },
+ {
+  "categoria": "ZOCALOS",
+  "codigo": "12.05",
+  "descripcion": "Mosaico granítico 10x30cm",
+  "unidad": "m",
+  "costoMaterialUsd": 2.9901,
+  "costoEjecucionUsd": 3.066,
+  "costoTotalUsd": 6.0562
+ },
+ {
+  "categoria": "ZOCALOS",
+  "codigo": "12.06",
+  "descripcion": "Perfil metálico",
+  "unidad": "m",
+  "costoMaterialUsd": 2.2476,
+  "costoEjecucionUsd": 2.2448,
+  "costoTotalUsd": 4.4924
+ },
+ {
+  "categoria": "ZOCALOS",
+  "codigo": "12.07",
+  "descripcion": "Porcellanato pulido",
+  "unidad": "m",
+  "costoMaterialUsd": 8.6016,
+  "costoEjecucionUsd": 2.5367,
+  "costoTotalUsd": 11.1383
+ },
+ {
+  "categoria": "CARPINTERÍAS",
+  "codigo": "13.01",
+  "descripcion": "Puerta ingreso madera maciza",
+  "unidad": "m2",
+  "costoMaterialUsd": 286.536,
+  "costoEjecucionUsd": 40.5164,
+  "costoTotalUsd": 327.0524
+ },
+ {
+  "categoria": "CARPINTERÍAS",
+  "codigo": "13.02",
+  "descripcion": "Puerta interior madera placa ench.madera",
+  "unidad": "m2",
+  "costoMaterialUsd": 111.0941,
+  "costoEjecucionUsd": 33.7637,
+  "costoTotalUsd": 144.8578
+ },
+ {
+  "categoria": "CARPINTERÍAS",
+  "codigo": "13.03",
+  "descripcion": "Puerta interior madera placa ench.mdf",
+  "unidad": "m2",
+  "costoMaterialUsd": 87.1052,
+  "costoEjecucionUsd": 32.4132,
+  "costoTotalUsd": 119.5184
+ },
+ {
+  "categoria": "CARPINTERÍAS",
+  "codigo": "13.04",
+  "descripcion": "Rejas de hierro",
+  "unidad": "m2",
+  "costoMaterialUsd": 91.213,
+  "costoEjecucionUsd": 26.7926,
+  "costoTotalUsd": 118.0056
+ },
+ {
+  "categoria": "CARPINTERÍAS",
+  "codigo": "13.05",
+  "descripcion": "Ventana, Puerta ventana aluminio",
+  "unidad": "m2",
+  "costoMaterialUsd": 180.8702,
+  "costoEjecucionUsd": 27.6862,
+  "costoTotalUsd": 208.5565
+ },
+ {
+  "categoria": "CARPINTERÍAS",
+  "codigo": "13.06",
+  "descripcion": "Ventana, Puerta ventana aluminio con postigos",
+  "unidad": "m2",
+  "costoMaterialUsd": 621.8397,
+  "costoEjecucionUsd": 35.9246,
+  "costoTotalUsd": 657.7643
+ },
+ {
+  "categoria": "CARPINTERÍAS",
+  "codigo": "13.07",
+  "descripcion": "Ventana, Puerta ventana chapa doblada con celosía",
+  "unidad": "m2",
+  "costoMaterialUsd": 87.0558,
+  "costoEjecucionUsd": 31.7379,
+  "costoTotalUsd": 118.7937
+ },
+ {
+  "categoria": "CARPINTERÍAS",
+  "codigo": "13.08",
+  "descripcion": "Ventana, Puerta ventana madera",
+  "unidad": "m2",
+  "costoMaterialUsd": 672.3015,
+  "costoEjecucionUsd": 28.3615,
+  "costoTotalUsd": 700.663
+ },
+ {
+  "categoria": "CARPINTERÍAS",
+  "codigo": "13.09",
+  "descripcion": "Ventana, Puerta ventana madera con postigos",
+  "unidad": "m2",
+  "costoMaterialUsd": 1093.7953,
+  "costoEjecucionUsd": 37.8153,
+  "costoTotalUsd": 1131.6106
+ },
+ {
+  "categoria": "CARPINTERÍAS",
+  "codigo": "13.10",
+  "descripcion": "Ventana, Ventiluz chapa doblada",
+  "unidad": "m2",
+  "costoMaterialUsd": 49.35,
+  "costoEjecucionUsd": 27.011,
+  "costoTotalUsd": 76.361
+ },
+ {
+  "categoria": "VIDRIERÍA",
+  "codigo": "14.01",
+  "descripcion": "Cristal Templado 10mm",
+  "unidad": "m2",
+  "costoMaterialUsd": 219.0446,
+  "costoEjecucionUsd": 27.4476,
+  "costoTotalUsd": 246.4922
+ },
+ {
+  "categoria": "VIDRIERÍA",
+  "codigo": "14.02",
+  "descripcion": "Espejo Cristal 6mm",
+  "unidad": "m2",
+  "costoMaterialUsd": 66.0337,
+  "costoEjecucionUsd": 5.4022,
+  "costoTotalUsd": 71.4359
+ },
+ {
+  "categoria": "VIDRIERÍA",
+  "codigo": "14.03",
+  "descripcion": "Vidrio doble hermético DVH 24mm",
+  "unidad": "m2",
+  "costoMaterialUsd": 200.3156,
+  "costoEjecucionUsd": 16.2939,
+  "costoTotalUsd": 216.6095
+ },
+ {
+  "categoria": "VIDRIERÍA",
+  "codigo": "14.04",
+  "descripcion": "Vidrio laminado seguridad 3+3mm color",
+  "unidad": "m2",
+  "costoMaterialUsd": 132.7161,
+  "costoEjecucionUsd": 9.9313,
+  "costoTotalUsd": 142.6474
+ },
+ {
+  "categoria": "VIDRIERÍA",
+  "codigo": "14.05",
+  "descripcion": "Vidrio laminado seguridad 3+3mm incoloro",
+  "unidad": "m2",
+  "costoMaterialUsd": 107.4044,
+  "costoEjecucionUsd": 9.006,
+  "costoTotalUsd": 116.4105
+ },
+ {
+  "categoria": "VIDRIERÍA",
+  "codigo": "14.06",
+  "descripcion": "Vidrio laminado seguridad 4+4mm color",
+  "unidad": "m2",
+  "costoMaterialUsd": 153.2185,
+  "costoEjecucionUsd": 8.806,
+  "costoTotalUsd": 162.0245
+ },
+ {
+  "categoria": "VIDRIERÍA",
+  "codigo": "14.07",
+  "descripcion": "Vidrio laminado seguridad 4+4mm incoloro",
+  "unidad": "m2",
+  "costoMaterialUsd": 146.3048,
+  "costoEjecucionUsd": 8.6067,
+  "costoTotalUsd": 154.9115
+ },
+ {
+  "categoria": "VIDRIERÍA",
+  "codigo": "14.08",
+  "descripcion": "Vidrio tipo inglés 3mm color",
+  "unidad": "m2",
+  "costoMaterialUsd": 52.0678,
+  "costoEjecucionUsd": 7.2125,
+  "costoTotalUsd": 59.2803
+ },
+ {
+  "categoria": "VIDRIERÍA",
+  "codigo": "14.09",
+  "descripcion": "Vidrio tipo inglés 3mm incoloro",
+  "unidad": "m2",
+  "costoMaterialUsd": 41.1369,
+  "costoEjecucionUsd": 6.8073,
+  "costoTotalUsd": 47.9443
+ },
+ {
+  "categoria": "VIDRIERÍA",
+  "codigo": "14.10",
+  "descripcion": "Vidrio Transparente 3mm",
+  "unidad": "m2",
+  "costoMaterialUsd": 20.0088,
+  "costoEjecucionUsd": 4.4896,
+  "costoTotalUsd": 24.4984
+ },
+ {
+  "categoria": "VIDRIERÍA",
+  "codigo": "14.11",
+  "descripcion": "Vidrio Transparente 4mm",
+  "unidad": "m2",
+  "costoMaterialUsd": 25.0797,
+  "costoEjecucionUsd": 5.7378,
+  "costoTotalUsd": 30.8175
+ },
+ {
+  "categoria": "PINTURAS",
+  "codigo": "15.01",
+  "descripcion": "Acrílica transparente en muros exteriores",
+  "unidad": "m2",
+  "costoMaterialUsd": 5.7996,
+  "costoEjecucionUsd": 6.8073,
+  "costoTotalUsd": 12.6069
+ },
+ {
+  "categoria": "PINTURAS",
+  "codigo": "15.02",
+  "descripcion": "Barniz p/ Carpintería madera",
+  "unidad": "m2",
+  "costoMaterialUsd": 9.1564,
+  "costoEjecucionUsd": 10.2008,
+  "costoTotalUsd": 19.3573
+ },
+ {
+  "categoria": "PINTURAS",
+  "codigo": "15.03",
+  "descripcion": "Esmalte Sintético  p/ Carpintería metálica",
+  "unidad": "m2",
+  "costoMaterialUsd": 10.9527,
+  "costoEjecucionUsd": 12.5916,
+  "costoTotalUsd": 23.5443
+ },
+ {
+  "categoria": "PINTURAS",
+  "codigo": "15.04",
+  "descripcion": "Látex en muros exteriores",
+  "unidad": "m2",
+  "costoMaterialUsd": 4.7474,
+  "costoEjecucionUsd": 7.1723,
+  "costoTotalUsd": 11.9196
+ },
+ {
+  "categoria": "PINTURAS",
+  "codigo": "15.05",
+  "descripcion": "Látex en muros interiores",
+  "unidad": "m2",
+  "costoMaterialUsd": 4.5997,
+  "costoEjecucionUsd": 6.132,
+  "costoTotalUsd": 10.7317
+ },
+ {
+  "categoria": "PINTURAS",
+  "codigo": "15.06",
+  "descripcion": "Látex para Cielorraso",
+  "unidad": "m2",
+  "costoMaterialUsd": 3.459,
+  "costoEjecucionUsd": 6.8619,
+  "costoTotalUsd": 10.321
+ },
+ {
+  "categoria": "INSTALACION ELÉCTRICA",
+  "codigo": "16.01",
+  "descripcion": "Artefacto Iluminación",
+  "unidad": "u",
+  "costoMaterialUsd": 52.5251,
+  "costoEjecucionUsd": 15.1237,
+  "costoTotalUsd": 67.6487
+ },
+ {
+  "categoria": "INSTALACION ELÉCTRICA",
+  "codigo": "16.02",
+  "descripcion": "Boca de electricidad",
+  "unidad": "u",
+  "costoMaterialUsd": 60.0054,
+  "costoEjecucionUsd": 26.3645,
+  "costoTotalUsd": 86.3699
+ },
+ {
+  "categoria": "INSTALACION ELÉCTRICA",
+  "codigo": "16.03",
+  "descripcion": "Boca de telefonía",
+  "unidad": "u",
+  "costoMaterialUsd": 54.3049,
+  "costoEjecucionUsd": 23.728,
+  "costoTotalUsd": 78.0329
+ },
+ {
+  "categoria": "INSTALACION ELÉCTRICA",
+  "codigo": "16.04",
+  "descripcion": "Boca de televisión",
+  "unidad": "u",
+  "costoMaterialUsd": 51.0046,
+  "costoEjecucionUsd": 23.2008,
+  "costoTotalUsd": 74.2053
+ },
+ {
+  "categoria": "INSTALACION ELÉCTRICA",
+  "codigo": "16.05",
+  "descripcion": "Tablero de electricidad",
+  "unidad": "u",
+  "costoMaterialUsd": 117.4438,
+  "costoEjecucionUsd": 35.1527,
+  "costoTotalUsd": 152.5965
+ },
+ {
+  "categoria": "INSTALACION ELÉCTRICA",
+  "codigo": "16.06",
+  "descripcion": "Toma de electricidad",
+  "unidad": "u",
+  "costoMaterialUsd": 53.4048,
+  "costoEjecucionUsd": 23.4644,
+  "costoTotalUsd": 76.8692
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.01",
+  "descripcion": "Accesorios baño loza blanca (9 piezas)",
+  "unidad": "jgo",
+  "costoMaterialUsd": 222.6213,
+  "costoEjecucionUsd": 44.148,
+  "costoTotalUsd": 266.7693
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.02",
+  "descripcion": "Bañera metálica enlozada blanca c/ grifería",
+  "unidad": "u",
+  "costoMaterialUsd": 402.633,
+  "costoEjecucionUsd": 65.6036,
+  "costoTotalUsd": 468.2366
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.03",
+  "descripcion": "Bidet loza blanca c/ grifería",
+  "unidad": "u",
+  "costoMaterialUsd": 269.9478,
+  "costoEjecucionUsd": 70.2956,
+  "costoTotalUsd": 340.2435
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.04",
+  "descripcion": "Inodoro pedestal loza blanca incl. D.I. y asiento",
+  "unidad": "u",
+  "costoMaterialUsd": 319.2764,
+  "costoEjecucionUsd": 69.6643,
+  "costoTotalUsd": 388.9407
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.05",
+  "descripcion": "Lavatorio loza blanca c/ grifería",
+  "unidad": "u",
+  "costoMaterialUsd": 244.0573,
+  "costoEjecucionUsd": 49.0534,
+  "costoTotalUsd": 293.1107
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.06",
+  "descripcion": "Pileta cocina bacha acero inoxidable c/ grifería",
+  "unidad": "u",
+  "costoMaterialUsd": 290.1923,
+  "costoEjecucionUsd": 49.0619,
+  "costoTotalUsd": 339.2542
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.07",
+  "descripcion": "Pileta lavar loza blanca c/ grifería",
+  "unidad": "u",
+  "costoMaterialUsd": 245.0984,
+  "costoEjecucionUsd": 44.7026,
+  "costoTotalUsd": 289.801
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.08",
+  "descripcion": "Boca Incendio",
+  "unidad": "u",
+  "costoMaterialUsd": 658.6905,
+  "costoEjecucionUsd": 138.1355,
+  "costoTotalUsd": 796.8259
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.09",
+  "descripcion": "Bomba centrífuga 1/2 HP",
+  "unidad": "u",
+  "costoMaterialUsd": 218.1549,
+  "costoEjecucionUsd": 30.8951,
+  "costoTotalUsd": 249.05
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.10",
+  "descripcion": "Canilla de servicio Ø 13mm c/ pico manguera",
+  "unidad": "u",
+  "costoMaterialUsd": 21.4419,
+  "costoEjecucionUsd": 6.7224,
+  "costoTotalUsd": 28.1644
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.11",
+  "descripcion": "Canilla de servicio Ø 13mm c/ pico manguera en nicho ac.inox.",
+  "unidad": "u",
+  "costoMaterialUsd": 52.7471,
+  "costoEjecucionUsd": 8.6334,
+  "costoTotalUsd": 61.3805
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.12",
+  "descripcion": "Cañería PP TF Ø 13mm",
+  "unidad": "m",
+  "costoMaterialUsd": 7.9664,
+  "costoEjecucionUsd": 4.9053,
+  "costoTotalUsd": 12.8718
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.13",
+  "descripcion": "Cañería PP TF Ø 19mm",
+  "unidad": "m",
+  "costoMaterialUsd": 9.9357,
+  "costoEjecucionUsd": 5.1016,
+  "costoTotalUsd": 15.0372
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.14",
+  "descripcion": "Cañería PP TF Ø 25mm",
+  "unidad": "m",
+  "costoMaterialUsd": 11.9049,
+  "costoEjecucionUsd": 5.349,
+  "costoTotalUsd": 17.2539
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.15",
+  "descripcion": "Cañería PP TF Ø 38mm",
+  "unidad": "m",
+  "costoMaterialUsd": 13.0685,
+  "costoEjecucionUsd": 5.4001,
+  "costoTotalUsd": 18.4687
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.16",
+  "descripcion": "Cañería PP TF Ø 50mm",
+  "unidad": "m",
+  "costoMaterialUsd": 15.4853,
+  "costoEjecucionUsd": 5.5025,
+  "costoTotalUsd": 20.9878
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.17",
+  "descripcion": "Llave de paso Ø 13mm",
+  "unidad": "u",
+  "costoMaterialUsd": 12.6983,
+  "costoEjecucionUsd": 4.9053,
+  "costoTotalUsd": 17.6037
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.18",
+  "descripcion": "Llave de paso Ø 19mm",
+  "unidad": "u",
+  "costoMaterialUsd": 15.8729,
+  "costoEjecucionUsd": 5.6817,
+  "costoTotalUsd": 21.5546
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.19",
+  "descripcion": "Llave de paso Ø 25mm",
+  "unidad": "u",
+  "costoMaterialUsd": 31.7458,
+  "costoEjecucionUsd": 8.1471,
+  "costoTotalUsd": 39.8929
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.20",
+  "descripcion": "Llave de paso Ø 38mm",
+  "unidad": "u",
+  "costoMaterialUsd": 39.6822,
+  "costoEjecucionUsd": 8.8296,
+  "costoTotalUsd": 48.5119
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.21",
+  "descripcion": "Llave de paso Ø 50mm",
+  "unidad": "u",
+  "costoMaterialUsd": 46.8251,
+  "costoEjecucionUsd": 9.2698,
+  "costoTotalUsd": 56.0949
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.22",
+  "descripcion": "Tanque de agua polietileno tricapa 1100ls",
+  "unidad": "u",
+  "costoMaterialUsd": 238.5115,
+  "costoEjecucionUsd": 32.6738,
+  "costoTotalUsd": 271.1853
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.23",
+  "descripcion": "Tanque de agua polietileno tricapa 2750ls",
+  "unidad": "u",
+  "costoMaterialUsd": 308.2302,
+  "costoEjecucionUsd": 42.4845,
+  "costoTotalUsd": 350.7147
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.24",
+  "descripcion": "Boca de Acceso PVC",
+  "unidad": "u",
+  "costoMaterialUsd": 64.7064,
+  "costoEjecucionUsd": 12.5287,
+  "costoTotalUsd": 77.2351
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.25",
+  "descripcion": "Boca de Desagüe Abierta PVC",
+  "unidad": "u",
+  "costoMaterialUsd": 27.4601,
+  "costoEjecucionUsd": 18.8365,
+  "costoTotalUsd": 46.2966
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.26",
+  "descripcion": "Cámara Inspección HºAº 60x60cm",
+  "unidad": "u",
+  "costoMaterialUsd": 122.8024,
+  "costoEjecucionUsd": 39.0892,
+  "costoTotalUsd": 161.8916
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.27",
+  "descripcion": "Cañería PVC 3,2 Ø 040mm",
+  "unidad": "m",
+  "costoMaterialUsd": 4.8126,
+  "costoEjecucionUsd": 4.1461,
+  "costoTotalUsd": 8.9587
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.28",
+  "descripcion": "Cañería PVC 3,2 Ø 050mm",
+  "unidad": "m",
+  "costoMaterialUsd": 7.578,
+  "costoEjecucionUsd": 4.4737,
+  "costoTotalUsd": 12.0516
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.29",
+  "descripcion": "Cañería PVC 3,2 Ø 060mm",
+  "unidad": "m",
+  "costoMaterialUsd": 7.8502,
+  "costoEjecucionUsd": 4.7091,
+  "costoTotalUsd": 12.5593
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.30",
+  "descripcion": "Cañería PVC 3,2 Ø 110mm",
+  "unidad": "m",
+  "costoMaterialUsd": 12.6579,
+  "costoEjecucionUsd": 5.6518,
+  "costoTotalUsd": 18.3097
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.31",
+  "descripcion": "Embudo PVC",
+  "unidad": "u",
+  "costoMaterialUsd": 19.8965,
+  "costoEjecucionUsd": 18.8365,
+  "costoTotalUsd": 38.733
+ },
+ {
+  "categoria": "INSTALACION SANITARIA / INCENDIO",
+  "codigo": "17.32",
+  "descripcion": "Pileta Patio Abierta PVC",
+  "unidad": "u",
+  "costoMaterialUsd": 32.1912,
+  "costoEjecucionUsd": 14.5966,
+  "costoTotalUsd": 46.7878
+ },
+ {
+  "categoria": "INSTALACION GAS",
+  "codigo": "18.01",
+  "descripcion": "Calefactor GN 2000cal",
+  "unidad": "u",
+  "costoMaterialUsd": 192.245,
+  "costoEjecucionUsd": 51.897,
+  "costoTotalUsd": 244.142
+ },
+ {
+  "categoria": "INSTALACION GAS",
+  "codigo": "18.02",
+  "descripcion": "Calefactor GN 3000cal",
+  "unidad": "u",
+  "costoMaterialUsd": 213.6056,
+  "costoEjecucionUsd": 54.6284,
+  "costoTotalUsd": 268.234
+ },
+ {
+  "categoria": "INSTALACION GAS",
+  "codigo": "18.03",
+  "descripcion": "Calefón GN 12ls",
+  "unidad": "u",
+  "costoMaterialUsd": 209.1453,
+  "costoEjecucionUsd": 55.8782,
+  "costoTotalUsd": 265.0235
+ },
+ {
+  "categoria": "INSTALACION GAS",
+  "codigo": "18.04",
+  "descripcion": "Calefón GN 14ls",
+  "unidad": "u",
+  "costoMaterialUsd": 232.9878,
+  "costoEjecucionUsd": 56.5104,
+  "costoTotalUsd": 289.4982
+ },
+ {
+  "categoria": "INSTALACION GAS",
+  "codigo": "18.05",
+  "descripcion": "Cocina GN 4H, H y P",
+  "unidad": "u",
+  "costoMaterialUsd": 232.3604,
+  "costoEjecucionUsd": 58.011,
+  "costoTotalUsd": 290.3714
+ },
+ {
+  "categoria": "INSTALACION GAS",
+  "codigo": "18.06",
+  "descripcion": "Termotanque GN 060ls",
+  "unidad": "u",
+  "costoMaterialUsd": 283.3918,
+  "costoEjecucionUsd": 57.755,
+  "costoTotalUsd": 341.1469
+ },
+ {
+  "categoria": "INSTALACION GAS",
+  "codigo": "18.07",
+  "descripcion": "Termotanque GN 110ls",
+  "unidad": "u",
+  "costoMaterialUsd": 498.8115,
+  "costoEjecucionUsd": 58.4375,
+  "costoTotalUsd": 557.249
+ },
+ {
+  "categoria": "INSTALACION GAS",
+  "codigo": "18.08",
+  "descripcion": "Cañería EPOXI Ø 013mm",
+  "unidad": "m",
+  "costoMaterialUsd": 5.2037,
+  "costoEjecucionUsd": 6.9101,
+  "costoTotalUsd": 12.1138
+ },
+ {
+  "categoria": "INSTALACION GAS",
+  "codigo": "18.09",
+  "descripcion": "Cañería EPOXI Ø 019mm",
+  "unidad": "m",
+  "costoMaterialUsd": 6.3601,
+  "costoEjecucionUsd": 7.8485,
+  "costoTotalUsd": 14.2086
+ },
+ {
+  "categoria": "INSTALACION GAS",
+  "codigo": "18.10",
+  "descripcion": "Cañería EPOXI Ø 025mm",
+  "unidad": "m",
+  "costoMaterialUsd": 7.5165,
+  "costoEjecucionUsd": 8.7955,
+  "costoTotalUsd": 16.312
+ },
+ {
+  "categoria": "INSTALACION GAS",
+  "codigo": "18.11",
+  "descripcion": "Cañería EPOXI Ø 050mm",
+  "unidad": "m",
+  "costoMaterialUsd": 8.6729,
+  "costoEjecucionUsd": 9.8789,
+  "costoTotalUsd": 18.5518
+ },
+ {
+  "categoria": "INSTALACION GAS",
+  "codigo": "18.12",
+  "descripcion": "Llave de paso Ø 13mm",
+  "unidad": "u",
+  "costoMaterialUsd": 13.0295,
+  "costoEjecucionUsd": 8.4329,
+  "costoTotalUsd": 21.4624
+ },
+ {
+  "categoria": "INSTALACION GAS",
+  "codigo": "18.13",
+  "descripcion": "Llave de paso Ø 19mm",
+  "unidad": "u",
+  "costoMaterialUsd": 16.6778,
+  "costoEjecucionUsd": 9.9087,
+  "costoTotalUsd": 26.5864
+ },
+ {
+  "categoria": "EQUIPAMIENTO",
+  "codigo": "19.01",
+  "descripcion": "Amob.fijo: bajo mesada y alacena (incl. mesada granito)",
+  "unidad": "m2",
+  "costoMaterialUsd": 869.1703,
+  "costoEjecucionUsd": 136.0502,
+  "costoTotalUsd": 1005.2205
+ },
+ {
+  "categoria": "EQUIPAMIENTO",
+  "codigo": "19.02",
+  "descripcion": "Amob.fijo: bajo mesada y alacena (no incl. mesada)",
+  "unidad": "m2",
+  "costoMaterialUsd": 366.7898,
+  "costoEjecucionUsd": 109.7381,
+  "costoTotalUsd": 476.5279
+ },
+ {
+  "categoria": "EQUIPAMIENTO",
+  "codigo": "19.03",
+  "descripcion": "Amob.fijo: puertas de placares",
+  "unidad": "m2",
+  "costoMaterialUsd": 123.407,
+  "costoEjecucionUsd": 39.5942,
+  "costoTotalUsd": 163.0012
+ },
+ {
+  "categoria": "EQUIPAMIENTO",
+  "codigo": "19.04",
+  "descripcion": "Amob.fijo: puertas e interiores de placares",
+  "unidad": "m2",
+  "costoMaterialUsd": 185.6659,
+  "costoEjecucionUsd": 47.905,
+  "costoTotalUsd": 233.5709
+ },
+ {
+  "categoria": "EQUIPAMIENTO",
+  "codigo": "19.05",
+  "descripcion": "Matafuegos ABC 05kg",
+  "unidad": "u",
+  "costoMaterialUsd": 129.1193,
+  "costoEjecucionUsd": 13.4128,
+  "costoTotalUsd": 142.5321
+ },
+ {
+  "categoria": "EQUIPAMIENTO",
+  "codigo": "19.06",
+  "descripcion": "Matafuegos ABC 10kg",
+  "unidad": "u",
+  "costoMaterialUsd": 246.4629,
+  "costoEjecucionUsd": 14.3061,
+  "costoTotalUsd": 260.769
+ },
+ {
+  "categoria": "VARIOS",
+  "codigo": "20.01",
+  "descripcion": "Ayuda de gremio",
+  "unidad": "m2",
+  "costoMaterialUsd": 0.0,
+  "costoEjecucionUsd": 4.4643,
+  "costoTotalUsd": 4.4643
+ },
+ {
+  "categoria": "VARIOS",
+  "codigo": "20.02",
+  "descripcion": "Conductos ventilación, incl. sombrerete y reja",
+  "unidad": "m",
+  "costoMaterialUsd": 21.282,
+  "costoEjecucionUsd": 80.2786,
+  "costoTotalUsd": 101.5606
+ },
+ {
+  "categoria": "VARIOS",
+  "codigo": "20.03",
+  "descripcion": "Limpieza periódica y final de obra de obra",
+  "unidad": "m2",
+  "costoMaterialUsd": 2.0758,
+  "costoEjecucionUsd": 8.7215,
+  "costoTotalUsd": 10.7973
+ },
+ {
+  "categoria": "VARIOS",
+  "codigo": "20.04",
+  "descripcion": "Parquización (cesped)",
+  "unidad": "m2",
+  "costoMaterialUsd": 3.648,
+  "costoEjecucionUsd": 5.1505,
+  "costoTotalUsd": 8.7985
+ }
+]

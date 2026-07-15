@@ -84,6 +84,7 @@ async function main() {
 
   await seedAdmin(pool)
   await seedCatalogo(pool)
+  await seedPreciosReferencia(pool)
   await seedParametros(pool)
   await pool.end()
   console.log('[migrate] listo')
@@ -142,6 +143,9 @@ async function seedCatalogo(pool) {
       ['Estructura Alma Llena', 'm2', 1, 19.4, 34.1],
       ['Estructura Reticulada', 'm2', 1, 13.0, 26.0],
     ]],
+    ['Escaleras', 54, 360, [
+      ['Escalera metálica', 'global', 1, 1955, 2546],
+    ]],
     ['Cerramiento Lateral', 51, 352, [
       ['Cerramiento Lateral Chapa', 'm2', 1, 17.7, 4.4],
     ]],
@@ -161,11 +165,23 @@ async function seedCatalogo(pool) {
     ['Veredín', 59, 373, [
       ['Veredín perimetral H-25', 'm2', 1, 1.76, 1.45],
     ]],
+    // Rubros del módulo "oficina interior" (Tabiques, Revestimientos, Obra Civil).
+    // Sus m² escalan con el área de la oficina, no con la superficie de nave.
+    ['Tabiques Livianos y Cielorraso', 60, 375, [
+      ['Tabique y cielorraso interior', 'm2', 1, 15.0, 12.0],
+    ]],
+    ['Revestimientos', 62, 379, [
+      ['Revestimientos y pisos de oficina', 'm2', 1, 22.0, 10.0],
+    ]],
+    ['Obra Civil', 67, 391, [
+      ['Losa/entrepiso y mampostería', 'm2', 1, 25.0, 22.0],
+    ]],
     ['Instalación Eléctrica', 64, 384, [
       ['Instalación Eléctrica Nave', 'm2', 1, 9.5, 0],
     ]],
+    // Baño interior: costeo por artefactos, escala con la cantidad de baños.
     ['Instalación Sanitaria', 63, 380, [
-      ['Instalación Sanitaria Nave', 'm2', 1, 6.0, 0],
+      ['Baño completo (artefactos + instalación)', 'bano', 1, 900, 300],
     ]],
     ['Montaje', 50, 348, [
       ['Montaje en Obra', 'm2', 1, 0, 20.0],
@@ -197,6 +213,45 @@ async function seedCatalogo(pool) {
     }
   }
   console.log('[seed] catálogo de rubros/ratios inicial creado (calibrado, con material/MO y códigos Flexxus)')
+}
+
+// Biblioteca de precios de referencia (Revista Cifras). Se siembra desde
+// scripts/precios-referencia.json (extraído de la hoja de costos unitarios).
+// Upsert idempotente por (codigo, descripcion): re-ejecutar actualiza precios
+// sin duplicar. Sólo corre si el JSON está presente.
+async function seedPreciosReferencia(pool) {
+  let datos
+  try {
+    const raw = readFileSync(path.join(process.cwd(), 'scripts', 'precios-referencia.json'), 'utf8')
+    datos = JSON.parse(raw)
+  } catch {
+    console.log('[seed] precios-referencia.json ausente, se omite la biblioteca de precios')
+    return
+  }
+  if (!Array.isArray(datos) || datos.length === 0) return
+
+  let insertados = 0
+  for (const it of datos) {
+    const total = Number(it.costoTotalUsd) || (Number(it.costoMaterialUsd) || 0) + (Number(it.costoEjecucionUsd) || 0)
+    await pool.query(
+      `INSERT INTO precios_referencia
+         (categoria, codigo, descripcion, unidad, costo_material_usd, costo_ejecucion_usd, costo_total_usd, fuente)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, 'Revista Cifras')
+       ON CONFLICT (codigo, descripcion) DO UPDATE SET
+         categoria = EXCLUDED.categoria,
+         unidad = EXCLUDED.unidad,
+         costo_material_usd = EXCLUDED.costo_material_usd,
+         costo_ejecucion_usd = EXCLUDED.costo_ejecucion_usd,
+         costo_total_usd = EXCLUDED.costo_total_usd,
+         updated_at = now()`,
+      [
+        it.categoria || '', it.codigo || '', it.descripcion, it.unidad || '',
+        Number(it.costoMaterialUsd) || 0, Number(it.costoEjecucionUsd) || 0, total,
+      ],
+    )
+    insertados++
+  }
+  console.log(`[seed] biblioteca de precios de referencia: ${insertados} ítems (upsert)`)
 }
 
 // Parámetros globales del costeo (cascada directo → indirectos → beneficio → IVA).

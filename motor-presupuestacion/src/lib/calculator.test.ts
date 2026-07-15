@@ -45,8 +45,13 @@ const CATALOGO: RatioConCatalogo[] = [
   ratio('Portones', 'Portón Corredizo Metálico', 'uni', 1, 1500, 350),
   ratio('Piso Industrial', 'Piso Hormigón H-25 c/cuarzo', 'm2', 1, 20, 6),
   ratio('Instalación Eléctrica', 'Instalación Eléctrica Nave', 'm2', 1, 9.5),
-  ratio('Instalación Sanitaria', 'Instalación Sanitaria Nave', 'm2', 1, 6),
+  ratio('Instalación Sanitaria', 'Baño completo', 'bano', 1, 900, 300),
   ratio('Montaje', 'Montaje en Obra', 'm2', 1, 0, 20),
+  // Módulo oficina interior (escala por área de oficina, no por superficie de nave)
+  ratio('Tabiques Livianos y Cielorraso', 'Tabique interior', 'm2', 1, 15, 12),
+  ratio('Revestimientos', 'Revestimientos oficina', 'm2', 1, 22, 10),
+  ratio('Obra Civil', 'Losa entrepiso', 'm2', 1, 25, 22),
+  ratio('Escaleras', 'Escalera metálica', 'global', 1, 1955, 2546),
 ]
 
 const PARAMS: Parametros = { ...PARAMETROS_DEFAULT, tipoCambio: 1000 }
@@ -64,6 +69,9 @@ function datos(overrides: Partial<DatosTecnicos> = {}): DatosTecnicos {
     incluye_piso_industrial: false,
     incluye_instalacion_electrica: false,
     incluye_instalacion_sanitaria: false,
+    incluye_oficina: false,
+    incluye_bano: false,
+    incluye_movimiento_suelo: false,
     ...overrides,
   }
 }
@@ -137,11 +145,62 @@ describe('calcularItems', () => {
     expect(flete.costoMaterialUsd).toBeCloseTo(10 * 200 * 1.76)
   })
 
-  it('incluye todo el catálogo por defecto (no depende de flags de alcance)', () => {
+  it('incluye los rubros de nave por defecto y excluye los módulos opcionales', () => {
     const nombres = calcularItems(datos(), CATALOGO, PARAMS).map((i) => i.descripcion)
+    // Núcleo de nave: siempre incluido
     expect(nombres).toContain('Cerramiento Lateral Chapa')
     expect(nombres).toContain('Piso Hormigón H-25 c/cuarzo')
-    expect(nombres).toContain('Instalación Eléctrica Nave')
+    // Opcionales sin activar: excluidos
+    expect(nombres).not.toContain('Instalación Eléctrica Nave')
+    expect(nombres).not.toContain('Baño completo')
+    expect(nombres).not.toContain('Tabique interior')
+  })
+
+  it('activa el módulo oficina y escala sus rubros por el área de la oficina', () => {
+    const items = calcularItems(
+      datos({ superficie_m2: 1000, incluye_oficina: true, oficina_ancho_m: 5, oficina_largo_m: 8 }),
+      CATALOGO,
+      PARAMS,
+    )
+    const tabique = items.find((i) => i.descripcion === 'Tabique interior')!
+    expect(tabique).toBeTruthy()
+    // 5 × 8 = 40 m² de oficina (no los 1000 m² de nave)
+    expect(tabique.cantidad).toBe(40)
+    expect(tabique.costoMaterialUsd).toBeCloseTo(40 * 15)
+  })
+
+  it('duplica el área de oficina y agrega escalera con planta alta', () => {
+    const sinPA = calcularItems(
+      datos({ incluye_oficina: true, oficina_ancho_m: 5, oficina_largo_m: 8 }),
+      CATALOGO, PARAMS,
+    )
+    expect(sinPA.some((i) => i.descripcion === 'Escalera metálica')).toBe(false)
+    expect(sinPA.find((i) => i.descripcion === 'Tabique interior')!.cantidad).toBe(40)
+
+    const conPA = calcularItems(
+      datos({ incluye_oficina: true, oficina_ancho_m: 5, oficina_largo_m: 8, oficina_planta_alta: true }),
+      CATALOGO, PARAMS,
+    )
+    const escalera = conPA.find((i) => i.descripcion === 'Escalera metálica')!
+    expect(escalera).toBeTruthy()
+    expect(escalera.cantidad).toBe(1) // global, cantidad fija
+    expect(escalera.costoMaterialUsd).toBeCloseTo(1955)
+    // planta alta duplica la superficie de oficina
+    expect(conPA.find((i) => i.descripcion === 'Tabique interior')!.cantidad).toBe(80)
+  })
+
+  it('activa el baño y escala por cantidad de baños', () => {
+    const items = calcularItems(datos({ incluye_bano: true, cantidad_banos: 3 }), CATALOGO, PARAMS)
+    const bano = items.find((i) => i.descripcion === 'Baño completo')!
+    expect(bano).toBeTruthy()
+    expect(bano.cantidad).toBe(3)
+    expect(bano.costoMaterialUsd).toBeCloseTo(3 * 900)
+  })
+
+  it('activa la instalación eléctrica sólo con su flag', () => {
+    expect(calcularItems(datos(), CATALOGO, PARAMS).some((i) => i.descripcion === 'Instalación Eléctrica Nave')).toBe(false)
+    expect(calcularItems(datos({ incluye_instalacion_electrica: true }), CATALOGO, PARAMS)
+      .some((i) => i.descripcion === 'Instalación Eléctrica Nave')).toBe(true)
   })
 
   it('excluye el rubro Montaje cuando no se incluye montaje', () => {

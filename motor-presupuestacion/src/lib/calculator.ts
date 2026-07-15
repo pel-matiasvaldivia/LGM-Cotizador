@@ -17,6 +17,17 @@ export interface DatosTecnicos {
   incluye_instalacion_electrica: boolean
   incluye_instalacion_sanitaria: boolean
   cantidad_portones?: number
+  // Módulo oficina interior: activa Tabiques, Revestimientos, Obra Civil (y
+  // Escaleras si hay planta alta). Los m² de esos rubros escalan con el área de
+  // la oficina (× 2 plantas si tiene planta alta), no con la superficie de nave.
+  incluye_oficina?: boolean
+  oficina_ancho_m?: number
+  oficina_largo_m?: number
+  oficina_planta_alta?: boolean
+  // Módulo baño interior: activa Instalación Sanitaria; escala por cantidad.
+  incluye_bano?: boolean
+  cantidad_banos?: number
+  incluye_movimiento_suelo?: boolean
   distancia_obra_km?: number
   ubicacion?: string
   [key: string]: unknown
@@ -238,9 +249,29 @@ function preciosUnitarios(
   return { material, mo, moFab, moMontaje }
 }
 
+// Área de la oficina interior (× 2 si hay planta alta). Base de los rubros de
+// oficina (tabiques, revestimientos, obra civil) — separada de la superficie de nave.
+function areaOficina(datos: DatosTecnicos): number {
+  const a = Number(datos.oficina_ancho_m || 0) * Number(datos.oficina_largo_m || 0)
+  return datos.oficina_planta_alta ? a * 2 : a
+}
+
+// Rubros cuyos m² escalan con el área de la oficina en vez de la superficie de nave.
+const RUBROS_BASE_OFICINA = new Set([
+  'tabiques livianos y cielorraso',
+  'revestimientos',
+  'obra civil',
+])
+
+// Superficie base sobre la que escala un rubro por m² (nave u oficina).
+function superficieBase(rubroNombre: string | undefined, datos: DatosTecnicos): number {
+  if (rubroNombre && RUBROS_BASE_OFICINA.has(normalizar(rubroNombre))) return areaOficina(datos)
+  return Number(datos.superficie_m2 || 0)
+}
+
 function calcularCantidad(ratio: RatioConCatalogo, datos: DatosTecnicos): number {
   const ratioCantidad = Number(ratio.ratioCantidad || 0)
-  const superficie = Number(datos.superficie_m2 || 0)
+  const base = superficieBase(ratio.subrubro?.rubro?.nombre, datos)
 
   switch (ratio.unidad) {
     case 'kg/m2':
@@ -248,9 +279,13 @@ function calcularCantidad(ratio: RatioConCatalogo, datos: DatosTecnicos): number
     case 'm2':
     case 'm3':
     case 'gl':
-      return ratioCantidad * superficie
+      return ratioCantidad * base
     case 'uni':
       return ratioCantidad * (Number(datos.cantidad_portones) || 1)
+    case 'bano':
+      return ratioCantidad * (Number(datos.cantidad_banos) || 1)
+    case 'global':
+      return ratioCantidad // cantidad fija (p. ej. escalera global), no escala
     default:
       return ratioCantidad
   }
@@ -261,11 +296,27 @@ function normalizar(texto: string): string {
   return texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
 
-// El catálogo (Base 0 importado) define QUÉ se cotiza: todos sus rubros entran
-// al presupuesto. La única opción de alcance es el montaje. Las tipologías y
-// tipos de cubierta sólo eligen entre variantes cuando el catálogo las ofrece
-// (p. ej. el seed con Estructura Alveolar/Alma Llena/Reticulada); un ratio
-// genérico —sin variante en el nombre— se incluye siempre.
+// Rubros opcionales: sólo entran al presupuesto si el cliente activó el módulo
+// correspondiente en el wizard. Clave = nombre de rubro normalizado; valor =
+// predicado sobre los datos técnicos. Todo rubro que no figure acá es "núcleo de
+// nave" y se incluye siempre (salvo la lógica de montaje y de variantes de abajo).
+const RUBROS_OPCIONALES: Record<string, (d: DatosTecnicos) => boolean> = {
+  'tabiques livianos y cielorraso': (d) => !!d.incluye_oficina,
+  'revestimientos': (d) => !!d.incluye_oficina,
+  'obra civil': (d) => !!d.incluye_oficina,
+  // Escaleras: sólo si la oficina tiene planta alta (entrepiso).
+  'escaleras': (d) => !!d.incluye_oficina && !!d.oficina_planta_alta,
+  'instalacion sanitaria': (d) => !!d.incluye_bano,
+  'instalacion electrica': (d) => !!d.incluye_instalacion_electrica,
+  'portones': (d) => !!d.incluye_portones,
+  'movimiento de suelo': (d) => !!d.incluye_movimiento_suelo,
+}
+
+// El catálogo define QUÉ rubros existen; el wizard decide CUÁLES entran. Los
+// rubros de nave se incluyen siempre; los opcionales (oficina, baño, eléctrica,
+// portones…) sólo si el cliente activó su módulo. El montaje es un toggle sobre
+// la MO de montaje. Las tipologías/cubiertas eligen entre variantes cuando el
+// catálogo las ofrece (Estructura Alveolar/Alma Llena/Reticulada, etc.).
 export function esRubroIncluido(
   rubroNombre: string | undefined,
   subrubroNombre: string | undefined,
@@ -274,6 +325,10 @@ export function esRubroIncluido(
   if (!rubroNombre || !subrubroNombre) return false
   const r = normalizar(rubroNombre)
   const s = normalizar(subrubroNombre)
+
+  // Rubro opcional: entra sólo si su módulo está activo.
+  const predicado = RUBROS_OPCIONALES[r]
+  if (predicado && !predicado(datos)) return false
 
   // Montaje: única opción de alcance. Excluye el rubro "Montaje" si el cliente
   // no lo incluye (la porción de MO Montaje desglosada se maneja en calcularItems).
