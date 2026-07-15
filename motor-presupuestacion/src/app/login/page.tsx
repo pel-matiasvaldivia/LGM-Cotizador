@@ -12,7 +12,8 @@ export default async function LoginPage({
   const user = await getCurrentUser()
 
   if (user) {
-    redirect(params.next || '/proyectos')
+    // Los clientes van a su portal de seguimiento; el equipo interno, al panel.
+    redirect(user.rol === 'cliente' ? '/mi-proyecto' : (params.next || '/proyectos'))
   }
 
   return (
