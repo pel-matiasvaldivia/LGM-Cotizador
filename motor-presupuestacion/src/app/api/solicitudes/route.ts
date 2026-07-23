@@ -70,6 +70,14 @@ export const POST = withErrorHandling(async (req: Request) => {
       alturaLibre: numOrNull(body.altura_libre_m),
       tipologia: body.tipologia || null,
       tipoCubierta: body.tipo_cubierta || null,
+      // Alcance elegido por el cliente (mismo set que el cotizador). Lo que no
+      // tiene columna propia (oficina, movimiento de suelo, gestión del
+      // proyecto, medidas de oficina) queda en rawData para el comercial.
+      incluyeMontaje: body.incluye_montaje ?? true,
+      incluyePortones: !!body.incluye_portones,
+      incluyeElectrica: !!body.incluye_instalacion_electrica,
+      incluyeSanitaria: !!body.incluye_bano,
+      cantidadPortones: body.incluye_portones && body.cantidad_portones ? Number(body.cantidad_portones) : null,
       especificacionesAdicionales: body.descripcion || null,
       rawData: body,
     })
