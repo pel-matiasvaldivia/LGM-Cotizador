@@ -150,6 +150,20 @@ export const preciosReferencia = pgTable('precios_referencia', {
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 }, (t) => [uniqueIndex('precios_referencia_codigo_desc_idx').on(t.codigo, t.descripcion)])
 
+// ─── Documentación adjunta por el cliente ──────────────────────
+// Archivos que el cliente sube desde el formulario de requerimientos (planos,
+// pliegos, fotos, PDFs). Se guardan inline (base64) para no depender de un
+// blob store externo; el comercial los descarga desde el detalle del proyecto.
+export const documentosProyecto = pgTable('documentos_proyecto', {
+  id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+  proyectoId: uuid('proyecto_id').notNull().references(() => proyectos.id, { onDelete: 'cascade' }),
+  nombre: text('nombre').notNull(),
+  tipoMime: text('tipo_mime').notNull().default(''),
+  tamanoBytes: integer('tamano_bytes').notNull().default(0),
+  contenidoBase64: text('contenido_base64').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (t) => [index('documentos_proyecto_idx').on(t.proyectoId)])
+
 // ─── Ingestas (WhatsApp / audio / texto crudo) ─────────────────
 
 export const ingestas = pgTable('ingestas', {
@@ -187,6 +201,11 @@ export const ratiosCostosRelations = relations(ratiosCostos, ({ one }) => ({
 export const proyectosRelations = relations(proyectos, ({ many }) => ({
   datosTecnicos: many(datosTecnicos),
   items: many(presupuestoBaseItems),
+  documentos: many(documentosProyecto),
+}))
+
+export const documentosProyectoRelations = relations(documentosProyecto, ({ one }) => ({
+  proyecto: one(proyectos, { fields: [documentosProyecto.proyectoId], references: [proyectos.id] }),
 }))
 
 export const datosTecnicosRelations = relations(datosTecnicos, ({ one }) => ({
@@ -215,3 +234,5 @@ export type Rubro = typeof rubros.$inferSelect
 export type Subrubro = typeof subrubros.$inferSelect
 export type PrecioReferencia = typeof preciosReferencia.$inferSelect
 export type NuevoPrecioReferencia = typeof preciosReferencia.$inferInsert
+export type DocumentoProyecto = typeof documentosProyecto.$inferSelect
+export type NuevoDocumentoProyecto = typeof documentosProyecto.$inferInsert
