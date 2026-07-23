@@ -3,6 +3,7 @@
 import React, { useRef, useState } from 'react'
 import {
   Building2, CheckCircle2, Loader2, Paperclip, UploadCloud, X, FileText, Trash2,
+  ChevronDown, ChevronRight,
 } from 'lucide-react'
 
 type Doc = { nombre: string; tipoMime: string; tamanoBytes: number; contenidoBase64: string }
@@ -16,6 +17,28 @@ const TIPOLOGIAS = [
   { id: 'ALMA_LLENA', label: 'Alma llena (naves altas / puente grúa)' },
   { id: 'RETICULADA', label: 'Reticulada (grandes luces, económica)' },
 ]
+
+const CUBIERTAS = [
+  { id: '', label: 'No estoy seguro / que asesoren' },
+  { id: 'CHAPA_TRAPEZOIDAL', label: 'Chapa trapezoidal 25/75 (económica)' },
+  { id: 'PANEL_SANDWICH', label: 'Panel sandwich 50mm (aislación térmica/acústica)' },
+]
+
+// Fila de toggle compacta (mismo look que el cotizador)
+function ToggleRow({ active, onToggle, title, desc }: { active: boolean; onToggle: () => void; title: string; desc?: string }) {
+  return (
+    <div onClick={onToggle}
+      className={`flex items-center justify-between p-3.5 rounded-xl border-2 cursor-pointer transition-all ${active ? 'border-[#F05A28] bg-orange-50' : 'border-gray-100 hover:border-gray-300'}`}>
+      <div className="pr-4">
+        <p className="font-semibold text-[#1B2A47] text-sm">{title}</p>
+        {desc && <p className="text-xs text-gray-500">{desc}</p>}
+      </div>
+      <div className={`w-11 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${active ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+        <div className="w-4 h-4 bg-white rounded-full shadow" />
+      </div>
+    </div>
+  )
+}
 
 function formatoBytes(n: number) {
   if (n < 1024) return `${n} B`
@@ -38,7 +61,7 @@ function leerBase64(file: File): Promise<string> {
 }
 
 export default function SolicitudForm() {
-  const [form, setForm] = useState<Record<string, string>>({
+  const [form, setForm] = useState<Record<string, any>>({
     cliente_nombre: '',
     cliente_apellido: '',
     cliente_empresa: '',
@@ -50,15 +73,31 @@ export default function SolicitudForm() {
     largo_m: '',
     altura_libre_m: '',
     descripcion: '',
+    // Detalles opcionales (mismo alcance que el cotizador)
+    tipo_cubierta: '',
+    incluye_gestion_proyecto: false,
+    incluye_montaje: true,
+    incluye_oficina: false,
+    oficina_ancho_m: '',
+    oficina_largo_m: '',
+    oficina_planta_alta: false,
+    incluye_bano: false,
+    cantidad_banos: 1,
+    incluye_instalacion_electrica: false,
+    incluye_portones: false,
+    cantidad_portones: 1,
+    incluye_movimiento_suelo: false,
   })
   const [docs, setDocs] = useState<Doc[]>([])
   const [modalOpen, setModalOpen] = useState(false)
+  const [mostrarDetalles, setMostrarDetalles] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [done, setDone] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
-  const set = (k: string, v: string) => setForm((prev) => ({ ...prev, [k]: v }))
+  const set = (k: string, v: any) => setForm((prev) => ({ ...prev, [k]: v }))
+  const toggle = (k: string) => setForm((prev) => ({ ...prev, [k]: !prev[k] }))
 
   const inputClass = 'w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#F05A28] outline-none transition-shadow text-[#1B2A47]'
   const labelClass = 'block text-sm font-semibold text-slate-600 mb-1.5'
@@ -197,6 +236,118 @@ export default function SolicitudForm() {
                 placeholder="Uso de la nave, plazos, si tenés terreno, entrepiso, puente grúa, etc." />
             </div>
           </div>
+        </div>
+
+        {/* Detalles opcionales — se puede omitir */}
+        <div className="rounded-xl border border-gray-100 overflow-hidden">
+          <button onClick={() => setMostrarDetalles((v) => !v)}
+            className="w-full flex items-center justify-between px-4 py-3.5 bg-slate-50 hover:bg-slate-100 transition-colors text-left">
+            <div>
+              <p className="font-semibold text-[#1B2A47] text-sm">Detalles del proyecto <span className="text-slate-400 font-normal">(opcional)</span></p>
+              <p className="text-xs text-slate-500">Cubierta, gestión de obra y alcance. Podés omitirlo y lo definimos juntos.</p>
+            </div>
+            {mostrarDetalles ? <ChevronDown className="w-5 h-5 text-slate-400 shrink-0" /> : <ChevronRight className="w-5 h-5 text-slate-400 shrink-0" />}
+          </button>
+
+          {mostrarDetalles && (
+            <div className="p-4 space-y-4 border-t border-gray-100">
+              {/* Tipo de cubierta */}
+              <div>
+                <label className={labelClass}>Tipo de cubierta</label>
+                <select className={inputClass} value={form.tipo_cubierta} onChange={(e) => set('tipo_cubierta', e.target.value)}>
+                  {CUBIERTAS.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}
+                </select>
+              </div>
+
+              {/* Gestión del proyecto */}
+              <ToggleRow active={form.incluye_gestion_proyecto} onToggle={() => toggle('incluye_gestion_proyecto')}
+                title="Gestión y dirección del proyecto" desc="Que LOG METAL gestione y dirija la obra (honorarios y dirección técnica)." />
+
+              <div>
+                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Alcance</p>
+                <div className="space-y-3">
+                  <ToggleRow active={form.incluye_montaje} onToggle={() => toggle('incluye_montaje')}
+                    title="Montaje en obra" desc="Que nuestro equipo arme la estructura en tu terreno." />
+
+                  {/* Oficina interior */}
+                  <div className={`rounded-xl border-2 transition-all ${form.incluye_oficina ? 'border-[#F05A28]' : 'border-gray-100'}`}>
+                    <div onClick={() => toggle('incluye_oficina')}
+                      className={`flex items-center justify-between p-3.5 cursor-pointer ${form.incluye_oficina ? 'bg-orange-50 rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
+                      <div className="pr-4">
+                        <p className="font-semibold text-[#1B2A47] text-sm">Oficina interior</p>
+                        <p className="text-xs text-gray-500">Tabiques, cielorraso, revestimientos y obra civil.</p>
+                      </div>
+                      <div className={`w-11 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${form.incluye_oficina ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+                        <div className="w-4 h-4 bg-white rounded-full shadow" />
+                      </div>
+                    </div>
+                    {form.incluye_oficina && (
+                      <div className="p-3.5 pt-2 space-y-3">
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className={labelClass}>Ancho oficina (m)</label>
+                            <input type="number" min="0" className={inputClass} value={form.oficina_ancho_m} onChange={(e) => set('oficina_ancho_m', e.target.value)} placeholder="Ej: 5" />
+                          </div>
+                          <div>
+                            <label className={labelClass}>Largo oficina (m)</label>
+                            <input type="number" min="0" className={inputClass} value={form.oficina_largo_m} onChange={(e) => set('oficina_largo_m', e.target.value)} placeholder="Ej: 8" />
+                          </div>
+                        </div>
+                        <ToggleRow active={form.oficina_planta_alta} onToggle={() => toggle('oficina_planta_alta')}
+                          title="Con planta alta (entrepiso)" desc="Suma escalera y duplica la superficie de oficina." />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Baño */}
+                  <div className={`rounded-xl border-2 transition-all ${form.incluye_bano ? 'border-[#F05A28]' : 'border-gray-100'}`}>
+                    <div onClick={() => toggle('incluye_bano')}
+                      className={`flex items-center justify-between p-3.5 cursor-pointer ${form.incluye_bano ? 'bg-orange-50 rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
+                      <div className="pr-4">
+                        <p className="font-semibold text-[#1B2A47] text-sm">Baño interior</p>
+                        <p className="text-xs text-gray-500">Instalación sanitaria completa.</p>
+                      </div>
+                      <div className={`w-11 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${form.incluye_bano ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+                        <div className="w-4 h-4 bg-white rounded-full shadow" />
+                      </div>
+                    </div>
+                    {form.incluye_bano && (
+                      <div className="p-3.5 pt-2">
+                        <label className={labelClass}>Cantidad de baños</label>
+                        <input type="number" min="1" className={inputClass} value={form.cantidad_banos} onChange={(e) => set('cantidad_banos', e.target.value)} placeholder="1" />
+                      </div>
+                    )}
+                  </div>
+
+                  <ToggleRow active={form.incluye_instalacion_electrica} onToggle={() => toggle('incluye_instalacion_electrica')}
+                    title="Instalación eléctrica" desc="Tablero, bocas e iluminación de la nave." />
+
+                  {/* Portones */}
+                  <div className={`rounded-xl border-2 transition-all ${form.incluye_portones ? 'border-[#F05A28]' : 'border-gray-100'}`}>
+                    <div onClick={() => toggle('incluye_portones')}
+                      className={`flex items-center justify-between p-3.5 cursor-pointer ${form.incluye_portones ? 'bg-orange-50 rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
+                      <div className="pr-4">
+                        <p className="font-semibold text-[#1B2A47] text-sm">Portones</p>
+                        <p className="text-xs text-gray-500">Portones corredizos metálicos de acceso.</p>
+                      </div>
+                      <div className={`w-11 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${form.incluye_portones ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+                        <div className="w-4 h-4 bg-white rounded-full shadow" />
+                      </div>
+                    </div>
+                    {form.incluye_portones && (
+                      <div className="p-3.5 pt-2">
+                        <label className={labelClass}>Cantidad de portones</label>
+                        <input type="number" min="1" className={inputClass} value={form.cantidad_portones} onChange={(e) => set('cantidad_portones', e.target.value)} placeholder="1" />
+                      </div>
+                    )}
+                  </div>
+
+                  <ToggleRow active={form.incluye_movimiento_suelo} onToggle={() => toggle('incluye_movimiento_suelo')}
+                    title="Movimiento de suelo" desc="Nivelación / preparación del terreno." />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Documentación */}
