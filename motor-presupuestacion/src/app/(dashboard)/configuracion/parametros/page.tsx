@@ -20,6 +20,45 @@ type Params = {
 // Campos porcentuales (se guardan como fracción 0..1, se muestran como %)
 const PCT: (keyof Params)[] = ['iva', 'costosIndirectos', 'beneficio', 'desperdicios', 'coeficienteZona']
 
+// Campo numérico. Definido a nivel de módulo (NO dentro del render) para que React
+// no lo desmonte/monte en cada tecla: si se define inline, el input pierde el foco
+// tras cada dígito y sólo funcionan las flechas del spinner (sumar de a uno).
+function Num({
+  k,
+  label,
+  value,
+  step = 'any',
+  suffix,
+  isPct,
+  onChange,
+}: {
+  k: keyof Params
+  label: string
+  value: number
+  step?: string
+  suffix?: string
+  isPct: boolean
+  onChange: (k: keyof Params, v: number) => void
+}) {
+  return (
+    <div>
+      <label className="block text-sm font-medium text-slate-600 mb-1">{label}</label>
+      <div className="relative">
+        <input
+          type="number"
+          step={step}
+          value={value}
+          onChange={(e) => onChange(k, isPct ? Number(e.target.value) / 100 : Number(e.target.value))}
+          className="block w-full rounded-lg border border-gray-200 bg-white p-2.5 pr-10 text-[#1B2A47] focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
+        />
+        <span className="absolute inset-y-0 right-3 flex items-center text-slate-400 text-sm">
+          {suffix ?? (isPct ? '%' : '')}
+        </span>
+      </div>
+    </div>
+  )
+}
+
 export default function ParametrosPage() {
   const [p, setP] = useState<Params | null>(null)
   const [saving, setSaving] = useState(false)
@@ -72,26 +111,10 @@ export default function ParametrosPage() {
     return <div className="max-w-4xl mx-auto p-6 text-slate-400">Cargando parámetros…</div>
   }
 
-  const Num = ({ k, label, step = 'any', suffix }: { k: keyof Params; label: string; step?: string; suffix?: string }) => {
+  // Valor a mostrar: los porcentuales se editan como % (fracción × 100).
+  const num = (k: keyof Params) => {
     const isPct = PCT.includes(k)
-    const value = isPct ? Math.round((p[k] as number) * 10000) / 100 : (p[k] as number)
-    return (
-      <div>
-        <label className="block text-sm font-medium text-slate-600 mb-1">{label}</label>
-        <div className="relative">
-          <input
-            type="number"
-            step={step}
-            value={value}
-            onChange={(e) => set(k, isPct ? Number(e.target.value) / 100 : Number(e.target.value))}
-            className="block w-full rounded-lg border border-gray-200 bg-white p-2.5 pr-10 text-[#1B2A47] focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
-          />
-          <span className="absolute inset-y-0 right-3 flex items-center text-slate-400 text-sm">
-            {suffix ?? (isPct ? '%' : '')}
-          </span>
-        </div>
-      </div>
-    )
+    return isPct ? Math.round((p[k] as number) * 10000) / 100 : (p[k] as number)
   }
 
   return (
@@ -105,12 +128,12 @@ export default function ParametrosPage() {
         <section className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
           <h2 className="font-semibold text-[#1B2A47] mb-4">Cascada de precio</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Num k="tipoCambio" label="Tipo de cambio (ARS/USD)" suffix="$" />
-            <Num k="costosIndirectos" label="Costos indirectos" />
-            <Num k="beneficio" label="Beneficio" />
-            <Num k="iva" label="IVA" />
-            <Num k="desperdicios" label="Desperdicios (s/ material)" />
-            <Num k="coeficienteZona" label="Coef. de zona (por defecto)" />
+            <Num k="tipoCambio" label="Tipo de cambio (ARS/USD)" suffix="$" value={num('tipoCambio')} isPct={false} onChange={set} />
+            <Num k="costosIndirectos" label="Costos indirectos" value={num('costosIndirectos')} isPct onChange={set} />
+            <Num k="beneficio" label="Beneficio" value={num('beneficio')} isPct onChange={set} />
+            <Num k="iva" label="IVA" value={num('iva')} isPct onChange={set} />
+            <Num k="desperdicios" label="Desperdicios (s/ material)" value={num('desperdicios')} isPct onChange={set} />
+            <Num k="coeficienteZona" label="Coef. de zona (por defecto)" value={num('coeficienteZona')} isPct onChange={set} />
           </div>
         </section>
 
@@ -120,10 +143,10 @@ export default function ParametrosPage() {
             El costo de flete = viajes × distancia a obra (km) × tarifa. La distancia se carga (o se calcula por dirección) en cada proyecto.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Num k="fleteCamionUsdKm" label="Tarifa camión (USD/km)" suffix="US$" />
-            <Num k="viajesCamion" label="Viajes de camión" />
-            <Num k="fleteCamionetaUsdKm" label="Tarifa camioneta (USD/km)" suffix="US$" />
-            <Num k="viajesCamioneta" label="Viajes de camioneta" />
+            <Num k="fleteCamionUsdKm" label="Tarifa camión (USD/km)" suffix="US$" value={num('fleteCamionUsdKm')} isPct={false} onChange={set} />
+            <Num k="viajesCamion" label="Viajes de camión" value={num('viajesCamion')} isPct={false} onChange={set} />
+            <Num k="fleteCamionetaUsdKm" label="Tarifa camioneta (USD/km)" suffix="US$" value={num('fleteCamionetaUsdKm')} isPct={false} onChange={set} />
+            <Num k="viajesCamioneta" label="Viajes de camioneta" value={num('viajesCamioneta')} isPct={false} onChange={set} />
           </div>
           <div className="mt-4">
             <label className="block text-sm font-medium text-slate-600 mb-1">Ubicación base (origen de los fletes)</label>

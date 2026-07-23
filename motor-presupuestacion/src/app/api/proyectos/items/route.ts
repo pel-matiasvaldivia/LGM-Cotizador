@@ -84,6 +84,56 @@ export const POST = withErrorHandling(async (req: Request) => {
   return NextResponse.json(await estadoProyecto(proyectoId))
 })
 
+// PATCH → edita los valores de una línea puntual del presupuesto Base 0 de ESTE
+// proyecto (cantidad, material, mano de obra), sin tocar los ratios globales del
+// sistema. Cada proyecto es específico y suele necesitar ajustes a medida.
+// Los valores de Material y Mano de obra son totales de la línea (no unitarios),
+// igual que se muestran en la tabla. Ojo: los ítems 'base0' se regeneran al
+// "Recalcular"; para que un ajuste sobreviva, conviene editarlo después del
+// último recálculo (o usar ítems manuales).
+export const PATCH = withErrorHandling(async (req: Request) => {
+  await requireUser(['comercial', 'admin'])
+  const body = await req.json()
+  const { id } = body
+  if (!isUuid(id)) return NextResponse.json({ error: 'id inválido' }, { status: 400 })
+
+  const item = await db.query.presupuestoBaseItems.findFirst({ where: eq(presupuestoBaseItems.id, id) })
+  if (!item) return NextResponse.json({ error: 'Ítem no encontrado' }, { status: 404 })
+
+  // Sólo se pisan los campos enviados; el resto conserva su valor actual.
+  const num = (v: unknown, actual: number) =>
+    v === undefined || v === null ? actual : Math.max(Number(v) || 0, 0)
+
+  const cantidad = num(body.cantidad, item.cantidad)
+  const costoMaterialUsd = num(body.costoMaterialUsd, item.costoMaterialUsd)
+  const costoMoUsd = num(body.costoMoUsd, item.costoMoUsd)
+  const costoTotalUsd = costoMaterialUsd + costoMoUsd
+  const precioUnitarioUsd = cantidad > 0 ? costoTotalUsd / cantidad : costoTotalUsd
+
+  const params = await getParametros()
+  const tc = params.tipoCambio || 1
+
+  await db.update(presupuestoBaseItems)
+    .set({
+      cantidad,
+      costoMaterialUsd,
+      costoMoUsd,
+      // El desglose fab/montaje deja de ser fiable tras un ajuste manual: se
+      // colapsa todo en "montaje" para no romper la suma de MO.
+      costoMoFabUsd: 0,
+      costoMoMontajeUsd: costoMoUsd,
+      costoTotalUsd,
+      costoTotalArs: costoTotalUsd * tc,
+      precioUnitarioUsd,
+      precioUnitarioArs: precioUnitarioUsd * tc,
+      precioVentaUsd: costoTotalUsd,
+      precioVentaArs: costoTotalUsd * tc,
+    })
+    .where(eq(presupuestoBaseItems.id, id))
+
+  return NextResponse.json(await estadoProyecto(item.proyectoId))
+})
+
 // DELETE ?id=... → elimina un ítem manual. Los ítems 'base0' se regeneran en el
 // recálculo, así que sólo se permite borrar los agregados manualmente.
 export const DELETE = withErrorHandling(async (req: Request) => {
