@@ -4,6 +4,7 @@ import { db } from '@/db'
 import { proyectos } from '@/db/schema'
 import { proyectoToRow } from '@/lib/serializers'
 import ProyectosFiltros from '@/components/comercial/ProyectosFiltros'
+import CompartirFormulario from '@/components/comercial/CompartirFormulario'
 
 const ESTADOS = ['borrador', 'enviado', 'preaprobado', 'aprobado'] as const
 type Estado = (typeof ESTADOS)[number]
@@ -48,12 +49,15 @@ export default async function ProyectosPage({
             {q ? ` · "${q}"` : ''}
           </p>
         </div>
-        <Link
-          href="/proyectos/nuevo"
-          className="bg-[#F05A28] text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-orange-600 transition-all shadow-sm"
-        >
-          + Nuevo proyecto
-        </Link>
+        <div className="flex items-center gap-2">
+          <CompartirFormulario />
+          <Link
+            href="/proyectos/nuevo"
+            className="bg-[#F05A28] text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-orange-600 transition-all shadow-sm"
+          >
+            + Nuevo proyecto
+          </Link>
+        </div>
       </div>
 
       {/* Filtros (client component) */}

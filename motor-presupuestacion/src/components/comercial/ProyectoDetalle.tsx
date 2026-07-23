@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Download, FileText, Calculator, Loader2, ArrowLeft, User, MapPin, Building2, Send, Box, Truck, Plus, Trash2, Pencil, Check, X } from 'lucide-react'
+import { Download, FileText, Calculator, Loader2, ArrowLeft, User, MapPin, Building2, Send, Box, Truck, Plus, Trash2, Pencil, Check, X, Paperclip } from 'lucide-react'
 import Link from 'next/link'
 import AgregarItemModal from './AgregarItemModal'
 
@@ -12,11 +12,13 @@ export default function ProyectoDetalle({
   datosTecnicos,
   initialItems,
   initialResumen,
+  documentos = [],
 }: {
   proyecto: any
   datosTecnicos: any
   initialItems: any[]
   initialResumen: any
+  documentos?: any[]
 }) {
   const [tab, setTab] = useState<Tab>('base0')
   const [items, setItems] = useState<any[]>(initialItems)
@@ -426,6 +428,31 @@ export default function ProyectoDetalle({
         </div>
       </div>
 
+      {/* Documentación adjunta por el cliente */}
+      {documentos.length > 0 && (
+        <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm mb-6">
+          <div className="flex items-center gap-2 text-slate-400 mb-3">
+            <Paperclip className="w-4 h-4" />
+            <span className="text-xs font-semibold uppercase tracking-wide">Documentación del cliente ({documentos.length})</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {documentos.map((d) => (
+              <a key={d.id} href={`/api/documentos?id=${d.id}`} target="_blank" rel="noreferrer"
+                className="flex items-center gap-3 border border-gray-100 rounded-xl p-3 hover:border-[#F05A28] hover:bg-orange-50/40 transition-colors group">
+                <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-white">
+                  <FileText className="w-4 h-4 text-slate-500" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold text-[#1B2A47] truncate">{d.nombre}</p>
+                  <p className="text-xs text-slate-400">{formatoBytes(d.tamano_bytes)}</p>
+                </div>
+                <Download className="w-4 h-4 text-slate-300 group-hover:text-[#F05A28] shrink-0" />
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Tabs */}
       <div className="flex gap-1 bg-slate-100 p-1 rounded-xl mb-6 w-fit">
         <button
@@ -761,6 +788,13 @@ export default function ProyectoDetalle({
       )}
     </div>
   )
+}
+
+function formatoBytes(n: number) {
+  const b = Number(n || 0)
+  if (b < 1024) return `${b} B`
+  if (b < 1024 * 1024) return `${(b / 1024).toFixed(0)} KB`
+  return `${(b / 1024 / 1024).toFixed(1)} MB`
 }
 
 function Fila({ label, valor, sub, strong }: { label: string; valor: string; sub?: boolean; strong?: boolean }) {
