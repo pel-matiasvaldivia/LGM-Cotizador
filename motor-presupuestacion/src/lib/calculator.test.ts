@@ -222,6 +222,26 @@ describe('calcularItems', () => {
     expect(est.costoMoFabUsd).toBeCloseTo(100 * 30)
     expect(est.costoMoUsd).toBeCloseTo(100 * 30) // sólo fabricación
   })
+
+  it('con selección manual de subrubros incluye exactamente los marcados', () => {
+    // El comercial elige a mano dos subrubros que la lógica automática no incluiría
+    // (Alma Llena en vez de Alveolar, y Piso Industrial sin activar su módulo).
+    const items = calcularItems(
+      datos({
+        tipologia: 'ALVEOLAR', // sería Alveolar por defecto…
+        subrubros_seleccionados: ['sub-Estructura Alma Llena', 'sub-Piso Hormigón H-25 c/cuarzo'],
+      }),
+      CATALOGO,
+      PARAMS,
+    )
+    const nombres = items.map((i) => i.descripcion).filter((d) => d !== 'Flete camión' && d !== 'Flete camioneta')
+    expect(nombres.sort()).toEqual(['Estructura Alma Llena', 'Piso Hormigón H-25 c/cuarzo'])
+  })
+
+  it('con selección manual vacía usa la inclusión automática', () => {
+    const items = calcularItems(datos({ subrubros_seleccionados: [] }), CATALOGO, PARAMS)
+    expect(items.some((i) => i.descripcion === 'Estructura Alveolar')).toBe(true)
+  })
 })
 
 describe('calcularResumen (cascada)', () => {

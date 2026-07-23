@@ -1,5 +1,7 @@
 'use client'
 
+import SelectorRubros from './SelectorRubros'
+
 export default function R09Form({ variables, onChange }: { variables: any, onChange: (v: any) => void }) {
   return (
     <div className="bg-white p-6 border rounded-lg">
@@ -111,6 +113,19 @@ export default function R09Form({ variables, onChange }: { variables: any, onCha
               value={variables.cantidad_portones || 1} onChange={(e) => onChange({...variables, cantidad_portones: Number(e.target.value)})} />
           </div>
         )}
+      </div>
+
+      {/* Selección de rubros y subrubros del catálogo real */}
+      <div className="mt-8">
+        <h3 className="font-semibold text-gray-800 border-b pb-2">Rubros y subrubros a cotizar</h3>
+        <p className="text-xs text-gray-500 mt-2 mb-3">
+          Activá o desactivá exactamente lo que entra en esta cotización. Lo que dejes marcado acá manda sobre
+          el alcance automático: se generará una línea de presupuesto por cada subrubro seleccionado.
+        </p>
+        <SelectorRubros
+          seleccionados={variables.subrubros_seleccionados}
+          onChange={(ids) => onChange({ ...variables, subrubros_seleccionados: ids })}
+        />
       </div>
     </div>
   )

@@ -30,6 +30,12 @@ export interface DatosTecnicos {
   incluye_movimiento_suelo?: boolean
   distancia_obra_km?: number
   ubicacion?: string
+  // Selección explícita de subrubros hecha por el comercial al generar la
+  // cotización. Si viene con al menos un ID, MANDA sobre la lógica automática de
+  // alcance: entran exactamente los subrubros marcados (activar/desactivar
+  // rubros y subrubros a mano). Si viene vacío/ausente, se usa la inclusión
+  // automática por módulos (comportamiento histórico del wizard público).
+  subrubros_seleccionados?: string[]
   [key: string]: unknown
 }
 
@@ -70,10 +76,19 @@ export function calcularItems(
   const items: ItemCalculado[] = []
   let orden = 1
 
+  // Selección manual de subrubros (si el comercial la envió): manda sobre la
+  // inclusión automática por módulos.
+  const seleccion = new Set((datos.subrubros_seleccionados ?? []).filter(Boolean))
+  const haySeleccion = seleccion.size > 0
+
   for (const ratio of ratios) {
     const subrubro = ratio.subrubro
     const rubro = subrubro?.rubro
-    if (!esRubroIncluido(rubro?.nombre, subrubro?.nombre, datos)) continue
+    if (haySeleccion) {
+      if (!subrubro?.id || !seleccion.has(subrubro.id)) continue
+    } else if (!esRubroIncluido(rubro?.nombre, subrubro?.nombre, datos)) {
+      continue
+    }
 
     const cantidad = calcularCantidad(ratio, datos)
     const { material, mo, moFab, moMontaje } = preciosUnitarios(ratio)

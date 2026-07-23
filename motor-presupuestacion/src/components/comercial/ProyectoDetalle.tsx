@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Download, FileText, Calculator, Loader2, ArrowLeft, User, MapPin, Building2, Send, Box, Truck, Plus, Trash2 } from 'lucide-react'
+import { Download, FileText, Calculator, Loader2, ArrowLeft, User, MapPin, Building2, Send, Box, Truck, Plus, Trash2, Pencil, Check, X } from 'lucide-react'
 import Link from 'next/link'
 import AgregarItemModal from './AgregarItemModal'
 
@@ -32,6 +32,67 @@ export default function ProyectoDetalle({
   const [savingItem, setSavingItem] = useState(false)
   const [estado, setEstado] = useState<string>(proyecto.estado)
   const [enviando, setEnviando] = useState(false)
+
+  // Edición de la dirección exacta de la obra (los clientes rara vez la cargan bien)
+  const [ubicacion, setUbicacion] = useState<string>(proyecto.ubicacion || '')
+  const [editUbic, setEditUbic] = useState(false)
+  const [ubicDraft, setUbicDraft] = useState<string>(proyecto.ubicacion || '')
+  const [savingUbic, setSavingUbic] = useState(false)
+
+  // Edición inline de una línea del presupuesto (cantidad / material / mano de obra)
+  const [editItemId, setEditItemId] = useState<string | null>(null)
+  const [editDraft, setEditDraft] = useState<{ cantidad: string; material: string; mo: string }>({ cantidad: '', material: '', mo: '' })
+  const [savingEdit, setSavingEdit] = useState(false)
+
+  const startEditItem = (item: any) => {
+    setEditItemId(item.id)
+    setEditDraft({
+      cantidad: String(item.cantidad ?? 0),
+      material: String(item.costo_material_usd ?? 0),
+      mo: String(item.costo_mo_usd ?? 0),
+    })
+  }
+
+  const saveEditItem = async () => {
+    if (!editItemId) return
+    setSavingEdit(true)
+    try {
+      const res = await fetch('/api/proyectos/items', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: editItemId,
+          cantidad: Number(editDraft.cantidad) || 0,
+          costoMaterialUsd: Number(editDraft.material) || 0,
+          costoMoUsd: Number(editDraft.mo) || 0,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) { alert(data.error || 'No se pudo guardar el ítem'); return }
+      if (data.items) setItems(data.items)
+      if (data.resumen) setResumen(data.resumen)
+      setEditItemId(null)
+    } finally {
+      setSavingEdit(false)
+    }
+  }
+
+  const saveUbicacion = async () => {
+    setSavingUbic(true)
+    try {
+      const res = await fetch('/api/proyectos/update', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ proyectoId: proyecto.id, ubicacion: ubicDraft }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) { alert(data.error || 'No se pudo actualizar la dirección'); return }
+      setUbicacion(ubicDraft.trim())
+      setEditUbic(false)
+    } finally {
+      setSavingUbic(false)
+    }
+  }
 
   // Agrega un ítem manual (desde la biblioteca de precios o a medida).
   const addItem = async (payload: Record<string, unknown>) => {
@@ -309,11 +370,55 @@ export default function ProyectoDetalle({
         </div>
 
         <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-          <div className="flex items-center gap-2 text-slate-400 mb-3">
-            <MapPin className="w-4 h-4" />
-            <span className="text-xs font-semibold uppercase tracking-wide">Ubicación</span>
+          <div className="flex items-center justify-between gap-2 text-slate-400 mb-3">
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4" />
+              <span className="text-xs font-semibold uppercase tracking-wide">Ubicación</span>
+            </div>
+            {!editUbic && (
+              <button
+                onClick={() => { setUbicDraft(ubicacion); setEditUbic(true) }}
+                title="Editar la dirección exacta de la obra"
+                className="text-slate-300 hover:text-[#F05A28] transition-colors"
+              >
+                <Pencil className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
-          <p className="font-bold text-[#1B2A47]">{proyecto.ubicacion || '—'}</p>
+          {editUbic ? (
+            <div>
+              <input
+                type="text"
+                autoFocus
+                value={ubicDraft}
+                onChange={(e) => setUbicDraft(e.target.value)}
+                placeholder="Ej: Ruta 7 km 12, Parque Industrial, Las Heras, Mendoza"
+                className="block w-full rounded-lg border border-gray-200 bg-white p-2 text-sm text-[#1B2A47] focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
+              />
+              <div className="flex items-center gap-2 mt-2">
+                <button
+                  onClick={saveUbicacion}
+                  disabled={savingUbic}
+                  className="flex items-center gap-1 text-xs bg-[#F05A28] text-white px-3 py-1.5 rounded-lg font-semibold hover:bg-orange-600 disabled:opacity-40"
+                >
+                  {savingUbic ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
+                  Guardar
+                </button>
+                <button
+                  onClick={() => setEditUbic(false)}
+                  disabled={savingUbic}
+                  className="flex items-center gap-1 text-xs bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg font-semibold hover:bg-slate-200 disabled:opacity-40"
+                >
+                  <X className="w-3.5 h-3.5" /> Cancelar
+                </button>
+              </div>
+              <p className="text-[11px] text-slate-400 mt-2">
+                Corregí la dirección real de la obra. Después podés recalcular la distancia para el flete.
+              </p>
+            </div>
+          ) : (
+            <p className="font-bold text-[#1B2A47]">{ubicacion || '—'}</p>
+          )}
           <p className="text-xs text-slate-400 mt-2">Canal: <span className="capitalize">{proyecto.canal_origen?.replace(/_/g, ' ')}</span></p>
           {proyecto.observaciones && (
             <p className="text-xs text-slate-500 mt-2 italic">"{proyecto.observaciones}"</p>
@@ -349,7 +454,7 @@ export default function ProyectoDetalle({
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
             <div>
               <h2 className="font-bold text-[#1B2A47]">Presupuesto Base 0 — Interno</h2>
-              <p className="text-xs text-slate-400 mt-0.5">Costo real de la empresa. No se comparte con el cliente.</p>
+              <p className="text-xs text-slate-400 mt-0.5">Costo real de la empresa. No se comparte con el cliente. Editá cada línea (✎) para ajustar cantidad, material o mano de obra de este proyecto.</p>
             </div>
             <div className="flex items-center gap-2">
               <button
@@ -415,7 +520,7 @@ export default function ProyectoDetalle({
                   <th className="px-4 py-3 font-semibold text-right">Mano de obra</th>
                   <th className="px-4 py-3 font-semibold text-right">Costo USD</th>
                   <th className="px-4 py-3 font-semibold text-right w-24">Incid.</th>
-                  <th className="px-4 py-3 font-semibold text-center w-12"></th>
+                  <th className="px-4 py-3 font-semibold text-center w-20"></th>
                 </tr>
               </thead>
               <tbody>
@@ -426,29 +531,79 @@ export default function ProyectoDetalle({
                     </td>
                   </tr>
                 ) : (
-                  items.map((item, idx) => (
-                    <tr key={item.id || idx} className={`border-b border-gray-50 hover:bg-slate-50 ${idx % 2 === 0 ? '' : 'bg-slate-50/50'}`}>
+                  items.map((item, idx) => {
+                    const editing = editItemId === item.id
+                    return (
+                    <tr key={item.id || idx} className={`border-b border-gray-50 ${editing ? 'bg-orange-50/60' : `hover:bg-slate-50 ${idx % 2 === 0 ? '' : 'bg-slate-50/50'}`}`}>
                       <td className="px-4 py-3">
                         {item.descripcion || '—'}
                         {item.origen === 'manual' && (
                           <span className="ml-2 text-[10px] font-bold uppercase tracking-wide text-[#F05A28] bg-orange-50 border border-orange-200 rounded px-1.5 py-0.5">manual</span>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-center text-slate-500">{Number(item.cantidad || 0).toFixed(1)} {item.unidad}</td>
-                      <td className="px-4 py-3 text-right text-slate-500">{usd(item.costo_material_usd)}</td>
-                      <td className="px-4 py-3 text-right text-slate-500">{usd(item.costo_mo_usd)}</td>
-                      <td className="px-4 py-3 text-right font-semibold text-[#1B2A47]">{usd(item.costo_total_usd)}</td>
-                      <td className="px-4 py-3 text-right text-slate-400">{pct(item.incidencia)}</td>
-                      <td className="px-4 py-3 text-center">
-                        {item.origen === 'manual' && (
-                          <button onClick={() => removeItem(item.id)} title="Eliminar ítem"
-                            className="text-slate-300 hover:text-red-500 transition-colors">
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        )}
-                      </td>
+                      {editing ? (
+                        <>
+                          <td className="px-2 py-2">
+                            <div className="flex items-center justify-center gap-1">
+                              <input type="number" min={0} step="any" value={editDraft.cantidad}
+                                onChange={(e) => setEditDraft((d) => ({ ...d, cantidad: e.target.value }))}
+                                className="w-20 rounded-md border border-gray-200 p-1.5 text-right text-sm focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none" />
+                              <span className="text-xs text-slate-400">{item.unidad}</span>
+                            </div>
+                          </td>
+                          <td className="px-2 py-2">
+                            <input type="number" min={0} step="any" value={editDraft.material}
+                              onChange={(e) => setEditDraft((d) => ({ ...d, material: e.target.value }))}
+                              className="w-28 rounded-md border border-gray-200 p-1.5 text-right text-sm focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none" />
+                          </td>
+                          <td className="px-2 py-2">
+                            <input type="number" min={0} step="any" value={editDraft.mo}
+                              onChange={(e) => setEditDraft((d) => ({ ...d, mo: e.target.value }))}
+                              className="w-28 rounded-md border border-gray-200 p-1.5 text-right text-sm focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none" />
+                          </td>
+                          <td className="px-4 py-3 text-right font-semibold text-[#1B2A47]">
+                            {usd((Number(editDraft.material) || 0) + (Number(editDraft.mo) || 0))}
+                          </td>
+                          <td className="px-4 py-3 text-right text-slate-400">{pct(item.incidencia)}</td>
+                          <td className="px-2 py-3">
+                            <div className="flex items-center justify-center gap-1.5">
+                              <button onClick={saveEditItem} disabled={savingEdit} title="Guardar cambios"
+                                className="text-emerald-500 hover:text-emerald-600 disabled:opacity-40">
+                                {savingEdit ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                              </button>
+                              <button onClick={() => setEditItemId(null)} disabled={savingEdit} title="Cancelar"
+                                className="text-slate-300 hover:text-slate-500 disabled:opacity-40">
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          <td className="px-4 py-3 text-center text-slate-500">{Number(item.cantidad || 0).toFixed(1)} {item.unidad}</td>
+                          <td className="px-4 py-3 text-right text-slate-500">{usd(item.costo_material_usd)}</td>
+                          <td className="px-4 py-3 text-right text-slate-500">{usd(item.costo_mo_usd)}</td>
+                          <td className="px-4 py-3 text-right font-semibold text-[#1B2A47]">{usd(item.costo_total_usd)}</td>
+                          <td className="px-4 py-3 text-right text-slate-400">{pct(item.incidencia)}</td>
+                          <td className="px-2 py-3">
+                            <div className="flex items-center justify-center gap-1.5">
+                              <button onClick={() => startEditItem(item)} title="Editar cantidad, material y mano de obra"
+                                className="text-slate-300 hover:text-[#F05A28] transition-colors">
+                                <Pencil className="w-4 h-4" />
+                              </button>
+                              {item.origen === 'manual' && (
+                                <button onClick={() => removeItem(item.id)} title="Eliminar ítem"
+                                  className="text-slate-300 hover:text-red-500 transition-colors">
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                        </>
+                      )}
                     </tr>
-                  ))
+                    )
+                  })
                 )}
               </tbody>
               {items.length > 0 && (
@@ -535,7 +690,7 @@ export default function ProyectoDetalle({
                 <div className="text-right">
                   <p className="font-bold text-[#1B2A47]">{proyecto.cliente}</p>
                   {proyecto.razon_social && <p className="text-sm text-slate-500">{proyecto.razon_social}</p>}
-                  <p className="text-sm text-slate-400">{proyecto.ubicacion}</p>
+                  <p className="text-sm text-slate-400">{ubicacion}</p>
                 </div>
               </div>
 
