@@ -93,7 +93,11 @@ salía, porque el cambio redirige un sitio en producción.
 ### Las mismas operaciones por consola
 
 `scripts/tenant.mjs` hace lo mismo sin pasar por el panel — es la vía de rescate
-cuando el panel no está disponible o todavía no hay ningún superadmin:
+cuando el panel no está disponible o todavía no hay ningún superadmin. La semilla
+de una empresa (parámetros de costeo + copia del catálogo) es **el mismo código**
+en los dos caminos: vive en `scripts/lib/semilla.mjs`, que la app empaqueta en el
+build y los scripts importan directo, porque en la imagen standalone `src/` no
+existe.
 
 ```bash
 docker compose exec app node scripts/tenant.mjs listar
@@ -106,7 +110,8 @@ docker compose exec app node scripts/tenant.mjs desactivar acero-sur
 ```
 
 `semilla` copia el catálogo de la empresa más antigua como plantilla (o deja
-sólo los parámetros por defecto si no hay de dónde copiar).
+sólo los parámetros por defecto si no hay de dónde copiar), y es idempotente: si
+la empresa ya tiene catálogo propio, no lo toca.
 
 Un dominio que no está asignado a ninguna empresa no muestra la identidad de
 nadie: responde una pantalla de "dominio no configurado".

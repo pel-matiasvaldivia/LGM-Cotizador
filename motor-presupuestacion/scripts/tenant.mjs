@@ -15,13 +15,14 @@
 //
 // Lo mismo se hace desde la pantalla Plataforma del panel (más cómodo); este
 // script es la vía de rescate cuando el panel no está disponible o todavía no
-// hay ningún superadmin. Ojo: `semilla` duplica a propósito la lógica de
-// src/lib/plataforma.ts — si cambia una, actualizar la otra.
+// hay ningún superadmin. La semilla es exactamente el mismo código que corre el
+// panel: scripts/lib/semilla.mjs.
 //
 // `crear` deja la empresa lista pero vacía: sin usuarios ni catálogo. Para que
 // pueda operar, después hay que correr `semilla <slug>` (catálogo y parámetros
 // iniciales) y crear su admin con scripts/usuario.mjs (TENANT=<slug>).
 import { createRequire } from 'node:module'
+import { enTransaccion, sembrarEmpresa } from './lib/semilla.mjs'
 
 const require = createRequire(import.meta.url)
 const { Pool } = require('pg')
@@ -114,92 +115,21 @@ async function asignarDominio(pool, tenant, dominioCrudo) {
   console.log(`✓ ${dominio} → ${tenant.slug}`)
 }
 
-// Catálogo y parámetros iniciales para una empresa nueva: copia el catálogo de
-// la empresa más antigua (sirve de plantilla) o, si no hay de dónde, deja sólo
-// los parámetros de costeo por defecto.
+// Catálogo y parámetros iniciales para una empresa nueva. La implementación es
+// la compartida con el panel (scripts/lib/semilla.mjs): acá sólo se resuelve la
+// empresa y se abre la transacción.
 async function semilla(pool, slug) {
   const tenant = await buscarTenant(pool, slug)
 
-  const { rows: [{ n }] } = await pool.query(
-    'SELECT count(*)::int AS n FROM rubros WHERE tenant_id = $1', [tenant.id])
-  if (n > 0) {
-    console.log(`La empresa "${slug}" ya tiene catálogo (${n} rubros): no se toca.`)
+  const r = await enTransaccion(pool, (query) => sembrarEmpresa(query, tenant.id))
+
+  console.log(`✓ Parámetros de costeo: ${r.parametros} clave(s) inicializada(s) en "${slug}"`)
+  if (r.yaTeniaCatalogo) {
+    console.log(`La empresa "${slug}" ya tiene catálogo: no se toca.`)
+  } else if (r.plantilla) {
+    console.log(`✓ Catálogo copiado desde "${r.plantilla}" (${r.rubrosCopiados} rubros)`)
   } else {
-    const { rows: [plantilla] } = await pool.query(
-      `SELECT t.id, t.slug FROM tenants t
-       WHERE t.id <> $1 AND EXISTS (SELECT 1 FROM rubros r WHERE r.tenant_id = t.id)
-       ORDER BY t.created_at LIMIT 1`,
-      [tenant.id],
-    )
-    if (!plantilla) {
-      console.log('No hay otra empresa con catálogo para copiar: cargalo con la importación de Base 0.')
-    } else {
-      await copiarCatalogo(pool, plantilla.id, tenant.id)
-      console.log(`✓ Catálogo copiado desde "${plantilla.slug}"`)
-    }
-  }
-
-  const defaults = {
-    tipo_cambio_usd: Number(process.env.TIPO_CAMBIO_INICIAL || 1050),
-    iva: 0.21,
-    costos_indirectos: 0.05,
-    beneficio: 0.1251,
-    desperdicios: 0,
-    coeficiente_zona: 0,
-    flete_camion_usd_km: 1.76,
-    flete_camioneta_usd_km: 1.76,
-    viajes_camion: 0,
-    viajes_camioneta: 0,
-    ubicacion_base: '',
-    codigo_cliente_flexxus: '00000',
-    flexxus_proyecto_base: 100,
-    zonas: {},
-  }
-  for (const [clave, valor] of Object.entries(defaults)) {
-    await pool.query(
-      `INSERT INTO configuracion (tenant_id, clave, valor) VALUES ($1, $2, $3)
-       ON CONFLICT (tenant_id, clave) DO NOTHING`,
-      [tenant.id, clave, JSON.stringify(valor)],
-    )
-  }
-  console.log(`✓ Parámetros de costeo inicializados para "${slug}"`)
-}
-
-async function copiarCatalogo(pool, origenId, destinoId) {
-  const client = await pool.connect()
-  try {
-    await client.query('BEGIN')
-    const { rows: rubros } = await client.query(
-      'SELECT id, nombre, codigo_flexxus, orden FROM rubros WHERE tenant_id = $1 ORDER BY orden', [origenId])
-    for (const rubro of rubros) {
-      const { rows: [nuevo] } = await client.query(
-        'INSERT INTO rubros (tenant_id, nombre, codigo_flexxus, orden) VALUES ($1, $2, $3, $4) RETURNING id',
-        [destinoId, rubro.nombre, rubro.codigo_flexxus, rubro.orden],
-      )
-      const { rows: subs } = await client.query(
-        'SELECT id, nombre, codigo_flexxus FROM subrubros WHERE rubro_id = $1', [rubro.id])
-      for (const sub of subs) {
-        const { rows: [nuevoSub] } = await client.query(
-          'INSERT INTO subrubros (rubro_id, nombre, codigo_flexxus) VALUES ($1, $2, $3) RETURNING id',
-          [nuevo.id, sub.nombre, sub.codigo_flexxus],
-        )
-        await client.query(
-          `INSERT INTO ratios_costos
-             (subrubro_id, unidad, ratio_cantidad, precio_material_usd, precio_mo_usd,
-              precio_mo_fab_usd, precio_mo_montaje_usd, precio_unitario_usd, precio_unitario_ars, vigente)
-           SELECT $1, unidad, ratio_cantidad, precio_material_usd, precio_mo_usd,
-              precio_mo_fab_usd, precio_mo_montaje_usd, precio_unitario_usd, precio_unitario_ars, vigente
-           FROM ratios_costos WHERE subrubro_id = $2`,
-          [nuevoSub.id, sub.id],
-        )
-      }
-    }
-    await client.query('COMMIT')
-  } catch (err) {
-    await client.query('ROLLBACK')
-    throw err
-  } finally {
-    client.release()
+    console.log('No hay otra empresa con catálogo para copiar: cargalo con la importación de Base 0.')
   }
 }
 

@@ -9,13 +9,15 @@
 // cambia una hay que actualizar la otra.
 
 import { and, asc, eq, sql } from 'drizzle-orm'
-import { db } from '@/db'
-import {
-  configuracion, proyectos, ratiosCostos, rubros, subrubros, tenantDominios, tenants, usuarios,
-  type Tenant,
-} from '@/db/schema'
+import { db, getPool } from '@/db'
+import { proyectos, rubros, tenantDominios, tenants, usuarios, type Tenant } from '@/db/schema'
 import { AuthError } from '@/lib/errors'
 import { hashPassword } from '@/lib/password'
+// La semilla (parámetros + copia del catálogo) vive en un módulo compartido con
+// los scripts de operaciones: es la misma implementación para el panel y para
+// la consola. Ver scripts/lib/semilla.mjs.
+import { enTransaccion, sembrarEmpresa as sembrarConQuery } from '../../scripts/lib/semilla.mjs'
+import type { ResultadoSemilla } from '../../scripts/lib/semilla.mjs'
 
 const SLUG_RE = /^[a-z0-9][a-z0-9-]{1,40}$/
 const DOMINIO_RE = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/
@@ -217,110 +219,26 @@ export async function crearUsuarioDeEmpresa(
   return user
 }
 
-const PARAMETROS_INICIALES: Record<string, unknown> = {
-  tipo_cambio_usd: Number(process.env.TIPO_CAMBIO_INICIAL || 1050),
-  iva: 0.21,
-  costos_indirectos: 0.05,
-  beneficio: 0.1251,
-  desperdicios: 0,
-  coeficiente_zona: 0,
-  flete_camion_usd_km: 1.76,
-  flete_camioneta_usd_km: 1.76,
-  viajes_camion: 0,
-  viajes_camioneta: 0,
-  ubicacion_base: '',
-  codigo_cliente_flexxus: '00000',
-  flexxus_proyecto_base: 100,
-  zonas: {},
-}
-
 /**
  * Deja a una empresa nueva en condiciones de cotizar: parámetros de costeo por
  * defecto y un catálogo de rubros/ratios copiado de otra empresa como plantilla
  * (después cada una ajusta sus propios costos).
  *
- * Es idempotente: si ya tiene catálogo, no lo toca.
+ * Es idempotente: si ya tiene catálogo, no lo toca. La lógica es la compartida
+ * con scripts/tenant.mjs; acá sólo se valida y se abre la transacción.
  */
 export async function sembrarEmpresa(
   tenantId: string,
   opciones: { plantillaId?: string } = {},
-): Promise<{ rubrosCopiados: number; plantilla: string | null }> {
+): Promise<ResultadoSemilla> {
   await buscarEmpresa(tenantId)
+  // Si se pide una plantilla puntual, que exista es parte de la validación de
+  // la request (404), no un detalle de la semilla.
+  if (opciones.plantillaId) await buscarEmpresa(opciones.plantillaId)
 
-  for (const [clave, valor] of Object.entries(PARAMETROS_INICIALES)) {
-    await db
-      .insert(configuracion)
-      .values({ tenantId, clave, valor })
-      .onConflictDoNothing({ target: [configuracion.tenantId, configuracion.clave] })
-  }
-
-  const propios = await db.select({ id: rubros.id }).from(rubros).where(eq(rubros.tenantId, tenantId))
-  if (propios.length > 0) return { rubrosCopiados: 0, plantilla: null }
-
-  // Plantilla: la indicada, o la empresa más antigua que tenga catálogo.
-  let plantilla: Tenant | undefined
-  if (opciones.plantillaId) {
-    plantilla = await buscarEmpresa(opciones.plantillaId)
-  } else {
-    const candidatas = await db
-      .select({ tenant: tenants })
-      .from(tenants)
-      .innerJoin(rubros, eq(rubros.tenantId, tenants.id))
-      .orderBy(asc(tenants.createdAt))
-      .limit(1)
-    plantilla = candidatas[0]?.tenant
-  }
-  if (!plantilla || plantilla.id === tenantId) return { rubrosCopiados: 0, plantilla: null }
-
-  const copiados = await copiarCatalogo(plantilla.id, tenantId)
-  return { rubrosCopiados: copiados, plantilla: plantilla.slug }
-}
-
-async function copiarCatalogo(origenId: string, destinoId: string): Promise<number> {
-  return db.transaction(async (tx) => {
-    const origen = await tx
-      .select()
-      .from(rubros)
-      .where(eq(rubros.tenantId, origenId))
-      .orderBy(asc(rubros.orden))
-
-    for (const rubro of origen) {
-      const [nuevo] = await tx
-        .insert(rubros)
-        .values({
-          tenantId: destinoId,
-          nombre: rubro.nombre,
-          codigoFlexxus: rubro.codigoFlexxus,
-          orden: rubro.orden,
-        })
-        .returning({ id: rubros.id })
-
-      const subs = await tx.select().from(subrubros).where(eq(subrubros.rubroId, rubro.id))
-      for (const sub of subs) {
-        const [nuevoSub] = await tx
-          .insert(subrubros)
-          .values({ rubroId: nuevo.id, nombre: sub.nombre, codigoFlexxus: sub.codigoFlexxus })
-          .returning({ id: subrubros.id })
-
-        const ratios = await tx.select().from(ratiosCostos).where(eq(ratiosCostos.subrubroId, sub.id))
-        for (const ratio of ratios) {
-          await tx.insert(ratiosCostos).values({
-            subrubroId: nuevoSub.id,
-            unidad: ratio.unidad,
-            ratioCantidad: ratio.ratioCantidad,
-            precioMaterialUsd: ratio.precioMaterialUsd,
-            precioMoUsd: ratio.precioMoUsd,
-            precioMoFabUsd: ratio.precioMoFabUsd,
-            precioMoMontajeUsd: ratio.precioMoMontajeUsd,
-            precioUnitarioUsd: ratio.precioUnitarioUsd,
-            precioUnitarioArs: ratio.precioUnitarioArs,
-            vigente: ratio.vigente,
-          })
-        }
-      }
-    }
-    return origen.length
-  })
+  return enTransaccion(getPool(), (query) =>
+    sembrarConQuery(query, tenantId, { plantillaId: opciones.plantillaId }),
+  )
 }
 
 /**

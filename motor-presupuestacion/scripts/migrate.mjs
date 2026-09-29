@@ -5,6 +5,7 @@ import { readFileSync, readdirSync } from 'node:fs'
 import path from 'node:path'
 import { randomBytes, scryptSync } from 'node:crypto'
 import { createRequire } from 'node:module'
+import { sembrarParametros } from './lib/semilla.mjs'
 
 const require = createRequire(import.meta.url)
 const { Pool } = require('pg')
@@ -390,35 +391,15 @@ async function seedPreciosReferencia(pool, tenantId) {
   console.log(`[seed] biblioteca de precios de referencia: ${insertados} ítems (upsert)`)
 }
 
-// Parámetros globales del costeo (cascada directo → indirectos → beneficio → IVA).
-// Se insertan solo si faltan; no pisan valores ya configurados.
+// Parámetros de costeo de la empresa del despliegue. Los valores son los del
+// módulo compartido con el panel y con scripts/tenant.mjs; se insertan sólo si
+// faltan, así no pisan lo ya configurado.
 async function seedParametros(pool, tenantId) {
-  const tipoCambio = Number(process.env.TIPO_CAMBIO_INICIAL || 1050)
-  const defaults = {
-    tipo_cambio_usd: tipoCambio,
-    iva: 0.21,
-    costos_indirectos: 0.05,
-    beneficio: 0.1251,
-    desperdicios: 0,
-    coeficiente_zona: 0,
-    flete_camion_usd_km: 1.76,
-    flete_camioneta_usd_km: 1.76,
-    viajes_camion: 0,
-    viajes_camioneta: 0,
-    ubicacion_base: process.env.UBICACION_BASE || '',
-    // Exportación a Flexxus: código de cliente por defecto y base del correlativo de proyecto
-    codigo_cliente_flexxus: process.env.CODIGO_CLIENTE_FLEXXUS || '00149',
-    flexxus_proyecto_base: Number(process.env.FLEXXUS_PROYECTO_BASE || 100),
-    zonas: {},
-  }
-  for (const [clave, valor] of Object.entries(defaults)) {
-    await pool.query(
-      `INSERT INTO configuracion (tenant_id, clave, valor) VALUES ($1, $2, $3)
-       ON CONFLICT (tenant_id, clave) DO NOTHING`,
-      [tenantId, clave, JSON.stringify(valor)]
-    )
-  }
-  console.log('[seed] parámetros de costeo inicializados')
+  const insertados = await sembrarParametros(
+    (text, params) => pool.query(text, params),
+    tenantId,
+  )
+  console.log(`[seed] parámetros de costeo: ${insertados} clave(s) inicializada(s)`)
 }
 
 main().catch((err) => {
