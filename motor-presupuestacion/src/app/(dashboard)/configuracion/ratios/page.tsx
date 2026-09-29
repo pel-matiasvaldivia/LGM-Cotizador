@@ -101,15 +101,15 @@ export default function ConfiguracionRatiosPage() {
 
   if (loading) return <div className="p-10 text-center">Cargando ratios…</div>
 
-  const inputUsd = 'w-24 p-1.5 border border-gray-200 rounded text-right focus:ring-1 focus:ring-[#F05A28] outline-none'
-  const inputArs = 'w-28 p-1.5 border border-gray-200 rounded text-right bg-slate-50 focus:ring-1 focus:ring-[#F05A28] outline-none'
+  const inputUsd = 'w-24 p-1.5 border border-gray-200 rounded text-right focus:ring-1 focus:ring-brand outline-none'
+  const inputArs = 'w-28 p-1.5 border border-gray-200 rounded text-right bg-slate-50 focus:ring-1 focus:ring-brand outline-none'
 
   return (
     <div className="max-w-7xl mx-auto p-6">
       <div className="flex flex-wrap justify-between items-center gap-3 mb-2">
-        <h1 className="text-3xl font-bold text-[#1B2A47]">Ratios de costo — Base 0</h1>
+        <h1 className="text-3xl font-bold text-brand-ink">Ratios de costo — Base 0</h1>
         <div className="text-sm text-slate-500 bg-slate-100 rounded-lg px-3 py-1.5">
-          Tipo de cambio: <strong className="text-[#1B2A47]">$ {ars(tipoCambio)}</strong> / USD
+          Tipo de cambio: <strong className="text-brand-ink">$ {ars(tipoCambio)}</strong> / USD
           <span className="text-xs text-slate-400"> (Parámetros)</span>
         </div>
       </div>
@@ -122,7 +122,7 @@ export default function ConfiguracionRatiosPage() {
       <div className="space-y-6">
         {rubros.map((ru) => (
           <div key={ru.id ?? ru.nombre} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="flex items-center justify-between gap-3 px-5 py-3 bg-[#1B2A47] text-white">
+            <div className="flex items-center justify-between gap-3 px-5 py-3 bg-brand-ink text-white">
               <div className="flex items-center gap-3">
                 <span className="text-xs font-mono bg-white/15 rounded px-2 py-0.5">{ru.codigoFlexxus || '—'}</span>
                 <h2 className="font-bold">{ru.nombre}</h2>
@@ -130,7 +130,7 @@ export default function ConfiguracionRatiosPage() {
               </div>
               <button
                 onClick={() => agregarSubrubro(ru.id)}
-                className="text-xs font-semibold bg-[#F05A28] hover:bg-orange-600 rounded-lg px-3 py-1.5 transition-colors"
+                className="text-xs font-semibold bg-brand hover:bg-brand-hover rounded-lg px-3 py-1.5 transition-colors"
               >
                 + Agregar subrubro
               </button>
@@ -159,7 +159,7 @@ export default function ConfiguracionRatiosPage() {
                       <td className="px-4 py-2">
                         <input
                           type="text"
-                          className="w-full p-1.5 border border-transparent hover:border-gray-200 focus:border-gray-300 rounded font-medium text-[#1B2A47] focus:ring-1 focus:ring-[#F05A28] outline-none"
+                          className="w-full p-1.5 border border-transparent hover:border-gray-200 focus:border-gray-300 rounded font-medium text-brand-ink focus:ring-1 focus:ring-brand outline-none"
                           value={s.subrubroNombre}
                           onChange={(e) => actualizarLocal(s.ratioId, { subrubroNombre: e.target.value })}
                           onBlur={(e) => guardar(s.ratioId, 'subrubro_nombre', e.target.value)}
@@ -169,7 +169,7 @@ export default function ConfiguracionRatiosPage() {
                       <td className="px-4 py-2 text-center">
                         <input
                           type="number" step="any" min="0"
-                          className="w-16 p-1.5 border border-gray-200 rounded text-center focus:ring-1 focus:ring-[#F05A28] outline-none"
+                          className="w-16 p-1.5 border border-gray-200 rounded text-center focus:ring-1 focus:ring-brand outline-none"
                           value={s.ratioCantidad}
                           onChange={(e) => actualizarLocal(s.ratioId, { ratioCantidad: Number(e.target.value) })}
                           onBlur={(e) => guardar(s.ratioId, 'ratio_cantidad', Number(e.target.value))}
@@ -210,7 +210,7 @@ export default function ConfiguracionRatiosPage() {
                         />
                       </td>
                       {/* Total (derivado) */}
-                      <td className="px-4 py-2 text-right font-semibold text-[#1B2A47]">{usd(s.totalUsd)}</td>
+                      <td className="px-4 py-2 text-right font-semibold text-brand-ink">{usd(s.totalUsd)}</td>
                       <td className="px-4 py-2 text-right font-semibold text-slate-500">$ {ars(aArs(s.totalUsd))}</td>
                       <td className="px-4 py-2 text-center">
                         <button

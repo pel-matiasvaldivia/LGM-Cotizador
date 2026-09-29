@@ -1,7 +1,8 @@
-import { eq } from 'drizzle-orm'
+import { and, eq, inArray } from 'drizzle-orm'
 import { db } from '@/db'
-import { ratiosCostos, type RatioCosto, type Rubro, type Subrubro, type NuevoPresupuestoItem } from '@/db/schema'
+import { ratiosCostos, rubros, subrubros, type RatioCosto, type Rubro, type Subrubro, type NuevoPresupuestoItem } from '@/db/schema'
 import { getParametros, resolverCoefZona, type Parametros } from '@/lib/parametros'
+import { requireTenant } from '@/lib/tenant'
 
 export interface DatosTecnicos {
   superficie_m2: number
@@ -217,9 +218,21 @@ export function calcularResumen(
   }
 }
 
-export async function fetchRatiosVigentes(): Promise<RatioConCatalogo[]> {
+// Ratios vigentes del catálogo de una empresa. Sin `tenantId` se resuelve el
+// del request: nunca se cotiza con los costos de otra empresa.
+export async function fetchRatiosVigentes(tenantId?: string): Promise<RatioConCatalogo[]> {
+  const id = tenantId ?? (await requireTenant()).id
+  const subrubrosDelTenant = db
+    .select({ id: subrubros.id })
+    .from(subrubros)
+    .innerJoin(rubros, eq(subrubros.rubroId, rubros.id))
+    .where(eq(rubros.tenantId, id))
+
   const ratios = await db.query.ratiosCostos.findMany({
-    where: eq(ratiosCostos.vigente, true),
+    where: and(
+      eq(ratiosCostos.vigente, true),
+      inArray(ratiosCostos.subrubroId, subrubrosDelTenant),
+    ),
     with: { subrubro: { with: { rubro: true } } },
   })
   return ratios as RatioConCatalogo[]

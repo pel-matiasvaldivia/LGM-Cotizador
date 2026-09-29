@@ -29,6 +29,10 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# Presets de marca blanca: se leen en runtime, así que van a la imagen final.
+# Un tenant puede además montar su propio JSON y apuntarle con BRAND_CONFIG_FILE.
+COPY --from=builder --chown=nextjs:nodejs /app/config ./config
+
 # Migraciones SQL + runner (usa el `pg` incluido en el bundle standalone)
 COPY --from=builder --chown=nextjs:nodejs /app/drizzle ./drizzle
 COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts

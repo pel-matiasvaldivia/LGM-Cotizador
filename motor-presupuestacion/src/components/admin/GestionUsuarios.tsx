@@ -143,7 +143,7 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
     <>
       <button
         onClick={abrir}
-        className="hover:text-[#F05A28] transition-colors text-sm uppercase font-semibold tracking-wider flex items-center gap-1.5"
+        className="hover:text-brand transition-colors text-sm uppercase font-semibold tracking-wider flex items-center gap-1.5"
       >
         <Users className="w-4 h-4" />
         Usuarios
@@ -157,7 +157,7 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
           >
             {/* Cabecera */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-              <div className="flex items-center gap-2 text-[#1B2A47]">
+              <div className="flex items-center gap-2 text-brand-ink">
                 <Shield className="w-5 h-5" />
                 <h2 className="font-bold text-lg">Gestión de usuarios</h2>
               </div>
@@ -172,8 +172,8 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
               )}
 
               {/* Formulario alta / edición */}
-              <form onSubmit={guardar} className="bg-[#F4F5F7] rounded-xl p-4 space-y-3">
-                <div className="flex items-center gap-2 text-[#1B2A47] font-semibold text-sm">
+              <form onSubmit={guardar} className="bg-brand-surface rounded-xl p-4 space-y-3">
+                <div className="flex items-center gap-2 text-brand-ink font-semibold text-sm">
                   {editId ? <Pencil className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                   {editId ? 'Editar usuario' : 'Nuevo usuario'}
                 </div>
@@ -183,7 +183,7 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
                     placeholder="Nombre"
                     value={form.nombre}
                     onChange={(e) => setForm({ ...form, nombre: e.target.value })}
-                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-[#1B2A47] placeholder:text-slate-400 focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
+                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-brand-ink placeholder:text-slate-400 focus:ring-2 focus:ring-brand focus:border-transparent outline-none"
                   />
                   <input
                     type="email"
@@ -191,12 +191,12 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
                     placeholder="email@empresa.com"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-[#1B2A47] placeholder:text-slate-400 focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
+                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-brand-ink placeholder:text-slate-400 focus:ring-2 focus:ring-brand focus:border-transparent outline-none"
                   />
                   <select
                     value={form.rol}
                     onChange={(e) => setForm({ ...form, rol: e.target.value as Usuario['rol'] })}
-                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-[#1B2A47] focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
+                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-brand-ink focus:ring-2 focus:ring-brand focus:border-transparent outline-none"
                   >
                     {ROLES.map((r) => (
                       <option key={r} value={r}>
@@ -209,14 +209,14 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
                     placeholder={editId ? 'Contraseña (vacío = sin cambio)' : 'Contraseña (mín. 6)'}
                     value={form.password}
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
-                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-[#1B2A47] placeholder:text-slate-400 focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
+                    className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-brand-ink placeholder:text-slate-400 focus:ring-2 focus:ring-brand focus:border-transparent outline-none"
                   />
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     type="submit"
                     disabled={busy}
-                    className="bg-[#F05A28] text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-orange-600 disabled:opacity-40 flex items-center gap-2"
+                    className="bg-brand text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-brand-hover disabled:opacity-40 flex items-center gap-2"
                   >
                     {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
                     {editId ? 'Guardar cambios' : 'Crear usuario'}
@@ -248,7 +248,7 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
                       {usuarios.map((u) => (
                         <tr key={u.id} className="border-b border-gray-50 hover:bg-slate-50/60">
                           <td className="py-2.5 pr-3">
-                            <p className="font-semibold text-[#1B2A47]">{u.nombre || '—'}</p>
+                            <p className="font-semibold text-brand-ink">{u.nombre || '—'}</p>
                             <p className="text-xs text-slate-400">{u.email}</p>
                           </td>
                           <td className="py-2.5 px-3">
@@ -261,7 +261,7 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
                               <button
                                 onClick={() => editar(u)}
                                 title="Editar"
-                                className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-[#1B2A47]"
+                                className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-brand-ink"
                               >
                                 <Pencil className="w-4 h-4" />
                               </button>

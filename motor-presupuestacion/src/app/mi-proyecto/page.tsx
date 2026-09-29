@@ -1,4 +1,4 @@
-import { asc, desc, eq } from 'drizzle-orm'
+import { and, asc, desc, eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { proyectos as proyectosTable, presupuestoBaseItems } from '@/db/schema'
 import { datosTecnicosToRow, proyectoToRow } from '@/lib/serializers'
@@ -11,6 +11,8 @@ import Link from 'next/link'
 import LogoutButton from '@/components/auth/LogoutButton'
 import PreaprobarOferta from '@/components/cliente/PreaprobarOferta'
 import { CheckCircle2, Circle, Clock, FileText, Download } from 'lucide-react'
+import BrandLogo from '@/components/branding/BrandLogo'
+import { getBrandActual } from '@/lib/tenant'
 
 const ESTADOS = ['borrador', 'enviado', 'preaprobado', 'aprobado'] as const
 
@@ -21,20 +23,24 @@ const estadoInfo: Record<string, { label: string; desc: string; color: string; b
   borrador:    { label: 'Recibido',     desc: 'Tu solicitud fue recibida y está siendo revisada por nuestro equipo.',          color: 'text-slate-600',  bg: 'bg-slate-100' },
   enviado:     { label: 'Presupuesto',  desc: '¡Tu presupuesto ya está disponible! Podés verlo y descargarlo desde acá.',      color: 'text-blue-700',   bg: 'bg-blue-100' },
   preaprobado: { label: 'Preaprobado',  desc: 'Tu presupuesto está listo. Nos pondremos en contacto para coordinar la reunión.', color: 'text-amber-700',  bg: 'bg-amber-100' },
-  aprobado:    { label: 'Aprobado',     desc: '¡Proyecto aprobado! El equipo de Log Metal estará en contacto para comenzar.',   color: 'text-emerald-700', bg: 'bg-emerald-100' },
+  aprobado:    { label: 'Aprobado',     desc: '¡Proyecto aprobado! Nuestro equipo estará en contacto para comenzar.',   color: 'text-emerald-700', bg: 'bg-emerald-100' },
 }
 
 const usd = (n: number) => '$ ' + (n || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' USD'
 
 export default async function MiProyectoPage() {
   const user = await getCurrentUser()
+  const brand = await getBrandActual()
 
   if (!user) {
     redirect('/mi-proyecto/login')
   }
 
+  // El usuario ya viene acotado a su empresa (getCurrentUser valida el tenant
+  // del dominio), pero el filtro va explícito igual: un mismo email puede ser
+  // cliente de dos empresas distintas.
   const filas = await db.query.proyectos.findMany({
-    where: eq(proyectosTable.email, user.email),
+    where: and(eq(proyectosTable.tenantId, user.tenantId), eq(proyectosTable.email, user.email)),
     orderBy: desc(proyectosTable.createdAt),
     with: { datosTecnicos: true },
   })
@@ -57,22 +63,22 @@ export default async function MiProyectoPage() {
       orderBy: asc(presupuestoBaseItems.orden),
     })
     if (items.length > 0) {
-      const params = await getParametros()
+      const params = await getParametros(user.tenantId)
       const superficie = primero.datosTecnicos[0]?.superficie ?? 0
       resumen = calcularResumen(items, params, superficie, primero.ubicacion)
     }
   }
   const superficieM2 = Number(primero?.datosTecnicos[0]?.superficie ?? 0)
   const precioM2 = resumen && superficieM2 > 0 ? resumen.totalConIvaUsd / superficieM2 : 0
-  const reunionUrl = primero ? linkReunion(primero) : null
+  const reunionUrl = primero ? linkReunion(primero, brand) : null
 
   return (
-    <div className="min-h-screen bg-[#F4F5F7]">
+    <div className="min-h-screen bg-brand-surface">
       {/* Header */}
       <header className="bg-white border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/">
-            <img src="/logo.png" alt="Log Metal" className="h-10 w-auto" />
+            <BrandLogo brand={brand} alto={40} />
           </Link>
           <div className="flex items-center gap-4">
             <span className="text-sm text-slate-500 hidden sm:block">{user.email}</span>
@@ -83,7 +89,7 @@ export default async function MiProyectoPage() {
 
       <main className="max-w-4xl mx-auto px-6 py-12">
         <div className="mb-10">
-          <h1 className="text-3xl font-black text-[#1B2A47]">Mi proyecto</h1>
+          <h1 className="text-3xl font-black text-brand-ink">Mi proyecto</h1>
           <p className="text-slate-500 mt-1">Seguí el estado de tu solicitud en tiempo real</p>
         </div>
 
@@ -92,11 +98,11 @@ export default async function MiProyectoPage() {
             <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Clock className="w-8 h-8 text-slate-400" />
             </div>
-            <h2 className="text-xl font-bold text-[#1B2A47] mb-2">Sin proyectos aún</h2>
+            <h2 className="text-xl font-bold text-brand-ink mb-2">Sin proyectos aún</h2>
             <p className="text-slate-500 mb-6">Todavía no tenés proyectos asociados a esta cuenta.</p>
             <Link
               href="/cotizar"
-              className="inline-flex items-center gap-2 bg-[#F05A28] text-white px-8 py-3 rounded-xl font-bold hover:bg-orange-600 transition-colors"
+              className="inline-flex items-center gap-2 bg-brand text-white px-8 py-3 rounded-xl font-bold hover:bg-brand-hover transition-colors"
             >
               Cotizar un proyecto
             </Link>
@@ -108,7 +114,7 @@ export default async function MiProyectoPage() {
               <div className="flex items-start justify-between gap-4 mb-8 flex-wrap">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-1">Código de proyecto</p>
-                  <p className="text-2xl font-black text-[#1B2A47] font-mono">{proyecto.codigo}</p>
+                  <p className="text-2xl font-black text-brand-ink font-mono">{proyecto.codigo}</p>
                 </div>
                 {proyecto.estado && estadoInfo[proyecto.estado] && (
                   <span className={`text-sm font-bold px-4 py-2 rounded-full ${estadoInfo[proyecto.estado].bg} ${estadoInfo[proyecto.estado].color}`}>
@@ -122,7 +128,7 @@ export default async function MiProyectoPage() {
                 {/* Línea de fondo */}
                 <div className="absolute top-5 left-5 right-5 h-0.5 bg-slate-100 -z-0" />
                 <div
-                  className="absolute top-5 left-5 h-0.5 bg-[#F05A28] transition-all duration-700 -z-0"
+                  className="absolute top-5 left-5 h-0.5 bg-brand transition-all duration-700 -z-0"
                   style={{ width: estadoIndex >= 0 ? `${(estadoIndex / (ESTADOS.length - 1)) * (100 - (10 / ESTADOS.length))}%` : '0%' }}
                 />
 
@@ -135,16 +141,16 @@ export default async function MiProyectoPage() {
                       <div key={est} className="flex flex-col items-center text-center gap-2">
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all z-10 ${
                           done
-                            ? 'bg-[#F05A28] border-[#F05A28]'
+                            ? 'bg-brand border-brand'
                             : 'bg-white border-slate-200'
-                        } ${current ? 'ring-4 ring-orange-100' : ''}`}>
+                        } ${current ? 'ring-4 ring-brand-line' : ''}`}>
                           {done
                             ? <CheckCircle2 className="w-5 h-5 text-white" />
                             : <Circle className="w-5 h-5 text-slate-300" />
                           }
                         </div>
                         <div>
-                          <p className={`text-xs font-bold ${done ? 'text-[#1B2A47]' : 'text-slate-400'}`}>
+                          <p className={`text-xs font-bold ${done ? 'text-brand-ink' : 'text-slate-400'}`}>
                             {info.label}
                           </p>
                         </div>
@@ -169,17 +175,17 @@ export default async function MiProyectoPage() {
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
                 <div className="flex items-center justify-between gap-4 flex-wrap mb-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center">
-                      <FileText className="w-6 h-6 text-[#F05A28]" />
+                    <div className="w-11 h-11 bg-brand-soft rounded-xl flex items-center justify-center">
+                      <FileText className="w-6 h-6 text-brand" />
                     </div>
                     <div>
-                      <h2 className="text-lg font-bold text-[#1B2A47]">Tu presupuesto</h2>
+                      <h2 className="text-lg font-bold text-brand-ink">Tu presupuesto</h2>
                       <p className="text-sm text-slate-500">Formulario R-04 · Validez 15 días</p>
                     </div>
                   </div>
                   <a
                     href={`/api/export?proyectoId=${proyecto.id}`}
-                    className="inline-flex items-center gap-2 bg-[#F05A28] text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-orange-600 transition-colors"
+                    className="inline-flex items-center gap-2 bg-brand text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-brand-hover transition-colors"
                   >
                     <Download className="w-4 h-4" />
                     Descargar PDF
@@ -188,15 +194,15 @@ export default async function MiProyectoPage() {
                 <div className="grid sm:grid-cols-3 gap-4">
                   <div className="bg-slate-50 rounded-xl p-4 border border-gray-100">
                     <p className="text-[11px] uppercase tracking-wide text-slate-400 font-semibold">Subtotal (sin IVA)</p>
-                    <p className="text-xl font-black text-[#1B2A47] tabular-nums mt-1">{usd(resumen.totalSinIvaUsd)}</p>
+                    <p className="text-xl font-black text-brand-ink tabular-nums mt-1">{usd(resumen.totalSinIvaUsd)}</p>
                   </div>
                   <div className="bg-slate-50 rounded-xl p-4 border border-gray-100">
                     <p className="text-[11px] uppercase tracking-wide text-slate-400 font-semibold">Precio por m²</p>
-                    <p className="text-xl font-black text-[#1B2A47] tabular-nums mt-1">{precioM2 > 0 ? usd(precioM2) : '—'}</p>
+                    <p className="text-xl font-black text-brand-ink tabular-nums mt-1">{precioM2 > 0 ? usd(precioM2) : '—'}</p>
                   </div>
-                  <div className="bg-[#1B2A47] rounded-xl p-4">
-                    <p className="text-[11px] uppercase tracking-wide text-blue-200 font-semibold">Total (IVA incluido)</p>
-                    <p className="text-xl font-black text-[#F05A28] tabular-nums mt-1">{usd(resumen.totalConIvaUsd)}</p>
+                  <div className="bg-brand-ink rounded-xl p-4">
+                    <p className="text-[11px] uppercase tracking-wide text-brand-ink-tint font-semibold">Total (IVA incluido)</p>
+                    <p className="text-xl font-black text-brand tabular-nums mt-1">{usd(resumen.totalConIvaUsd)}</p>
                   </div>
                 </div>
                 <p className="text-xs text-slate-400 mt-4">Valores expresados en dólares estadounidenses.</p>
@@ -206,7 +212,7 @@ export default async function MiProyectoPage() {
 
             {/* Detalles del proyecto */}
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
-              <h2 className="text-lg font-bold text-[#1B2A47] mb-6">Detalles de tu solicitud</h2>
+              <h2 className="text-lg font-bold text-brand-ink mb-6">Detalles de tu solicitud</h2>
               <div className="grid sm:grid-cols-2 gap-6">
                 <Field label="Cliente" value={proyecto.cliente} />
                 <Field label="Fecha de solicitud" value={new Date(proyecto.created_at).toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric' })} />
@@ -232,26 +238,30 @@ export default async function MiProyectoPage() {
             </div>
 
             {/* Contacto */}
-            <div className="bg-[#1B2A47] rounded-2xl p-8 text-white">
+            <div className="bg-brand-ink rounded-2xl p-8 text-white">
               <h2 className="text-lg font-bold mb-2">¿Tenés alguna consulta?</h2>
-              <p className="text-blue-200 text-sm mb-5">
+              <p className="text-brand-ink-tint text-sm mb-5">
                 Nuestro equipo comercial está disponible para responder tus preguntas sobre el proyecto.
               </p>
               <div className="flex flex-wrap gap-3">
-                <a
-                  href="mailto:info@logmetal.com.ar"
-                  className="inline-flex items-center gap-2 bg-white text-[#1B2A47] px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-gray-100 transition-colors"
-                >
-                  Enviar email
-                </a>
-                <a
-                  href="https://wa.me/5492616666666"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 bg-[#25D366] text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-green-500 transition-colors"
-                >
-                  WhatsApp
-                </a>
+                {brand.contacto.email && (
+                  <a
+                    href={`mailto:${brand.contacto.email}`}
+                    className="inline-flex items-center gap-2 bg-white text-brand-ink px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-gray-100 transition-colors"
+                  >
+                    Enviar email
+                  </a>
+                )}
+                {brand.contacto.whatsapp && (
+                  <a
+                    href={`https://wa.me/${brand.contacto.whatsapp}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 bg-[#25D366] text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-green-500 transition-colors"
+                  >
+                    WhatsApp
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -265,7 +275,7 @@ function Field({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <p className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-1">{label}</p>
-      <p className="font-semibold text-[#1B2A47] capitalize">{value}</p>
+      <p className="font-semibold text-brand-ink capitalize">{value}</p>
     </div>
   )
 }

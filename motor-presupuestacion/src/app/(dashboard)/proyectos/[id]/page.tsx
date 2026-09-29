@@ -1,11 +1,12 @@
 import { asc, desc, eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import { db } from '@/db'
-import { datosTecnicos, documentosProyecto, presupuestoBaseItems, proyectos } from '@/db/schema'
+import { datosTecnicos, documentosProyecto, presupuestoBaseItems } from '@/db/schema'
 import { datosTecnicosToRow, itemToRow, proyectoToRow } from '@/lib/serializers'
 import { isUuid } from '@/lib/api-helpers'
 import { calcularResumen } from '@/lib/calculator'
 import { getParametros } from '@/lib/parametros'
+import { proyectoDelTenant } from '@/lib/scope'
 import ProyectoDetalle from '@/components/comercial/ProyectoDetalle'
 
 export default async function ProyectoDetallePage({
@@ -16,7 +17,8 @@ export default async function ProyectoDetallePage({
   const { id } = await params
   if (!isUuid(id)) notFound()
 
-  const proyecto = await db.query.proyectos.findFirst({ where: eq(proyectos.id, id) })
+  // El proyecto de otra empresa, para este dominio, no existe.
+  const proyecto = await proyectoDelTenant(id)
   if (!proyecto) notFound()
 
   const dt = await db.query.datosTecnicos.findFirst({ where: eq(datosTecnicos.proyectoId, id) })
@@ -27,7 +29,7 @@ export default async function ProyectoDetallePage({
     orderBy: asc(presupuestoBaseItems.orden),
   })
 
-  const parametros = await getParametros()
+  const parametros = await getParametros(proyecto.tenantId)
   const resumen = calcularResumen(items, parametros, dt?.superficie ?? 0, proyecto.ubicacion)
 
   // Documentación adjunta por el cliente (sólo metadatos; el contenido se

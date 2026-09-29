@@ -1,10 +1,8 @@
-import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
-import { db } from '@/db'
-import { proyectos } from '@/db/schema'
 import { construirR04 } from '@/lib/pdf-r04'
 import { requireUser } from '@/lib/auth'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
+import { requireProyecto } from '@/lib/scope'
 
 export const GET = withErrorHandling(async (req: Request) => {
   const user = await requireUser()
@@ -15,8 +13,7 @@ export const GET = withErrorHandling(async (req: Request) => {
     return NextResponse.json({ error: 'Falta proyectoId' }, { status: 400 })
   }
 
-  const proyecto = await db.query.proyectos.findFirst({ where: eq(proyectos.id, proyectoId) })
-  if (!proyecto) throw new Error('Proyecto no encontrado')
+  const proyecto = await requireProyecto(proyectoId)
 
   // El comercial/admin puede descargar cualquier presupuesto. El cliente sólo
   // el suyo (mismo email) y únicamente una vez enviado.

@@ -4,6 +4,7 @@ import { datosTecnicos } from '@/db/schema'
 import { extraerVariablesR09 } from '@/lib/extractor'
 import { requireUser } from '@/lib/auth'
 import { withErrorHandling } from '@/lib/api-helpers'
+import { requireProyecto } from '@/lib/scope'
 
 export const POST = withErrorHandling(async (req: Request) => {
   await requireUser(['comercial', 'admin'])
@@ -17,6 +18,7 @@ export const POST = withErrorHandling(async (req: Request) => {
 
   let datosTecnicosId: string | null = null
   if (proyectoId) {
+    await requireProyecto(String(proyectoId))
     const [row] = await db.insert(datosTecnicos).values({
       proyectoId,
       ancho: variables.ancho_m ?? null,

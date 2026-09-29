@@ -59,10 +59,10 @@ export default function ProyectosFiltros({
             }
           }}
           onBlur={e => updateParams({ q: e.target.value, estado: estadoActual })}
-          className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-[#1B2A47] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#F05A28] focus:border-transparent transition-shadow"
+          className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-brand-ink placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-shadow"
         />
         {isPending && (
-          <div className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 border-2 border-[#F05A28] border-t-transparent rounded-full animate-spin" />
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 border-2 border-brand border-t-transparent rounded-full animate-spin" />
         )}
       </div>
 
@@ -72,7 +72,7 @@ export default function ProyectosFiltros({
           onClick={() => updateParams({ q: busquedaActual, estado: undefined })}
           className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all border ${
             !estadoActual
-              ? 'bg-[#1B2A47] text-white border-[#1B2A47]'
+              ? 'bg-brand-ink text-white border-brand-ink'
               : 'bg-white text-slate-600 border-gray-200 hover:border-slate-300'
           }`}
         >
@@ -84,7 +84,7 @@ export default function ProyectosFiltros({
             onClick={() => updateParams({ q: busquedaActual, estado: est === estadoActual ? undefined : est })}
             className={`px-3.5 py-2 rounded-xl text-sm font-semibold transition-all border ${
               estadoActual === est
-                ? 'bg-[#F05A28] text-white border-[#F05A28]'
+                ? 'bg-brand text-white border-brand'
                 : 'bg-white text-slate-600 border-gray-200 hover:border-slate-300'
             }`}
           >

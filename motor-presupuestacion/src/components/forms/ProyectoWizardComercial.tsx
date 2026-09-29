@@ -31,7 +31,7 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
       {Array.from({ length: total }).map((_, i) => (
         <div key={i}
           className={`h-1.5 rounded-full transition-all duration-500 ${
-            i < current ? 'bg-[#F05A28]' : i === current ? 'bg-[#F05A28]/50' : 'bg-gray-200'
+            i < current ? 'bg-brand' : i === current ? 'bg-brand/50' : 'bg-gray-200'
           } ${i === current ? 'flex-[2]' : 'flex-1'}`} />
       ))}
     </div>
@@ -41,11 +41,11 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
 function SelectionCard({ selected, onClick, children }: { selected?: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <div onClick={onClick}
-      className={`relative cursor-pointer border-2 rounded-2xl p-5 transition-all hover:border-[#F05A28] hover:shadow-lg ${
-        selected ? 'border-[#F05A28] bg-orange-50 shadow-md' : 'border-gray-100 bg-white'
+      className={`relative cursor-pointer border-2 rounded-2xl p-5 transition-all hover:border-brand hover:shadow-lg ${
+        selected ? 'border-brand bg-brand-soft shadow-md' : 'border-gray-100 bg-white'
       }`}>
       {children}
-      {selected && <div className="absolute top-3 right-3"><CheckCircle2 className="w-5 h-5 text-[#F05A28]" /></div>}
+      {selected && <div className="absolute top-3 right-3"><CheckCircle2 className="w-5 h-5 text-brand" /></div>}
     </div>
   )
 }
@@ -53,12 +53,12 @@ function SelectionCard({ selected, onClick, children }: { selected?: boolean; on
 function ToggleRow({ active, onToggle, title, desc }: { active: boolean; onToggle: () => void; title: string; desc: string }) {
   return (
     <div onClick={onToggle}
-      className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${active ? 'border-[#F05A28] bg-orange-50' : 'border-gray-100 hover:border-gray-300'}`}>
+      className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${active ? 'border-brand bg-brand-soft' : 'border-gray-100 hover:border-gray-300'}`}>
       <div className="pr-4">
-        <p className="font-semibold text-[#1B2A47]">{title}</p>
+        <p className="font-semibold text-brand-ink">{title}</p>
         <p className="text-xs text-gray-500">{desc}</p>
       </div>
-      <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${active ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+      <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${active ? 'bg-brand justify-end' : 'bg-gray-200 justify-start'}`}>
         <div className="w-4 h-4 bg-white rounded-full shadow" />
       </div>
     </div>
@@ -223,7 +223,7 @@ export default function ProyectoWizardComercial() {
   }
 
   const showPrice = step >= 2 && step < TOTAL_STEPS - 1 && (estimatedPrice !== null || estimating)
-  const inputClass = 'w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#F05A28] outline-none transition-shadow text-[#1B2A47]'
+  const inputClass = 'w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand outline-none transition-shadow text-brand-ink'
   const labelClass = 'block text-sm font-semibold text-slate-600 mb-2'
   const btnSecondary = 'flex-1 bg-slate-100 text-slate-700 py-3 rounded-xl font-semibold hover:bg-slate-200 transition-colors'
   const slideProps = {
@@ -240,8 +240,8 @@ export default function ProyectoWizardComercial() {
       {/* HEADER */}
       <div className="bg-slate-50 px-8 py-5 border-b border-gray-100">
         <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2 text-[#1B2A47] font-bold">
-            <ClipboardList className="w-5 h-5 text-[#F05A28]" /> Carga manual de proyecto
+          <div className="flex items-center gap-2 text-brand-ink font-bold">
+            <ClipboardList className="w-5 h-5 text-brand" /> Carga manual de proyecto
           </div>
           <div className="flex items-center gap-3">
             {showPrice && <PriceBadge price={estimatedPrice} loading={estimating} />}
@@ -259,16 +259,16 @@ export default function ProyectoWizardComercial() {
           {/* STEP 0: BIENVENIDA / CARGA MANUAL */}
           {step === 0 && (
             <motion.div key="s0" {...slideProps} className="h-full flex flex-col items-center justify-center text-center p-10 space-y-6 min-h-[460px]">
-              <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mb-2">
-                <ClipboardList className="w-8 h-8 text-[#F05A28]" />
+              <div className="w-16 h-16 bg-brand-tint rounded-2xl flex items-center justify-center mb-2">
+                <ClipboardList className="w-8 h-8 text-brand" />
               </div>
-              <h2 className="text-3xl font-extrabold text-[#1B2A47] leading-tight">Cargá el proyecto a mano</h2>
+              <h2 className="text-3xl font-extrabold text-brand-ink leading-tight">Cargá el proyecto a mano</h2>
               <p className="text-slate-500 max-w-md text-lg">
                 Un asistente guiado para relevar la estructura, elegir los rubros y subrubros del catálogo
                 y generar el proyecto con su presupuesto Base 0.
               </p>
               <button onClick={nextStep}
-                className="mt-4 bg-[#F05A28] text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-orange-600 transition-all shadow-xl hover:scale-105">
+                className="mt-4 bg-brand text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-brand-hover transition-all shadow-xl hover:scale-105">
                 Carga Manual <ChevronRight className="inline" />
               </button>
             </motion.div>
@@ -277,12 +277,12 @@ export default function ProyectoWizardComercial() {
           {/* STEP 1: TIPOLOGÍA */}
           {step === 1 && (
             <motion.div key="s1" {...slideProps} className="p-8 min-h-[460px] flex flex-col justify-center">
-              <h2 className="text-2xl font-bold text-[#1B2A47] mb-2 text-center">¿Qué tipo de estructura?</h2>
+              <h2 className="text-2xl font-bold text-brand-ink mb-2 text-center">¿Qué tipo de estructura?</h2>
               <p className="text-slate-500 text-center text-sm mb-6">Seleccioná el sistema estructural de la nave</p>
               <div className="grid md:grid-cols-3 gap-4">
                 {TIPOLOGIAS.map((t) => (
                   <SelectionCard key={t.id} selected={formData.tipologia === t.id} onClick={() => handleSelect('tipologia', t.id)}>
-                    <div className={`flex justify-center ${formData.tipologia === t.id ? 'text-[#F05A28]' : 'text-[#1B2A47]'}`}>{t.icon}</div>
+                    <div className={`flex justify-center ${formData.tipologia === t.id ? 'text-brand' : 'text-brand-ink'}`}>{t.icon}</div>
                     <h3 className="font-bold text-lg mb-1 text-center">{t.title}</h3>
                     <p className="text-xs text-gray-500 text-center">{t.desc}</p>
                   </SelectionCard>
@@ -291,7 +291,7 @@ export default function ProyectoWizardComercial() {
               <div className="flex gap-3 mt-6">
                 <button onClick={prevStep} className={btnSecondary}>Atrás</button>
                 <button onClick={nextStep} disabled={!formData.tipologia}
-                  className="flex-1 bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700 disabled:opacity-40">
+                  className="flex-1 bg-brand-ink text-white py-3 rounded-xl font-bold hover:bg-slate-700 disabled:opacity-40">
                   Continuar <ChevronRight className="inline" />
                 </button>
               </div>
@@ -304,7 +304,7 @@ export default function ProyectoWizardComercial() {
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center"><Ruler className="w-5 h-5 text-blue-600" /></div>
                 <div>
-                  <h2 className="text-2xl font-bold text-[#1B2A47]">Dimensiones de la nave</h2>
+                  <h2 className="text-2xl font-bold text-brand-ink">Dimensiones de la nave</h2>
                   <p className="text-slate-500 text-sm">Tipología: <strong>{formData.tipologia}</strong></p>
                 </div>
               </div>
@@ -329,7 +329,7 @@ export default function ProyectoWizardComercial() {
               <div className="flex gap-3 mt-4">
                 <button onClick={prevStep} className={btnSecondary}>Atrás</button>
                 <button onClick={nextStep} disabled={!formData.ancho_m || !formData.largo_m || !formData.altura_libre_m}
-                  className="flex-1 bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700 disabled:opacity-40">
+                  className="flex-1 bg-brand-ink text-white py-3 rounded-xl font-bold hover:bg-slate-700 disabled:opacity-40">
                   Continuar <ChevronRight className="inline" />
                 </button>
               </div>
@@ -339,7 +339,7 @@ export default function ProyectoWizardComercial() {
           {/* STEP 3: CUBIERTA */}
           {step === 3 && (
             <motion.div key="s3" {...slideProps} className="p-8 min-h-[460px] flex flex-col justify-center">
-              <h2 className="text-2xl font-bold text-[#1B2A47] mb-2">Tipo de cubierta</h2>
+              <h2 className="text-2xl font-bold text-brand-ink mb-2">Tipo de cubierta</h2>
               <p className="text-slate-500 text-sm mb-6">Material del techo de la nave</p>
               <div className="grid md:grid-cols-2 gap-4 mb-6">
                 {CUBIERTAS.map((c) => (
@@ -351,7 +351,7 @@ export default function ProyectoWizardComercial() {
               </div>
               <div className="flex gap-3">
                 <button onClick={prevStep} className={btnSecondary}>Atrás</button>
-                <button onClick={nextStep} className="flex-1 bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700">Continuar <ChevronRight className="inline" /></button>
+                <button onClick={nextStep} className="flex-1 bg-brand-ink text-white py-3 rounded-xl font-bold hover:bg-slate-700">Continuar <ChevronRight className="inline" /></button>
               </div>
             </motion.div>
           )}
@@ -362,7 +362,7 @@ export default function ProyectoWizardComercial() {
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center"><ToggleLeft className="w-5 h-5 text-green-600" /></div>
                 <div>
-                  <h2 className="text-2xl font-bold text-[#1B2A47]">Alcance y cantidades</h2>
+                  <h2 className="text-2xl font-bold text-brand-ink">Alcance y cantidades</h2>
                   <p className="text-slate-500 text-sm">Definí montaje y las medidas de los módulos. En el próximo paso elegís los rubros.</p>
                 </div>
               </div>
@@ -371,14 +371,14 @@ export default function ProyectoWizardComercial() {
                   title="Montaje en obra" desc="Si no se incluye, se descuenta la MO de montaje de cada línea." />
 
                 {/* Oficina */}
-                <div className={`rounded-xl border-2 transition-all ${formData.incluye_oficina ? 'border-[#F05A28]' : 'border-gray-100'}`}>
+                <div className={`rounded-xl border-2 transition-all ${formData.incluye_oficina ? 'border-brand' : 'border-gray-100'}`}>
                   <div onClick={() => set('incluye_oficina', !formData.incluye_oficina)}
-                    className={`flex items-center justify-between p-4 cursor-pointer ${formData.incluye_oficina ? 'bg-orange-50 rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
+                    className={`flex items-center justify-between p-4 cursor-pointer ${formData.incluye_oficina ? 'bg-brand-soft rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
                     <div className="pr-4">
-                      <p className="font-semibold text-[#1B2A47]">Oficina interior</p>
+                      <p className="font-semibold text-brand-ink">Oficina interior</p>
                       <p className="text-xs text-gray-500">Medidas para calcular tabiques, revestimientos y obra civil.</p>
                     </div>
-                    <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${formData.incluye_oficina ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+                    <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${formData.incluye_oficina ? 'bg-brand justify-end' : 'bg-gray-200 justify-start'}`}>
                       <div className="w-4 h-4 bg-white rounded-full shadow" />
                     </div>
                   </div>
@@ -401,14 +401,14 @@ export default function ProyectoWizardComercial() {
                 </div>
 
                 {/* Baño */}
-                <div className={`rounded-xl border-2 transition-all ${formData.incluye_bano ? 'border-[#F05A28]' : 'border-gray-100'}`}>
+                <div className={`rounded-xl border-2 transition-all ${formData.incluye_bano ? 'border-brand' : 'border-gray-100'}`}>
                   <div onClick={() => set('incluye_bano', !formData.incluye_bano)}
-                    className={`flex items-center justify-between p-4 cursor-pointer ${formData.incluye_bano ? 'bg-orange-50 rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
+                    className={`flex items-center justify-between p-4 cursor-pointer ${formData.incluye_bano ? 'bg-brand-soft rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
                     <div className="pr-4">
-                      <p className="font-semibold text-[#1B2A47]">Baño interior</p>
+                      <p className="font-semibold text-brand-ink">Baño interior</p>
                       <p className="text-xs text-gray-500">Cantidad para la instalación sanitaria.</p>
                     </div>
-                    <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${formData.incluye_bano ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+                    <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${formData.incluye_bano ? 'bg-brand justify-end' : 'bg-gray-200 justify-start'}`}>
                       <div className="w-4 h-4 bg-white rounded-full shadow" />
                     </div>
                   </div>
@@ -431,7 +431,7 @@ export default function ProyectoWizardComercial() {
               </div>
               <div className="flex gap-3 mt-6">
                 <button onClick={prevStep} className={btnSecondary}>Atrás</button>
-                <button onClick={nextStep} className="flex-1 bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700">Continuar <ChevronRight className="inline" /></button>
+                <button onClick={nextStep} className="flex-1 bg-brand-ink text-white py-3 rounded-xl font-bold hover:bg-slate-700">Continuar <ChevronRight className="inline" /></button>
               </div>
             </motion.div>
           )}
@@ -442,7 +442,7 @@ export default function ProyectoWizardComercial() {
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center"><ListChecks className="w-5 h-5 text-amber-600" /></div>
                 <div>
-                  <h2 className="text-2xl font-bold text-[#1B2A47]">Rubros y subrubros</h2>
+                  <h2 className="text-2xl font-bold text-brand-ink">Rubros y subrubros</h2>
                   <p className="text-slate-500 text-sm">Activá o desactivá exactamente lo que entra en esta cotización.</p>
                 </div>
               </div>
@@ -457,7 +457,7 @@ export default function ProyectoWizardComercial() {
               <div className="flex gap-3 mt-6">
                 <button onClick={prevStep} className={btnSecondary}>Atrás</button>
                 <button onClick={nextStep} disabled={nSel === 0}
-                  className="flex-1 bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700 disabled:opacity-40">
+                  className="flex-1 bg-brand-ink text-white py-3 rounded-xl font-bold hover:bg-slate-700 disabled:opacity-40">
                   Continuar ({nSel}) <ChevronRight className="inline" />
                 </button>
               </div>
@@ -470,7 +470,7 @@ export default function ProyectoWizardComercial() {
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center"><User className="w-5 h-5 text-purple-600" /></div>
                 <div>
-                  <h2 className="text-2xl font-bold text-[#1B2A47]">Datos del cliente</h2>
+                  <h2 className="text-2xl font-bold text-brand-ink">Datos del cliente</h2>
                   <p className="text-slate-500 text-sm">Se le enviará la bienvenida al proceso de cotización.</p>
                 </div>
               </div>
@@ -510,7 +510,7 @@ export default function ProyectoWizardComercial() {
               </div>
 
               <div className="bg-slate-50 rounded-xl p-4 mb-5 text-sm text-slate-600">
-                <p className="font-bold text-[#1B2A47] mb-2">Resumen</p>
+                <p className="font-bold text-brand-ink mb-2">Resumen</p>
                 <div className="grid grid-cols-2 gap-1">
                   <span>Tipología:</span><span className="font-semibold">{formData.tipologia}</span>
                   <span>Dimensiones:</span><span className="font-semibold">{formData.ancho_m}m × {formData.largo_m}m × {formData.altura_libre_m}m</span>
@@ -527,7 +527,7 @@ export default function ProyectoWizardComercial() {
                 <button onClick={prevStep} className={btnSecondary} disabled={submitting}>Atrás</button>
                 <button onClick={handleSubmit}
                   disabled={submitting || !formData.cliente_nombre || !formData.cliente_apellido || !formData.cliente_email}
-                  className="flex-1 bg-[#F05A28] text-white py-4 rounded-xl font-bold text-base hover:bg-orange-600 transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-md shadow-orange-200">
+                  className="flex-1 bg-brand text-white py-4 rounded-xl font-bold text-base hover:bg-brand-hover transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-md shadow-brand-line">
                   {submitting ? <><Loader2 className="w-5 h-5 animate-spin" /> Generando…</> : <>Generar proyecto y Base 0</>}
                 </button>
               </div>
@@ -540,8 +540,8 @@ export default function ProyectoWizardComercial() {
               <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-6 shadow-lg">
                 <CheckCircle2 className="w-12 h-12 text-green-600" />
               </div>
-              <h2 className="text-3xl font-bold text-[#1B2A47] mb-2">Proyecto generado</h2>
-              {proyectoCreado && <p className="text-lg text-slate-600 mb-1">Código <strong className="text-[#1B2A47]">{proyectoCreado.codigo}</strong></p>}
+              <h2 className="text-3xl font-bold text-brand-ink mb-2">Proyecto generado</h2>
+              {proyectoCreado && <p className="text-lg text-slate-600 mb-1">Código <strong className="text-brand-ink">{proyectoCreado.codigo}</strong></p>}
               <p className="text-slate-500 mb-8 max-w-sm">
                 El presupuesto Base 0 se calculó con los subrubros elegidos. Abrí el proyecto para revisarlo,
                 editar líneas y enviarlo al cliente.
@@ -552,7 +552,7 @@ export default function ProyectoWizardComercial() {
                 </button>
                 {proyectoCreado && (
                   <button onClick={() => router.push(`/proyectos/${proyectoCreado.id}`)}
-                    className="bg-[#1B2A47] text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-700">
+                    className="bg-brand-ink text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-700">
                     Abrir proyecto →
                   </button>
                 )}

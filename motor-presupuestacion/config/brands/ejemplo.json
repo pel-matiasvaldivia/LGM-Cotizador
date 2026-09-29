@@ -1,0 +1,88 @@
+{
+  "nombre": "Acero Sur",
+  "razonSocial": "Acero Sur S.A.",
+  "logo": "/brand/acero-sur.svg",
+  "logoOscuro": "/brand/acero-sur-blanco.svg",
+  "logoAlto": 44,
+
+  "theme": {
+    "primary": "#0e9f6e",
+    "ink": "#12263f",
+    "surface": "#f5f7f6"
+  },
+
+  "meta": {
+    "title": "Acero Sur — Estructuras metálicas y naves industriales",
+    "description": "Ingeniería, fabricación y montaje de naves industriales en la Patagonia. Presupuesto online en minutos."
+  },
+
+  "hero": {
+    "badge": "Fabricantes desde 1998",
+    "tituloLinea1": "Acero que",
+    "tituloDestacado": "sostiene.",
+    "subtitulo": "Naves industriales, galpones y entrepisos metálicos. Cotizá tu proyecto online y recibí el presupuesto en minutos.",
+    "cta": "Cotizar proyecto",
+    "notaCta": "Sin compromiso · Resultado en 2 minutos"
+  },
+
+  "servicios": {
+    "eyebrow": "Servicios",
+    "titulo": "Lo que hacemos",
+    "subtitulo": "Soluciones integrales de infraestructura metálica para cualquier escala y sector.",
+    "items": [
+      {
+        "icono": "factory",
+        "titulo": "Naves Industriales",
+        "desc": "Pórticos de alma llena y reticulados. Grandes luces sin columnas intermedias.",
+        "items": ["Montaje en semanas", "Sin soldaduras en obra", "Grandes luces libres"]
+      },
+      {
+        "icono": "building",
+        "titulo": "Entrepisos y Ampliaciones",
+        "desc": "Sumá superficie útil sobre lo construido, sin parar la operación.",
+        "items": ["Cálculo estructural propio", "Obra limpia", "Plazos cerrados"]
+      },
+      {
+        "icono": "truck",
+        "titulo": "Logística y Montaje",
+        "desc": "Flete, izaje y montaje con equipos propios en toda la región.",
+        "items": ["Equipos propios", "Personal matriculado", "Cobertura regional"]
+      }
+    ]
+  },
+
+  "nosotros": {
+    "eyebrow": "Nosotros",
+    "titulo": "Ingeniería que respalda tu inversión",
+    "texto": "Acero Sur fabrica estructuras metálicas desde 1998. Cubrimos el ciclo completo: cálculo, fabricación en planta propia, transporte y montaje llave en mano.",
+    "stats": [
+      { "num": "+25", "label": "Años de trayectoria" },
+      { "num": "+700", "label": "Proyectos ejecutados" },
+      { "num": "3", "label": "Plantas propias" }
+    ],
+    "imagen": "/brand/acero-sur-planta.jpg"
+  },
+
+  "clientes": {
+    "titulo": "Empresas que confían en nosotros",
+    "logos": ["PETROQUÍMICA", "AGROSUR", "FRIGORÍFICO DEL VALLE"]
+  },
+
+  "contacto": {
+    "eyebrow": "Contacto",
+    "titulo": "Hablemos de tu proyecto",
+    "subtitulo": "Completá el formulario o escribinos. Respondemos en menos de 24 horas.",
+    "direccion": "Parque Industrial Oeste, Neuquén, Argentina",
+    "telefono": "+54 9 299 123-4567",
+    "email": "ventas@acerosur.example",
+    "whatsapp": "5492991234567"
+  },
+
+  "ctaFinal": {
+    "titulo": "¿Listo para construir?",
+    "subtitulo": "Usá el cotizador y recibí un presupuesto detallado en minutos.",
+    "boton": "Cotizar proyecto"
+  },
+
+  "footerNota": "Neuquén, Argentina"
+}

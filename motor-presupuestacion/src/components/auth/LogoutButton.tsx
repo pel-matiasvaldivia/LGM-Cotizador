@@ -19,7 +19,7 @@ export default function LogoutButton({ redirectTo = '/login' }: { redirectTo?: s
     <button
       onClick={handleLogout}
       disabled={loading}
-      className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#F05A28] transition-colors disabled:opacity-50"
+      className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-brand transition-colors disabled:opacity-50"
       title="Cerrar sesión"
     >
       <LogOut className="w-4 h-4" />

@@ -92,7 +92,7 @@ export default function ClientAuthStep({
   }
 
   const inputClass =
-    'w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none transition-shadow text-[#1B2A47] text-base'
+    'w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand focus:border-transparent outline-none transition-shadow text-brand-ink text-base'
 
   if (checkingSession) {
     return (
@@ -109,7 +109,7 @@ export default function ClientAuthStep({
         <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 mb-5 flex items-start gap-4">
           <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
           <div>
-            <p className="font-bold text-[#1B2A47] mb-0.5">Ya tenés una sesión activa</p>
+            <p className="font-bold text-brand-ink mb-0.5">Ya tenés una sesión activa</p>
             <p className="text-sm text-slate-500">{existingEmail}</p>
           </div>
         </div>
@@ -117,7 +117,7 @@ export default function ClientAuthStep({
         <button
           onClick={onSuccess}
           disabled={submitting}
-          className="w-full bg-[#F05A28] text-white py-4 rounded-xl font-bold text-base hover:bg-orange-600 transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-md shadow-orange-100 mb-3"
+          className="w-full bg-brand text-white py-4 rounded-xl font-bold text-base hover:bg-brand-hover transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-md shadow-brand-line mb-3"
         >
           {submitting
             ? <><Loader2 className="w-4 h-4 animate-spin" /> Enviando solicitud...</>
@@ -148,7 +148,7 @@ export default function ClientAuthStep({
             onClick={() => { setMode(tab.id); setError('') }}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${
               mode === tab.id
-                ? 'bg-white text-[#1B2A47] shadow-sm'
+                ? 'bg-white text-brand-ink shadow-sm'
                 : 'text-slate-500 hover:text-slate-700'
             }`}
           >
@@ -222,7 +222,7 @@ export default function ClientAuthStep({
         <button
           type="submit"
           disabled={loading || submitting || !password}
-          className="w-full bg-[#F05A28] text-white py-4 rounded-xl font-bold text-base hover:bg-orange-600 transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-md shadow-orange-100"
+          className="w-full bg-brand text-white py-4 rounded-xl font-bold text-base hover:bg-brand-hover transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-md shadow-brand-line"
         >
           {loading || submitting ? (
             <><Loader2 className="w-4 h-4 animate-spin" /> {submitting ? 'Enviando solicitud...' : 'Verificando...'}</>

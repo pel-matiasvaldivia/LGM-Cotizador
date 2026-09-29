@@ -1,6 +1,7 @@
-import { inArray } from 'drizzle-orm'
+import { and, eq, inArray } from 'drizzle-orm'
 import { db } from '@/db'
 import { configuracion } from '@/db/schema'
+import { requireTenant } from '@/lib/tenant'
 
 // Parámetros globales del costeo (guardados en la tabla `configuracion`).
 // La cascada de precio los usa para pasar de costo directo a precio final,
@@ -51,9 +52,15 @@ const CLAVES: Record<string, keyof Parametros> = {
   zonas: 'zonas',
 }
 
-export async function getParametros(): Promise<Parametros> {
+// Parámetros de la empresa del request. Con `tenantId` explícito se puede pedir
+// los de otra empresa (por ejemplo al armar un PDF en segundo plano).
+export async function getParametros(tenantId?: string): Promise<Parametros> {
+  const id = tenantId ?? (await requireTenant()).id
   const filas = await db.query.configuracion.findMany({
-    where: inArray(configuracion.clave, Object.keys(CLAVES)),
+    where: and(
+      eq(configuracion.tenantId, id),
+      inArray(configuracion.clave, Object.keys(CLAVES)),
+    ),
   })
   const p: Parametros = { ...PARAMETROS_DEFAULT }
   for (const fila of filas) {

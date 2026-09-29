@@ -1,11 +1,14 @@
 import { createHash, randomBytes } from 'node:crypto'
 import { cookies, headers } from 'next/headers'
-import { eq, lt } from 'drizzle-orm'
+import { and, eq, lt } from 'drizzle-orm'
 import { db } from '@/db'
 import { sesiones, usuarios, type Usuario } from '@/db/schema'
 import { SESSION_COOKIE } from '@/lib/auth-constants'
+import { AuthError } from '@/lib/errors'
+import { getTenant } from '@/lib/tenant'
 
 export { SESSION_COOKIE }
+export { AuthError }
 const SESSION_DAYS = 30
 
 function sha256(value: string) {
@@ -52,6 +55,10 @@ export async function destroySession() {
 }
 
 // Devuelve el usuario autenticado o null. Seguro de usar en Server Components.
+//
+// Multi-tenant: una sesión sólo vale en el dominio de la empresa del usuario.
+// Si la cookie llega por otro dominio, es como no estar logueado — así una
+// sesión no se puede reutilizar para entrar a los datos de otra empresa.
 export async function getCurrentUser(): Promise<Usuario | null> {
   const cookieStore = await cookies()
   const token = cookieStore.get(SESSION_COOKIE)?.value
@@ -62,15 +69,11 @@ export async function getCurrentUser(): Promise<Usuario | null> {
     with: { usuario: true },
   })
   if (!session || session.expiresAt < new Date()) return null
-  return session.usuario
-}
 
-export class AuthError extends Error {
-  status: number
-  constructor(message: string, status: number) {
-    super(message)
-    this.status = status
-  }
+  const tenant = await getTenant()
+  if (!tenant || session.usuario.tenantId !== tenant.id) return null
+
+  return session.usuario
 }
 
 // Para Route Handlers: lanza AuthError si no hay sesión o el rol no alcanza.
@@ -81,6 +84,22 @@ export async function requireUser(roles?: Array<Usuario['rol']>): Promise<Usuari
   return user
 }
 
+// Busca por email DENTRO de la empresa del dominio: el mismo email puede ser
+// cliente de una empresa y comercial de otra.
+// Para las rutas de plataforma (/api/admin/*): además de estar autenticado, el
+// usuario tiene que ser superadmin. El 404 en lugar de 403 es deliberado: para
+// un admin de empresa, la administración de la plataforma no existe.
+export async function requireSuperadmin(): Promise<Usuario> {
+  const user = await getCurrentUser()
+  if (!user) throw new AuthError('No autenticado', 401)
+  if (!user.superadmin) throw new AuthError('No encontrado', 404)
+  return user
+}
+
 export async function findUserByEmail(email: string) {
-  return db.query.usuarios.findFirst({ where: eq(usuarios.email, email.toLowerCase().trim()) })
+  const tenant = await getTenant()
+  if (!tenant) return undefined
+  return db.query.usuarios.findFirst({
+    where: and(eq(usuarios.tenantId, tenant.id), eq(usuarios.email, email.toLowerCase().trim())),
+  })
 }

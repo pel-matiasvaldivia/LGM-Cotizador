@@ -28,12 +28,12 @@ const CUBIERTAS = [
 function ToggleRow({ active, onToggle, title, desc }: { active: boolean; onToggle: () => void; title: string; desc?: string }) {
   return (
     <div onClick={onToggle}
-      className={`flex items-center justify-between p-3.5 rounded-xl border-2 cursor-pointer transition-all ${active ? 'border-[#F05A28] bg-orange-50' : 'border-gray-100 hover:border-gray-300'}`}>
+      className={`flex items-center justify-between p-3.5 rounded-xl border-2 cursor-pointer transition-all ${active ? 'border-brand bg-brand-soft' : 'border-gray-100 hover:border-gray-300'}`}>
       <div className="pr-4">
-        <p className="font-semibold text-[#1B2A47] text-sm">{title}</p>
+        <p className="font-semibold text-brand-ink text-sm">{title}</p>
         {desc && <p className="text-xs text-gray-500">{desc}</p>}
       </div>
-      <div className={`w-11 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${active ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+      <div className={`w-11 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${active ? 'bg-brand justify-end' : 'bg-gray-200 justify-start'}`}>
         <div className="w-4 h-4 bg-white rounded-full shadow" />
       </div>
     </div>
@@ -99,7 +99,7 @@ export default function SolicitudForm() {
   const set = (k: string, v: any) => setForm((prev) => ({ ...prev, [k]: v }))
   const toggle = (k: string) => setForm((prev) => ({ ...prev, [k]: !prev[k] }))
 
-  const inputClass = 'w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#F05A28] outline-none transition-shadow text-[#1B2A47]'
+  const inputClass = 'w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand outline-none transition-shadow text-brand-ink'
   const labelClass = 'block text-sm font-semibold text-slate-600 mb-1.5'
 
   const handleFiles = async (files: FileList | null) => {
@@ -151,9 +151,9 @@ export default function SolicitudForm() {
         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow">
           <CheckCircle2 className="w-10 h-10 text-green-600" />
         </div>
-        <h2 className="text-3xl font-bold text-[#1B2A47] mb-2">¡Requerimientos enviados!</h2>
+        <h2 className="text-3xl font-bold text-brand-ink mb-2">¡Requerimientos enviados!</h2>
         <p className="text-slate-500 mb-4">
-          Recibimos tu consulta{done ? <> (código <strong className="text-[#1B2A47]">{done}</strong>)</> : null}. Nuestro
+          Recibimos tu consulta{done ? <> (código <strong className="text-brand-ink">{done}</strong>)</> : null}. Nuestro
           equipo comercial la revisará y te enviará el presupuesto formal a la brevedad.
         </p>
         <p className="text-sm text-slate-400">Ya podés cerrar esta ventana.</p>
@@ -164,9 +164,9 @@ export default function SolicitudForm() {
   return (
     <div className="w-full max-w-2xl mx-auto rounded-3xl bg-white shadow-2xl border border-gray-100 overflow-hidden">
       {/* Header */}
-      <div className="bg-[#1B2A47] px-8 py-6 text-white">
+      <div className="bg-brand-ink px-8 py-6 text-white">
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 bg-[#F05A28] rounded-xl flex items-center justify-center">
+          <div className="w-11 h-11 bg-brand rounded-xl flex items-center justify-center">
             <Building2 className="w-6 h-6" />
           </div>
           <div>
@@ -179,7 +179,7 @@ export default function SolicitudForm() {
       <div className="p-8 space-y-6">
         {/* Datos de contacto */}
         <div>
-          <h3 className="font-semibold text-[#1B2A47] mb-3 text-sm uppercase tracking-wide">Tus datos</h3>
+          <h3 className="font-semibold text-brand-ink mb-3 text-sm uppercase tracking-wide">Tus datos</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className={labelClass}>Nombre *</label>
@@ -206,7 +206,7 @@ export default function SolicitudForm() {
 
         {/* Datos del proyecto */}
         <div>
-          <h3 className="font-semibold text-[#1B2A47] mb-3 text-sm uppercase tracking-wide">Tu proyecto</h3>
+          <h3 className="font-semibold text-brand-ink mb-3 text-sm uppercase tracking-wide">Tu proyecto</h3>
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2">
               <label className={labelClass}>Ubicación de la obra</label>
@@ -243,7 +243,7 @@ export default function SolicitudForm() {
           <button onClick={() => setMostrarDetalles((v) => !v)}
             className="w-full flex items-center justify-between px-4 py-3.5 bg-slate-50 hover:bg-slate-100 transition-colors text-left">
             <div>
-              <p className="font-semibold text-[#1B2A47] text-sm">Detalles del proyecto <span className="text-slate-400 font-normal">(opcional)</span></p>
+              <p className="font-semibold text-brand-ink text-sm">Detalles del proyecto <span className="text-slate-400 font-normal">(opcional)</span></p>
               <p className="text-xs text-slate-500">Cubierta, gestión de obra y alcance. Podés omitirlo y lo definimos juntos.</p>
             </div>
             {mostrarDetalles ? <ChevronDown className="w-5 h-5 text-slate-400 shrink-0" /> : <ChevronRight className="w-5 h-5 text-slate-400 shrink-0" />}
@@ -261,7 +261,7 @@ export default function SolicitudForm() {
 
               {/* Gestión del proyecto */}
               <ToggleRow active={form.incluye_gestion_proyecto} onToggle={() => toggle('incluye_gestion_proyecto')}
-                title="Gestión y dirección del proyecto" desc="Que LOG METAL gestione y dirija la obra (honorarios y dirección técnica)." />
+                title="Gestión y dirección del proyecto" desc="Que gestionemos y dirijamos la obra (honorarios y dirección técnica)." />
 
               <div>
                 <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Alcance</p>
@@ -270,14 +270,14 @@ export default function SolicitudForm() {
                     title="Montaje en obra" desc="Que nuestro equipo arme la estructura en tu terreno." />
 
                   {/* Oficina interior */}
-                  <div className={`rounded-xl border-2 transition-all ${form.incluye_oficina ? 'border-[#F05A28]' : 'border-gray-100'}`}>
+                  <div className={`rounded-xl border-2 transition-all ${form.incluye_oficina ? 'border-brand' : 'border-gray-100'}`}>
                     <div onClick={() => toggle('incluye_oficina')}
-                      className={`flex items-center justify-between p-3.5 cursor-pointer ${form.incluye_oficina ? 'bg-orange-50 rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
+                      className={`flex items-center justify-between p-3.5 cursor-pointer ${form.incluye_oficina ? 'bg-brand-soft rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
                       <div className="pr-4">
-                        <p className="font-semibold text-[#1B2A47] text-sm">Oficina interior</p>
+                        <p className="font-semibold text-brand-ink text-sm">Oficina interior</p>
                         <p className="text-xs text-gray-500">Tabiques, cielorraso, revestimientos y obra civil.</p>
                       </div>
-                      <div className={`w-11 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${form.incluye_oficina ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+                      <div className={`w-11 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${form.incluye_oficina ? 'bg-brand justify-end' : 'bg-gray-200 justify-start'}`}>
                         <div className="w-4 h-4 bg-white rounded-full shadow" />
                       </div>
                     </div>
@@ -300,14 +300,14 @@ export default function SolicitudForm() {
                   </div>
 
                   {/* Baño */}
-                  <div className={`rounded-xl border-2 transition-all ${form.incluye_bano ? 'border-[#F05A28]' : 'border-gray-100'}`}>
+                  <div className={`rounded-xl border-2 transition-all ${form.incluye_bano ? 'border-brand' : 'border-gray-100'}`}>
                     <div onClick={() => toggle('incluye_bano')}
-                      className={`flex items-center justify-between p-3.5 cursor-pointer ${form.incluye_bano ? 'bg-orange-50 rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
+                      className={`flex items-center justify-between p-3.5 cursor-pointer ${form.incluye_bano ? 'bg-brand-soft rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
                       <div className="pr-4">
-                        <p className="font-semibold text-[#1B2A47] text-sm">Baño interior</p>
+                        <p className="font-semibold text-brand-ink text-sm">Baño interior</p>
                         <p className="text-xs text-gray-500">Instalación sanitaria completa.</p>
                       </div>
-                      <div className={`w-11 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${form.incluye_bano ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+                      <div className={`w-11 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${form.incluye_bano ? 'bg-brand justify-end' : 'bg-gray-200 justify-start'}`}>
                         <div className="w-4 h-4 bg-white rounded-full shadow" />
                       </div>
                     </div>
@@ -323,14 +323,14 @@ export default function SolicitudForm() {
                     title="Instalación eléctrica" desc="Tablero, bocas e iluminación de la nave." />
 
                   {/* Portones */}
-                  <div className={`rounded-xl border-2 transition-all ${form.incluye_portones ? 'border-[#F05A28]' : 'border-gray-100'}`}>
+                  <div className={`rounded-xl border-2 transition-all ${form.incluye_portones ? 'border-brand' : 'border-gray-100'}`}>
                     <div onClick={() => toggle('incluye_portones')}
-                      className={`flex items-center justify-between p-3.5 cursor-pointer ${form.incluye_portones ? 'bg-orange-50 rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
+                      className={`flex items-center justify-between p-3.5 cursor-pointer ${form.incluye_portones ? 'bg-brand-soft rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
                       <div className="pr-4">
-                        <p className="font-semibold text-[#1B2A47] text-sm">Portones</p>
+                        <p className="font-semibold text-brand-ink text-sm">Portones</p>
                         <p className="text-xs text-gray-500">Portones corredizos metálicos de acceso.</p>
                       </div>
-                      <div className={`w-11 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${form.incluye_portones ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+                      <div className={`w-11 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${form.incluye_portones ? 'bg-brand justify-end' : 'bg-gray-200 justify-start'}`}>
                         <div className="w-4 h-4 bg-white rounded-full shadow" />
                       </div>
                     </div>
@@ -352,9 +352,9 @@ export default function SolicitudForm() {
 
         {/* Documentación */}
         <div>
-          <h3 className="font-semibold text-[#1B2A47] mb-3 text-sm uppercase tracking-wide">Documentación</h3>
+          <h3 className="font-semibold text-brand-ink mb-3 text-sm uppercase tracking-wide">Documentación</h3>
           <button onClick={() => setModalOpen(true)}
-            className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-[#F05A28] bg-orange-50/50 text-[#F05A28] rounded-xl py-4 font-semibold hover:bg-orange-50 transition-colors">
+            className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-brand bg-brand-soft/50 text-brand rounded-xl py-4 font-semibold hover:bg-brand-soft transition-colors">
             <Paperclip className="w-5 h-5" />
             {docs.length > 0 ? `${docs.length} archivo${docs.length !== 1 ? 's' : ''} adjunto${docs.length !== 1 ? 's' : ''} — agregar más` : 'Subir documentación (planos, pliegos, fotos)'}
           </button>
@@ -375,7 +375,7 @@ export default function SolicitudForm() {
         {error && <div className="text-sm rounded-lg px-4 py-2.5 bg-red-50 text-red-600 border border-red-100">{error}</div>}
 
         <button onClick={handleSubmit} disabled={submitting}
-          className="w-full bg-[#F05A28] text-white py-4 rounded-xl font-bold text-base hover:bg-orange-600 transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-md shadow-orange-200">
+          className="w-full bg-brand text-white py-4 rounded-xl font-bold text-base hover:bg-brand-hover transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-md shadow-brand-line">
           {submitting ? <><Loader2 className="w-5 h-5 animate-spin" /> Enviando…</> : 'Enviar requerimientos'}
         </button>
         <p className="text-xs text-slate-400 text-center">
@@ -388,14 +388,14 @@ export default function SolicitudForm() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setModalOpen(false)}>
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-              <h3 className="font-bold text-[#1B2A47]">Subir documentación</h3>
+              <h3 className="font-bold text-brand-ink">Subir documentación</h3>
               <button onClick={() => setModalOpen(false)} className="text-slate-400 hover:text-slate-700"><X className="w-5 h-5" /></button>
             </div>
             <div className="p-6">
               <div onClick={() => fileRef.current?.click()}
-                className="border-2 border-dashed border-[#F05A28] bg-orange-50/50 rounded-2xl p-10 cursor-pointer hover:bg-orange-50 transition-colors flex flex-col items-center justify-center text-center">
-                <UploadCloud className="h-10 w-10 text-[#F05A28] mb-3" />
-                <span className="font-bold text-[#1B2A47]">Seleccioná archivos</span>
+                className="border-2 border-dashed border-brand bg-brand-soft/50 rounded-2xl p-10 cursor-pointer hover:bg-brand-soft transition-colors flex flex-col items-center justify-center text-center">
+                <UploadCloud className="h-10 w-10 text-brand mb-3" />
+                <span className="font-bold text-brand-ink">Seleccioná archivos</span>
                 <span className="text-xs text-gray-400 mt-1">PDF, imágenes, planos, Word/Excel — hasta {MAX_BYTES_POR_DOC / 1024 / 1024} MB c/u ({MAX_DOCS} máx.)</span>
                 <input ref={fileRef} type="file" multiple className="hidden"
                   accept=".pdf,.doc,.docx,.xls,.xlsx,.dwg,.dxf,image/*"
@@ -418,7 +418,7 @@ export default function SolicitudForm() {
             </div>
             <div className="px-6 py-4 border-t border-gray-100 flex justify-end">
               <button onClick={() => setModalOpen(false)}
-                className="bg-[#1B2A47] text-white px-6 py-2.5 rounded-xl font-bold hover:bg-slate-700">
+                className="bg-brand-ink text-white px-6 py-2.5 rounded-xl font-bold hover:bg-slate-700">
                 Listo ({docs.length})
               </button>
             </div>

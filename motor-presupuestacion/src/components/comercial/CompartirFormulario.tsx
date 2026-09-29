@@ -24,7 +24,7 @@ export default function CompartirFormulario() {
     <button
       onClick={copiar}
       title="Copiar el link del formulario para enviárselo al cliente"
-      className="flex items-center gap-2 bg-white text-[#1B2A47] border border-gray-200 px-4 py-2.5 rounded-xl font-semibold hover:border-[#1B2A47] transition-all"
+      className="flex items-center gap-2 bg-white text-brand-ink border border-gray-200 px-4 py-2.5 rounded-xl font-semibold hover:border-brand-ink transition-all"
     >
       {copiado ? <Check className="w-4 h-4 text-emerald-500" /> : <Link2 className="w-4 h-4" />}
       {copiado ? 'Link copiado' : 'Formulario para el cliente'}

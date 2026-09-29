@@ -6,9 +6,11 @@ import { openai } from '@/lib/openai'
 import { extraerVariablesR09 } from '@/lib/extractor'
 import { requireUser } from '@/lib/auth'
 import { withErrorHandling } from '@/lib/api-helpers'
+import { requireTenant } from '@/lib/tenant'
 
 export const POST = withErrorHandling(async (req: Request) => {
   await requireUser(['comercial', 'admin'])
+  const tenant = await requireTenant()
 
   const formData = await req.formData()
   const audioFile = formData.get('audio') as File | null
@@ -42,6 +44,7 @@ export const POST = withErrorHandling(async (req: Request) => {
   }
 
   const [ingesta] = await db.insert(ingestas).values({
+    tenantId: tenant.id,
     canal: audioFile ? 'whatsapp_audio' : 'whatsapp_texto',
     rawContent: transcripcion,
   }).returning()

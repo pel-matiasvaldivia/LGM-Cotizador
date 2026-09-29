@@ -4,6 +4,7 @@ import { db } from '@/db'
 import { preciosReferencia } from '@/db/schema'
 import { requireUser } from '@/lib/auth'
 import { withErrorHandling } from '@/lib/api-helpers'
+import { requireTenant } from '@/lib/tenant'
 
 // GET /api/precios-referencia?q=texto&categoria=...&limit=...
 // Biblioteca de precios de referencia para consulta del comercial al editar una
@@ -16,7 +17,8 @@ export const GET = withErrorHandling(async (req: Request) => {
   const categoria = (url.searchParams.get('categoria') || '').trim()
   const limit = Math.min(Number(url.searchParams.get('limit')) || 100, 500)
 
-  const filtros = [eq(preciosReferencia.activo, true)]
+  const tenant = await requireTenant()
+  const filtros = [eq(preciosReferencia.tenantId, tenant.id), eq(preciosReferencia.activo, true)]
   if (q) {
     const patron = `%${q}%`
     filtros.push(or(ilike(preciosReferencia.descripcion, patron), ilike(preciosReferencia.codigo, patron))!)
@@ -32,7 +34,7 @@ export const GET = withErrorHandling(async (req: Request) => {
   // Lista de categorías disponibles (para el filtro del UI).
   const todas = await db.query.preciosReferencia.findMany({
     columns: { categoria: true },
-    where: eq(preciosReferencia.activo, true),
+    where: and(eq(preciosReferencia.tenantId, tenant.id), eq(preciosReferencia.activo, true)),
   })
   const categorias = [...new Set(todas.map((t) => t.categoria).filter(Boolean))].sort()
 

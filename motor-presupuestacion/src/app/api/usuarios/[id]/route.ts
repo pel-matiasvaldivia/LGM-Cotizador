@@ -5,6 +5,7 @@ import { usuarios } from '@/db/schema'
 import { requireUser } from '@/lib/auth'
 import { hashPassword } from '@/lib/password'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
+import { requireTenant } from '@/lib/tenant'
 
 const ROLES = ['admin', 'comercial', 'cliente'] as const
 type Rol = (typeof ROLES)[number]
@@ -19,7 +20,11 @@ export const PATCH = withErrorHandling(async (req: Request, ctx: { params: Promi
   const { id } = await ctx.params
   if (!isUuid(id)) return NextResponse.json({ error: 'Id inválido' }, { status: 400 })
 
-  const target = await db.query.usuarios.findFirst({ where: eq(usuarios.id, id) })
+  // Sólo usuarios de la empresa del admin: el id de otra empresa "no existe".
+  const tenant = await requireTenant()
+  const target = await db.query.usuarios.findFirst({
+    where: and(eq(usuarios.id, id), eq(usuarios.tenantId, tenant.id)),
+  })
   if (!target) return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 })
 
   const body = await req.json().catch(() => ({}))
@@ -28,7 +33,9 @@ export const PATCH = withErrorHandling(async (req: Request, ctx: { params: Promi
   if (body.email !== undefined) {
     const email = String(body.email).toLowerCase().trim()
     if (!emailValido(email)) return NextResponse.json({ error: 'Email inválido' }, { status: 400 })
-    const dup = await db.query.usuarios.findFirst({ where: and(eq(usuarios.email, email), ne(usuarios.id, id)) })
+    const dup = await db.query.usuarios.findFirst({
+      where: and(eq(usuarios.tenantId, tenant.id), eq(usuarios.email, email), ne(usuarios.id, id)),
+    })
     if (dup) return NextResponse.json({ error: 'Ya existe un usuario con ese email' }, { status: 409 })
     cambios.email = email
   }
@@ -55,7 +62,10 @@ export const PATCH = withErrorHandling(async (req: Request, ctx: { params: Promi
     return NextResponse.json({ error: 'Nada para actualizar' }, { status: 400 })
   }
 
-  const [user] = await db.update(usuarios).set(cambios).where(eq(usuarios.id, id)).returning()
+  const [user] = await db.update(usuarios)
+    .set(cambios)
+    .where(and(eq(usuarios.id, id), eq(usuarios.tenantId, tenant.id)))
+    .returning()
   return NextResponse.json({
     usuario: { id: user.id, email: user.email, nombre: user.nombre, rol: user.rol, created_at: user.createdAt.toISOString() },
   })
@@ -68,7 +78,10 @@ export const DELETE = withErrorHandling(async (_req: Request, ctx: { params: Pro
   if (!isUuid(id)) return NextResponse.json({ error: 'Id inválido' }, { status: 400 })
   if (id === actor.id) return NextResponse.json({ error: 'No podés eliminar tu propia cuenta' }, { status: 400 })
 
-  const [borrado] = await db.delete(usuarios).where(eq(usuarios.id, id)).returning({ id: usuarios.id })
+  const tenant = await requireTenant()
+  const [borrado] = await db.delete(usuarios)
+    .where(and(eq(usuarios.id, id), eq(usuarios.tenantId, tenant.id)))
+    .returning({ id: usuarios.id })
   if (!borrado) return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 })
   return NextResponse.json({ success: true })
 })

@@ -4,6 +4,7 @@ import { db } from '@/db'
 import { proyectos } from '@/db/schema'
 import { requireUser } from '@/lib/auth'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
+import { requireProyecto } from '@/lib/scope'
 
 // PATCH → edita datos de cabecera del proyecto que el comercial suele necesitar
 // corregir (la dirección exacta de la obra: los clientes rara vez la cargan bien).
@@ -17,8 +18,8 @@ export const PATCH = withErrorHandling(async (req: Request) => {
     return NextResponse.json({ error: 'Falta proyectoId' }, { status: 400 })
   }
 
-  const proyecto = await db.query.proyectos.findFirst({ where: eq(proyectos.id, proyectoId) })
-  if (!proyecto) return NextResponse.json({ error: 'Proyecto no encontrado' }, { status: 404 })
+  // Valida que el proyecto sea de la empresa del dominio antes de tocarlo.
+  await requireProyecto(proyectoId)
 
   const cambios: Record<string, string> = {}
   if (typeof body.ubicacion === 'string') cambios.ubicacion = body.ubicacion.trim()

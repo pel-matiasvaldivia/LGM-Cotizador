@@ -20,6 +20,17 @@ services:
       # Servís por HTTP: la cookie de sesión NO debe ser Secure (si no, el
       # navegador la descarta y no persiste el login). Poner true al usar HTTPS.
       - COOKIE_SECURE=${COOKIE_SECURE:-false}
+      # Multi-tenant: la identidad de cada empresa vive en la base y se resuelve
+      # por dominio. BRAND sólo aporta los valores iniciales del primer arranque
+      # (config/brands/<BRAND>.json); el resto de los BRAND_* viajan en .env.
+      - BRAND=${BRAND:-logmetal}
+    volumes:
+      # Logos e imágenes del tenant sin rebuildear la imagen: dejá los archivos
+      # en ./brand y referencialos como /brand/mi-logo.svg en la config.
+      - ./brand:/app/public/brand:ro
+      # Config de marca completa fuera del repo (opcional): descomentar y
+      # además definir BRAND_CONFIG_FILE=/app/config/tenant/marca.json en .env.
+      # - ./marca.json:/app/config/tenant/marca.json:ro
     depends_on:
       db:
         condition: service_healthy

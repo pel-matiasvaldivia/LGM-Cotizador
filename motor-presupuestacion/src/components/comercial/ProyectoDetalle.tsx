@@ -285,12 +285,12 @@ export default function ProyectoDetalle({
       {/* Cabecera */}
       <div className="flex items-start justify-between mb-6">
         <div className="flex items-center gap-4">
-          <Link href="/proyectos" className="text-slate-400 hover:text-[#1B2A47] transition-colors">
+          <Link href="/proyectos" className="text-slate-400 hover:text-brand-ink transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold text-[#1B2A47]">{proyecto.codigo}</h1>
+              <h1 className="text-2xl font-bold text-brand-ink">{proyecto.codigo}</h1>
               <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${estadoColors[estado] || 'bg-gray-100 text-gray-700'}`}>
                 {estadoLabels[estado] ?? estado}
               </span>
@@ -306,7 +306,7 @@ export default function ProyectoDetalle({
             onClick={() => handleDownloadCad('dxf')}
             disabled={downloadingCad !== null}
             title="Planta + sección para AutoCAD (.dxf)"
-            className="flex items-center gap-2 bg-white text-[#1B2A47] border border-gray-200 px-4 py-2.5 rounded-xl font-bold hover:border-[#1B2A47] transition-all disabled:opacity-40"
+            className="flex items-center gap-2 bg-white text-brand-ink border border-gray-200 px-4 py-2.5 rounded-xl font-bold hover:border-brand-ink transition-all disabled:opacity-40"
           >
             {downloadingCad === 'dxf' ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
             AutoCAD
@@ -315,7 +315,7 @@ export default function ProyectoDetalle({
             onClick={() => handleDownloadCad('ifc')}
             disabled={downloadingCad !== null}
             title="Modelo 3D de referencia para Tekla (.ifc)"
-            className="flex items-center gap-2 bg-white text-[#1B2A47] border border-gray-200 px-4 py-2.5 rounded-xl font-bold hover:border-[#1B2A47] transition-all disabled:opacity-40"
+            className="flex items-center gap-2 bg-white text-brand-ink border border-gray-200 px-4 py-2.5 rounded-xl font-bold hover:border-brand-ink transition-all disabled:opacity-40"
           >
             {downloadingCad === 'ifc' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Box className="w-4 h-4" />}
             Tekla
@@ -324,7 +324,7 @@ export default function ProyectoDetalle({
             onClick={handleDownloadFlexxus}
             disabled={downloadingFlexxus || items.length === 0}
             title="Exportar presupuesto a Flexxus (CSV por rubro/subrubro)"
-            className="flex items-center gap-2 bg-white text-[#1B2A47] border border-gray-200 px-4 py-2.5 rounded-xl font-bold hover:border-[#1B2A47] transition-all disabled:opacity-40"
+            className="flex items-center gap-2 bg-white text-brand-ink border border-gray-200 px-4 py-2.5 rounded-xl font-bold hover:border-brand-ink transition-all disabled:opacity-40"
           >
             {downloadingFlexxus ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
             Flexxus
@@ -332,7 +332,7 @@ export default function ProyectoDetalle({
           <button
             onClick={handleDownloadPDF}
             disabled={downloading || items.length === 0}
-            className="flex items-center gap-2 bg-[#F05A28] text-white px-5 py-2.5 rounded-xl font-bold hover:bg-orange-600 transition-all disabled:opacity-40 shadow-md shadow-orange-200"
+            className="flex items-center gap-2 bg-brand text-white px-5 py-2.5 rounded-xl font-bold hover:bg-brand-hover transition-all disabled:opacity-40 shadow-md shadow-brand-line"
           >
             {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
             Descargar R-04
@@ -347,7 +347,7 @@ export default function ProyectoDetalle({
             <User className="w-4 h-4" />
             <span className="text-xs font-semibold uppercase tracking-wide">Cliente</span>
           </div>
-          <p className="font-bold text-[#1B2A47] text-lg">{proyecto.cliente}</p>
+          <p className="font-bold text-brand-ink text-lg">{proyecto.cliente}</p>
           {proyecto.razon_social && <p className="text-sm text-slate-500">{proyecto.razon_social}</p>}
           {proyecto.dni && <p className="text-xs text-slate-400 mt-1">DNI: {proyecto.dni}</p>}
           {proyecto.email && <p className="text-xs text-slate-400">{proyecto.email}</p>}
@@ -361,7 +361,7 @@ export default function ProyectoDetalle({
           </div>
           {datosTecnicos ? (
             <>
-              <p className="font-bold text-[#1B2A47] text-lg">{datosTecnicos.tipologia?.replace(/_/g, ' ')}</p>
+              <p className="font-bold text-brand-ink text-lg">{datosTecnicos.tipologia?.replace(/_/g, ' ')}</p>
               <p className="text-sm text-slate-500">{datosTecnicos.ancho}m × {datosTecnicos.largo}m × {datosTecnicos.altura_libre}m alt.</p>
               <p className="text-sm font-semibold text-slate-600 mt-1">{datosTecnicos.superficie} m²</p>
               <p className="text-xs text-slate-400 mt-1">{datosTecnicos.tipo_cubierta?.replace(/_/g, ' ')}</p>
@@ -381,7 +381,7 @@ export default function ProyectoDetalle({
               <button
                 onClick={() => { setUbicDraft(ubicacion); setEditUbic(true) }}
                 title="Editar la dirección exacta de la obra"
-                className="text-slate-300 hover:text-[#F05A28] transition-colors"
+                className="text-slate-300 hover:text-brand transition-colors"
               >
                 <Pencil className="w-3.5 h-3.5" />
               </button>
@@ -395,13 +395,13 @@ export default function ProyectoDetalle({
                 value={ubicDraft}
                 onChange={(e) => setUbicDraft(e.target.value)}
                 placeholder="Ej: Ruta 7 km 12, Parque Industrial, Las Heras, Mendoza"
-                className="block w-full rounded-lg border border-gray-200 bg-white p-2 text-sm text-[#1B2A47] focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
+                className="block w-full rounded-lg border border-gray-200 bg-white p-2 text-sm text-brand-ink focus:ring-2 focus:ring-brand focus:border-transparent outline-none"
               />
               <div className="flex items-center gap-2 mt-2">
                 <button
                   onClick={saveUbicacion}
                   disabled={savingUbic}
-                  className="flex items-center gap-1 text-xs bg-[#F05A28] text-white px-3 py-1.5 rounded-lg font-semibold hover:bg-orange-600 disabled:opacity-40"
+                  className="flex items-center gap-1 text-xs bg-brand text-white px-3 py-1.5 rounded-lg font-semibold hover:bg-brand-hover disabled:opacity-40"
                 >
                   {savingUbic ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
                   Guardar
@@ -419,7 +419,7 @@ export default function ProyectoDetalle({
               </p>
             </div>
           ) : (
-            <p className="font-bold text-[#1B2A47]">{ubicacion || '—'}</p>
+            <p className="font-bold text-brand-ink">{ubicacion || '—'}</p>
           )}
           <p className="text-xs text-slate-400 mt-2">Canal: <span className="capitalize">{proyecto.canal_origen?.replace(/_/g, ' ')}</span></p>
           {proyecto.observaciones && (
@@ -438,15 +438,15 @@ export default function ProyectoDetalle({
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {documentos.map((d) => (
               <a key={d.id} href={`/api/documentos?id=${d.id}`} target="_blank" rel="noreferrer"
-                className="flex items-center gap-3 border border-gray-100 rounded-xl p-3 hover:border-[#F05A28] hover:bg-orange-50/40 transition-colors group">
+                className="flex items-center gap-3 border border-gray-100 rounded-xl p-3 hover:border-brand hover:bg-brand-soft/40 transition-colors group">
                 <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-white">
                   <FileText className="w-4 h-4 text-slate-500" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-[#1B2A47] truncate">{d.nombre}</p>
+                  <p className="text-sm font-semibold text-brand-ink truncate">{d.nombre}</p>
                   <p className="text-xs text-slate-400">{formatoBytes(d.tamano_bytes)}</p>
                 </div>
-                <Download className="w-4 h-4 text-slate-300 group-hover:text-[#F05A28] shrink-0" />
+                <Download className="w-4 h-4 text-slate-300 group-hover:text-brand shrink-0" />
               </a>
             ))}
           </div>
@@ -458,7 +458,7 @@ export default function ProyectoDetalle({
         <button
           onClick={() => setTab('base0')}
           className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
-            tab === 'base0' ? 'bg-white text-[#1B2A47] shadow-sm' : 'text-slate-500 hover:text-slate-700'
+            tab === 'base0' ? 'bg-white text-brand-ink shadow-sm' : 'text-slate-500 hover:text-slate-700'
           }`}
         >
           <Calculator className="w-4 h-4" />
@@ -467,7 +467,7 @@ export default function ProyectoDetalle({
         <button
           onClick={() => setTab('cliente')}
           className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
-            tab === 'cliente' ? 'bg-white text-[#1B2A47] shadow-sm' : 'text-slate-500 hover:text-slate-700'
+            tab === 'cliente' ? 'bg-white text-brand-ink shadow-sm' : 'text-slate-500 hover:text-slate-700'
           }`}
         >
           <FileText className="w-4 h-4" />
@@ -480,13 +480,13 @@ export default function ProyectoDetalle({
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
             <div>
-              <h2 className="font-bold text-[#1B2A47]">Presupuesto Base 0 — Interno</h2>
+              <h2 className="font-bold text-brand-ink">Presupuesto Base 0 — Interno</h2>
               <p className="text-xs text-slate-400 mt-0.5">Costo real de la empresa. No se comparte con el cliente. Editá cada línea (✎) para ajustar cantidad, material o mano de obra de este proyecto.</p>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowAdd(true)}
-                className="flex items-center gap-2 text-sm bg-[#F05A28] text-white px-4 py-2 rounded-lg font-semibold hover:bg-orange-600 transition-colors"
+                className="flex items-center gap-2 text-sm bg-brand text-white px-4 py-2 rounded-lg font-semibold hover:bg-brand-hover transition-colors"
               >
                 <Plus className="w-3.5 h-3.5" /> Agregar ítem
               </button>
@@ -516,7 +516,7 @@ export default function ProyectoDetalle({
                     value={distanciaKm || ''}
                     onChange={(e) => setDistanciaKm(Number(e.target.value) || 0)}
                     placeholder="0"
-                    className="block w-full rounded-lg border border-gray-200 bg-white p-2 pr-10 text-[#1B2A47] focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
+                    className="block w-full rounded-lg border border-gray-200 bg-white p-2 pr-10 text-brand-ink focus:ring-2 focus:ring-brand focus:border-transparent outline-none"
                   />
                   <span className="absolute inset-y-0 right-3 flex items-center text-slate-400 text-sm">km</span>
                 </div>
@@ -525,7 +525,7 @@ export default function ProyectoDetalle({
                 onClick={handleCalcularDistancia}
                 disabled={calcDist}
                 title="Calcula la distancia por ruta entre la ubicación base y la dirección de la obra"
-                className="flex items-center gap-2 text-sm bg-white text-[#1B2A47] border border-gray-200 px-4 py-2 rounded-lg font-semibold hover:border-[#1B2A47] transition-colors disabled:opacity-40"
+                className="flex items-center gap-2 text-sm bg-white text-brand-ink border border-gray-200 px-4 py-2 rounded-lg font-semibold hover:border-brand-ink transition-colors disabled:opacity-40"
               >
                 {calcDist ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <MapPin className="w-3.5 h-3.5" />}
                 Calcular por dirección
@@ -539,7 +539,7 @@ export default function ProyectoDetalle({
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm text-gray-700">
-              <thead className="bg-[#1B2A47] text-white">
+              <thead className="bg-brand-ink text-white">
                 <tr>
                   <th className="px-4 py-3 font-semibold">Descripción</th>
                   <th className="px-4 py-3 font-semibold text-center">Cantidad</th>
@@ -561,11 +561,11 @@ export default function ProyectoDetalle({
                   items.map((item, idx) => {
                     const editing = editItemId === item.id
                     return (
-                    <tr key={item.id || idx} className={`border-b border-gray-50 ${editing ? 'bg-orange-50/60' : `hover:bg-slate-50 ${idx % 2 === 0 ? '' : 'bg-slate-50/50'}`}`}>
+                    <tr key={item.id || idx} className={`border-b border-gray-50 ${editing ? 'bg-brand-soft/60' : `hover:bg-slate-50 ${idx % 2 === 0 ? '' : 'bg-slate-50/50'}`}`}>
                       <td className="px-4 py-3">
                         {item.descripcion || '—'}
                         {item.origen === 'manual' && (
-                          <span className="ml-2 text-[10px] font-bold uppercase tracking-wide text-[#F05A28] bg-orange-50 border border-orange-200 rounded px-1.5 py-0.5">manual</span>
+                          <span className="ml-2 text-[10px] font-bold uppercase tracking-wide text-brand bg-brand-soft border border-brand-line rounded px-1.5 py-0.5">manual</span>
                         )}
                       </td>
                       {editing ? (
@@ -574,21 +574,21 @@ export default function ProyectoDetalle({
                             <div className="flex items-center justify-center gap-1">
                               <input type="number" min={0} step="any" value={editDraft.cantidad}
                                 onChange={(e) => setEditDraft((d) => ({ ...d, cantidad: e.target.value }))}
-                                className="w-20 rounded-md border border-gray-200 p-1.5 text-right text-sm focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none" />
+                                className="w-20 rounded-md border border-gray-200 p-1.5 text-right text-sm focus:ring-2 focus:ring-brand focus:border-transparent outline-none" />
                               <span className="text-xs text-slate-400">{item.unidad}</span>
                             </div>
                           </td>
                           <td className="px-2 py-2">
                             <input type="number" min={0} step="any" value={editDraft.material}
                               onChange={(e) => setEditDraft((d) => ({ ...d, material: e.target.value }))}
-                              className="w-28 rounded-md border border-gray-200 p-1.5 text-right text-sm focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none" />
+                              className="w-28 rounded-md border border-gray-200 p-1.5 text-right text-sm focus:ring-2 focus:ring-brand focus:border-transparent outline-none" />
                           </td>
                           <td className="px-2 py-2">
                             <input type="number" min={0} step="any" value={editDraft.mo}
                               onChange={(e) => setEditDraft((d) => ({ ...d, mo: e.target.value }))}
-                              className="w-28 rounded-md border border-gray-200 p-1.5 text-right text-sm focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none" />
+                              className="w-28 rounded-md border border-gray-200 p-1.5 text-right text-sm focus:ring-2 focus:ring-brand focus:border-transparent outline-none" />
                           </td>
-                          <td className="px-4 py-3 text-right font-semibold text-[#1B2A47]">
+                          <td className="px-4 py-3 text-right font-semibold text-brand-ink">
                             {usd((Number(editDraft.material) || 0) + (Number(editDraft.mo) || 0))}
                           </td>
                           <td className="px-4 py-3 text-right text-slate-400">{pct(item.incidencia)}</td>
@@ -610,12 +610,12 @@ export default function ProyectoDetalle({
                           <td className="px-4 py-3 text-center text-slate-500">{Number(item.cantidad || 0).toFixed(1)} {item.unidad}</td>
                           <td className="px-4 py-3 text-right text-slate-500">{usd(item.costo_material_usd)}</td>
                           <td className="px-4 py-3 text-right text-slate-500">{usd(item.costo_mo_usd)}</td>
-                          <td className="px-4 py-3 text-right font-semibold text-[#1B2A47]">{usd(item.costo_total_usd)}</td>
+                          <td className="px-4 py-3 text-right font-semibold text-brand-ink">{usd(item.costo_total_usd)}</td>
                           <td className="px-4 py-3 text-right text-slate-400">{pct(item.incidencia)}</td>
                           <td className="px-2 py-3">
                             <div className="flex items-center justify-center gap-1.5">
                               <button onClick={() => startEditItem(item)} title="Editar cantidad, material y mano de obra"
-                                className="text-slate-300 hover:text-[#F05A28] transition-colors">
+                                className="text-slate-300 hover:text-brand transition-colors">
                                 <Pencil className="w-4 h-4" />
                               </button>
                               {item.origen === 'manual' && (
@@ -639,7 +639,7 @@ export default function ProyectoDetalle({
                     <td colSpan={2} className="px-4 py-3 text-right text-slate-600">Totales:</td>
                     <td className="px-4 py-3 text-right text-slate-600">{usd(totalMaterial)}</td>
                     <td className="px-4 py-3 text-right text-slate-600">{usd(totalMO)}</td>
-                    <td className="px-4 py-3 text-right text-[#1B2A47]">{usd(totalMaterial + totalMO)}</td>
+                    <td className="px-4 py-3 text-right text-brand-ink">{usd(totalMaterial + totalMO)}</td>
                     <td />
                     <td />
                   </tr>
@@ -658,8 +658,8 @@ export default function ProyectoDetalle({
                 <Fila label={`Beneficio (${pct(r.parametros?.beneficio)})`} valor={usd(r.beneficioUsd)} sub />
                 <Fila label="Total sin IVA" valor={usd(r.totalSinIvaUsd)} strong />
                 <Fila label={`IVA (${pct(r.parametros?.iva)})`} valor={usd(r.ivaUsd)} sub />
-                <div className="flex justify-between pt-2 border-t border-gray-200 text-base font-bold text-[#1B2A47]">
-                  <span>Total con IVA</span><span className="text-[#F05A28]">{usd(r.totalConIvaUsd)}</span>
+                <div className="flex justify-between pt-2 border-t border-gray-200 text-base font-bold text-brand-ink">
+                  <span>Total con IVA</span><span className="text-brand">{usd(r.totalConIvaUsd)}</span>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3 content-start">
@@ -687,13 +687,13 @@ export default function ProyectoDetalle({
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
             <div>
-              <h2 className="font-bold text-[#1B2A47]">Presupuesto para el Cliente</h2>
+              <h2 className="font-bold text-brand-ink">Presupuesto para el Cliente</h2>
               <p className="text-xs text-slate-400 mt-0.5">Vista previa del R-04 que recibirá el cliente.</p>
             </div>
             <button
               onClick={handleDownloadPDF}
               disabled={downloading || items.length === 0}
-              className="flex items-center gap-2 bg-[#F05A28] text-white px-5 py-2.5 rounded-xl font-bold hover:bg-orange-600 transition-all disabled:opacity-40 shadow-sm"
+              className="flex items-center gap-2 bg-brand text-white px-5 py-2.5 rounded-xl font-bold hover:bg-brand-hover transition-all disabled:opacity-40 shadow-sm"
             >
               {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
               Descargar PDF R-04
@@ -711,11 +711,11 @@ export default function ProyectoDetalle({
               <div className="flex justify-between items-start mb-6 pb-4 border-b border-gray-100">
                 <div>
                   <p className="text-xs text-slate-400 font-semibold uppercase tracking-wide">Presupuesto</p>
-                  <p className="text-2xl font-extrabold text-[#1B2A47]">{proyecto.codigo}</p>
+                  <p className="text-2xl font-extrabold text-brand-ink">{proyecto.codigo}</p>
                   <p className="text-sm text-slate-500 mt-1">{new Date().toLocaleDateString('es-AR')}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-bold text-[#1B2A47]">{proyecto.cliente}</p>
+                  <p className="font-bold text-brand-ink">{proyecto.cliente}</p>
                   {proyecto.razon_social && <p className="text-sm text-slate-500">{proyecto.razon_social}</p>}
                   <p className="text-sm text-slate-400">{ubicacion}</p>
                 </div>
@@ -724,11 +724,11 @@ export default function ProyectoDetalle({
               {/* Tabla de ítems para el cliente (sin mostrar costos internos) */}
               <table className="w-full text-left text-sm mb-6">
                 <thead>
-                  <tr className="border-b-2 border-[#1B2A47]">
-                    <th className="py-2 font-bold text-[#1B2A47]">Descripción</th>
-                    <th className="py-2 font-bold text-[#1B2A47] text-center">Cantidad</th>
-                    <th className="py-2 font-bold text-[#1B2A47] text-right">Precio Unit. USD</th>
-                    <th className="py-2 font-bold text-[#1B2A47] text-right">Subtotal USD</th>
+                  <tr className="border-b-2 border-brand-ink">
+                    <th className="py-2 font-bold text-brand-ink">Descripción</th>
+                    <th className="py-2 font-bold text-brand-ink text-center">Cantidad</th>
+                    <th className="py-2 font-bold text-brand-ink text-right">Precio Unit. USD</th>
+                    <th className="py-2 font-bold text-brand-ink text-right">Subtotal USD</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -737,7 +737,7 @@ export default function ProyectoDetalle({
                       <td className="py-2.5 text-slate-700">{item.descripcion}</td>
                       <td className="py-2.5 text-center text-slate-500">{Number(item.cantidad || 0).toFixed(1)} {item.unidad}</td>
                       <td className="py-2.5 text-right text-slate-600">{usd((item.precio_unitario_usd || 0) * markup)}</td>
-                      <td className="py-2.5 text-right font-semibold text-[#1B2A47]">{usd((item.costo_total_usd || 0) * markup)}</td>
+                      <td className="py-2.5 text-right font-semibold text-brand-ink">{usd((item.costo_total_usd || 0) * markup)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -754,9 +754,9 @@ export default function ProyectoDetalle({
                     <span>IVA ({pct(r.parametros?.iva)}):</span>
                     <span>{usd(r.ivaUsd)}</span>
                   </div>
-                  <div className="flex justify-between text-base font-bold text-[#1B2A47] border-t border-gray-200 pt-2">
+                  <div className="flex justify-between text-base font-bold text-brand-ink border-t border-gray-200 pt-2">
                     <span>TOTAL CON IVA:</span>
-                    <span className="text-[#F05A28]">{usd(r.totalConIvaUsd)}</span>
+                    <span className="text-brand">{usd(r.totalConIvaUsd)}</span>
                   </div>
                 </div>
               </div>
@@ -775,7 +775,7 @@ export default function ProyectoDetalle({
                 <button
                   onClick={handleEnviar}
                   disabled={enviando || items.length === 0}
-                  className="flex items-center gap-2 bg-[#1B2A47] text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="flex items-center gap-2 bg-brand-ink text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   title={items.length === 0 ? 'Calculá el presupuesto primero' : 'Enviar al portal del cliente'}
                 >
                   {enviando ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
@@ -799,7 +799,7 @@ function formatoBytes(n: number) {
 
 function Fila({ label, valor, sub, strong }: { label: string; valor: string; sub?: boolean; strong?: boolean }) {
   return (
-    <div className={`flex justify-between ${sub ? 'text-slate-500 pl-3' : 'text-slate-700'} ${strong ? 'font-semibold text-[#1B2A47] border-t border-gray-100 pt-1.5' : ''}`}>
+    <div className={`flex justify-between ${sub ? 'text-slate-500 pl-3' : 'text-slate-700'} ${strong ? 'font-semibold text-brand-ink border-t border-gray-100 pt-1.5' : ''}`}>
       <span>{label}</span>
       <span className="tabular-nums">{valor}</span>
     </div>
@@ -810,7 +810,7 @@ function Kpi({ k, v, accent }: { k: string; v: string; accent?: boolean }) {
   return (
     <div className="bg-slate-50 rounded-xl p-3 border border-gray-100">
       <p className="text-[11px] uppercase tracking-wide text-slate-400 font-semibold">{k}</p>
-      <p className={`text-lg font-bold tabular-nums ${accent ? 'text-[#F05A28]' : 'text-[#1B2A47]'}`}>{v}</p>
+      <p className={`text-lg font-bold tabular-nums ${accent ? 'text-brand' : 'text-brand-ink'}`}>{v}</p>
     </div>
   )
 }

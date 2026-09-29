@@ -32,7 +32,7 @@ export default function TipoCambioPage() {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-[#1B2A47] mb-6">Tipo de Cambio / Cotizaciones</h1>
+      <h1 className="text-3xl font-bold text-brand-ink mb-6">Tipo de Cambio / Cotizaciones</h1>
       
       <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
         <h2 className="text-xl font-semibold mb-4 border-b pb-2">Dólar Oficial (BNA)</h2>
@@ -53,11 +53,11 @@ export default function TipoCambioPage() {
           <button 
             onClick={handleUpdate}
             disabled={loading}
-            className="bg-[#1B2A47] text-white px-6 py-2 rounded-md hover:bg-[#1B2A47]/90 h-[46px] font-semibold disabled:opacity-50"
+            className="bg-brand-ink text-white px-6 py-2 rounded-md hover:bg-brand-ink/90 h-[46px] font-semibold disabled:opacity-50"
           >
             {loading ? 'Sincronizando...' : 'Actualizar Manualmente'}
           </button>
-          <button className="border border-[#1B2A47] text-[#1B2A47] px-6 py-2 rounded-md hover:bg-gray-50 h-[46px] font-semibold">
+          <button className="border border-brand-ink text-brand-ink px-6 py-2 rounded-md hover:bg-gray-50 h-[46px] font-semibold">
             Sincronizar BCRA
           </button>
         </div>

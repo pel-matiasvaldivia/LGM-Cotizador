@@ -7,6 +7,8 @@ import {
   Check, ChevronRight, Ruler, ToggleLeft, User, CalendarCheck, Info, ShieldCheck
 } from 'lucide-react'
 import ClientAuthStep from '@/components/auth/ClientAuthStep'
+import BrandLogo from '@/components/branding/BrandLogo'
+import type { Brand } from '@/lib/branding'
 
 const TIPOLOGIAS = [
   {
@@ -47,7 +49,7 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
         <div
           key={i}
           className={`h-1.5 rounded-full transition-all duration-500 ${
-            i < current ? 'bg-[#F05A28]' : i === current ? 'bg-[#F05A28]/50' : 'bg-gray-200'
+            i < current ? 'bg-brand' : i === current ? 'bg-brand/50' : 'bg-gray-200'
           } ${i === current ? 'flex-[2]' : 'flex-1'}`}
         />
       ))}
@@ -61,14 +63,14 @@ function SelectionCard({
   return (
     <div
       onClick={onClick}
-      className={`cursor-pointer border-2 rounded-2xl p-5 transition-all hover:border-[#F05A28] hover:shadow-lg ${
-        selected ? 'border-[#F05A28] bg-orange-50 shadow-md' : 'border-gray-100 bg-white'
+      className={`cursor-pointer border-2 rounded-2xl p-5 transition-all hover:border-brand hover:shadow-lg ${
+        selected ? 'border-brand bg-brand-soft shadow-md' : 'border-gray-100 bg-white'
       } ${className}`}
     >
       {children}
       {selected && (
         <div className="absolute top-3 right-3">
-          <CheckCircle2 className="w-5 h-5 text-[#F05A28]" />
+          <CheckCircle2 className="w-5 h-5 text-brand" />
         </div>
       )}
     </div>
@@ -81,12 +83,12 @@ function ToggleRow({
   return (
     <div
       onClick={onToggle}
-      className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${active ? 'border-[#F05A28] bg-orange-50' : 'border-gray-100 hover:border-gray-300'}`}>
+      className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${active ? 'border-brand bg-brand-soft' : 'border-gray-100 hover:border-gray-300'}`}>
       <div className="pr-4">
-        <p className="font-semibold text-[#1B2A47]">{title}</p>
+        <p className="font-semibold text-brand-ink">{title}</p>
         <p className="text-xs text-gray-500">{desc}</p>
       </div>
-      <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${active ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+      <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${active ? 'bg-brand justify-end' : 'bg-gray-200 justify-start'}`}>
         <div className="w-4 h-4 bg-white rounded-full shadow" />
       </div>
     </div>
@@ -113,7 +115,7 @@ function PriceBadge({ price, loading }: { price: number | null; loading: boolean
           </div>
           <div className="group relative">
             <Info className="w-4 h-4 text-emerald-400 cursor-help" />
-            <div className="hidden group-hover:block absolute right-0 top-6 w-60 bg-[#1B2A47] text-white text-xs rounded-xl p-3 shadow-xl z-10">
+            <div className="hidden group-hover:block absolute right-0 top-6 w-60 bg-brand-ink text-white text-xs rounded-xl p-3 shadow-xl z-10">
               Precio orientativo. El presupuesto definitivo será elaborado por nuestro equipo comercial.
             </div>
           </div>
@@ -123,7 +125,7 @@ function PriceBadge({ price, loading }: { price: number | null; loading: boolean
   )
 }
 
-export default function CotizadorWizard() {
+export default function CotizadorWizard({ brand }: { brand: Brand }) {
   const [step, setStep] = useState(0)
   const [formData, setFormData] = useState<Record<string, any>>({
     tipologia: '',
@@ -323,7 +325,7 @@ export default function CotizadorWizard() {
 
   const showPrice = step >= 2 && (estimatedPrice !== null || estimating)
 
-  const inputClass = "w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#F05A28] outline-none transition-shadow text-[#1B2A47]"
+  const inputClass = "w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand outline-none transition-shadow text-brand-ink"
   const labelClass = "block text-sm font-semibold text-slate-600 mb-2"
   const btnSecondary = "flex-1 bg-slate-100 text-slate-700 py-3 rounded-xl font-semibold hover:bg-slate-200 transition-colors"
 
@@ -340,7 +342,7 @@ export default function CotizadorWizard() {
       {/* HEADER */}
       <div className="bg-slate-50 px-8 py-5 border-b border-gray-100">
         <div className="flex items-center justify-between mb-3">
-          <img src="/logo.png" alt="Log Metal" className="h-10 w-auto" />
+          <BrandLogo brand={brand} alto={40} />
           <div className="flex items-center gap-3">
             {showPrice && (
               <PriceBadge price={estimatedPrice} loading={estimating} />
@@ -361,16 +363,16 @@ export default function CotizadorWizard() {
           {/* STEP 0: BIENVENIDA */}
           {step === 0 && (
             <motion.div key="s0" {...slideProps} className="h-full flex flex-col items-center justify-center text-center p-10 space-y-6 min-h-[480px]">
-              <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mb-2">
-                <Building2 className="w-8 h-8 text-[#F05A28]" />
+              <div className="w-16 h-16 bg-brand-tint rounded-2xl flex items-center justify-center mb-2">
+                <Building2 className="w-8 h-8 text-brand" />
               </div>
-              <h2 className="text-4xl font-extrabold text-[#1B2A47] leading-tight">Cotizá tu nave<br />en 2 minutos</h2>
+              <h2 className="text-4xl font-extrabold text-brand-ink leading-tight">Cotizá tu nave<br />en 2 minutos</h2>
               <p className="text-slate-500 max-w-md text-lg">
                 Completá los datos de tu proyecto y nuestro equipo comercial te enviará un presupuesto personalizado.
               </p>
               <button
                 onClick={nextStep}
-                className="mt-4 bg-[#F05A28] text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-orange-600 transition-all shadow-xl hover:scale-105"
+                className="mt-4 bg-brand text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-brand-hover transition-all shadow-xl hover:scale-105"
               >
                 Comenzar Cotización <ChevronRight className="inline" />
               </button>
@@ -380,17 +382,17 @@ export default function CotizadorWizard() {
           {/* STEP 1: TIPOLOGÍA */}
           {step === 1 && (
             <motion.div key="s1" {...slideProps} className="p-8 min-h-[480px] flex flex-col justify-center">
-              <h2 className="text-2xl font-bold text-[#1B2A47] mb-2 text-center">¿Qué tipo de estructura?</h2>
+              <h2 className="text-2xl font-bold text-brand-ink mb-2 text-center">¿Qué tipo de estructura?</h2>
               <p className="text-slate-500 text-center text-sm mb-6">Seleccioná el sistema estructural de tu nave industrial</p>
               <div className="grid md:grid-cols-3 gap-4">
                 {TIPOLOGIAS.map(t => (
                   <div key={t.id} className="relative">
                     <SelectionCard selected={formData.tipologia === t.id} onClick={() => handleSelect('tipologia', t.id)}>
-                      <div className={`flex justify-center ${formData.tipologia === t.id ? 'text-[#F05A28]' : 'text-[#1B2A47]'}`}>{t.icon}</div>
+                      <div className={`flex justify-center ${formData.tipologia === t.id ? 'text-brand' : 'text-brand-ink'}`}>{t.icon}</div>
                       <h3 className="font-bold text-lg mb-1 text-center">{t.title}</h3>
                       <p className="text-xs text-gray-500 text-center">{t.desc}</p>
                       {formData.tipologia === t.id && (
-                        <p className="text-xs text-[#F05A28] text-center mt-2 font-medium">{t.detalle}</p>
+                        <p className="text-xs text-brand text-center mt-2 font-medium">{t.detalle}</p>
                       )}
                     </SelectionCard>
                   </div>
@@ -407,7 +409,7 @@ export default function CotizadorWizard() {
                   <Ruler className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-[#1B2A47]">Dimensiones de la nave</h2>
+                  <h2 className="text-2xl font-bold text-brand-ink">Dimensiones de la nave</h2>
                   <p className="text-slate-500 text-sm">Tipología: <strong>{formData.tipologia}</strong></p>
                 </div>
               </div>
@@ -440,11 +442,11 @@ export default function CotizadorWizard() {
 
               {formData.tipologia === 'ALMA_LLENA' && (
                 <div className="mb-4 bg-blue-50 rounded-xl p-4">
-                  <p className="font-semibold text-[#1B2A47] mb-3">¿Incluye puente grúa?</p>
+                  <p className="font-semibold text-brand-ink mb-3">¿Incluye puente grúa?</p>
                   <div className="flex gap-3">
                     {[{ v: true, l: 'Sí' }, { v: false, l: 'No' }].map(opt => (
                       <button key={String(opt.v)} onClick={() => set('tiene_puente_grua', opt.v)}
-                        className={`flex-1 py-2 rounded-xl border-2 font-bold transition-all ${formData.tiene_puente_grua === opt.v ? 'border-[#F05A28] bg-orange-50 text-[#F05A28]' : 'border-gray-200'}`}>
+                        className={`flex-1 py-2 rounded-xl border-2 font-bold transition-all ${formData.tiene_puente_grua === opt.v ? 'border-brand bg-brand-soft text-brand' : 'border-gray-200'}`}>
                         {opt.l}
                       </button>
                     ))}
@@ -462,7 +464,7 @@ export default function CotizadorWizard() {
               <div className="flex gap-3 mt-4">
                 <button onClick={prevStep} className={btnSecondary}>Atrás</button>
                 <button onClick={nextStep} disabled={!formData.ancho_m || !formData.largo_m || !formData.altura_libre_m}
-                  className="flex-1 bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700 disabled:opacity-40">
+                  className="flex-1 bg-brand-ink text-white py-3 rounded-xl font-bold hover:bg-slate-700 disabled:opacity-40">
                   Continuar <ChevronRight className="inline" />
                 </button>
               </div>
@@ -472,7 +474,7 @@ export default function CotizadorWizard() {
           {/* STEP 3: CUBIERTA */}
           {step === 3 && (
             <motion.div key="s3" {...slideProps} className="p-8 min-h-[480px] flex flex-col justify-center">
-              <h2 className="text-2xl font-bold text-[#1B2A47] mb-2">Tipo de cubierta</h2>
+              <h2 className="text-2xl font-bold text-brand-ink mb-2">Tipo de cubierta</h2>
               <p className="text-slate-500 text-sm mb-6">¿Qué material querés para el techo de la nave?</p>
               <div className="grid md:grid-cols-2 gap-4 mb-6">
                 {CUBIERTAS.map(c => (
@@ -486,7 +488,7 @@ export default function CotizadorWizard() {
               </div>
               <div className="flex gap-3">
                 <button onClick={prevStep} className={btnSecondary}>Atrás</button>
-                <button onClick={nextStep} className="flex-1 bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700">
+                <button onClick={nextStep} className="flex-1 bg-brand-ink text-white py-3 rounded-xl font-bold hover:bg-slate-700">
                   Continuar <ChevronRight className="inline" />
                 </button>
               </div>
@@ -501,7 +503,7 @@ export default function CotizadorWizard() {
                   <ToggleLeft className="w-5 h-5 text-green-600" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-[#1B2A47]">Alcance del proyecto</h2>
+                  <h2 className="text-2xl font-bold text-brand-ink">Alcance del proyecto</h2>
                   <p className="text-slate-500 text-sm">Activá lo que necesitás. La nave (estructura, cerramientos, cubierta y piso) ya está incluida.</p>
                 </div>
               </div>
@@ -515,15 +517,15 @@ export default function CotizadorWizard() {
                 />
 
                 {/* MÓDULO OFICINA INTERIOR */}
-                <div className={`rounded-xl border-2 transition-all ${formData.incluye_oficina ? 'border-[#F05A28]' : 'border-gray-100'}`}>
+                <div className={`rounded-xl border-2 transition-all ${formData.incluye_oficina ? 'border-brand' : 'border-gray-100'}`}>
                   <div
                     onClick={() => set('incluye_oficina', !formData.incluye_oficina)}
-                    className={`flex items-center justify-between p-4 cursor-pointer ${formData.incluye_oficina ? 'bg-orange-50 rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
+                    className={`flex items-center justify-between p-4 cursor-pointer ${formData.incluye_oficina ? 'bg-brand-soft rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
                     <div className="pr-4">
-                      <p className="font-semibold text-[#1B2A47]">Oficina interior</p>
+                      <p className="font-semibold text-brand-ink">Oficina interior</p>
                       <p className="text-xs text-gray-500">Incluye tabiques, cielorraso, revestimientos y obra civil de la oficina.</p>
                     </div>
-                    <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${formData.incluye_oficina ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+                    <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${formData.incluye_oficina ? 'bg-brand justify-end' : 'bg-gray-200 justify-start'}`}>
                       <div className="w-4 h-4 bg-white rounded-full shadow" />
                     </div>
                   </div>
@@ -554,15 +556,15 @@ export default function CotizadorWizard() {
                 </div>
 
                 {/* MÓDULO BAÑO */}
-                <div className={`rounded-xl border-2 transition-all ${formData.incluye_bano ? 'border-[#F05A28]' : 'border-gray-100'}`}>
+                <div className={`rounded-xl border-2 transition-all ${formData.incluye_bano ? 'border-brand' : 'border-gray-100'}`}>
                   <div
                     onClick={() => set('incluye_bano', !formData.incluye_bano)}
-                    className={`flex items-center justify-between p-4 cursor-pointer ${formData.incluye_bano ? 'bg-orange-50 rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
+                    className={`flex items-center justify-between p-4 cursor-pointer ${formData.incluye_bano ? 'bg-brand-soft rounded-t-xl' : 'rounded-xl hover:border-gray-300'}`}>
                     <div className="pr-4">
-                      <p className="font-semibold text-[#1B2A47]">Baño interior</p>
+                      <p className="font-semibold text-brand-ink">Baño interior</p>
                       <p className="text-xs text-gray-500">Instalación sanitaria completa con artefactos.</p>
                     </div>
-                    <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${formData.incluye_bano ? 'bg-[#F05A28] justify-end' : 'bg-gray-200 justify-start'}`}>
+                    <div className={`w-12 h-6 rounded-full transition-all flex items-center px-1 shrink-0 ${formData.incluye_bano ? 'bg-brand justify-end' : 'bg-gray-200 justify-start'}`}>
                       <div className="w-4 h-4 bg-white rounded-full shadow" />
                     </div>
                   </div>
@@ -605,7 +607,7 @@ export default function CotizadorWizard() {
 
               <div className="flex gap-3 mt-6">
                 <button onClick={prevStep} className={btnSecondary}>Atrás</button>
-                <button onClick={nextStep} className="flex-1 bg-[#1B2A47] text-white py-3 rounded-xl font-bold hover:bg-slate-700">
+                <button onClick={nextStep} className="flex-1 bg-brand-ink text-white py-3 rounded-xl font-bold hover:bg-slate-700">
                   Continuar <ChevronRight className="inline" />
                 </button>
               </div>
@@ -615,17 +617,17 @@ export default function CotizadorWizard() {
           {/* STEP 5: IA VISION (Planos opcionales) */}
           {step === 5 && (
             <motion.div key="s5" {...slideProps} className="p-8 min-h-[480px] flex flex-col justify-center max-w-xl mx-auto w-full text-center">
-              <h2 className="text-2xl font-bold text-[#1B2A47] mb-2">¿Tenés un plano o boceto?</h2>
+              <h2 className="text-2xl font-bold text-brand-ink mb-2">¿Tenés un plano o boceto?</h2>
               <p className="text-slate-500 text-sm mb-6">Subilo y nuestra IA extrae más detalles para refinar el presupuesto. <strong>Es opcional.</strong></p>
 
               <div onClick={() => fileInputRef.current?.click()}
-                className="border-2 border-dashed border-[#F05A28] bg-orange-50/50 rounded-2xl p-10 cursor-pointer hover:bg-orange-50 transition-colors flex flex-col items-center justify-center mb-4">
+                className="border-2 border-dashed border-brand bg-brand-soft/50 rounded-2xl p-10 cursor-pointer hover:bg-brand-soft transition-colors flex flex-col items-center justify-center mb-4">
                 {visionLoading ? (
-                  <><Loader2 className="h-10 w-10 text-[#F05A28] animate-spin mb-3" /><span className="font-semibold text-[#F05A28]">Analizando plano con IA...</span></>
+                  <><Loader2 className="h-10 w-10 text-brand animate-spin mb-3" /><span className="font-semibold text-brand">Analizando plano con IA...</span></>
                 ) : visionSuccess ? (
                   <><CheckCircle2 className="h-12 w-12 text-green-500 mb-3" /><span className="font-bold text-xl text-green-600">¡Medidas actualizadas!</span></>
                 ) : (
-                  <><UploadCloud className="h-10 w-10 text-[#F05A28] mb-3" /><span className="font-bold text-[#1B2A47]">Subir Imagen o Plano</span><span className="text-xs text-gray-400 mt-1">JPG, PNG — incluye fotos de dibujos a mano</span></>
+                  <><UploadCloud className="h-10 w-10 text-brand mb-3" /><span className="font-bold text-brand-ink">Subir Imagen o Plano</span><span className="text-xs text-gray-400 mt-1">JPG, PNG — incluye fotos de dibujos a mano</span></>
                 )}
                 <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileUpload} />
               </div>
@@ -647,7 +649,7 @@ export default function CotizadorWizard() {
                   <User className="w-5 h-5 text-purple-600" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-[#1B2A47]">Tus datos de contacto</h2>
+                  <h2 className="text-2xl font-bold text-brand-ink">Tus datos de contacto</h2>
                   <p className="text-slate-500 text-sm">Para que nuestro equipo te envíe el presupuesto</p>
                 </div>
               </div>
@@ -700,7 +702,7 @@ export default function CotizadorWizard() {
 
               {/* Resumen del proyecto */}
               <div className="bg-slate-50 rounded-xl p-4 mb-5 text-sm text-slate-600">
-                <p className="font-bold text-[#1B2A47] mb-2">Resumen del proyecto</p>
+                <p className="font-bold text-brand-ink mb-2">Resumen del proyecto</p>
                 <div className="grid grid-cols-2 gap-1">
                   <span>Tipología:</span><span className="font-semibold">{formData.tipologia}</span>
                   <span>Dimensiones:</span><span className="font-semibold">{formData.ancho_m}m × {formData.largo_m}m × {formData.altura_libre_m}m alt.</span>
@@ -730,7 +732,7 @@ export default function CotizadorWizard() {
                 <button
                   onClick={nextStep}
                   disabled={!formData.cliente_nombre || !formData.cliente_apellido || !formData.cliente_dni || !formData.cliente_email}
-                  className="flex-1 bg-[#F05A28] text-white py-4 rounded-xl font-bold text-base hover:bg-orange-600 transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-md shadow-orange-200"
+                  className="flex-1 bg-brand text-white py-4 rounded-xl font-bold text-base hover:bg-brand-hover transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-md shadow-brand-line"
                 >
                   <CalendarCheck className="w-5 h-5" /> Continuar
                 </button>
@@ -746,7 +748,7 @@ export default function CotizadorWizard() {
                   <ShieldCheck className="w-5 h-5 text-indigo-600" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-[#1B2A47]">Creá tu cuenta</h2>
+                  <h2 className="text-2xl font-bold text-brand-ink">Creá tu cuenta</h2>
                   <p className="text-slate-500 text-sm">Para hacer el seguimiento de tu proyecto</p>
                 </div>
               </div>
@@ -768,7 +770,7 @@ export default function CotizadorWizard() {
               <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-6 shadow-lg">
                 <Check className="w-12 h-12 text-green-600" />
               </div>
-              <h2 className="text-3xl font-bold text-[#1B2A47] mb-3">¡Consulta registrada!</h2>
+              <h2 className="text-3xl font-bold text-brand-ink mb-3">¡Consulta registrada!</h2>
               <p className="text-slate-600 text-lg mb-2">
                 Recibimos tu solicitud correctamente.
               </p>
@@ -789,16 +791,16 @@ export default function CotizadorWizard() {
                 </div>
               )}
 
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 mb-8 max-w-xs text-sm text-[#1B2A47]">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 mb-8 max-w-xs text-sm text-brand-ink">
                 <p className="font-bold mb-1">¿Querés hablar con un asesor ahora?</p>
                 <a href="https://wa.me/5492616666666" target="_blank" rel="noreferrer"
-                  className="text-[#F05A28] font-semibold hover:underline">
+                  className="text-brand font-semibold hover:underline">
                   Contactanos por WhatsApp →
                 </a>
               </div>
 
               <button onClick={() => window.location.href = '/'}
-                className="bg-[#1B2A47] text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-slate-700 transition-all">
+                className="bg-brand-ink text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-slate-700 transition-all">
                 Volver al inicio
               </button>
             </motion.div>

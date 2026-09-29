@@ -1,9 +1,7 @@
-import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
-import { db } from '@/db'
-import { documentosProyecto } from '@/db/schema'
 import { requireUser } from '@/lib/auth'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
+import { requireDocumento } from '@/lib/scope'
 
 // GET ?id=... → descarga un documento adjunto del proyecto. Sólo comercial/admin.
 export const GET = withErrorHandling(async (req: Request) => {
@@ -12,8 +10,7 @@ export const GET = withErrorHandling(async (req: Request) => {
   const id = new URL(req.url).searchParams.get('id')
   if (!isUuid(id)) return NextResponse.json({ error: 'id inválido' }, { status: 400 })
 
-  const doc = await db.query.documentosProyecto.findFirst({ where: eq(documentosProyecto.id, id!) })
-  if (!doc) return NextResponse.json({ error: 'Documento no encontrado' }, { status: 404 })
+  const doc = await requireDocumento(id!)
 
   const buffer = Buffer.from(doc.contenidoBase64, 'base64')
   // Nombre saneado para el header Content-Disposition

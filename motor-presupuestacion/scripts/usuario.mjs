@@ -2,8 +2,12 @@
 // Útil porque el registro público solo crea rol 'cliente' y el seed inicial
 // solo corre con la tabla vacía.
 //
+// Multi-tenant: el usuario se crea en una empresa. Con una sola empresa en la
+// base se usa esa; si hay varias, hay que indicar el slug con TENANT=<slug>.
+//
 // Uso (dentro del contenedor app):
 //   docker compose exec app node scripts/usuario.mjs <email> <password> [rol] [nombre]
+//   docker compose exec -e TENANT=acero-sur app node scripts/usuario.mjs ...
 //
 // Ejemplos:
 //   docker compose exec app node scripts/usuario.mjs comercial@logmetal.com 'L4gm2t1l_2026' comercial 'Equipo Comercial'
@@ -51,22 +55,49 @@ async function main() {
     process.exit(1)
   }
 
+  const tenant = await resolverTenant(pool)
+
   const { rowCount } = await pool.query(
-    `UPDATE usuarios SET password_hash = $2, rol = $3, nombre = $4 WHERE email = $1`,
-    [email, hashPassword(password), rol, nombre]
+    `UPDATE usuarios SET password_hash = $3, rol = $4, nombre = $5
+     WHERE tenant_id = $1 AND email = $2`,
+    [tenant.id, email, hashPassword(password), rol, nombre]
   )
 
   if (rowCount > 0) {
-    console.log(`✓ Usuario actualizado: ${email} (rol: ${rol})`)
+    console.log(`✓ Usuario actualizado en "${tenant.slug}": ${email} (rol: ${rol})`)
   } else {
     await pool.query(
-      `INSERT INTO usuarios (email, password_hash, nombre, rol) VALUES ($1, $2, $3, $4)`,
-      [email, hashPassword(password), nombre, rol]
+      `INSERT INTO usuarios (tenant_id, email, password_hash, nombre, rol) VALUES ($1, $2, $3, $4, $5)`,
+      [tenant.id, email, hashPassword(password), nombre, rol]
     )
-    console.log(`✓ Usuario creado: ${email} (rol: ${rol})`)
+    console.log(`✓ Usuario creado en "${tenant.slug}": ${email} (rol: ${rol})`)
   }
 
   await pool.end()
+}
+
+// Empresa donde se crea el usuario: TENANT=<slug>, o la única que haya.
+async function resolverTenant(pool) {
+  const slug = (process.env.TENANT || '').trim()
+  if (slug) {
+    const { rows } = await pool.query('SELECT id, slug FROM tenants WHERE slug = $1', [slug])
+    if (rows.length === 0) {
+      console.error(`No existe la empresa "${slug}". Verla con: node scripts/tenant.mjs listar`)
+      process.exit(1)
+    }
+    return rows[0]
+  }
+  const { rows } = await pool.query('SELECT id, slug FROM tenants ORDER BY created_at')
+  if (rows.length === 0) {
+    console.error('No hay ninguna empresa creada. Crear una con: node scripts/tenant.mjs crear <slug> "<Nombre>"')
+    process.exit(1)
+  }
+  if (rows.length > 1) {
+    console.error(`Hay ${rows.length} empresas: indicar cuál con TENANT=<slug>.`)
+    console.error(`  slugs: ${rows.map((r) => r.slug).join(', ')}`)
+    process.exit(1)
+  }
+  return rows[0]
 }
 
 main().catch((err) => {

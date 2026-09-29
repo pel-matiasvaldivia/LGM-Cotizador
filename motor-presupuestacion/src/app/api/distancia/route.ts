@@ -1,11 +1,9 @@
-import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
-import { db } from '@/db'
-import { proyectos } from '@/db/schema'
 import { requireUser } from '@/lib/auth'
 import { getParametros } from '@/lib/parametros'
 import { calcularDistanciaRuta } from '@/lib/geodistance'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
+import { requireProyecto } from '@/lib/scope'
 
 // Calcula la distancia por ruta entre la ubicación base (config) y la obra.
 // GET /api/distancia?proyectoId=...   (destino = ubicación del proyecto)
@@ -29,8 +27,7 @@ export const GET = withErrorHandling(async (req: Request) => {
     if (!isUuid(proyectoId)) {
       return NextResponse.json({ error: 'proyectoId inválido' }, { status: 400 })
     }
-    const proyecto = await db.query.proyectos.findFirst({ where: eq(proyectos.id, proyectoId) })
-    if (!proyecto) return NextResponse.json({ error: 'Proyecto no encontrado' }, { status: 404 })
+    const proyecto = await requireProyecto(proyectoId)
     destino = (proyecto.ubicacion || '').trim()
   }
   if (!destino) {

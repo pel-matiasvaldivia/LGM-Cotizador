@@ -3,6 +3,7 @@ import { and, desc, eq, ilike, or, type SQL } from 'drizzle-orm'
 import { db } from '@/db'
 import { proyectos } from '@/db/schema'
 import { proyectoToRow } from '@/lib/serializers'
+import { requireTenant } from '@/lib/tenant'
 import ProyectosFiltros from '@/components/comercial/ProyectosFiltros'
 import CompartirFormulario from '@/components/comercial/CompartirFormulario'
 
@@ -23,7 +24,9 @@ export default async function ProyectosPage({
 }) {
   const { q, estado } = await searchParams
 
-  const condiciones: SQL[] = []
+  // Sólo los proyectos de la empresa del dominio.
+  const tenant = await requireTenant()
+  const condiciones: SQL[] = [eq(proyectos.tenantId, tenant.id)]
   if (estado && ESTADOS.includes(estado as Estado)) {
     condiciones.push(eq(proyectos.estado, estado as Estado))
   }
@@ -33,7 +36,7 @@ export default async function ProyectosPage({
   }
 
   const filas = await db.query.proyectos.findMany({
-    where: condiciones.length > 0 ? and(...condiciones) : undefined,
+    where: and(...condiciones),
     orderBy: desc(proyectos.createdAt),
   })
   const lista = filas.map(proyectoToRow)
@@ -42,7 +45,7 @@ export default async function ProyectosPage({
     <div className="max-w-6xl mx-auto p-6">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-[#1B2A47]">Proyectos</h1>
+          <h1 className="text-3xl font-bold text-brand-ink">Proyectos</h1>
           <p className="text-slate-500 text-sm mt-1">
             {lista.length} resultado{lista.length !== 1 ? 's' : ''}
             {estado ? ` · ${estadoConfig[estado]?.label ?? estado}` : ''}
@@ -53,7 +56,7 @@ export default async function ProyectosPage({
           <CompartirFormulario />
           <Link
             href="/proyectos/nuevo"
-            className="bg-[#F05A28] text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-orange-600 transition-all shadow-sm"
+            className="bg-brand text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-brand-hover transition-all shadow-sm"
           >
             + Nuevo proyecto
           </Link>
@@ -90,7 +93,7 @@ export default async function ProyectosPage({
                 return (
                   <tr key={p.id} className="border-b border-gray-50 hover:bg-slate-50 transition-colors">
                     <td className="px-6 py-4 font-mono text-xs font-semibold text-slate-500">{p.codigo}</td>
-                    <td className="px-6 py-4 font-semibold text-[#1B2A47]">{p.cliente}</td>
+                    <td className="px-6 py-4 font-semibold text-brand-ink">{p.cliente}</td>
                     <td className="px-6 py-4 capitalize hidden md:table-cell text-slate-500">
                       {p.canal_origen?.replace(/_/g, ' ') ?? '—'}
                     </td>
@@ -107,7 +110,7 @@ export default async function ProyectosPage({
                     <td className="px-6 py-4 text-right">
                       <Link
                         href={`/proyectos/${p.id}`}
-                        className="text-[#F05A28] font-semibold hover:underline text-sm"
+                        className="text-brand font-semibold hover:underline text-sm"
                       >
                         Ver detalle →
                       </Link>

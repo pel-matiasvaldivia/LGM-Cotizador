@@ -1,4 +1,5 @@
 import type { proyectos } from '@/db/schema'
+import { getBrandArchivo, type Brand } from '@/lib/branding'
 
 // Capa de envío de email. Usa la API HTTP de Resend (sin dependencias extra).
 // Si no está configurada (RESEND_API_KEY ausente), degrada con gracia: registra
@@ -16,15 +17,22 @@ export interface EmailInput {
   text?: string
   replyTo?: string
   attachments?: EmailAdjunto[]
+  /** Empresa que firma el mail (multi-tenant). Sin ella se usa la config de archivo. */
+  brand?: Brand
 }
 
 export function emailConfigurado(): boolean {
   return Boolean(process.env.RESEND_API_KEY)
 }
 
-// Dirección remitente (verificada en el proveedor). Configurable por env.
-export function remitente(): string {
-  return process.env.EMAIL_FROM || 'LOG METAL <no-reply@logmetal.com.ar>'
+// Dirección remitente (verificada en el proveedor). EMAIL_FROM manda, porque el
+// dominio del remitente tiene que estar verificado en el proveedor y eso es
+// configuración del despliegue, no de cada empresa. Sin EMAIL_FROM se arma con
+// el nombre y el email de la empresa que firma el mail.
+export function remitente(brand?: Brand): string {
+  if (process.env.EMAIL_FROM) return process.env.EMAIL_FROM
+  const b = brand ?? getBrandArchivo()
+  return b.contacto.email ? `${b.nombre} <${b.contacto.email}>` : b.nombre
 }
 
 // Emails del equipo comercial que reciben los avisos internos.
@@ -47,14 +55,15 @@ export interface EmailResultado {
 // Link a Google Calendar que crea una reunión (con enlace de Google Meet) con el
 // cliente y el equipo comercial como invitados. Es liviano (sin dependencias de
 // PDF) para poder usarse también desde componentes de servidor.
-export function linkReunion(p: typeof proyectos.$inferSelect): string {
+export function linkReunion(p: typeof proyectos.$inferSelect, brand?: Brand): string {
+  const empresa = (brand ?? getBrandArchivo()).nombre
   const invitados = [p.email, ...equipoComercial()].filter(Boolean).join(',')
-  const detalle = `Reunión para avanzar con el presupuesto ${p.codigo} de LOG METAL.\n` +
+  const detalle = `Reunión para avanzar con el presupuesto ${p.codigo} de ${empresa}.\n` +
     `Cliente: ${p.cliente}${p.razonSocial ? ' (' + p.razonSocial + ')' : ''}.\n` +
     `Se generará un enlace de Google Meet al confirmar la invitación.`
   const params = new URLSearchParams({
     action: 'TEMPLATE',
-    text: `Reunión LOG METAL — ${p.codigo}`,
+    text: `Reunión ${empresa} — ${p.codigo}`,
     details: detalle,
     add: invitados,
   })
@@ -84,7 +93,7 @@ export async function enviarEmail(input: EmailInput): Promise<EmailResultado> {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: remitente(),
+        from: remitente(input.brand),
         to: destinatarios,
         subject: input.subject,
         html: input.html,
