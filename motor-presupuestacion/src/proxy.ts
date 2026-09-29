@@ -9,6 +9,7 @@ export function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname
 
   const isDashboard = path.startsWith('/proyectos') || path.startsWith('/configuracion')
+    || path.startsWith('/plataforma')
   const isClientPortal = path === '/mi-proyecto'
 
   if (isDashboard && !hasSession) {
@@ -25,5 +26,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/proyectos/:path*', '/configuracion/:path*', '/mi-proyecto'],
+  matcher: ['/proyectos/:path*', '/configuracion/:path*', '/plataforma/:path*', '/mi-proyecto'],
 }

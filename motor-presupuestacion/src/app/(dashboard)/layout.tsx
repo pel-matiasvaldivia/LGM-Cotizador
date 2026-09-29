@@ -74,6 +74,16 @@ export default async function DashboardLayout({ children }: { children: React.Re
             </Link>
           )}
           {user.rol === 'admin' && <GestionUsuarios currentUserId={user.id} />}
+          {/* Administración de la plataforma: sólo para quien gestiona las
+              empresas del servicio, no para el admin de una empresa. */}
+          {user.superadmin && (
+            <Link
+              href="/plataforma"
+              className="hover:text-brand transition-colors text-sm uppercase font-semibold tracking-wider text-brand"
+            >
+              Plataforma
+            </Link>
+          )}
         </nav>
 
         <div className="flex items-center gap-4">

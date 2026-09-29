@@ -86,6 +86,16 @@ export async function requireUser(roles?: Array<Usuario['rol']>): Promise<Usuari
 
 // Busca por email DENTRO de la empresa del dominio: el mismo email puede ser
 // cliente de una empresa y comercial de otra.
+// Para las rutas de plataforma (/api/admin/*): además de estar autenticado, el
+// usuario tiene que ser superadmin. El 404 en lugar de 403 es deliberado: para
+// un admin de empresa, la administración de la plataforma no existe.
+export async function requireSuperadmin(): Promise<Usuario> {
+  const user = await getCurrentUser()
+  if (!user) throw new AuthError('No autenticado', 401)
+  if (!user.superadmin) throw new AuthError('No encontrado', 404)
+  return user
+}
+
 export async function findUserByEmail(email: string) {
   const tenant = await getTenant()
   if (!tenant) return undefined

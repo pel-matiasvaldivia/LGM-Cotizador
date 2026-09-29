@@ -11,7 +11,7 @@ datos fiscales, sus usuarios y sus proyectos (ver
 - **`motor-presupuestacion/`** — app Next.js 16 (App Router, standalone output)
 - **Postgres 16** — base de datos (contenedor propio, sin servicios externos)
 - **Drizzle ORM** — esquema tipado en `src/db/schema.ts`, migraciones SQL en `drizzle/`
-- **Auth propia** — sesiones en DB + cookie httpOnly (`src/lib/auth.ts`), roles `admin` / `comercial` / `cliente`
+- **Auth propia** — sesiones en DB + cookie httpOnly (`src/lib/auth.ts`), roles `admin` / `comercial` / `cliente` por empresa, más la marca `superadmin` para administrar la plataforma
 - **OpenAI** — transcripción de audios (Whisper) y extracción de variables (GPT-4o)
 
 ## Correr en producción
@@ -55,22 +55,54 @@ vale en el dominio de su empresa (la cookie de un dominio no sirve en otro), y
 un id de otra empresa responde 404, no 403. El mismo email —o el mismo código de
 proyecto— puede existir en dos empresas sin chocar.
 
-### Alta de una empresa
+### Panel de plataforma
+
+**Plataforma** (en el menú del panel, sólo visible para superadmins) es donde se
+administran las empresas del servicio: la pantalla lista cada una con sus
+dominios y métricas (usuarios, proyectos, rubros), y permite dar de alta,
+asignar y mover dominios, sembrar el catálogo, crear el primer admin,
+desactivar y borrar.
+
+El **alta guiada** hace los cuatro pasos de una vez: crea la empresa, le asigna
+los dominios, le copia un catálogo de arranque con los parámetros de costeo, y
+le crea su admin. Después ese admin entra por su dominio y completa CUIT,
+domicilio, logo y colores desde **Configuración → Empresa**.
+
+**Quién administra la plataforma.** Es una marca aparte (`usuarios.superadmin`),
+ortogonal al `rol` dentro de cada empresa: un superadmin sigue siendo admin o
+comercial de la empresa por la que entra, y no pierde nada de lo suyo. El admin
+maestro del despliegue (`ADMIN_EMAIL`) queda marcado en el arranque. Para el
+admin de una empresa, la administración de la plataforma no existe: responde
+404, no "sin permisos".
 
 ```bash
-docker compose exec app node scripts/tenant.mjs crear acero-sur "Acero Sur" acerosur.com
-docker compose exec app node scripts/tenant.mjs semilla acero-sur          # catálogo y parámetros
-docker compose exec -e TENANT=acero-sur app node scripts/usuario.mjs admin@acerosur.com 'Clave_2026' admin
+# otorgar o revocar el rol de plataforma
+docker compose exec -e TENANT=logmetal app node scripts/tenant.mjs superadmin alguien@empresa.com
+docker compose exec -e TENANT=logmetal app node scripts/tenant.mjs superadmin alguien@empresa.com --quitar
 ```
 
-Después, ese admin entra por su dominio y completa CUIT, domicilio, logo y
-colores desde **Configuración → Empresa**. Otros comandos:
+**Desactivar** una empresa deja sus dominios sin resolver (queda la pantalla de
+"dominio no configurado") sin borrar nada: es la forma de cortar el servicio y
+poder reactivarlo. **Borrar** se lleva usuarios, proyectos, catálogo, precios y
+configuración de esa empresa, y por eso exige repetir su identificador; nadie
+puede borrar la empresa por la que está entrando.
+
+Un dominio se mueve de una empresa a otra asignándolo: el panel avisa de dónde
+salía, porque el cambio redirige un sitio en producción.
+
+### Las mismas operaciones por consola
+
+`scripts/tenant.mjs` hace lo mismo sin pasar por el panel — es la vía de rescate
+cuando el panel no está disponible o todavía no hay ningún superadmin:
 
 ```bash
-node scripts/tenant.mjs listar                       # empresas, dominios, usuarios, proyectos
-node scripts/tenant.mjs dominio acero-sur www2.acerosur.com
-node scripts/tenant.mjs quitar-dominio viejo.com
-node scripts/tenant.mjs desactivar acero-sur         # deja de responder en sus dominios
+docker compose exec app node scripts/tenant.mjs listar
+docker compose exec app node scripts/tenant.mjs crear acero-sur "Acero Sur" acerosur.com
+docker compose exec app node scripts/tenant.mjs semilla acero-sur
+docker compose exec -e TENANT=acero-sur app node scripts/usuario.mjs admin@acerosur.com 'Clave_2026' admin
+docker compose exec app node scripts/tenant.mjs dominio acero-sur www2.acerosur.com
+docker compose exec app node scripts/tenant.mjs quitar-dominio viejo.com
+docker compose exec app node scripts/tenant.mjs desactivar acero-sur
 ```
 
 `semilla` copia el catálogo de la empresa más antigua como plantilla (o deja

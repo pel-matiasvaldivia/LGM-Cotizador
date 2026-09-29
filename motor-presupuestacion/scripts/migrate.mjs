@@ -230,6 +230,10 @@ async function seedAdmin(pool, tenantId) {
   const { rows } = await pool.query(
     'SELECT id FROM usuarios WHERE tenant_id = $1 AND email = $2', [tenantId, email])
   if (rows.length > 0) {
+    // El admin maestro es, por definición, quien administra la plataforma.
+    await pool.query(
+      'UPDATE usuarios SET superadmin = true WHERE id = $1 AND superadmin = false',
+      [rows[0].id])
     if (process.env.ADMIN_FORCE_RESET === 'true') {
       await pool.query(
         `UPDATE usuarios SET password_hash = $3, rol = 'admin' WHERE tenant_id = $1 AND email = $2`,
@@ -241,8 +245,8 @@ async function seedAdmin(pool, tenantId) {
   }
 
   await pool.query(
-    `INSERT INTO usuarios (tenant_id, email, password_hash, nombre, rol)
-     VALUES ($1, $2, $3, $4, 'admin')`,
+    `INSERT INTO usuarios (tenant_id, email, password_hash, nombre, rol, superadmin)
+     VALUES ($1, $2, $3, $4, 'admin', true)`,
     [tenantId, email, hashPassword(password), 'Administrador']
   )
   console.log(`[seed] usuario admin maestro creado: ${email}`)

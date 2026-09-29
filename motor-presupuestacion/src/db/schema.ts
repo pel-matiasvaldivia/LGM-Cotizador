@@ -73,6 +73,10 @@ export const usuarios = pgTable('usuarios', {
   passwordHash: text('password_hash').notNull(),
   nombre: text('nombre').notNull().default(''),
   rol: text('rol', { enum: ['admin', 'comercial', 'cliente'] }).notNull().default('cliente'),
+  // Administrador de la PLATAFORMA: da de alta empresas, les asigna dominios y
+  // les crea su primer admin. Es ortogonal a `rol`, que es el rol dentro de la
+  // empresa por la que el usuario entra.
+  superadmin: boolean('superadmin').notNull().default(false),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   // El mismo email puede existir en dos empresas distintas: la unicidad es
   // por tenant, no global.

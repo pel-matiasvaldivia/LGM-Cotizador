@@ -11,6 +11,12 @@
 //   docker compose exec app node scripts/tenant.mjs activar <slug>
 //   docker compose exec app node scripts/tenant.mjs desactivar <slug>
 //   docker compose exec app node scripts/tenant.mjs semilla <slug>
+//   docker compose exec app node scripts/tenant.mjs superadmin <email> [--quitar]
+//
+// Lo mismo se hace desde la pantalla Plataforma del panel (más cómodo); este
+// script es la vía de rescate cuando el panel no está disponible o todavía no
+// hay ningún superadmin. Ojo: `semilla` duplica a propósito la lógica de
+// src/lib/plataforma.ts — si cambia una, actualizar la otra.
 //
 // `crear` deja la empresa lista pero vacía: sin usuarios ni catálogo. Para que
 // pueda operar, después hay que correr `semilla <slug>` (catálogo y parámetros
@@ -238,12 +244,40 @@ async function main() {
       break
     }
 
+    case 'superadmin': {
+      const email = String(args[0] || '').toLowerCase().trim()
+      const quitar = args.includes('--quitar')
+      if (!email) {
+        console.error('Uso: node scripts/tenant.mjs superadmin <email> [--quitar]')
+        process.exit(1)
+      }
+      const filtroTenant = process.env.TENANT
+        ? ' AND tenant_id = (SELECT id FROM tenants WHERE slug = $2)'
+        : ''
+      const valores = process.env.TENANT ? [email, process.env.TENANT] : [email]
+      const { rows } = await pool.query(
+        `SELECT u.id, t.slug FROM usuarios u JOIN tenants t ON t.id = u.tenant_id
+         WHERE u.email = $1${filtroTenant}`, valores)
+      if (rows.length === 0) {
+        console.error(`No hay ningún usuario con el email ${email}.`)
+        process.exit(1)
+      }
+      if (rows.length > 1) {
+        console.error(`Ese email existe en ${rows.length} empresas (${rows.map((r) => r.slug).join(', ')}).`)
+        console.error('Indicar cuál con TENANT=<slug>.')
+        process.exit(1)
+      }
+      await pool.query('UPDATE usuarios SET superadmin = $2 WHERE id = $1', [rows[0].id, !quitar])
+      console.log(`✓ ${email} (${rows[0].slug}) ${quitar ? 'ya no administra' : 'administra'} la plataforma`)
+      break
+    }
+
     case 'semilla':
       await semilla(pool, String(args[0] || '').trim())
       break
 
     default:
-      console.error('Comandos: listar | crear | dominio | quitar-dominio | activar | desactivar | semilla')
+      console.error('Comandos: listar | crear | dominio | quitar-dominio | activar | desactivar | semilla | superadmin')
       console.error('Ver el encabezado de scripts/tenant.mjs para los ejemplos.')
       process.exit(1)
   }
