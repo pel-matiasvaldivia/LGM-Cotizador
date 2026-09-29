@@ -32,11 +32,11 @@ export default function ProyectoForm() {
 
   const stepClass = (pid: number) =>
     paso >= pid
-      ? 'bg-[#F05A28] text-white shadow-md'
+      ? 'bg-brand text-white shadow-md'
       : 'bg-gray-100 text-gray-400'
 
   const lineClass = (pid: number) =>
-    paso > pid ? 'bg-[#F05A28]' : 'bg-gray-200'
+    paso > pid ? 'bg-brand' : 'bg-gray-200'
 
   const labelClass = (pid: number) =>
     paso >= pid ? 'text-gray-800' : 'text-gray-400'
@@ -118,15 +118,15 @@ export default function ProyectoForm() {
         {/* Paso 1: Canal */}
         {paso === 1 && (
           <div className="space-y-6">
-            <h2 className="text-2xl font-semibold text-[#1B2A47]">Seleccione el canal de entrada</h2>
+            <h2 className="text-2xl font-semibold text-brand-ink">Seleccione el canal de entrada</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {CANALES.map(opt => (
                 <button
                   key={opt.id}
                   onClick={() => { setCanal(opt.id as Canal); setPaso(2) }}
-                  className="p-6 border-2 border-gray-200 rounded-lg text-left hover:border-[#F05A28] hover:bg-orange-50 transition-colors group"
+                  className="p-6 border-2 border-gray-200 rounded-lg text-left hover:border-brand hover:bg-brand-soft transition-colors group"
                 >
-                  <h3 className="font-bold text-lg text-gray-800 group-hover:text-[#F05A28]">{opt.label}</h3>
+                  <h3 className="font-bold text-lg text-gray-800 group-hover:text-brand">{opt.label}</h3>
                   <p className="text-gray-500 text-sm mt-1">{opt.desc}</p>
                 </button>
               ))}
@@ -138,7 +138,7 @@ export default function ProyectoForm() {
         {paso === 2 && canal && (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-semibold text-[#1B2A47]">Carga de datos crudos</h2>
+              <h2 className="text-2xl font-semibold text-brand-ink">Carga de datos crudos</h2>
               <button 
                 onClick={() => { setPaso(1); setFile(null); setTextoManual('') }} 
                 className="text-sm text-gray-500 hover:text-gray-800 underline"
@@ -152,7 +152,7 @@ export default function ProyectoForm() {
                 <div className="w-full space-y-4">
                   <p className="text-sm font-medium text-gray-700">Pega el texto aquí:</p>
                   <textarea 
-                    className="w-full h-40 p-4 border rounded-md shadow-sm focus:ring-[#F05A28] focus:border-[#F05A28]"
+                    className="w-full h-40 p-4 border rounded-md shadow-sm focus:ring-brand focus:border-brand"
                     placeholder="Ej: Hola, necesito un galpón de 20x40..."
                     value={textoManual}
                     onChange={(e) => setTextoManual(e.target.value)}
@@ -160,7 +160,7 @@ export default function ProyectoForm() {
                 </div>
               ) : (
                 <div className="flex flex-col items-center">
-                  <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                  <div className="w-20 h-20 bg-brand-tint rounded-full flex items-center justify-center mb-4">
                     <span className="text-3xl">📁</span>
                   </div>
                   <p className="text-lg font-medium text-gray-800">Sube tu archivo</p>
@@ -175,7 +175,7 @@ export default function ProyectoForm() {
                   />
                   <label 
                     htmlFor="file-upload" 
-                    className="cursor-pointer bg-white border-2 border-[#1B2A47] text-[#1B2A47] px-6 py-2 rounded font-semibold hover:bg-gray-50 mb-2"
+                    className="cursor-pointer bg-white border-2 border-brand-ink text-brand-ink px-6 py-2 rounded font-semibold hover:bg-gray-50 mb-2"
                   >
                     {file ? file.name : 'Seleccionar Archivo'}
                   </label>
@@ -186,7 +186,7 @@ export default function ProyectoForm() {
               <button 
                 onClick={handleProcess}
                 disabled={loading || (!file && !textoManual)}
-                className={['mt-10 bg-[#1B2A47] text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:scale-105 transition-all disabled:opacity-50 disabled:hover:scale-100', loading ? 'animate-pulse' : ''].join(' ')}
+                className={['mt-10 bg-brand-ink text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:scale-105 transition-all disabled:opacity-50 disabled:hover:scale-100', loading ? 'animate-pulse' : ''].join(' ')}
               >
                 {loading ? 'Procesando con IA...' : 'Procesar con IA →'}
               </button>
@@ -197,7 +197,7 @@ export default function ProyectoForm() {
         {/* Paso 3: R-09 */}
         {paso === 3 && (
           <div className="space-y-6">
-            <h2 className="text-2xl font-semibold text-[#1B2A47]">Revisión de Variables R-09</h2>
+            <h2 className="text-2xl font-semibold text-brand-ink">Revisión de Variables R-09</h2>
             <p className="text-gray-600">Verifique los datos extraídos por la IA antes de calcular.</p>
             <R09Form variables={variables} onChange={setVariables} />
             <div className="flex justify-end">
@@ -230,7 +230,7 @@ export default function ProyectoForm() {
                     setLoading(false)
                   }
                 }} 
-                className="bg-[#1B2A47] text-white px-6 py-2 rounded font-semibold hover:bg-[#1B2A47]/90"
+                className="bg-brand-ink text-white px-6 py-2 rounded font-semibold hover:bg-brand-ink/90"
               >
                 {loading ? 'Procesando...' : 'Confirmar y Calcular Presupuesto →'}
               </button>
@@ -241,7 +241,7 @@ export default function ProyectoForm() {
         {/* Paso 4: Base 0 */}
         {paso === 4 && (
           <div className="space-y-6">
-            <h2 className="text-2xl font-semibold text-[#1B2A47]">Presupuesto Base 0</h2>
+            <h2 className="text-2xl font-semibold text-brand-ink">Presupuesto Base 0</h2>
             <p className="text-gray-600">Detalle de costos y márgenes por rubro. Edite los márgenes antes de avanzar.</p>
             <Base0Table items={items} onChange={setItems} onNext={() => setPaso(5)} />
           </div>
@@ -250,7 +250,7 @@ export default function ProyectoForm() {
         {/* Paso 5: R-04 */}
         {paso === 5 && (
           <div className="space-y-6">
-            <h2 className="text-2xl font-semibold text-[#1B2A47]">Vista Previa R-04 Comercial</h2>
+            <h2 className="text-2xl font-semibold text-brand-ink">Vista Previa R-04 Comercial</h2>
             <p className="text-gray-600">Este es el documento que se enviará al cliente. Revise los montos finales.</p>
             
             <div className="border border-gray-200 rounded-lg overflow-hidden bg-gray-100 min-h-[500px] flex flex-col shadow-inner">
@@ -261,10 +261,10 @@ export default function ProyectoForm() {
                />
             </div>
 
-            <div className="flex justify-between items-center bg-orange-50 p-4 rounded-lg border border-orange-100">
+            <div className="flex justify-between items-center bg-brand-soft p-4 rounded-lg border border-brand-line">
                <div>
-                 <p className="text-sm text-orange-800 font-medium">¿Todo listo para enviar?</p>
-                 <p className="text-xs text-orange-600">Al aprobar, se registrará en el sistema y se preparará para Flexxus.</p>
+                 <p className="text-sm text-brand-deep font-medium">¿Todo listo para enviar?</p>
+                 <p className="text-xs text-brand-deep">Al aprobar, se registrará en el sistema y se preparará para Flexxus.</p>
                </div>
                <button 
                 onClick={async () => {
@@ -277,7 +277,7 @@ export default function ProyectoForm() {
                      setLoading(false)
                    }
                 }} 
-                className="bg-[#F05A28] text-white px-8 py-3 rounded-lg font-bold shadow-md hover:bg-[#F05A28]/90"
+                className="bg-brand text-white px-8 py-3 rounded-lg font-bold shadow-md hover:bg-brand/90"
                >
                  {loading ? 'Guardando...' : 'Aprobar y Finalizar ✓'}
                </button>
@@ -289,9 +289,9 @@ export default function ProyectoForm() {
         {paso === 6 && (
           <div className="space-y-4 text-center py-10">
             <div className="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto text-3xl">✓</div>
-            <h2 className="text-2xl font-semibold text-[#1B2A47]">¡Completado!</h2>
+            <h2 className="text-2xl font-semibold text-brand-ink">¡Completado!</h2>
             <p className="text-gray-600">El presupuesto R-04 fue guardado y está listo para enviar.</p>
-            <Link href="/proyectos" className="mt-6 bg-[#1B2A47] text-white px-6 py-2 rounded font-semibold hover:bg-[#1B2A47]/90 inline-block">
+            <Link href="/proyectos" className="mt-6 bg-brand-ink text-white px-6 py-2 rounded font-semibold hover:bg-brand-ink/90 inline-block">
               Ir a Proyectos
             </Link>
           </div>

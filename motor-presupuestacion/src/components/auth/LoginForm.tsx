@@ -43,7 +43,7 @@ export default function LoginForm({ nextUrl }: { nextUrl?: string }) {
   }
 
   const inputClass =
-    'w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none transition-shadow text-[#1B2A47] text-sm'
+    'w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand focus:border-transparent outline-none transition-shadow text-brand-ink text-sm'
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
@@ -58,7 +58,7 @@ export default function LoginForm({ nextUrl }: { nextUrl?: string }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className={inputClass}
-            placeholder="comercial@logmetal.com"
+            placeholder="comercial@empresa.com"
             required
             autoComplete="email"
           />
@@ -99,7 +99,7 @@ export default function LoginForm({ nextUrl }: { nextUrl?: string }) {
       <button
         type="submit"
         disabled={loading || !email || !password}
-        className="w-full bg-[#F05A28] text-white py-3.5 rounded-xl font-bold hover:bg-orange-600 transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-md shadow-orange-200"
+        className="w-full bg-brand text-white py-3.5 rounded-xl font-bold hover:bg-brand-hover transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-md shadow-brand-line"
       >
         {loading ? (
           <>

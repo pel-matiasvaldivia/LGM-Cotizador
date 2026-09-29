@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { appUrl, emailConfigurado, enviarEmail, equipoComercial, linkReunion, remitente } from './email'
+import { getBrand } from './branding'
 
 const ORIG = { ...process.env }
 afterEach(() => { process.env = { ...ORIG } })
@@ -39,7 +40,8 @@ describe('configuración de email', () => {
     expect(equipoComercial()).toEqual(['solo@x.com'])
   })
   it('remitente por defecto y override', () => {
-    expect(remitente()).toContain('LOG METAL')
+    // Sin EMAIL_FROM, el remitente sale de la marca activa (marca blanca).
+    expect(remitente()).toContain(getBrand().nombre)
     process.env.EMAIL_FROM = 'X <x@y.com>'
     expect(remitente()).toBe('X <x@y.com>')
   })

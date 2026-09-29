@@ -5,6 +5,22 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Marca blanca: utilidades `*-brand*` (bg-brand, text-brand-ink, …) que
+     resuelven contra las variables de la marca activa. Ver src/lib/branding.ts */
+  --color-brand: var(--brand-primary);
+  --color-brand-hover: var(--brand-primary-hover);
+  --color-brand-deep: var(--brand-primary-deep);
+  --color-brand-light: var(--brand-primary-light);
+  --color-brand-soft: var(--brand-primary-soft);
+  --color-brand-line: var(--brand-primary-line);
+  --color-brand-tint: var(--brand-primary-tint);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-ink-deep: var(--brand-ink-deep);
+  --color-brand-ink-soft: var(--brand-ink-soft);
+  --color-brand-ink-tint: var(--brand-ink-tint);
+  --color-brand-ink-tint-strong: var(--brand-ink-tint-strong);
+  --color-brand-surface: var(--brand-surface);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
@@ -49,6 +65,25 @@
 }
 
 :root {
+  /* ── Marca blanca ───────────────────────────────────────────────
+     Solo estos tres valores definen la identidad; el resto se deriva.
+     El <BrandStyle> del layout los sobrescribe con los de la marca
+     contratada, y las derivadas se recalculan solas (late binding). */
+  --brand-primary: #2563eb;
+  --brand-ink: #1e293b;
+  --brand-surface: #f4f5f7;
+
+  --brand-primary-hover: color-mix(in oklab, var(--brand-primary) 88%, black);
+  --brand-primary-deep: color-mix(in oklab, var(--brand-primary) 72%, black);
+  --brand-primary-light: color-mix(in oklab, var(--brand-primary) 66%, white);
+  --brand-primary-soft: color-mix(in oklab, var(--brand-primary) 10%, white);
+  --brand-primary-line: color-mix(in oklab, var(--brand-primary) 28%, white);
+  --brand-primary-tint: color-mix(in oklab, var(--brand-primary) 14%, white);
+  --brand-ink-deep: color-mix(in oklab, var(--brand-ink) 72%, black);
+  --brand-ink-soft: color-mix(in oklab, var(--brand-ink) 8%, white);
+  --brand-ink-tint: color-mix(in oklab, var(--brand-ink) 22%, white);
+  --brand-ink-tint-strong: color-mix(in oklab, var(--brand-ink) 40%, white);
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);

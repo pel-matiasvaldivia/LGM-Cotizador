@@ -1,4 +1,5 @@
 import type { proyectos } from '@/db/schema'
+import { getBrand } from '@/lib/branding'
 
 // Capa de envío de email. Usa la API HTTP de Resend (sin dependencias extra).
 // Si no está configurada (RESEND_API_KEY ausente), degrada con gracia: registra
@@ -22,9 +23,14 @@ export function emailConfigurado(): boolean {
   return Boolean(process.env.RESEND_API_KEY)
 }
 
-// Dirección remitente (verificada en el proveedor). Configurable por env.
+// Dirección remitente (verificada en el proveedor). Configurable por env; sin
+// EMAIL_FROM se arma con el nombre de la marca y su email de contacto.
 export function remitente(): string {
-  return process.env.EMAIL_FROM || 'LOG METAL <no-reply@logmetal.com.ar>'
+  if (process.env.EMAIL_FROM) return process.env.EMAIL_FROM
+  const brand = getBrand()
+  return brand.contacto.email
+    ? `${brand.nombre} <${brand.contacto.email}>`
+    : brand.nombre
 }
 
 // Emails del equipo comercial que reciben los avisos internos.
@@ -49,12 +55,12 @@ export interface EmailResultado {
 // PDF) para poder usarse también desde componentes de servidor.
 export function linkReunion(p: typeof proyectos.$inferSelect): string {
   const invitados = [p.email, ...equipoComercial()].filter(Boolean).join(',')
-  const detalle = `Reunión para avanzar con el presupuesto ${p.codigo} de LOG METAL.\n` +
+  const detalle = `Reunión para avanzar con el presupuesto ${p.codigo} de ${getBrand().nombre}.\n` +
     `Cliente: ${p.cliente}${p.razonSocial ? ' (' + p.razonSocial + ')' : ''}.\n` +
     `Se generará un enlace de Google Meet al confirmar la invitación.`
   const params = new URLSearchParams({
     action: 'TEMPLATE',
-    text: `Reunión LOG METAL — ${p.codigo}`,
+    text: `Reunión ${getBrand().nombre} — ${p.codigo}`,
     details: detalle,
     add: invitados,
   })

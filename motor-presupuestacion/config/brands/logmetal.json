@@ -1,0 +1,49 @@
+{
+  "nombre": "Log Metal",
+  "razonSocial": "Log Metal SRL",
+  "logo": "/logo.png",
+  "logoAlto": 48,
+  "theme": {
+    "primary": "#f05a28",
+    "ink": "#1b2a47",
+    "surface": "#f4f5f7"
+  },
+  "meta": {
+    "title": "Log Metal SRL — Estructuras Metálicas Industriales",
+    "description": "Diseño, ingeniería, fabricación y montaje de naves industriales. Cotizá tu proyecto en minutos."
+  },
+  "hero": {
+    "badge": "Líderes en construcción industrial desde 2005",
+    "tituloLinea1": "Construimos",
+    "tituloDestacado": "tu espacio.",
+    "subtitulo": "Diseño, ingeniería, fabricación y montaje de naves industriales. Cotizá tu proyecto en minutos con inteligencia artificial.",
+    "cta": "Cotizar proyecto",
+    "notaCta": "Sin compromiso · Resultado en 2 minutos"
+  },
+  "nosotros": {
+    "eyebrow": "Nosotros",
+    "titulo": "Ingeniería que respalda tu inversión",
+    "texto": "Log Metal SRL nace en 2005 como fabricante de estructuras metálicas. Hoy ofrecemos servicios integrales desde el diseño y la ingeniería, hasta la fabricación, montaje y ejecución llave en mano en toda Argentina.",
+    "stats": [
+      { "num": "+20", "label": "Años de trayectoria" },
+      { "num": "+500", "label": "Proyectos ejecutados" },
+      { "num": "100%", "label": "Cobertura nacional" }
+    ]
+  },
+  "clientes": {
+    "titulo": "Empresas que confían en nosotros",
+    "logos": ["WEATHERFORD", "VOLKSWAGEN", "TOYOTA", "BIOAGIL"]
+  },
+  "contacto": {
+    "direccion": "Parque Industrial, Mendoza, Argentina",
+    "telefono": "+54 9 261 XXX-XXXX",
+    "email": "info@logmetal.com.ar",
+    "whatsapp": "5492616666666"
+  },
+  "ctaFinal": {
+    "titulo": "¿Listo para construir?",
+    "subtitulo": "Usá nuestro cotizador inteligente y recibí un presupuesto detallado en minutos.",
+    "boton": "Cotizar proyecto"
+  },
+  "footerNota": "Mendoza, Argentina"
+}

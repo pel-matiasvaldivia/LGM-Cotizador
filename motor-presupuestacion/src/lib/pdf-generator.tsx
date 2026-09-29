@@ -2,20 +2,33 @@ import React from 'react'
 import { Document, Page, Text, View, StyleSheet, renderToBuffer, Image } from '@react-pdf/renderer'
 import path from 'path'
 import fs from 'fs'
+import { getBrand } from '@/lib/branding'
 
-// Read logo as base64 from public folder at render time
-const logoPath = path.join(process.cwd(), 'public', 'logo.png')
-const logoBase64 = fs.existsSync(logoPath)
-  ? `data:image/png;base64,${fs.readFileSync(logoPath).toString('base64')}`
-  : null
+// El PDF no puede usar variables CSS: toma los colores de la marca activa.
+const brand = getBrand()
+const MARCA = brand.theme.ink
+const ACENTO = brand.theme.primary
+
+// Logo de la marca leído de /public como base64 (react-pdf no hace fetch).
+const MIME: Record<string, string> = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg' }
+const logoBase64 = (() => {
+  const ruta = brand.logo
+  if (!ruta || !ruta.startsWith('/')) return null
+  const ext = path.extname(ruta).toLowerCase()
+  const mime = MIME[ext]
+  if (!mime) return null
+  const abs = path.join(process.cwd(), 'public', ruta.replace(/^\//, ''))
+  if (!fs.existsSync(abs)) return null
+  return `data:${mime};base64,${fs.readFileSync(abs).toString('base64')}`
+})()
 
 const styles = StyleSheet.create({
   page: { padding: 40, fontSize: 9, fontFamily: 'Helvetica' },
   header: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 },
-  title: { fontSize: 14, fontWeight: 'bold', color: '#1B2A47' },
+  title: { fontSize: 14, fontWeight: 'bold', color: MARCA },
   tableRow: { flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#E5E7EB' },
   tableCell: { padding: 5, flex: 1 },
-  totalRow: { backgroundColor: '#F05A28', color: 'white', flexDirection: 'row', padding: 8 },
+  totalRow: { backgroundColor: ACENTO, color: 'white', flexDirection: 'row', padding: 8 },
 })
 
 export async function generarR04PDF(presupuesto: any, items: any[]) {
@@ -35,12 +48,12 @@ export async function generarR04PDF(presupuesto: any, items: any[]) {
           <View>
             {logoBase64
               ? <Image src={logoBase64} style={{ width: 130, height: 'auto' }} />
-              : <Text style={styles.title}>LOG METAL SRL</Text>
+              : <Text style={styles.title}>{brand.razonSocial}</Text>
             }
             <Text style={{ fontSize: 8, color: '#888', marginTop: 2 }}>PRESUPUESTO — R-04</Text>
           </View>
           <View style={{ alignItems: 'flex-end' }}>
-            <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#1B2A47' }}>
+            <Text style={{ fontSize: 12, fontWeight: 'bold', color: MARCA }}>
               Presupuesto N° {presupuesto.codigo || '—'}
             </Text>
             <Text style={{ fontSize: 8, color: '#888', marginTop: 2 }}>Formulario R-04 | Rev. 01</Text>
@@ -75,7 +88,7 @@ export async function generarR04PDF(presupuesto: any, items: any[]) {
           const subtotal = rubItems.reduce((a: number, i: any) => a + Number(i.precio_venta_usd || 0), 0)
           return (
             <View key={rubro} style={{ marginBottom: 8 }}>
-              <View style={[styles.tableRow, { backgroundColor: '#1B2A47' }]}>
+              <View style={[styles.tableRow, { backgroundColor: MARCA }]}>
                 <Text style={[styles.tableCell, { flex: 6, color: 'white', fontWeight: 'bold' }]}>{rubro}</Text>
                 <Text style={[styles.tableCell, { flex: 1.5, color: 'white', fontWeight: 'bold' }]}>
                   u$d {subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
@@ -107,7 +120,7 @@ export async function generarR04PDF(presupuesto: any, items: any[]) {
           <Text style={{ flex: 1 }}>IVA {((presupuesto.iva_pct ?? 0.21) * 100).toFixed(0)}%</Text>
           <Text>u$d {Number(presupuesto.iva_usd ?? Number(presupuesto.total_venta_usd || 0) * 0.21).toLocaleString('en-US', { minimumFractionDigits: 2 })}</Text>
         </View>
-        <View style={[styles.totalRow, { backgroundColor: '#1B2A47' }]}>
+        <View style={[styles.totalRow, { backgroundColor: MARCA }]}>
           <Text style={{ flex: 1 }}>TOTAL CON IVA</Text>
           <Text>u$d {Number(presupuesto.total_con_iva_usd || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</Text>
         </View>
@@ -118,7 +131,7 @@ export async function generarR04PDF(presupuesto: any, items: any[]) {
           <View style={{ flexDirection: 'row', marginTop: 12, gap: 8 }}>
             <View style={{ flex: 1, padding: 8, backgroundColor: '#F8F9FA', borderRadius: 4 }}>
               <Text style={{ fontSize: 7, color: '#888' }}>PRECIO POR m²</Text>
-              <Text style={{ fontSize: 12, color: '#F05A28', fontWeight: 'bold' }}>u$d {Number(presupuesto.precio_m2_usd || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</Text>
+              <Text style={{ fontSize: 12, color: ACENTO, fontWeight: 'bold' }}>u$d {Number(presupuesto.precio_m2_usd || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</Text>
             </View>
           </View>
         ) : null}

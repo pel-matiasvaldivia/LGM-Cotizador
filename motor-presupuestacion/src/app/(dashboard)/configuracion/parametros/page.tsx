@@ -49,7 +49,7 @@ function Num({
           step={step}
           value={value}
           onChange={(e) => onChange(k, isPct ? Number(e.target.value) / 100 : Number(e.target.value))}
-          className="block w-full rounded-lg border border-gray-200 bg-white p-2.5 pr-10 text-[#1B2A47] focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
+          className="block w-full rounded-lg border border-gray-200 bg-white p-2.5 pr-10 text-brand-ink focus:ring-2 focus:ring-brand focus:border-transparent outline-none"
         />
         <span className="absolute inset-y-0 right-3 flex items-center text-slate-400 text-sm">
           {suffix ?? (isPct ? '%' : '')}
@@ -119,14 +119,14 @@ export default function ParametrosPage() {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-[#1B2A47] mb-1">Parámetros de costeo</h1>
+      <h1 className="text-3xl font-bold text-brand-ink mb-1">Parámetros de costeo</h1>
       <p className="text-slate-500 mb-6 text-sm">
         Estos valores arman el precio final desde el costo directo: costo → +indirectos → +beneficio → +IVA.
       </p>
 
       <div className="space-y-5">
         <section className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-          <h2 className="font-semibold text-[#1B2A47] mb-4">Cascada de precio</h2>
+          <h2 className="font-semibold text-brand-ink mb-4">Cascada de precio</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Num k="tipoCambio" label="Tipo de cambio (ARS/USD)" suffix="$" value={num('tipoCambio')} isPct={false} onChange={set} />
             <Num k="costosIndirectos" label="Costos indirectos" value={num('costosIndirectos')} isPct onChange={set} />
@@ -138,7 +138,7 @@ export default function ParametrosPage() {
         </section>
 
         <section className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-          <h2 className="font-semibold text-[#1B2A47] mb-1">Logística (fletes)</h2>
+          <h2 className="font-semibold text-brand-ink mb-1">Logística (fletes)</h2>
           <p className="text-xs text-slate-400 mb-4">
             El costo de flete = viajes × distancia a obra (km) × tarifa. La distancia se carga (o se calcula por dirección) en cada proyecto.
           </p>
@@ -155,7 +155,7 @@ export default function ParametrosPage() {
               value={p.ubicacionBase ?? ''}
               onChange={(e) => setP((prev) => (prev ? { ...prev, ubicacionBase: e.target.value } : prev))}
               placeholder="Ej: Av. San Martín 1234, Godoy Cruz, Mendoza"
-              className="block w-full rounded-lg border border-gray-200 bg-white p-2.5 text-[#1B2A47] focus:ring-2 focus:ring-[#F05A28] focus:border-transparent outline-none"
+              className="block w-full rounded-lg border border-gray-200 bg-white p-2.5 text-brand-ink focus:ring-2 focus:ring-brand focus:border-transparent outline-none"
             />
             <p className="text-xs text-slate-400 mt-1">
               Dirección del taller/depósito. Se usa para calcular automáticamente la distancia a cada obra.
@@ -168,7 +168,7 @@ export default function ParametrosPage() {
         <button
           onClick={guardar}
           disabled={saving}
-          className="bg-[#F05A28] text-white px-6 py-2.5 rounded-xl font-bold hover:bg-orange-600 disabled:opacity-40"
+          className="bg-brand text-white px-6 py-2.5 rounded-xl font-bold hover:bg-brand-hover disabled:opacity-40"
         >
           {saving ? 'Guardando…' : 'Guardar parámetros'}
         </button>

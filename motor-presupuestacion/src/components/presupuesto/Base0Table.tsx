@@ -16,7 +16,7 @@ export default function Base0Table({ items, onChange, onNext }: { items: any[], 
     <div className="bg-white p-6 border rounded-lg shadow-sm">
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm text-gray-700">
-          <thead className="bg-[#1B2A47] text-white">
+          <thead className="bg-brand-ink text-white">
             <tr>
               <th className="px-4 py-3 font-semibold">Rubro/Descripción</th>
               <th className="px-4 py-3 font-semibold text-center">Cant.</th>
@@ -52,7 +52,7 @@ export default function Base0Table({ items, onChange, onNext }: { items: any[], 
               <td colSpan={2} className="px-4 py-3 text-right">TOTALES:</td>
               <td className="px-4 py-3 text-right">u$d {totalCosto.toFixed(2)}</td>
               <td className="px-4 py-3"></td>
-              <td className="px-4 py-3 text-right text-[#F05A28]">u$d {totalVenta.toFixed(2)}</td>
+              <td className="px-4 py-3 text-right text-brand">u$d {totalVenta.toFixed(2)}</td>
             </tr>
           </tfoot>
         </table>
@@ -60,7 +60,7 @@ export default function Base0Table({ items, onChange, onNext }: { items: any[], 
       <div className="mt-6 flex justify-end">
         <button 
           onClick={onNext}
-          className="bg-[#1B2A47] text-white px-6 py-2 rounded font-semibold hover:bg-[#1B2A47]/90"
+          className="bg-brand-ink text-white px-6 py-2 rounded font-semibold hover:bg-brand-ink/90"
           disabled={items.length === 0}
         >
           Siguiente: Preliminar R-04

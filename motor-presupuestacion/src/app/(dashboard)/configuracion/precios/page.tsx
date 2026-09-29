@@ -47,8 +47,8 @@ export default function PreciosReferenciaPage() {
   return (
     <div className="max-w-5xl mx-auto p-6">
       <div className="flex items-center gap-3 mb-1">
-        <Library className="w-6 h-6 text-[#F05A28]" />
-        <h1 className="text-2xl font-bold text-[#1B2A47]">Biblioteca de precios de referencia</h1>
+        <Library className="w-6 h-6 text-brand" />
+        <h1 className="text-2xl font-bold text-brand-ink">Biblioteca de precios de referencia</h1>
       </div>
       <p className="text-sm text-slate-500 mb-6">
         Costos unitarios directos (material + ejecución) de Revista Cifras. Consultá y agregá estos ítems
@@ -62,13 +62,13 @@ export default function PreciosReferenciaPage() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Buscar por descripción o código"
-            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#F05A28] outline-none"
+            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand outline-none"
           />
         </div>
         <select
           value={categoria}
           onChange={(e) => setCategoria(e.target.value)}
-          className="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white outline-none focus:ring-2 focus:ring-[#F05A28]"
+          className="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white outline-none focus:ring-2 focus:ring-brand"
         >
           <option value="">Todas las categorías</option>
           {categorias.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -78,7 +78,7 @@ export default function PreciosReferenciaPage() {
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm text-gray-700">
-            <thead className="bg-[#1B2A47] text-white">
+            <thead className="bg-brand-ink text-white">
               <tr>
                 <th className="px-4 py-3 font-semibold">Categoría</th>
                 <th className="px-4 py-3 font-semibold">Descripción</th>
@@ -97,11 +97,11 @@ export default function PreciosReferenciaPage() {
                 items.map((p, idx) => (
                   <tr key={p.id} className={`border-b border-gray-50 ${idx % 2 ? 'bg-slate-50/50' : ''}`}>
                     <td className="px-4 py-2.5 text-xs text-slate-400">{p.categoria}</td>
-                    <td className="px-4 py-2.5 text-[#1B2A47]">{p.descripcion}</td>
+                    <td className="px-4 py-2.5 text-brand-ink">{p.descripcion}</td>
                     <td className="px-4 py-2.5 text-center text-slate-500">{p.unidad}</td>
                     <td className="px-4 py-2.5 text-right text-slate-500">{usd(p.costo_material_usd)}</td>
                     <td className="px-4 py-2.5 text-right text-slate-500">{usd(p.costo_ejecucion_usd)}</td>
-                    <td className="px-4 py-2.5 text-right font-semibold text-[#1B2A47]">{usd(p.costo_total_usd)}</td>
+                    <td className="px-4 py-2.5 text-right font-semibold text-brand-ink">{usd(p.costo_total_usd)}</td>
                   </tr>
                 ))
               )}

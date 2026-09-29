@@ -92,7 +92,7 @@ export default function AgregarItemModal({
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <div>
-            <h3 className="font-bold text-[#1B2A47]">Agregar ítem al presupuesto</h3>
+            <h3 className="font-bold text-brand-ink">Agregar ítem al presupuesto</h3>
             <p className="text-xs text-slate-400">Buscá en la biblioteca de precios (Revista Cifras) o cargá uno a medida.</p>
           </div>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-700"><X className="w-5 h-5" /></button>
@@ -108,13 +108,13 @@ export default function AgregarItemModal({
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
                   placeholder="Buscar ítem (ej: porcellanato, tabique, inodoro)"
-                  className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#F05A28] outline-none"
+                  className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand outline-none"
                 />
               </div>
               <select
                 value={categoria}
                 onChange={(e) => setCategoria(e.target.value)}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white outline-none focus:ring-2 focus:ring-[#F05A28]"
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white outline-none focus:ring-2 focus:ring-brand"
               >
                 <option value="">Todas las categorías</option>
                 {categorias.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -130,10 +130,10 @@ export default function AgregarItemModal({
                   <button
                     key={p.id}
                     onClick={() => elegir(p)}
-                    className={`w-full text-left px-4 py-2.5 border-b border-gray-50 hover:bg-orange-50 transition-colors ${sel?.id === p.id ? 'bg-orange-50' : ''}`}
+                    className={`w-full text-left px-4 py-2.5 border-b border-gray-50 hover:bg-brand-soft transition-colors ${sel?.id === p.id ? 'bg-brand-soft' : ''}`}
                   >
                     <div className="flex justify-between gap-2">
-                      <span className="text-sm text-[#1B2A47]">{p.descripcion}</span>
+                      <span className="text-sm text-brand-ink">{p.descripcion}</span>
                       <span className="text-xs font-semibold text-slate-500 whitespace-nowrap">{usd(p.costo_total_usd)}/{p.unidad}</span>
                     </div>
                     <span className="text-[11px] text-slate-400">{p.categoria}</span>
@@ -149,20 +149,20 @@ export default function AgregarItemModal({
               <label className="block text-xs font-semibold text-slate-500 mb-1">Descripción</label>
               <input value={descripcion} onChange={(e) => setDescripcion(e.target.value)}
                 placeholder="Elegí de la biblioteca o escribí una descripción"
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-[#F05A28]" />
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-brand" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-semibold text-slate-500 mb-1">Cantidad</label>
                 <input type="number" min="0" step="any" value={cantidad}
                   onChange={(e) => setCantidad(Number(e.target.value))}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-[#F05A28]" />
+                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-brand" />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-slate-500 mb-1">Unidad</label>
                 <input value={unidad} onChange={(e) => setUnidad(e.target.value)}
                   placeholder="m2, u, kg…"
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-[#F05A28]" />
+                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-brand" />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -170,23 +170,23 @@ export default function AgregarItemModal({
                 <label className="block text-xs font-semibold text-slate-500 mb-1">Material u. (USD)</label>
                 <input type="number" min="0" step="any" value={unitMat}
                   onChange={(e) => setUnitMat(Number(e.target.value))}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-[#F05A28]" />
+                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-brand" />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-slate-500 mb-1">Mano de obra u. (USD)</label>
                 <input type="number" min="0" step="any" value={unitMo}
                   onChange={(e) => setUnitMo(Number(e.target.value))}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-[#F05A28]" />
+                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-brand" />
               </div>
             </div>
             <div className="bg-slate-50 rounded-lg px-4 py-3 flex justify-between items-center">
               <span className="text-sm text-slate-500">Costo total del ítem</span>
-              <span className="text-lg font-bold text-[#1B2A47]">{usd(total)}</span>
+              <span className="text-lg font-bold text-brand-ink">{usd(total)}</span>
             </div>
             <button
               onClick={agregar}
               disabled={!puedeAgregar || saving}
-              className="mt-auto flex items-center justify-center gap-2 bg-[#F05A28] text-white py-2.5 rounded-lg font-bold hover:bg-orange-600 transition-colors disabled:opacity-40"
+              className="mt-auto flex items-center justify-center gap-2 bg-brand text-white py-2.5 rounded-lg font-bold hover:bg-brand-hover transition-colors disabled:opacity-40"
             >
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
               Agregar al presupuesto

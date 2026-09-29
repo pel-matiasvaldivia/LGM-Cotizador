@@ -1,17 +1,19 @@
 import type { proyectos } from '@/db/schema'
 import { appUrl, enviarEmail, equipoComercial, linkReunion, type EmailAdjunto, type EmailResultado } from '@/lib/email'
 import { construirR04 } from '@/lib/pdf-r04'
+import { getBrand } from '@/lib/branding'
 
 export { linkReunion }
 
 type Proyecto = typeof proyectos.$inferSelect
 
-const MARCA = '#1B2A47'
-const ACENTO = '#F05A28'
-
-// Envoltorio HTML común de los mails (branding LOG METAL, estilos inline para
-// compatibilidad con clientes de correo).
+// Envoltorio HTML común de los mails: toma nombre y paleta de la marca activa
+// (marca blanca) y usa estilos inline por compatibilidad con los clientes de
+// correo, que no soportan variables CSS.
 function plantilla(titulo: string, cuerpo: string, cta?: { label: string; url: string }): string {
+  const brand = getBrand()
+  const MARCA = brand.theme.ink
+  const ACENTO = brand.theme.primary
   const boton = cta
     ? `<tr><td style="padding:8px 0 4px;">
          <a href="${cta.url}" style="display:inline-block;background:${ACENTO};color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:13px 26px;border-radius:10px;">${cta.label}</a>
@@ -22,8 +24,8 @@ function plantilla(titulo: string, cuerpo: string, cta?: { label: string; url: s
     <tr><td align="center">
       <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px rgba(27,42,71,.08);">
         <tr><td style="background:${MARCA};padding:22px 32px;">
-          <span style="font-weight:800;font-size:20px;letter-spacing:-.5px;color:#fff;">LOG<span style="color:${ACENTO};">METAL</span></span>
-          <span style="font-size:10px;letter-spacing:3px;color:#9fb0cc;margin-left:8px;">NAVES INDUSTRIALES</span>
+          <span style="font-weight:800;font-size:20px;letter-spacing:-.5px;color:#fff;">${brand.nombre}</span>
+          ${brand.tagline ? `<span style="font-size:10px;letter-spacing:3px;color:#9fb0cc;margin-left:8px;">${brand.tagline}</span>` : ''}
         </td></tr>
         <tr><td style="padding:32px;">
           <h1 style="margin:0 0 16px;font-size:22px;line-height:1.25;color:${MARCA};">${titulo}</h1>
@@ -33,7 +35,7 @@ function plantilla(titulo: string, cuerpo: string, cta?: { label: string; url: s
           </table>
         </td></tr>
         <tr><td style="padding:20px 32px;background:#f8fafc;border-top:1px solid #eef0f3;font-size:12px;color:#8a93a3;">
-          LOG METAL · Naves Industriales — Este es un mensaje automático del sistema de cotizaciones.
+          ${brand.razonSocial} — Este es un mensaje automático del sistema de cotizaciones.
         </td></tr>
       </table>
     </td></tr>
@@ -46,7 +48,7 @@ function fila(html: string): string {
 
 function datosProyecto(p: Proyecto): string {
   const linea = (k: string, v: string | null | undefined) =>
-    v ? `<div style="padding:2px 0;"><span style="color:#8a93a3;">${k}:</span> <strong style="color:${MARCA};">${v}</strong></div>` : ''
+    v ? `<div style="padding:2px 0;"><span style="color:#8a93a3;">${k}:</span> <strong style="color:${getBrand().theme.ink};">${v}</strong></div>` : ''
   return `<tr><td style="padding:4px 0 16px;">
     <div style="background:#f8fafc;border:1px solid #eef0f3;border-radius:12px;padding:14px 16px;font-size:14px;">
       ${linea('Presupuesto', p.codigo)}

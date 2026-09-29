@@ -99,11 +99,11 @@ export default function SelectorRubros({
   return (
     <div className="border border-gray-200 rounded-lg overflow-hidden">
       <div className="flex items-center justify-between bg-slate-50 px-4 py-2.5 border-b border-gray-200">
-        <p className="text-sm font-semibold text-[#1B2A47]">
+        <p className="text-sm font-semibold text-brand-ink">
           Seleccionados: {sel.size} / {totalSubs}
         </p>
         <div className="flex items-center gap-3 text-xs">
-          <button type="button" onClick={() => marcarTodos(true)} className="text-[#F05A28] font-semibold hover:underline">Marcar todo</button>
+          <button type="button" onClick={() => marcarTodos(true)} className="text-brand font-semibold hover:underline">Marcar todo</button>
           <button type="button" onClick={() => marcarTodos(false)} className="text-slate-500 font-semibold hover:underline">Desmarcar todo</button>
         </div>
       </div>
@@ -123,7 +123,7 @@ export default function SelectorRubros({
                   checked={todos}
                   ref={(el) => { if (el) el.indeterminate = activos > 0 && !todos }}
                   onChange={() => toggleRubro(ru)}
-                  className="w-4 h-4 accent-[#F05A28]"
+                  className="w-4 h-4 accent-brand"
                 />
                 <button
                   type="button"
@@ -131,7 +131,7 @@ export default function SelectorRubros({
                   className="flex items-center gap-1 flex-1 text-left"
                 >
                   {open ? <ChevronDown className="w-4 h-4 text-slate-400" /> : <ChevronRight className="w-4 h-4 text-slate-400" />}
-                  <span className="font-semibold text-sm text-[#1B2A47]">{ru.nombre}</span>
+                  <span className="font-semibold text-sm text-brand-ink">{ru.nombre}</span>
                   <span className="text-xs text-slate-400 ml-1">({activos}/{ids.length})</span>
                 </button>
               </div>
@@ -143,7 +143,7 @@ export default function SelectorRubros({
                         type="checkbox"
                         checked={sel.has(s.subrubroId)}
                         onChange={() => toggleSub(s.subrubroId)}
-                        className="w-4 h-4 accent-[#F05A28]"
+                        className="w-4 h-4 accent-brand"
                       />
                       <span className="flex-1 text-slate-700">{s.subrubroNombre}</span>
                       <span className="text-xs text-slate-400">{s.unidad}</span>

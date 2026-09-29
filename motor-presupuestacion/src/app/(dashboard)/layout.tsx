@@ -3,6 +3,8 @@ import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import LogoutButton from '@/components/auth/LogoutButton'
 import GestionUsuarios from '@/components/admin/GestionUsuarios'
+import BrandLogo from '@/components/branding/BrandLogo'
+import { getBrand } from '@/lib/branding'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const user = await getCurrentUser()
@@ -15,49 +17,50 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
 
   const displayName = user.nombre || user.email || 'Usuario'
+  const brand = getBrand()
 
   return (
-    <div className="min-h-screen bg-[#F4F5F7] flex flex-col">
-      <header className="bg-[#1B2A47] text-white px-6 py-4 shadow-md flex items-center justify-between">
+    <div className="min-h-screen bg-brand-surface flex flex-col">
+      <header className="bg-brand-ink text-white px-6 py-4 shadow-md flex items-center justify-between">
         <Link href="/proyectos" className="font-bold text-lg flex items-center gap-2">
-          <img src="/logo.png" alt="Log Metal" className="h-8 w-auto" />
+          <BrandLogo brand={brand} variante="oscuro" alto={32} />
         </Link>
 
         <nav className="flex items-center gap-6">
           <Link
             href="/proyectos"
-            className="hover:text-[#F05A28] transition-colors text-sm uppercase font-semibold tracking-wider"
+            className="hover:text-brand transition-colors text-sm uppercase font-semibold tracking-wider"
           >
             Proyectos
           </Link>
           <Link
             href="/proyectos/nuevo"
-            className="hover:text-[#F05A28] transition-colors text-sm uppercase font-semibold tracking-wider"
+            className="hover:text-brand transition-colors text-sm uppercase font-semibold tracking-wider"
           >
             Nuevo
           </Link>
           <Link
             href="/configuracion/ratios"
-            className="hover:text-[#F05A28] transition-colors text-sm uppercase font-semibold tracking-wider"
+            className="hover:text-brand transition-colors text-sm uppercase font-semibold tracking-wider"
           >
             Ratios
           </Link>
           <Link
             href="/configuracion/parametros"
-            className="hover:text-[#F05A28] transition-colors text-sm uppercase font-semibold tracking-wider"
+            className="hover:text-brand transition-colors text-sm uppercase font-semibold tracking-wider"
           >
             Parámetros
           </Link>
           <Link
             href="/configuracion/precios"
-            className="hover:text-[#F05A28] transition-colors text-sm uppercase font-semibold tracking-wider"
+            className="hover:text-brand transition-colors text-sm uppercase font-semibold tracking-wider"
           >
             Precios
           </Link>
           {user.rol === 'admin' && (
             <Link
               href="/configuracion/importar"
-              className="hover:text-[#F05A28] transition-colors text-sm uppercase font-semibold tracking-wider"
+              className="hover:text-brand transition-colors text-sm uppercase font-semibold tracking-wider"
             >
               Importar Base 0
             </Link>
@@ -74,7 +77,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         </div>
       </header>
 
-      <main className="flex-1 w-full bg-[#F4F5F7]">
+      <main className="flex-1 w-full bg-brand-surface">
         {children}
       </main>
     </div>

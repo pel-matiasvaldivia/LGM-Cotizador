@@ -80,7 +80,7 @@ export default function ImportarBase0Page() {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-[#1B2A47]">Importar Base 0</h1>
+        <h1 className="text-3xl font-bold text-brand-ink">Importar Base 0</h1>
         <p className="text-sm text-gray-500 mt-1">
           Subí la planilla <strong>Base 0</strong> (.xlsx) con los valores USD/m² por rubro. El sistema
           detecta Material / MO Fabricación / MO Montaje y actualiza el catálogo de ratios con tus números reales.
@@ -95,7 +95,7 @@ export default function ImportarBase0Page() {
             accept=".xlsx"
             onChange={handleArchivo}
             disabled={cargando || aplicando}
-            className="mt-2 block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-[#1B2A47] file:text-white file:cursor-pointer hover:file:bg-[#F05A28]"
+            className="mt-2 block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-brand-ink file:text-white file:cursor-pointer hover:file:bg-brand"
           />
         </label>
         {cargando && <p className="mt-3 text-sm text-gray-500">Procesando planilla…</p>}
@@ -112,7 +112,7 @@ export default function ImportarBase0Page() {
             <button
               onClick={handleAplicar}
               disabled={aplicando}
-              className="px-5 py-2 bg-[#F05A28] text-white rounded font-semibold text-sm uppercase tracking-wider hover:bg-[#d84d20] disabled:opacity-50"
+              className="px-5 py-2 bg-brand text-white rounded font-semibold text-sm uppercase tracking-wider hover:bg-[#d84d20] disabled:opacity-50"
             >
               {aplicando ? 'Aplicando…' : 'Aplicar al catálogo'}
             </button>
@@ -130,7 +130,7 @@ export default function ImportarBase0Page() {
 
           <div className="bg-white rounded-lg shadow overflow-hidden border border-gray-200">
             <table className="w-full text-left text-sm text-gray-600">
-              <thead className="bg-[#1B2A47] text-white">
+              <thead className="bg-brand-ink text-white">
                 <tr>
                   <th className="px-4 py-3 font-semibold">Rubro</th>
                   <th className="px-4 py-3 font-semibold text-center">Flexxus</th>
@@ -154,7 +154,7 @@ export default function ImportarBase0Page() {
                     <td className="px-4 py-3 text-right font-mono">{usd(r.materialUsdM2)}</td>
                     <td className="px-4 py-3 text-right font-mono">{usd(r.moFabUsdM2)}</td>
                     <td className="px-4 py-3 text-right font-mono">{usd(r.moMontajeUsdM2)}</td>
-                    <td className="px-4 py-3 text-right font-mono font-semibold text-[#1B2A47]">{usd(r.totalUsdM2)}</td>
+                    <td className="px-4 py-3 text-right font-mono font-semibold text-brand-ink">{usd(r.totalUsdM2)}</td>
                   </tr>
                 ))}
               </tbody>
