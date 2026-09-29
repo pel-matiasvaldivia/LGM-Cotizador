@@ -1,6 +1,10 @@
 services:
   app:
-    image: ghcr.io/pel-matiasvaldivia/lgm-cotizador:master
+    # Imagen publicada por el CI en cada push. El tag sigue a la rama: `main` es
+    # lo que está liberado. (Ojo: `master` es una rama vieja que quedó atrás; si
+    # el compose apunta ahí, el servidor se queda en esa versión para siempre.)
+    # Para fijar una versión puntual: IMAGE_TAG=sha-abc1234 en el .env.
+    image: ghcr.io/pel-matiasvaldivia/lgm-cotizador:${IMAGE_TAG:-main}
     container_name: logmetal_app
     restart: unless-stopped
     ports:

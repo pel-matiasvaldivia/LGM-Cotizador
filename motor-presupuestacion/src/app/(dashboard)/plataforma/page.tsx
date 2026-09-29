@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { getCurrentUser } from '@/lib/auth'
 import { listarEmpresas } from '@/lib/plataforma'
-import { getTenant } from '@/lib/tenant'
+import { dominioDelRequest, getTenant } from '@/lib/tenant'
 import PlataformaPanel from '@/components/plataforma/PlataformaPanel'
 
 // Administración de la plataforma: las empresas del servicio. Cuelga del layout
@@ -19,6 +19,10 @@ export default async function PlataformaPage() {
     <PlataformaPanel
       empresas={await listarEmpresas()}
       tenantPropioId={tenant?.id ?? null}
+      // El dominio por el que se está navegando: sirve para asignárselo a la
+      // empresa en un clic, que es el paso que se olvida y rompe el sitio
+      // cuando aparece una segunda empresa.
+      dominioActual={await dominioDelRequest()}
     />
   )
 }

@@ -31,7 +31,7 @@ export function normalizarDominio(host: string | null | undefined): string {
 }
 
 /** Host del request, contemplando el reverse proxy que va adelante en producción. */
-async function hostActual(): Promise<string> {
+export async function dominioDelRequest(): Promise<string> {
   const h = await headers()
   return normalizarDominio(h.get('x-forwarded-host') || h.get('host'))
 }
@@ -45,7 +45,7 @@ async function hostActual(): Promise<string> {
  * sirve a todos los dominios.
  */
 export const getTenant = cache(async (): Promise<Tenant | null> => {
-  const dominio = await hostActual()
+  const dominio = await dominioDelRequest()
 
   if (dominio) {
     const fila = await db.query.tenantDominios.findFirst({
