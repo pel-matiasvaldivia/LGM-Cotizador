@@ -1,4 +1,4 @@
-import { asc, desc, eq } from 'drizzle-orm'
+import { and, asc, desc, eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { proyectos as proyectosTable, presupuestoBaseItems } from '@/db/schema'
 import { datosTecnicosToRow, proyectoToRow } from '@/lib/serializers'
@@ -12,7 +12,7 @@ import LogoutButton from '@/components/auth/LogoutButton'
 import PreaprobarOferta from '@/components/cliente/PreaprobarOferta'
 import { CheckCircle2, Circle, Clock, FileText, Download } from 'lucide-react'
 import BrandLogo from '@/components/branding/BrandLogo'
-import { getBrand } from '@/lib/branding'
+import { getBrandActual } from '@/lib/tenant'
 
 const ESTADOS = ['borrador', 'enviado', 'preaprobado', 'aprobado'] as const
 
@@ -30,14 +30,17 @@ const usd = (n: number) => '$ ' + (n || 0).toLocaleString('en-US', { minimumFrac
 
 export default async function MiProyectoPage() {
   const user = await getCurrentUser()
-  const brand = getBrand()
+  const brand = await getBrandActual()
 
   if (!user) {
     redirect('/mi-proyecto/login')
   }
 
+  // El usuario ya viene acotado a su empresa (getCurrentUser valida el tenant
+  // del dominio), pero el filtro va explícito igual: un mismo email puede ser
+  // cliente de dos empresas distintas.
   const filas = await db.query.proyectos.findMany({
-    where: eq(proyectosTable.email, user.email),
+    where: and(eq(proyectosTable.tenantId, user.tenantId), eq(proyectosTable.email, user.email)),
     orderBy: desc(proyectosTable.createdAt),
     with: { datosTecnicos: true },
   })
@@ -60,14 +63,14 @@ export default async function MiProyectoPage() {
       orderBy: asc(presupuestoBaseItems.orden),
     })
     if (items.length > 0) {
-      const params = await getParametros()
+      const params = await getParametros(user.tenantId)
       const superficie = primero.datosTecnicos[0]?.superficie ?? 0
       resumen = calcularResumen(items, params, superficie, primero.ubicacion)
     }
   }
   const superficieM2 = Number(primero?.datosTecnicos[0]?.superficie ?? 0)
   const precioM2 = resumen && superficieM2 > 0 ? resumen.totalConIvaUsd / superficieM2 : 0
-  const reunionUrl = primero ? linkReunion(primero) : null
+  const reunionUrl = primero ? linkReunion(primero, brand) : null
 
   return (
     <div className="min-h-screen bg-brand-surface">

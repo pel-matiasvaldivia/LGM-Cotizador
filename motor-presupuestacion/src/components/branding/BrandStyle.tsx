@@ -15,7 +15,6 @@ export default function BrandStyle({ brand }: { brand: Brand }) {
     <style
       href={`brand-${brand.slug}`}
       precedence="high"
-      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: `:root{${brandCssVars(brand)}}` }}
     />
   )

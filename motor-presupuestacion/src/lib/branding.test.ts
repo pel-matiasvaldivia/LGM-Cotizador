@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { brandCssVars, getBrand, resetBrandCache } from './branding'
+import { brandCssVars, getBrandArchivo, resetBrandCache } from './branding'
 
 const ORIG = { ...process.env }
 
@@ -21,7 +21,7 @@ afterEach(() => {
 
 describe('branding', () => {
   it('sin BRAND usa la marca neutra, sin identidad de nadie', () => {
-    const b = getBrand()
+    const b = getBrandArchivo()
     expect(b.slug).toBe('default')
     expect(b.nombre).toBe('Tu Empresa')
     expect(b.logo).toBeNull()
@@ -34,7 +34,7 @@ describe('branding', () => {
 
   it('carga el preset del repo con BRAND', () => {
     process.env.BRAND = 'logmetal'
-    const b = getBrand()
+    const b = getBrandArchivo()
     expect(b.nombre).toBe('Log Metal')
     expect(b.razonSocial).toBe('Log Metal SRL')
     expect(b.logo).toBe('/logo.png')
@@ -50,7 +50,7 @@ describe('branding', () => {
     process.env.BRAND = 'logmetal'
     process.env.BRAND_NOMBRE = 'Acero Sur'
     process.env.BRAND_COLOR_PRIMARY = '#0E9F6E'
-    const b = getBrand()
+    const b = getBrandArchivo()
     expect(b.nombre).toBe('Acero Sur')
     expect(b.theme.primary).toBe('#0e9f6e')
     // Lo no pisado sigue viniendo del preset.
@@ -68,7 +68,7 @@ describe('branding', () => {
 
     process.env.BRAND = 'logmetal'
     process.env.BRAND_CONFIG_FILE = archivo
-    const b = getBrand()
+    const b = getBrandArchivo()
 
     expect(b.nombre).toBe('Externa')
     expect(b.contacto.email).toBe('ventas@externa.test')
@@ -82,7 +82,7 @@ describe('branding', () => {
     vi.spyOn(console, 'warn').mockImplementation(() => {})
     process.env.BRAND_COLOR_PRIMARY = 'red; background:url(javascript:alert(1))'
     process.env.BRAND_LOGO = 'javascript:alert(1)'
-    const b = getBrand()
+    const b = getBrandArchivo()
     expect(b.theme.primary).toBe('#2563eb')
     expect(b.logo).toBeNull()
   })
@@ -90,17 +90,17 @@ describe('branding', () => {
   it('ignora un BRAND que intente salirse del directorio de presets', () => {
     vi.spyOn(console, 'warn').mockImplementation(() => {})
     process.env.BRAND = '../../etc/passwd'
-    expect(getBrand().nombre).toBe('Tu Empresa')
+    expect(getBrandArchivo().nombre).toBe('Tu Empresa')
   })
 
   it('acota el alto del logo a un rango razonable', () => {
     process.env.BRAND_LOGO_ALTO = '900'
-    expect(getBrand().logoAlto).toBe(48)
+    expect(getBrandArchivo().logoAlto).toBe(48)
   })
 
   it('brandCssVars expone los tres colores base', () => {
     process.env.BRAND = 'logmetal'
-    const css = brandCssVars(getBrand())
+    const css = brandCssVars(getBrandArchivo())
     expect(css).toContain('--brand-primary:#f05a28')
     expect(css).toContain('--brand-ink:#1b2a47')
     expect(css).toContain('--brand-surface:#f4f5f7')

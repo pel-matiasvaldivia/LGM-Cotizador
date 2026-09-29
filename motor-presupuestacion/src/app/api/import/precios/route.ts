@@ -4,6 +4,7 @@ import { db } from '@/db'
 import { preciosReferencia } from '@/db/schema'
 import { requireUser } from '@/lib/auth'
 import { withErrorHandling } from '@/lib/api-helpers'
+import { requireTenant } from '@/lib/tenant'
 import { leerXlsx } from '@/lib/xlsx-lite'
 import { parsearPreciosReferencia } from '@/lib/precios-referencia-import'
 
@@ -14,6 +15,7 @@ const MAX_BYTES = 10 * 1024 * 1024 // 10 MB
 // recargar la biblioteca de precios con una planilla actualizada.
 export const POST = withErrorHandling(async (req: Request) => {
   await requireUser(['admin'])
+  const tenant = await requireTenant()
 
   const form = await req.formData().catch(() => null)
   const file = form?.get('file')
@@ -56,6 +58,7 @@ export const POST = withErrorHandling(async (req: Request) => {
       await tx
         .insert(preciosReferencia)
         .values({
+          tenantId: tenant.id,
           categoria: it.categoria,
           codigo: it.codigo,
           descripcion: it.descripcion,
@@ -65,7 +68,7 @@ export const POST = withErrorHandling(async (req: Request) => {
           costoTotalUsd: it.costoTotalUsd,
         })
         .onConflictDoUpdate({
-          target: [preciosReferencia.codigo, preciosReferencia.descripcion],
+          target: [preciosReferencia.tenantId, preciosReferencia.codigo, preciosReferencia.descripcion],
           set: {
             categoria: it.categoria,
             unidad: it.unidad,

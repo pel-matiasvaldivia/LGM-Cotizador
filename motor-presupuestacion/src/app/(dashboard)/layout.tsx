@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import LogoutButton from '@/components/auth/LogoutButton'
 import GestionUsuarios from '@/components/admin/GestionUsuarios'
 import BrandLogo from '@/components/branding/BrandLogo'
-import { getBrand } from '@/lib/branding'
+import { getBrandActual } from '@/lib/tenant'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const user = await getCurrentUser()
@@ -17,7 +17,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
 
   const displayName = user.nombre || user.email || 'Usuario'
-  const brand = getBrand()
+  const brand = await getBrandActual()
 
   return (
     <div className="min-h-screen bg-brand-surface flex flex-col">
@@ -57,6 +57,14 @@ export default async function DashboardLayout({ children }: { children: React.Re
           >
             Precios
           </Link>
+          {user.rol === 'admin' && (
+            <Link
+              href="/configuracion/empresa"
+              className="hover:text-brand transition-colors text-sm uppercase font-semibold tracking-wider"
+            >
+              Empresa
+            </Link>
+          )}
           {user.rol === 'admin' && (
             <Link
               href="/configuracion/importar"

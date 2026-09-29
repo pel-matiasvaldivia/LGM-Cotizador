@@ -3,11 +3,15 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import ClientLoginForm from './ClientLoginForm'
 import BrandLogo from '@/components/branding/BrandLogo'
-import { getBrand } from '@/lib/branding'
+import DominioNoConfigurado from '@/components/branding/DominioNoConfigurado'
+import { getBrandActual, getTenant } from '@/lib/tenant'
 
 export default async function MiProyectoLoginPage() {
+  const tenant = await getTenant()
+  if (!tenant) return <DominioNoConfigurado />
+
   const user = await getCurrentUser()
-  const brand = getBrand()
+  const brand = await getBrandActual()
 
   if (user) {
     redirect('/mi-proyecto')

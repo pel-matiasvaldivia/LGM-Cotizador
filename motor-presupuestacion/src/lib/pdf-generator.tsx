@@ -1,37 +1,26 @@
 import React from 'react'
 import { Document, Page, Text, View, StyleSheet, renderToBuffer, Image } from '@react-pdf/renderer'
-import path from 'path'
-import fs from 'fs'
-import { getBrand } from '@/lib/branding'
+import type { EmisorPDF } from '@/lib/pdf-emisor'
 
-// El PDF no puede usar variables CSS: toma los colores de la marca activa.
-const brand = getBrand()
-const MARCA = brand.theme.ink
-const ACENTO = brand.theme.primary
+// El presupuesto lo firma una empresa concreta (multi-tenant): sus datos y su
+// paleta llegan por `emisor`, no se leen de ninguna config global. Los estilos
+// se arman por documento porque los colores cambian según la empresa.
+function crearEstilos(emisor: EmisorPDF) {
+  return StyleSheet.create({
+    page: { padding: 40, fontSize: 9, fontFamily: 'Helvetica' },
+    header: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 },
+    title: { fontSize: 14, fontWeight: 'bold', color: emisor.colorMarca },
+    emisorLinea: { fontSize: 7, color: '#666', marginTop: 1 },
+    tableRow: { flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#E5E7EB' },
+    tableCell: { padding: 5, flex: 1 },
+    totalRow: { backgroundColor: emisor.colorAcento, color: 'white', flexDirection: 'row', padding: 8 },
+  })
+}
 
-// Logo de la marca leído de /public como base64 (react-pdf no hace fetch).
-const MIME: Record<string, string> = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg' }
-const logoBase64 = (() => {
-  const ruta = brand.logo
-  if (!ruta || !ruta.startsWith('/')) return null
-  const ext = path.extname(ruta).toLowerCase()
-  const mime = MIME[ext]
-  if (!mime) return null
-  const abs = path.join(process.cwd(), 'public', ruta.replace(/^\//, ''))
-  if (!fs.existsSync(abs)) return null
-  return `data:${mime};base64,${fs.readFileSync(abs).toString('base64')}`
-})()
-
-const styles = StyleSheet.create({
-  page: { padding: 40, fontSize: 9, fontFamily: 'Helvetica' },
-  header: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 },
-  title: { fontSize: 14, fontWeight: 'bold', color: MARCA },
-  tableRow: { flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#E5E7EB' },
-  tableCell: { padding: 5, flex: 1 },
-  totalRow: { backgroundColor: ACENTO, color: 'white', flexDirection: 'row', padding: 8 },
-})
-
-export async function generarR04PDF(presupuesto: any, items: any[]) {
+export async function generarR04PDF(presupuesto: any, items: any[], emisor: EmisorPDF) {
+  const styles = crearEstilos(emisor)
+  const MARCA = emisor.colorMarca
+  const ACENTO = emisor.colorAcento
   // Agrupar items por rubro
   const porRubro = items.reduce((acc, item) => {
     const rubro = item.rubro_nombre || item.rubro?.nombre || 'Otros'
@@ -45,12 +34,22 @@ export async function generarR04PDF(presupuesto: any, items: any[]) {
       <Page size="A4" style={styles.page}>
         {/* Header */}
         <View style={styles.header}>
-          <View>
-            {logoBase64
-              ? <Image src={logoBase64} style={{ width: 130, height: 'auto' }} />
-              : <Text style={styles.title}>{brand.razonSocial}</Text>
+          <View style={{ maxWidth: 300 }}>
+            {emisor.logo
+              ? <Image src={emisor.logo} style={{ width: 130, height: 'auto' }} />
+              : <Text style={styles.title}>{emisor.razonSocial}</Text>
             }
-            <Text style={{ fontSize: 8, color: '#888', marginTop: 2 }}>PRESUPUESTO — R-04</Text>
+            {/* Datos del emisor: los que el cliente necesita para aceptar la
+                oferta y para su contabilidad. */}
+            {emisor.logo ? <Text style={{ fontSize: 9, fontWeight: 'bold', color: MARCA, marginTop: 4 }}>{emisor.razonSocial}</Text> : null}
+            {emisor.cuit ? <Text style={styles.emisorLinea}>CUIT: {emisor.cuit}</Text> : null}
+            {emisor.domicilio ? <Text style={styles.emisorLinea}>{emisor.domicilio}</Text> : null}
+            {[emisor.telefono, emisor.email, emisor.web].filter(Boolean).length > 0 ? (
+              <Text style={styles.emisorLinea}>
+                {[emisor.telefono, emisor.email, emisor.web].filter(Boolean).join(' · ')}
+              </Text>
+            ) : null}
+            <Text style={{ fontSize: 8, color: '#888', marginTop: 4 }}>PRESUPUESTO — R-04</Text>
           </View>
           <View style={{ alignItems: 'flex-end' }}>
             <Text style={{ fontSize: 12, fontWeight: 'bold', color: MARCA }}>
@@ -144,6 +143,19 @@ export async function generarR04PDF(presupuesto: any, items: any[]) {
           <Text>Validez de oferta: {presupuesto.validez_oferta_dias || 15} días corridos</Text>
           <Text>Plazo de obra: según contrato</Text>
         </View>
+
+        {/* Pie fiscal del emisor */}
+        {[emisor.condicionIva, emisor.ingresosBrutos, emisor.inicioActividades].filter(Boolean).length > 0 ? (
+          <View style={{ marginTop: 14, paddingTop: 6, borderTopWidth: 1, borderTopColor: '#E5E7EB' }}>
+            <Text style={{ fontSize: 7, color: '#888' }}>
+              {[
+                emisor.condicionIva && `Condición frente al IVA: ${emisor.condicionIva}`,
+                emisor.ingresosBrutos && `Ingresos Brutos: ${emisor.ingresosBrutos}`,
+                emisor.inicioActividades && `Inicio de actividades: ${emisor.inicioActividades}`,
+              ].filter(Boolean).join('  ·  ')}
+            </Text>
+          </View>
+        ) : null}
       </Page>
     </Document>
   )

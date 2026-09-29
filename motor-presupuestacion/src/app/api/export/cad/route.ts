@@ -1,9 +1,10 @@
 import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import { db } from '@/db'
-import { datosTecnicos, proyectos } from '@/db/schema'
+import { datosTecnicos } from '@/db/schema'
 import { requireUser } from '@/lib/auth'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
+import { requireProyecto } from '@/lib/scope'
 import { buildGeometria } from '@/lib/cad/geometry'
 import { geometriaToDXF } from '@/lib/cad/dxf'
 import { geometriaToIFC } from '@/lib/cad/ifc'
@@ -25,8 +26,7 @@ export const GET = withErrorHandling(async (req: Request) => {
     return NextResponse.json({ error: 'formato debe ser dxf o ifc' }, { status: 400 })
   }
 
-  const proyecto = await db.query.proyectos.findFirst({ where: eq(proyectos.id, proyectoId) })
-  if (!proyecto) throw new Error('Proyecto no encontrado')
+  const proyecto = await requireProyecto(proyectoId)
 
   const dt = await db.query.datosTecnicos.findFirst({ where: eq(datosTecnicos.proyectoId, proyectoId) })
 

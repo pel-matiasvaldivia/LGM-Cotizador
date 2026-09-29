@@ -14,6 +14,7 @@ import { eq, sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { rubros, subrubros, ratiosCostos } from '@/db/schema'
 import { getParametros } from '@/lib/parametros'
+import { requireTenant } from '@/lib/tenant'
 import { resolverMapeoRubro, normalizar } from '@/lib/flexxus'
 import type { PreviewBase0, RubroImportado } from '@/lib/base0-import'
 
@@ -42,6 +43,7 @@ async function upsertRubro(
   imp: RubroImportado,
   orden: number,
   existentes: Array<{ id: string; nombre: string }>,
+  tenantId: string,
 ): Promise<{ id: string; creado: boolean; nombre: string }> {
   const codigo = imp.codigoFlexxus ?? 0
   const claveImp = normalizar(imp.nombreOriginal)
@@ -57,13 +59,14 @@ async function upsertRubro(
   const nombre = tituloRubro(imp.nombreOriginal)
   const [creado] = await tx
     .insert(rubros)
-    .values({ nombre, orden, codigoFlexxus: codigo })
+    .values({ tenantId, nombre, orden, codigoFlexxus: codigo })
     .returning({ id: rubros.id })
   return { id: creado.id, creado: true, nombre }
 }
 
 export async function aplicarBase0(preview: PreviewBase0): Promise<ResultadoAplicar> {
-  const { tipoCambio } = await getParametros()
+  const tenant = await requireTenant()
+  const { tipoCambio } = await getParametros(tenant.id)
   let rubrosCreados = 0
   let rubrosActualizados = 0
   let nSubrubros = 0
@@ -73,14 +76,18 @@ export async function aplicarBase0(preview: PreviewBase0): Promise<ResultadoApli
     const [{ maxOrden }] = await tx
       .select({ maxOrden: sql<number>`coalesce(max(${rubros.orden}), 0)` })
       .from(rubros)
+      .where(eq(rubros.tenantId, tenant.id))
     let orden = Number(maxOrden)
 
     // Rubros existentes para el match insensible a acentos/mayúsculas.
-    const existentes = await tx.select({ id: rubros.id, nombre: rubros.nombre }).from(rubros)
+    const existentes = await tx
+      .select({ id: rubros.id, nombre: rubros.nombre })
+      .from(rubros)
+      .where(eq(rubros.tenantId, tenant.id))
 
     for (const imp of preview.rubros) {
       const mapeo = imp.rubroCatalogo ? resolverMapeoRubro(imp.rubroCatalogo) : null
-      const { id, creado, nombre } = await upsertRubro(tx, imp, ++orden, existentes)
+      const { id, creado, nombre } = await upsertRubro(tx, imp, ++orden, existentes, tenant.id)
       if (creado) rubrosCreados++
       else rubrosActualizados++
 

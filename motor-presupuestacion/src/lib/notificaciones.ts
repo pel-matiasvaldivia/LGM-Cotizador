@@ -1,7 +1,8 @@
 import type { proyectos } from '@/db/schema'
 import { appUrl, enviarEmail, equipoComercial, linkReunion, type EmailAdjunto, type EmailResultado } from '@/lib/email'
 import { construirR04 } from '@/lib/pdf-r04'
-import { getBrand } from '@/lib/branding'
+import { brandDesdeTenant, type Brand } from '@/lib/branding'
+import { getTenantPorId } from '@/lib/tenant'
 
 export { linkReunion }
 
@@ -10,8 +11,7 @@ type Proyecto = typeof proyectos.$inferSelect
 // Envoltorio HTML común de los mails: toma nombre y paleta de la marca activa
 // (marca blanca) y usa estilos inline por compatibilidad con los clientes de
 // correo, que no soportan variables CSS.
-function plantilla(titulo: string, cuerpo: string, cta?: { label: string; url: string }): string {
-  const brand = getBrand()
+function plantilla(brand: Brand, titulo: string, cuerpo: string, cta?: { label: string; url: string }): string {
   const MARCA = brand.theme.ink
   const ACENTO = brand.theme.primary
   const boton = cta
@@ -46,9 +46,9 @@ function fila(html: string): string {
   return `<tr><td style="padding:0 0 14px;">${html}</td></tr>`
 }
 
-function datosProyecto(p: Proyecto): string {
+function datosProyecto(brand: Brand, p: Proyecto): string {
   const linea = (k: string, v: string | null | undefined) =>
-    v ? `<div style="padding:2px 0;"><span style="color:#8a93a3;">${k}:</span> <strong style="color:${getBrand().theme.ink};">${v}</strong></div>` : ''
+    v ? `<div style="padding:2px 0;"><span style="color:#8a93a3;">${k}:</span> <strong style="color:${brand.theme.ink};">${v}</strong></div>` : ''
   return `<tr><td style="padding:4px 0 16px;">
     <div style="background:#f8fafc;border:1px solid #eef0f3;border-radius:12px;padding:14px 16px;font-size:14px;">
       ${linea('Presupuesto', p.codigo)}
@@ -58,6 +58,13 @@ function datosProyecto(p: Proyecto): string {
       ${linea('Email', p.email)}
       ${linea('Teléfono', p.telefono)}
     </div></td></tr>`
+}
+
+// Marca de la empresa dueña del proyecto. No se resuelve por el Host del
+// request: un mail disparado en segundo plano tiene que salir igual con la
+// identidad correcta, así que se busca por el tenant del proyecto.
+async function brandDelProyecto(p: Proyecto): Promise<Brand> {
+  return brandDesdeTenant(await getTenantPorId(p.tenantId))
 }
 
 // Ejecuta un envío sin propagar errores: las notificaciones nunca deben romper
@@ -73,18 +80,21 @@ async function seguro(fn: () => Promise<EmailResultado>): Promise<EmailResultado
 
 // 1) El cliente registró su consulta: bienvenida + aviso al equipo comercial.
 export async function notificarConsultaRecibida(p: Proyecto): Promise<void> {
+  const brand = await brandDelProyecto(p)
   const portal = `${appUrl()}/mi-proyecto`
 
   // Bienvenida al cliente
   if (p.email) {
     await seguro(() => enviarEmail({
+    brand,
       to: p.email!,
       subject: `Recibimos tu consulta — ${p.codigo}`,
       html: plantilla(
+        brand,
         `¡Bienvenido/a al proceso de cotización, ${primerNombre(p.cliente)}!`,
         fila(`Recibimos tu consulta correctamente. Nuestro equipo comercial preparará tu <strong>cotización formal</strong> y te la enviará a la brevedad.`) +
         fila(`Tu presupuesto quedó registrado con el código <strong>${p.codigo}</strong>. Podés seguir el estado en cualquier momento desde tu portal.`) +
-        datosProyecto(p),
+        datosProyecto(brand, p),
         { label: 'Ver mi proyecto', url: portal },
       ),
     }))
@@ -94,12 +104,14 @@ export async function notificarConsultaRecibida(p: Proyecto): Promise<void> {
   const equipo = equipoComercial()
   if (equipo.length) {
     await seguro(() => enviarEmail({
+    brand,
       to: equipo,
       subject: `Nueva cotización ${p.codigo} — a la espera de revisión`,
       html: plantilla(
+        brand,
         `Nueva cotización de ${p.cliente}`,
         fila(`El cliente <strong>${p.cliente}</strong> creó la cotización <strong>${p.codigo}</strong> desde el canal Web y está <strong>a la espera de tu revisión</strong>.`) +
-        datosProyecto(p),
+        datosProyecto(brand, p),
         { label: 'Revisar el proyecto', url: `${appUrl()}/proyectos/${p.id}` },
       ),
       replyTo: p.email || undefined,
@@ -110,6 +122,7 @@ export async function notificarConsultaRecibida(p: Proyecto): Promise<void> {
 // 2) El comercial envió el presupuesto: mail al cliente con link + PDF adjunto.
 export async function notificarPresupuestoEnviado(p: Proyecto): Promise<void> {
   if (!p.email) return
+  const brand = await brandDelProyecto(p)
   const portal = `${appUrl()}/mi-proyecto`
 
   let adjuntos: EmailAdjunto[] | undefined
@@ -121,9 +134,11 @@ export async function notificarPresupuestoEnviado(p: Proyecto): Promise<void> {
   }
 
   await seguro(() => enviarEmail({
+    brand,
     to: p.email!,
     subject: `Tu presupuesto ${p.codigo} está listo`,
     html: plantilla(
+        brand,
       `Tu presupuesto ya está disponible`,
       fila(`Hola ${primerNombre(p.cliente)}, preparamos la cotización formal de tu proyecto <strong>${p.codigo}</strong>.`) +
       fila(`Podés verla e iniciar sesión en la plataforma con tu email, o abrir el <strong>PDF adjunto</strong> a este correo.`) +
@@ -137,18 +152,21 @@ export async function notificarPresupuestoEnviado(p: Proyecto): Promise<void> {
 // 3) El cliente pre-aprobó: dispara la reunión (mail al equipo con link de Meet)
 //    y confirma al cliente.
 export async function notificarPreaprobacion(p: Proyecto): Promise<void> {
-  const reunion = linkReunion(p)
+  const brand = await brandDelProyecto(p)
+  const reunion = linkReunion(p, brand)
 
   const equipo = equipoComercial()
   if (equipo.length) {
     await seguro(() => enviarEmail({
+    brand,
       to: equipo,
       subject: `Preaprobación ${p.codigo} — coordinar reunión`,
       html: plantilla(
+        brand,
         `${p.cliente} pre-aprobó la oferta`,
         fila(`El cliente <strong>${p.cliente}</strong> pre-aprobó el presupuesto <strong>${p.codigo}</strong> y quiere avanzar.`) +
         fila(`Agendá la reunión: se creará un evento en Google Calendar con enlace de <strong>Google Meet</strong>, con el cliente como invitado.`) +
-        datosProyecto(p),
+        datosProyecto(brand, p),
         { label: 'Agendar reunión (Google Meet)', url: reunion },
       ),
       replyTo: p.email || undefined,
@@ -157,9 +175,11 @@ export async function notificarPreaprobacion(p: Proyecto): Promise<void> {
 
   if (p.email) {
     await seguro(() => enviarEmail({
+    brand,
       to: p.email!,
       subject: `Recibimos tu pre-aprobación — ${p.codigo}`,
       html: plantilla(
+        brand,
         `¡Gracias! Coordinamos la reunión`,
         fila(`Registramos la pre-aprobación de tu presupuesto <strong>${p.codigo}</strong>.`) +
         fila(`Tu asesor comercial se pondrá en contacto para confirmar el día y la hora. También podés agendar la reunión por <strong>Google Meet</strong> con el botón de abajo.`),

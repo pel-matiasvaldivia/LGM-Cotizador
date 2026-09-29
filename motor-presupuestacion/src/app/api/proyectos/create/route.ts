@@ -3,12 +3,14 @@ import { db } from '@/db'
 import { datosTecnicos, proyectos } from '@/db/schema'
 import { requireUser } from '@/lib/auth'
 import { withErrorHandling } from '@/lib/api-helpers'
+import { requireTenant } from '@/lib/tenant'
 import { notificarConsultaRecibida } from '@/lib/notificaciones'
 
 export const POST = withErrorHandling(async (req: Request) => {
   // El wizard público registra/loguea al visitante antes de llegar acá,
   // así que siempre hay sesión (cliente, comercial o admin).
   const user = await requireUser()
+  const tenant = await requireTenant()
 
   const { canal, variables } = await req.json()
   if (!variables) {
@@ -25,6 +27,7 @@ export const POST = withErrorHandling(async (req: Request) => {
 
   const proyecto = await db.transaction(async (tx) => {
     const [p] = await tx.insert(proyectos).values({
+      tenantId: tenant.id,
       codigo,
       cliente: nombreCompleto,
       razonSocial: variables.cliente_empresa || null,

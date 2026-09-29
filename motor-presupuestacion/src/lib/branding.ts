@@ -1,10 +1,16 @@
 // Marca blanca (white label). Toda la identidad visible del sitio público
-// —nombre, logo, paleta, textos y datos de contacto— sale de acá y NO del
-// código de las páginas. Así el mismo build se despliega para cualquier
-// empresa que contrate el servicio.
+// —nombre, logo, paleta, textos y datos de la empresa— sale de acá y NO del
+// código de las páginas. Así el mismo build sirve a cualquier empresa que
+// contrate el servicio.
 //
-// Resolución, de menor a mayor prioridad:
-//   1. `config/brands/default.json`  (marca neutra, sin identidad de nadie)
+// La fuente de verdad en producción es la fila del tenant en la base, que cada
+// empresa edita desde Configuración → Empresa (ver brandDesdeTenant()). Este
+// módulo aporta los DEFAULTS sobre los que se apoya esa fila: alcanza para
+// arrancar una instalación nueva, sirve de respaldo si el dominio todavía no
+// está asignado, y es de dónde sale el bootstrap del primer tenant.
+//
+// Resolución de los defaults de archivo, de menor a mayor prioridad:
+//   1. marca neutra de base (más abajo, no es la identidad de nadie)
 //   2. `config/brands/<BRAND>.json`  (preset versionado en el repo)
 //   3. `BRAND_CONFIG_FILE`           (JSON externo, ideal para montar por volumen)
 //   4. Variables de entorno `BRAND_*` (overrides puntuales)
@@ -13,6 +19,7 @@
 
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
+import type { Tenant } from '@/db/schema'
 
 /* ─── Tipos ──────────────────────────────────────────────────── */
 
@@ -85,11 +92,25 @@ export interface Brand {
     eyebrow: string
     titulo: string
     subtitulo: string
+    /** Domicilio para mostrar; si no se define, se arma con domicilio + localidad + provincia. */
     direccion: string
     telefono: string
     email: string
     /** Número en formato internacional sin signos (ej: 5492611234567). Vacío oculta el botón. */
     whatsapp: string
+    web: string
+    /** Domicilio desglosado (lo que va en el presupuesto). */
+    domicilio: string
+    localidad: string
+    provincia: string
+    codigoPostal: string
+  }
+  /** Datos fiscales del emisor: encabezado y pie del presupuesto. */
+  fiscal: {
+    cuit: string
+    condicionIva: string
+    ingresosBrutos: string
+    inicioActividades: string
   }
   ctaFinal: { titulo: string; subtitulo: string; boton: string }
   /** Se agrega al copyright del footer: "© 2026 Razón Social · <footerNota>". */
@@ -174,6 +195,17 @@ const BRAND_BASE: Brand = {
     telefono: '',
     email: '',
     whatsapp: '',
+    web: '',
+    domicilio: '',
+    localidad: '',
+    provincia: '',
+    codigoPostal: '',
+  },
+  fiscal: {
+    cuit: '',
+    condicionIva: '',
+    ingresosBrutos: '',
+    inicioActividades: '',
   },
   ctaFinal: {
     titulo: '¿Listo para construir?',
@@ -289,7 +321,19 @@ function overridesEnv(): Json {
   set(contacto, 'telefono', env.BRAND_TELEFONO)
   set(contacto, 'email', env.BRAND_EMAIL)
   set(contacto, 'whatsapp', env.BRAND_WHATSAPP)
+  set(contacto, 'web', env.BRAND_WEB)
+  set(contacto, 'domicilio', env.BRAND_DOMICILIO)
+  set(contacto, 'localidad', env.BRAND_LOCALIDAD)
+  set(contacto, 'provincia', env.BRAND_PROVINCIA)
+  set(contacto, 'codigoPostal', env.BRAND_CODIGO_POSTAL)
   if (Object.keys(contacto).length) patch.contacto = contacto
+
+  const fiscal: Json = {}
+  set(fiscal, 'cuit', env.BRAND_CUIT)
+  set(fiscal, 'condicionIva', env.BRAND_CONDICION_IVA)
+  set(fiscal, 'ingresosBrutos', env.BRAND_INGRESOS_BRUTOS)
+  set(fiscal, 'inicioActividades', env.BRAND_INICIO_ACTIVIDADES)
+  if (Object.keys(fiscal).length) patch.fiscal = fiscal
 
   const meta: Json = {}
   set(meta, 'title', env.BRAND_META_TITLE)
@@ -302,10 +346,12 @@ function overridesEnv(): Json {
 let cache: Brand | null = null
 
 /**
- * Marca activa del despliegue. Se resuelve una sola vez por proceso: cambiar
- * la config exige reiniciar el contenedor (igual que cualquier otra env var).
+ * Defaults de archivo del despliegue. Se resuelven una sola vez por proceso.
+ * En una instalación multi-tenant esto NO es la marca que ve el visitante:
+ * para eso está getBrandActual() en src/lib/tenant.ts, que apoya la fila del
+ * tenant sobre estos valores.
  */
-export function getBrand(): Brand {
+export function getBrandArchivo(): Brand {
   if (cache) return cache
 
   const slug = (process.env.BRAND || 'default').trim() || 'default'
@@ -320,9 +366,102 @@ export function getBrand(): Brand {
   return cache
 }
 
+/**
+ * Defaults neutros, sin nada de la config de archivo: es la base de la marca de
+ * un tenant. Importa que NO incluya el preset del despliegue, porque si no una
+ * empresa nueva heredaría los textos y el logo de la primera que se configuró.
+ */
+export function getBrandNeutro(): Brand {
+  return sanear(merge(BRAND_BASE, {}))
+}
+
 /** Solo para tests: fuerza una nueva lectura de la config. */
 export function resetBrandCache(): void {
   cache = null
+}
+
+/* ─── Marca de un tenant ─────────────────────────────────────── */
+
+// Un texto que la empresa dejó vacío no debe reponerse con el default: si el
+// admin borró el WhatsApp, el botón tiene que desaparecer. Los colores son la
+// excepción (vacío = "usá el default", no "sin color").
+function siDefinido(valor: string | null | undefined, fallback: string): string {
+  return typeof valor === 'string' ? valor : fallback
+}
+
+/**
+ * Marca de una empresa: su fila de la base sobre los defaults de archivo.
+ *
+ * - `landing` (jsonb) mergea profundo sobre los textos por defecto, así una
+ *   empresa que no escribió nada igual muestra una landing coherente.
+ * - los escalares que administra el panel (nombre, contacto, fiscales, logo,
+ *   colores) los manda la base.
+ * - sin tenant (dominio sin asignar) devuelve los defaults de archivo.
+ */
+export function brandDesdeTenant(tenant: Tenant | null): Brand {
+  // Sin tenant (dominio sin asignar) se muestra la config de archivo, que es lo
+  // único que hay. Con tenant, todo sale de la base sobre defaults neutros.
+  if (!tenant) return getBrandArchivo()
+
+  const base = getBrandNeutro()
+  const conLanding = merge(base, (tenant.landing ?? {}) as Json)
+
+  const domicilioCompleto = [tenant.domicilio, tenant.localidad, tenant.provincia]
+    .map((x) => (x || '').trim())
+    .filter(Boolean)
+    .join(', ')
+
+  // El logo cargado se sirve desde la base por /api/brand/logo; `v` es el
+  // updatedAt para que el navegador no se quede con el anterior. Si la empresa
+  // no subió ninguno, queda el de la config de archivo (o el wordmark).
+  const version = tenant.updatedAt instanceof Date ? tenant.updatedAt.getTime() : Date.now()
+  const slug = encodeURIComponent(tenant.slug)
+  const logo = tenant.logoBase64
+    ? `/api/brand/logo?t=${slug}&v=${version}`
+    : conLanding.logo // ruta pública que la empresa haya dejado en su landing
+  const logoOscuro = tenant.logoOscuroBase64
+    ? `/api/brand/logo?variante=oscuro&t=${slug}&v=${version}`
+    : tenant.logoBase64
+      ? null // con logo propio claro, no mezclar con el oscuro heredado
+      : conLanding.logoOscuro
+
+  const brand: Brand = {
+    ...conLanding,
+    slug: tenant.slug,
+    nombre: tenant.nombre || base.nombre,
+    razonSocial: tenant.razonSocial || tenant.nombre || base.razonSocial,
+    tagline: siDefinido(tenant.tagline, base.tagline),
+    logo,
+    logoOscuro,
+    logoAlto: tenant.logoAlto,
+    theme: {
+      primary: color(tenant.colorPrimario, conLanding.theme.primary),
+      ink: color(tenant.colorInk, conLanding.theme.ink),
+      surface: color(tenant.colorSurface, conLanding.theme.surface),
+    },
+    contacto: {
+      ...conLanding.contacto,
+      direccion: conLanding.contacto.direccion || domicilioCompleto,
+      telefono: siDefinido(tenant.telefono, conLanding.contacto.telefono),
+      email: siDefinido(tenant.email, conLanding.contacto.email),
+      whatsapp: siDefinido(tenant.whatsapp, conLanding.contacto.whatsapp),
+      web: siDefinido(tenant.web, conLanding.contacto.web),
+      domicilio: siDefinido(tenant.domicilio, conLanding.contacto.domicilio),
+      localidad: siDefinido(tenant.localidad, conLanding.contacto.localidad),
+      provincia: siDefinido(tenant.provincia, conLanding.contacto.provincia),
+      codigoPostal: siDefinido(tenant.codigoPostal, conLanding.contacto.codigoPostal),
+    },
+    fiscal: {
+      cuit: siDefinido(tenant.cuit, conLanding.fiscal.cuit),
+      condicionIva: siDefinido(tenant.condicionIva, conLanding.fiscal.condicionIva),
+      ingresosBrutos: siDefinido(tenant.ingresosBrutos, conLanding.fiscal.ingresosBrutos),
+      inicioActividades: siDefinido(tenant.inicioActividades, conLanding.fiscal.inicioActividades),
+    },
+  }
+
+  // El saneado vuelve a correr sobre lo que vino de la base: un color o una
+  // ruta inválida guardada a mano no puede llegar al HTML.
+  return sanear(brand)
 }
 
 /**

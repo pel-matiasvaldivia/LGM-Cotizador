@@ -3,7 +3,8 @@ import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import BrandLogo from '@/components/branding/BrandLogo'
-import { getBrand } from '@/lib/branding'
+import DominioNoConfigurado from '@/components/branding/DominioNoConfigurado'
+import { getBrandActual, getTenant } from '@/lib/tenant'
 
 export default async function LoginPage({
   searchParams,
@@ -11,8 +12,11 @@ export default async function LoginPage({
   searchParams: Promise<{ next?: string; error?: string }>
 }) {
   const params = await searchParams
+  const tenant = await getTenant()
+  if (!tenant) return <DominioNoConfigurado />
+
   const user = await getCurrentUser()
-  const brand = getBrand()
+  const brand = await getBrandActual()
 
   if (user) {
     // Los clientes van a su portal de seguimiento; el equipo interno, al panel.

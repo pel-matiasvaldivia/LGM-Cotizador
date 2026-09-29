@@ -4,6 +4,7 @@ import { db } from '@/db'
 import { proyectos } from '@/db/schema'
 import { requireUser } from '@/lib/auth'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
+import { requireProyecto } from '@/lib/scope'
 import { linkReunion, notificarPreaprobacion, notificarPresupuestoEnviado } from '@/lib/notificaciones'
 
 // Ciclo de vida de un presupuesto. El cliente ve el presupuesto (precio + PDF)
@@ -27,8 +28,7 @@ export const PATCH = withErrorHandling(async (req: Request) => {
     return NextResponse.json({ error: 'Estado inválido' }, { status: 400 })
   }
 
-  const proyecto = await db.query.proyectos.findFirst({ where: eq(proyectos.id, proyectoId) })
-  if (!proyecto) return NextResponse.json({ error: 'Proyecto no encontrado' }, { status: 404 })
+  const proyecto = await requireProyecto(proyectoId)
 
   const esStaff = user.rol === 'comercial' || user.rol === 'admin'
   if (!esStaff) {

@@ -1,22 +1,35 @@
-import { eq } from 'drizzle-orm'
+import { eq, inArray } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import { db } from '@/db'
 import { ratiosCostos, rubros, subrubros } from '@/db/schema'
 import { requireUser } from '@/lib/auth'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
 import { getParametros } from '@/lib/parametros'
+import { requireTenant } from '@/lib/tenant'
+import { requireRatio, requireRubro } from '@/lib/scope'
+
+// Subconsulta: subrubros del catálogo de una empresa (ratio → subrubro → rubro).
+function subrubrosDeTenant(tenantId: string) {
+  return db
+    .select({ id: subrubros.id })
+    .from(subrubros)
+    .innerJoin(rubros, eq(subrubros.rubroId, rubros.id))
+    .where(eq(rubros.tenantId, tenantId))
+}
 
 // GET → catálogo de ratios agrupado por rubro → subrubro (misma estructura que
 // Flexxus), con el costo desglosado en Material / Mano de obra (USD) y el tipo
 // de cambio vigente para mostrar/editar los equivalentes en ARS.
 export const GET = withErrorHandling(async () => {
   await requireUser(['comercial', 'admin'])
+  const tenant = await requireTenant()
 
   const [ratios, params] = await Promise.all([
     db.query.ratiosCostos.findMany({
+      where: inArray(ratiosCostos.subrubroId, subrubrosDeTenant(tenant.id)),
       with: { subrubro: { with: { rubro: true } } },
     }),
-    getParametros(),
+    getParametros(tenant.id),
   ])
 
   type SubrubroRow = {
@@ -87,8 +100,7 @@ export const POST = withErrorHandling(async (req: Request) => {
   if (!isUuid(rubroId) || !nombre) {
     return NextResponse.json({ error: 'Falta el rubro o el nombre del subrubro' }, { status: 400 })
   }
-  const rubro = await db.query.rubros.findFirst({ where: eq(rubros.id, rubroId) })
-  if (!rubro) return NextResponse.json({ error: 'Rubro no encontrado' }, { status: 404 })
+  await requireRubro(rubroId)
 
   const unidad = String(body.unidad || 'm2').trim() || 'm2'
   const codigoFlexxus = Number(body.codigoFlexxus) || 0
@@ -127,8 +139,7 @@ export const PATCH = withErrorHandling(async (req: Request) => {
   const { id, field, value } = await req.json()
   if (!isUuid(id)) return NextResponse.json({ error: 'id inválido' }, { status: 400 })
 
-  const ratio = await db.query.ratiosCostos.findFirst({ where: eq(ratiosCostos.id, id) })
-  if (!ratio) return NextResponse.json({ error: 'Ratio no encontrado' }, { status: 404 })
+  const ratio = await requireRatio(id)
 
   // Renombrar el subrubro (texto).
   if (field === 'subrubro_nombre') {
@@ -171,8 +182,7 @@ export const DELETE = withErrorHandling(async (req: Request) => {
   const id = new URL(req.url).searchParams.get('id')
   if (!isUuid(id)) return NextResponse.json({ error: 'id inválido' }, { status: 400 })
 
-  const ratio = await db.query.ratiosCostos.findFirst({ where: eq(ratiosCostos.id, id!) })
-  if (!ratio) return NextResponse.json({ error: 'Ratio no encontrado' }, { status: 404 })
+  const ratio = await requireRatio(id!)
 
   // Borrar el subrubro elimina su ratio por la FK on delete cascade.
   await db.delete(subrubros).where(eq(subrubros.id, ratio.subrubroId))

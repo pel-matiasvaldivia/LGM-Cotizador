@@ -1,24 +1,23 @@
-# Assets de la marca del tenant
+# Assets de marca (opcional)
 
-Esta carpeta se monta en el contenedor como `/app/public/brand` (ver
-`docker-compose.yml`), así que todo lo que dejes acá queda servido bajo
-`/brand/...` sin rebuildear la imagen.
+**Lo normal es cargar el logo desde el panel**: Configuración → Empresa, en el
+dominio de la empresa. Se guarda en la base y se sirve por `/api/brand/logo`, así
+que funciona para varias empresas en el mismo contenedor y no necesita ni esta
+carpeta ni un rebuild.
 
-Ejemplo: copiás `acero-sur.svg` en esta carpeta y en la config de marca ponés
-
-```json
-{ "logo": "/brand/acero-sur.svg" }
-```
-
-o directamente en `.env`:
+Esta carpeta sirve para el otro caso: dejar un logo **como valor inicial** del
+despliegue, antes de que exista alguien que entre al panel. Se monta en el
+contenedor como `/app/public/brand` (ver `docker-compose.yml`), así que lo que
+dejes acá queda servido bajo `/brand/...`.
 
 ```
+# en .env
 BRAND_LOGO=/brand/acero-sur.svg
+BRAND_LOGO_OSCURO=/brand/acero-sur-blanco.svg
 ```
 
-Formatos recomendados: SVG o PNG con fondo transparente. Para el logo del
-footer (fondo oscuro) usá `logoOscuro` / `BRAND_LOGO_OSCURO` con la versión
-en blanco.
+Formatos recomendados: SVG o PNG con fondo transparente. Para el logo sobre
+fondo oscuro (pie del sitio, panel) usá la versión en blanco.
 
 El PDF del presupuesto sólo puede incrustar PNG o JPG: si el logo es SVG, el
 encabezado del PDF cae al nombre de la empresa en texto.

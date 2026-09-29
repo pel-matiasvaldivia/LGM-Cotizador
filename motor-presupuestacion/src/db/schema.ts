@@ -1,18 +1,82 @@
 import {
   pgTable, uuid, text, boolean, integer, doublePrecision, timestamp, jsonb, uniqueIndex, index,
+  primaryKey,
 } from 'drizzle-orm/pg-core'
 import { relations, sql } from 'drizzle-orm'
+
+// ─── Tenants (multi-empresa por dominio) ───────────────────────
+// Cada empresa que contrata el servicio es un tenant: se resuelve por el Host
+// del request (ver src/lib/tenant.ts) y de acá sale su identidad visible y sus
+// datos fiscales, que son los que se imprimen en el presupuesto.
+
+export const tenants = pgTable('tenants', {
+  id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+  slug: text('slug').notNull(),
+  activo: boolean('activo').notNull().default(true),
+
+  // Identidad
+  nombre: text('nombre').notNull(),
+  razonSocial: text('razon_social').notNull().default(''),
+  tagline: text('tagline').notNull().default(''),
+
+  // Datos fiscales (encabezado y pie del presupuesto)
+  cuit: text('cuit').notNull().default(''),
+  condicionIva: text('condicion_iva').notNull().default(''),
+  ingresosBrutos: text('ingresos_brutos').notNull().default(''),
+  inicioActividades: text('inicio_actividades').notNull().default(''),
+
+  // Domicilio legal / comercial
+  domicilio: text('domicilio').notNull().default(''),
+  localidad: text('localidad').notNull().default(''),
+  provincia: text('provincia').notNull().default(''),
+  codigoPostal: text('codigo_postal').notNull().default(''),
+
+  // Contacto
+  telefono: text('telefono').notNull().default(''),
+  email: text('email').notNull().default(''),
+  web: text('web').notNull().default(''),
+  whatsapp: text('whatsapp').notNull().default(''),
+
+  // Identidad visual. Los logos se guardan inline (como los documentos de
+  // proyecto) para no depender de un blob store ni de volúmenes por tenant.
+  colorPrimario: text('color_primario').notNull().default(''),
+  colorInk: text('color_ink').notNull().default(''),
+  colorSurface: text('color_surface').notNull().default(''),
+  logoMime: text('logo_mime'),
+  logoBase64: text('logo_base64'),
+  logoOscuroMime: text('logo_oscuro_mime'),
+  logoOscuroBase64: text('logo_oscuro_base64'),
+  logoAlto: integer('logo_alto').notNull().default(48),
+
+  // Textos de la landing (bloques opcionales; lo que falte cae a los defaults
+  // de la config de archivo). Ver BrandLanding en src/lib/branding.ts.
+  landing: jsonb('landing').notNull().default(sql`'{}'::jsonb`),
+
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+}, (t) => [uniqueIndex('tenants_slug_idx').on(t.slug)])
+
+// Dominios que resuelven a cada tenant. Es configuración de plataforma (no la
+// edita el admin del tenant): se administra con scripts/tenant.mjs.
+export const tenantDominios = pgTable('tenant_dominios', {
+  dominio: text('dominio').primaryKey(),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (t) => [index('tenant_dominios_tenant_idx').on(t.tenantId)])
 
 // ─── Auth ──────────────────────────────────────────────────────
 
 export const usuarios = pgTable('usuarios', {
   id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
   email: text('email').notNull(),
   passwordHash: text('password_hash').notNull(),
   nombre: text('nombre').notNull().default(''),
   rol: text('rol', { enum: ['admin', 'comercial', 'cliente'] }).notNull().default('cliente'),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-}, (t) => [uniqueIndex('usuarios_email_idx').on(t.email)])
+  // El mismo email puede existir en dos empresas distintas: la unicidad es
+  // por tenant, no global.
+}, (t) => [uniqueIndex('usuarios_tenant_email_idx').on(t.tenantId, t.email)])
 
 export const sesiones = pgTable('sesiones', {
   // sha256 del token que viaja en la cookie; el token en claro nunca se persiste
@@ -26,10 +90,11 @@ export const sesiones = pgTable('sesiones', {
 
 export const rubros = pgTable('rubros', {
   id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
   nombre: text('nombre').notNull(),
   codigoFlexxus: integer('codigo_flexxus').notNull().default(0),
   orden: integer('orden').notNull().default(0),
-})
+}, (t) => [index('rubros_tenant_idx').on(t.tenantId)])
 
 export const subrubros = pgTable('subrubros', {
   id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
@@ -61,6 +126,7 @@ export const ratiosCostos = pgTable('ratios_costos', {
 
 export const proyectos = pgTable('proyectos', {
   id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
   codigo: text('codigo').notNull(),
   cliente: text('cliente').notNull(),
   razonSocial: text('razon_social'),
@@ -76,7 +142,10 @@ export const proyectos = pgTable('proyectos', {
   codigoProyectoFlexxus: integer('codigo_proyecto_flexxus'),
   codigoClienteFlexxus: text('codigo_cliente_flexxus'),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-}, (t) => [uniqueIndex('proyectos_codigo_idx').on(t.codigo), index('proyectos_email_idx').on(t.email)])
+}, (t) => [
+  uniqueIndex('proyectos_tenant_codigo_idx').on(t.tenantId, t.codigo),
+  index('proyectos_tenant_email_idx').on(t.tenantId, t.email),
+])
 
 export const datosTecnicos = pgTable('datos_tecnicos', {
   id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
@@ -138,6 +207,7 @@ export const presupuestoBaseItems = pgTable('presupuesto_base_items', {
 // para agregar/ajustar ítems al editar una cotización Base 0 en borrador.
 export const preciosReferencia = pgTable('precios_referencia', {
   id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
   categoria: text('categoria').notNull().default(''),
   codigo: text('codigo').notNull().default(''),
   descripcion: text('descripcion').notNull(),
@@ -148,7 +218,7 @@ export const preciosReferencia = pgTable('precios_referencia', {
   fuente: text('fuente').notNull().default('Revista Cifras'),
   activo: boolean('activo').notNull().default(true),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
-}, (t) => [uniqueIndex('precios_referencia_codigo_desc_idx').on(t.codigo, t.descripcion)])
+}, (t) => [uniqueIndex('precios_referencia_tenant_codigo_desc_idx').on(t.tenantId, t.codigo, t.descripcion)])
 
 // ─── Documentación adjunta por el cliente ──────────────────────
 // Archivos que el cliente sube desde el formulario de requerimientos (planos,
@@ -168,20 +238,23 @@ export const documentosProyecto = pgTable('documentos_proyecto', {
 
 export const ingestas = pgTable('ingestas', {
   id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
   canal: text('canal').notNull(),
   rawContent: text('raw_content').notNull().default(''),
   variablesExtraidas: jsonb('variables_extraidas'),
   procesado: boolean('procesado').notNull().default(false),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-})
+}, (t) => [index('ingestas_tenant_idx').on(t.tenantId)])
 
 // ─── Configuración global (tipo de cambio, margen default, …) ──
 
+// Parámetros de costeo: son por empresa, así que la clave es (tenant, clave).
 export const configuracion = pgTable('configuracion', {
-  clave: text('clave').primaryKey(),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
+  clave: text('clave').notNull(),
   valor: jsonb('valor').notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
-})
+}, (t) => [primaryKey({ columns: [t.tenantId, t.clave] })])
 
 // ─── Relations ─────────────────────────────────────────────────
 
@@ -222,8 +295,19 @@ export const sesionesRelations = relations(sesiones, ({ one }) => ({
   usuario: one(usuarios, { fields: [sesiones.usuarioId], references: [usuarios.id] }),
 }))
 
+export const tenantsRelations = relations(tenants, ({ many }) => ({
+  dominios: many(tenantDominios),
+}))
+
+export const tenantDominiosRelations = relations(tenantDominios, ({ one }) => ({
+  tenant: one(tenants, { fields: [tenantDominios.tenantId], references: [tenants.id] }),
+}))
+
 // ─── Row types ─────────────────────────────────────────────────
 
+export type Tenant = typeof tenants.$inferSelect
+export type NuevoTenant = typeof tenants.$inferInsert
+export type TenantDominio = typeof tenantDominios.$inferSelect
 export type Usuario = typeof usuarios.$inferSelect
 export type Proyecto = typeof proyectos.$inferSelect
 export type DatosTecnicosRow = typeof datosTecnicos.$inferSelect

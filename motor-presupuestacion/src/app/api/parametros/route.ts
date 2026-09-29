@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { db } from '@/db'
 import { configuracion } from '@/db/schema'
 import { requireUser } from '@/lib/auth'
+import { requireTenant } from '@/lib/tenant'
 import { getParametros } from '@/lib/parametros'
 import { withErrorHandling } from '@/lib/api-helpers'
 
@@ -27,6 +28,7 @@ export const GET = withErrorHandling(async () => {
 
 export const PATCH = withErrorHandling(async (req: Request) => {
   await requireUser(['admin'])
+  const tenant = await requireTenant()
   const body = await req.json().catch(() => ({}))
 
   const updates: Array<{ clave: string; valor: unknown }> = []
@@ -63,8 +65,11 @@ export const PATCH = withErrorHandling(async (req: Request) => {
   for (const u of updates) {
     await db
       .insert(configuracion)
-      .values({ clave: u.clave, valor: u.valor })
-      .onConflictDoUpdate({ target: configuracion.clave, set: { valor: u.valor, updatedAt: sql`now()` } })
+      .values({ tenantId: tenant.id, clave: u.clave, valor: u.valor })
+      .onConflictDoUpdate({
+        target: [configuracion.tenantId, configuracion.clave],
+        set: { valor: u.valor, updatedAt: sql`now()` },
+      })
   }
 
   return NextResponse.json({ parametros: await getParametros() })

@@ -3,6 +3,7 @@ import { and, desc, eq, ilike, or, type SQL } from 'drizzle-orm'
 import { db } from '@/db'
 import { proyectos } from '@/db/schema'
 import { proyectoToRow } from '@/lib/serializers'
+import { requireTenant } from '@/lib/tenant'
 import ProyectosFiltros from '@/components/comercial/ProyectosFiltros'
 import CompartirFormulario from '@/components/comercial/CompartirFormulario'
 
@@ -23,7 +24,9 @@ export default async function ProyectosPage({
 }) {
   const { q, estado } = await searchParams
 
-  const condiciones: SQL[] = []
+  // Sólo los proyectos de la empresa del dominio.
+  const tenant = await requireTenant()
+  const condiciones: SQL[] = [eq(proyectos.tenantId, tenant.id)]
   if (estado && ESTADOS.includes(estado as Estado)) {
     condiciones.push(eq(proyectos.estado, estado as Estado))
   }
@@ -33,7 +36,7 @@ export default async function ProyectosPage({
   }
 
   const filas = await db.query.proyectos.findMany({
-    where: condiciones.length > 0 ? and(...condiciones) : undefined,
+    where: and(...condiciones),
     orderBy: desc(proyectos.createdAt),
   })
   const lista = filas.map(proyectoToRow)

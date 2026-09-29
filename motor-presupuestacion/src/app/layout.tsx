@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans } from "next/font/google";
 import "./globals.css";
 import BrandStyle from "@/components/branding/BrandStyle";
-import { getBrand } from "@/lib/branding";
+import { getBrandActual } from "@/lib/tenant";
 
 const notoSans = Noto_Sans({
   subsets: ["latin"],
@@ -11,28 +11,27 @@ const notoSans = Noto_Sans({
   display: "swap",
 });
 
-// La imagen de Docker es la misma para todos los tenants: la marca se resuelve
-// en el arranque, desde el entorno del despliegue. Por eso nada puede quedar
-// prerenderizado en el build, o el logo y la paleta serían los del build y no
-// los de la empresa que contrató el servicio.
-export const dynamic = 'force-dynamic'
-
-// Título y descripción los define la marca contratada (config/brands/*.json).
-export function generateMetadata(): Metadata {
-  const { meta } = getBrand();
+// Título y descripción los define la empresa dueña del dominio. Resolverla lee
+// el Host, y eso ya hace que cada ruta se renderice en runtime: la imagen de
+// Docker es común a todos los tenants, así que nada puede quedar horneado en el
+// build.
+export async function generateMetadata(): Promise<Metadata> {
+  const { meta } = await getBrandActual();
   return { title: meta.title, description: meta.description };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const brand = await getBrandActual();
+
   return (
     <html lang="es" className={`${notoSans.variable} h-full antialiased`}>
       <body className={`min-h-full flex flex-col font-[family-name:var(--font-noto-sans)]`}>
         {/* Paleta de la marca: alimenta todas las utilidades *-brand* */}
-        <BrandStyle brand={getBrand()} />
+        <BrandStyle brand={brand} />
         {children}
       </body>
     </html>

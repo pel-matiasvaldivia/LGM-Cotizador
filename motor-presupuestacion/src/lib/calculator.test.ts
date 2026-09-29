@@ -30,7 +30,7 @@ function ratio(
       rubroId: `rubro-${rubroNombre}`,
       nombre: subrubroNombre,
       codigoFlexxus: 0,
-      rubro: { id: `rubro-${rubroNombre}`, nombre: rubroNombre, codigoFlexxus: 0, orden: 0 },
+      rubro: { id: `rubro-${rubroNombre}`, tenantId: 'tenant-test', nombre: rubroNombre, codigoFlexxus: 0, orden: 0 },
     },
   }
 }

@@ -1,9 +1,10 @@
 # LGM Cotizador — Motor de Presupuestación
 
 Cotizador de naves industriales. Aplicación Next.js con Postgres, autenticación
-propia y extracción de datos con IA (OpenAI). Se despliega como **marca blanca**:
-la misma imagen sirve a cualquier empresa que contrate el servicio, con su logo,
-su paleta y sus textos (ver [Marca blanca](#marca-blanca-white-label)).
+propia y extracción de datos con IA (OpenAI). Es **multi-tenant**: una sola
+instancia atiende a varias empresas, cada una con su dominio, su identidad, sus
+datos fiscales, sus usuarios y sus proyectos (ver
+[Multi-tenant](#multi-tenant-una-instancia-varias-empresas)).
 
 ## Arquitectura
 
@@ -27,59 +28,81 @@ catálogo de rubros/ratios de ejemplo (ajustarlos en `/configuracion/ratios`).
 El servicio `backup` hace un `pg_dump` diario a `./backups/` (rotación 14 días).
 Copiá esos dumps fuera del servidor.
 
-## Marca blanca (white label)
+## Multi-tenant: una instancia, varias empresas
 
-Ningún nombre, logo ni color está escrito en el código de las páginas: toda la
-identidad visible sale de una config de marca que se resuelve al arrancar el
-contenedor. Alcanza (`docker compose up -d` de nuevo) para cambiar de marca.
+Cada empresa que contrata el servicio es un **tenant**, y se resuelve por el
+**dominio** del request (`Host`, o `X-Forwarded-Host` detrás del proxy). De la
+fila del tenant sale todo lo que el visitante ve y lo que el cliente recibe
+impreso; nada de eso está escrito en el código de las páginas.
 
-**Qué es configurable:** logo (claro y sobre fondo oscuro), paleta, título y
-descripción del sitio, textos del hero, tarjetas de servicios, sección
-institucional con sus métricas, lista de clientes, datos de contacto y
-WhatsApp, CTA final y pie. Los bloques sin datos (clientes, métricas, WhatsApp)
-no se renderizan en vez de quedar vacíos. Sin logo cargado, se usa el nombre de
-la empresa como wordmark tipográfico. La paleta también alcanza al panel
-interno, al portal del cliente, a los mails automáticos y al PDF del R-04.
+**Qué guarda cada empresa:** nombre y razón social, datos fiscales (CUIT,
+condición frente al IVA, Ingresos Brutos, inicio de actividades), domicilio,
+contacto y WhatsApp, logo (claro y para fondo oscuro), paleta, y los textos de
+la landing (hero, servicios, métricas, clientes, cierre). Lo edita su propio
+admin en **Configuración → Empresa**; los dominios no, porque son configuración
+de plataforma.
 
-**Cómo se resuelve**, de menor a mayor prioridad:
+**Dónde aparecen esos datos:** en la landing y el portal del cliente, en el
+encabezado y el pie del presupuesto R-04 (razón social, CUIT, domicilio,
+contacto arriba; condición de IVA, IIBB e inicio de actividades abajo), y en los
+mails automáticos. Los bloques sin datos (clientes, métricas, WhatsApp) no se
+renderizan en vez de quedar vacíos, y sin logo cargado se usa el nombre de la
+empresa como wordmark tipográfico.
 
-1. marca neutra de base (en `src/lib/branding.ts`, no es la identidad de nadie)
-2. `motor-presupuestacion/config/brands/<BRAND>.json` — preset versionado
-3. `BRAND_CONFIG_FILE` — JSON externo, pensado para montar por volumen
-4. variables `BRAND_*` — overrides puntuales
+**Aislamiento.** Cada empresa tiene sus propios usuarios, proyectos, catálogo de
+rubros/ratios, biblioteca de precios y parámetros de costeo. Una sesión sólo
+vale en el dominio de su empresa (la cookie de un dominio no sirve en otro), y
+un id de otra empresa responde 404, no 403. El mismo email —o el mismo código de
+proyecto— puede existir en dos empresas sin chocar.
 
-Los JSON son parciales: definen sólo lo que cambian y el merge es profundo (un
-array, en cambio, se reemplaza entero). Ver `config/brands/ejemplo.json` para
-una config completa comentada y `.env.example` para la lista de variables.
-
-**Alta de un tenant nuevo** (opción mínima, sin tocar archivos del repo):
+### Alta de una empresa
 
 ```bash
-# en .env
-BRAND_NOMBRE=Acero Sur
-BRAND_RAZON_SOCIAL=Acero Sur S.A.
-BRAND_COLOR_PRIMARY=#0e9f6e     # acento: botones, links, destacados
-BRAND_COLOR_INK=#12263f         # institucional: títulos y secciones oscuras
-BRAND_LOGO=/brand/acero-sur.svg # archivo dejado en ./brand/
-BRAND_EMAIL=ventas@acerosur.example
-BRAND_WHATSAPP=5492991234567
+docker compose exec app node scripts/tenant.mjs crear acero-sur "Acero Sur" acerosur.com
+docker compose exec app node scripts/tenant.mjs semilla acero-sur          # catálogo y parámetros
+docker compose exec -e TENANT=acero-sur app node scripts/usuario.mjs admin@acerosur.com 'Clave_2026' admin
 ```
 
-Con esos dos colores queda resuelta la paleta entera: los hovers, los fondos
-suaves, los bordes y los tonos del pie se derivan por CSS (`color-mix`) desde
-`primary` e `ink`, así que no hay que elegir diez variantes ni tocar Tailwind.
+Después, ese admin entra por su dominio y completa CUIT, domicilio, logo y
+colores desde **Configuración → Empresa**. Otros comandos:
 
-Para una identidad más completa (textos, servicios, métricas, clientes),
-copiá `config/brands/ejemplo.json` a `config/brands/<tenant>.json` y poné
-`BRAND=<tenant>`; o dejá el JSON fuera del repo y apuntale `BRAND_CONFIG_FILE`.
+```bash
+node scripts/tenant.mjs listar                       # empresas, dominios, usuarios, proyectos
+node scripts/tenant.mjs dominio acero-sur www2.acerosur.com
+node scripts/tenant.mjs quitar-dominio viejo.com
+node scripts/tenant.mjs desactivar acero-sur         # deja de responder en sus dominios
+```
 
-Los logos y las imágenes institucionales van en `./brand/`, que el compose monta
-como `/app/public/brand` de sólo lectura: se referencian como `/brand/archivo.svg`
-y no hace falta rebuildear la imagen (ver `brand/README.md`).
+`semilla` copia el catálogo de la empresa más antigua como plantilla (o deja
+sólo los parámetros por defecto si no hay de dónde copiar).
 
-> El sitio de Log Metal es el preset `logmetal`. Si `BRAND` no está definida, la
-> app arranca con la marca neutra: en el `.env` de ese despliegue tiene que estar
-> `BRAND=logmetal`.
+Un dominio que no está asignado a ninguna empresa no muestra la identidad de
+nadie: responde una pantalla de "dominio no configurado".
+
+### Colores: alcanzan dos
+
+Con el color de acento y el institucional queda resuelta la paleta entera: los
+hovers, fondos suaves, bordes y tonos del pie se derivan por CSS (`color-mix`),
+así que no hay que elegir diez variantes ni tocar Tailwind. La paleta alcanza
+también al panel interno, al portal del cliente, a los mails y al PDF.
+
+### Config de archivo (arranque y despliegues de un solo cliente)
+
+`config/brands/<BRAND>.json` + variables `BRAND_*` siguen existiendo, pero ya no
+son la fuente de verdad: son los **valores iniciales**. En el primer arranque, el
+bootstrap de `scripts/migrate.mjs` crea la empresa del despliegue con esos datos
+(y le asigna los dominios de `TENANT_DOMINIOS`); de ahí en adelante manda la
+base, y el bootstrap sólo completa los campos que siguen vacíos —nunca pisa lo
+que se editó desde el panel. Ver `config/brands/ejemplo.json` para una config
+completa y `.env.example` para la lista de variables.
+
+Con una sola empresa en la base no hace falta configurar dominios: cualquier
+Host resuelve a ella. `TENANT_DEFAULT=<slug>` fuerza una empresa concreta, útil
+en desarrollo.
+
+> La instalación de Log Metal migra sola: al aplicar la migración, los datos que
+> ya existen quedan asignados a una empresa que adopta el slug de `BRAND`
+> (`logmetal`), con sus textos y colores actuales copiados a la base.
 
 ## Desarrollo
 

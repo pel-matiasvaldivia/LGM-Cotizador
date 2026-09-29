@@ -2,8 +2,11 @@ import { asc, eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { datosTecnicos, presupuestoBaseItems, proyectos } from '@/db/schema'
 import { generarR04PDF } from '@/lib/pdf-generator'
+import { emisorDesdeTenant } from '@/lib/pdf-emisor'
 import { calcularResumen } from '@/lib/calculator'
 import { getParametros } from '@/lib/parametros'
+import { brandDesdeTenant } from '@/lib/branding'
+import { getTenantPorId } from '@/lib/tenant'
 
 export interface R04Resultado {
   proyecto: typeof proyectos.$inferSelect
@@ -19,6 +22,12 @@ export async function construirR04(proyectoId: string): Promise<R04Resultado | n
   const proyecto = await db.query.proyectos.findFirst({ where: eq(proyectos.id, proyectoId) })
   if (!proyecto) return null
 
+  // La empresa emisora es la dueña del proyecto: sus datos fiscales y su marca
+  // son los que salen impresos. No se resuelve por el dominio del request,
+  // porque este PDF también se arma para adjuntarlo a un mail.
+  const tenant = await getTenantPorId(proyecto.tenantId)
+  const emisor = emisorDesdeTenant(tenant, brandDesdeTenant(tenant))
+
   const dt = await db.query.datosTecnicos.findFirst({ where: eq(datosTecnicos.proyectoId, proyectoId) })
 
   const items = await db.query.presupuestoBaseItems.findMany({
@@ -27,7 +36,7 @@ export async function construirR04(proyectoId: string): Promise<R04Resultado | n
     orderBy: asc(presupuestoBaseItems.orden),
   })
 
-  const params = await getParametros()
+  const params = await getParametros(proyecto.tenantId)
   const resumen = calcularResumen(items, params, dt?.superficie ?? 0, proyecto.ubicacion)
   const markup = resumen.costoDirectoUsd ? resumen.totalSinIvaUsd / resumen.costoDirectoUsd : 1
 
@@ -65,6 +74,6 @@ export async function construirR04(proyectoId: string): Promise<R04Resultado | n
     condiciones_pago: '30% Anticipo - 70% Avance',
   }
 
-  const buffer = await generarR04PDF(payloadR04, itemsData)
+  const buffer = await generarR04PDF(payloadR04, itemsData, emisor)
   return { proyecto, buffer, filename: `R04-${proyecto.codigo}.pdf`, resumen }
 }

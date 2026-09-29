@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { db } from '@/db'
 import { datosTecnicos, documentosProyecto, proyectos } from '@/db/schema'
 import { withErrorHandling } from '@/lib/api-helpers'
+import { requireTenant } from '@/lib/tenant'
 import { notificarConsultaRecibida } from '@/lib/notificaciones'
 
 // Límites de la carga de documentación (base64 inline en la DB).
@@ -15,6 +16,8 @@ type DocEntrada = { nombre?: string; tipoMime?: string; tamanoBytes?: number; co
 // que le pasó el comercial y adjunta documentación. Crea el proyecto en borrador
 // (canal 'formulario_cliente') para que el comercial lo tome y cotice.
 export const POST = withErrorHandling(async (req: Request) => {
+  // El formulario es público, pero el proyecto entra en la empresa del dominio.
+  const tenant = await requireTenant()
   const body = await req.json()
 
   const nombre = String(body.cliente_nombre || '').trim()
@@ -49,6 +52,7 @@ export const POST = withErrorHandling(async (req: Request) => {
 
   const proyecto = await db.transaction(async (tx) => {
     const [p] = await tx.insert(proyectos).values({
+      tenantId: tenant.id,
       codigo,
       cliente: nombreCompleto,
       razonSocial: body.cliente_empresa || null,

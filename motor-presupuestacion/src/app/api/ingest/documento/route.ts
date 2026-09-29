@@ -6,6 +6,7 @@ import { extraerVariablesR09DeDocumento } from '@/lib/extractor'
 import { anthropicConfigurado } from '@/lib/anthropic'
 import { requireUser } from '@/lib/auth'
 import { withErrorHandling } from '@/lib/api-helpers'
+import { requireTenant } from '@/lib/tenant'
 
 const MAX_BYTES = 15 * 1024 * 1024 // 15 MB
 
@@ -15,6 +16,7 @@ const MAX_BYTES = 15 * 1024 * 1024 // 15 MB
 // opción de ingreso manual.
 export const POST = withErrorHandling(async (req: Request) => {
   await requireUser(['comercial', 'admin'])
+  const tenant = await requireTenant()
 
   const form = await req.formData().catch(() => null)
   // El front puede enviar el archivo como 'file' o, por compatibilidad, 'audio'.
@@ -51,6 +53,7 @@ export const POST = withErrorHandling(async (req: Request) => {
   const variables = await extraerVariablesR09DeDocumento(base64)
 
   const [ingesta] = await db.insert(ingestas).values({
+    tenantId: tenant.id,
     canal: 'documento',
     rawContent: nombre,
   }).returning()
