@@ -28,6 +28,27 @@ catálogo de rubros/ratios de ejemplo (ajustarlos en `/configuracion/ratios`).
 El servicio `backup` hace un `pg_dump` diario a `./backups/` (rotación 14 días).
 Copiá esos dumps fuera del servidor.
 
+### Actualizar el servidor
+
+La imagen la publica el CI en cada push, con un tag por rama: **`main` es lo
+liberado**. Para traer la última versión:
+
+```bash
+git pull                    # el compose tiene que apuntar a :main
+docker compose pull app
+docker compose up -d app
+docker compose logs -f app  # las migraciones corren solas en el arranque
+```
+
+> Si el `docker-compose.yml` del servidor todavía dice `:master`, el servidor se
+> queda clavado en esa rama vieja y **ningún cambio nuevo llega**, por más que
+> estén mergeados en `main`. Es el primer lugar donde mirar cuando algo que ya
+> está en el repo no se ve en el sitio: `docker compose images app` muestra qué
+> imagen está corriendo de verdad.
+
+Las migraciones son parte del arranque (`docker-entrypoint.sh`), así que un
+`pull` + `up -d` alcanza: no hay un paso manual de migración.
+
 ## Multi-tenant: una instancia, varias empresas
 
 Cada empresa que contrata el servicio es un **tenant**, y se resuelve por el

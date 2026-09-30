@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
-  Building2, Check, Globe, Loader2, Plus, Power, Sprout, Trash2, UserPlus, X,
+  AlertTriangle, Building2, Check, Globe, Loader2, Plus, Power, Sprout, Trash2, UserPlus, X,
 } from 'lucide-react'
 
 // Panel de plataforma: las empresas del servicio. Lo que se hace acá es lo que
@@ -41,14 +41,22 @@ function Metrica({ valor, label }: { valor: number; label: string }) {
 export default function PlataformaPanel({
   empresas,
   tenantPropioId,
+  dominioActual,
 }: {
   empresas: Empresa[]
   tenantPropioId: string | null
+  /** Dominio por el que se está navegando ahora mismo. */
+  dominioActual: string
 }) {
   const router = useRouter()
   const [ocupado, setOcupado] = useState<string | null>(null)
   const [msg, setMsg] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+
+  const empresaPropia = empresas.find((e) => e.id === tenantPropioId)
+  // La empresa por la que estoy entrando no tiene dominio propio: es la que se
+  // rompe al crear la segunda.
+  const faltaDominioPropio = Boolean(empresaPropia && empresaPropia.dominios.length === 0)
 
   // Formularios abiertos: alta de empresa y, por empresa, dominio / admin / borrado.
   const [alta, setAlta] = useState(false)
@@ -119,6 +127,43 @@ export default function PlataformaPanel({
       {msg && <div className="text-sm rounded-lg px-4 py-2.5 bg-emerald-50 text-emerald-700 mb-4">{msg}</div>}
       {error && <div className="text-sm rounded-lg px-4 py-2.5 bg-red-50 text-red-700 mb-4">{error}</div>}
 
+      {/* Mientras hay una sola empresa, el sitio responde por cualquier dominio
+          y nadie se entera de que falta asignarlo. En cuanto aparece la
+          segunda, ese atajo se termina y el sitio actual deja de resolver: hay
+          que avisarlo ANTES de que pase, no después. */}
+      {faltaDominioPropio && (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 mb-6">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+            <div className="min-w-0">
+              <p className="font-semibold text-amber-900 mb-1">
+                Falta asignarle su dominio a {empresaPropia?.nombre}
+              </p>
+              <p className="text-sm text-amber-800/90 mb-3">
+                Hoy funciona igual porque es la única empresa: sin dominios asignados, el sitio
+                responde en cualquiera. Pero apenas des de alta una segunda,{' '}
+                <strong>{dominioActual || 'este dominio'}</strong> deja de resolver y el sitio se cae
+                hasta que se lo asignes.
+              </p>
+              {dominioActual && (
+                <button
+                  disabled={ocupado === 'dominio-propio'}
+                  onClick={() => accion('dominio-propio',
+                    () => fetch(`/api/admin/tenants/${empresaPropia!.id}/dominios`, json({ dominio: dominioActual })),
+                    `${dominioActual} asignado a ${empresaPropia!.nombre}`)}
+                  className="inline-flex items-center gap-2 bg-amber-600 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-amber-700 disabled:opacity-40"
+                >
+                  {ocupado === 'dominio-propio'
+                    ? <Loader2 className="w-4 h-4 animate-spin" />
+                    : <Globe className="w-4 h-4" />}
+                  Asignar {dominioActual}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── Alta de empresa ─────────────────────────────────── */}
       {alta && (
         <section className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
@@ -133,6 +178,14 @@ export default function PlataformaPanel({
             le crea su admin. Después ese admin completa CUIT, domicilio, logo y colores desde
             Configuración → Empresa.
           </p>
+
+          {faltaDominioPropio && (
+            <p className="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-4">
+              <strong>Antes de seguir:</strong> {empresaPropia?.nombre} todavía no tiene dominio
+              asignado. Si creás esta empresa primero, {dominioActual || 'el sitio actual'} deja de
+              resolver.
+            </p>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
