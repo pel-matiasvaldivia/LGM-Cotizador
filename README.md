@@ -25,8 +25,32 @@ La app queda en el puerto **3300**. En el primer arranque el contenedor aplica l
 migraciones, crea el usuario admin (`ADMIN_EMAIL`/`ADMIN_PASSWORD`) y siembra un
 catálogo de rubros/ratios de ejemplo (ajustarlos en `/configuracion/ratios`).
 
-El servicio `backup` hace un `pg_dump` diario a `./backups/` (rotación 14 días).
-Copiá esos dumps fuera del servidor.
+### Backups
+
+El servicio `backup` hace un `pg_dump` diario, **verifica que el archivo no esté
+corrupto** y lo copia a un destino remoto. Un respaldo que vive en el mismo
+servidor que la base no es un respaldo: si se pierde la máquina, se pierden los
+dos. El destino se configura en el `.env` con formato de rclone (Backblaze B2,
+Wasabi, R2, S3, MinIO); sin destino, el log avisa en cada corrida que la copia
+quedó sólo local.
+
+```
+BACKUP_REMOTO=b2:mi-bucket/cotizador
+RCLONE_CONFIG_B2_TYPE=b2
+RCLONE_CONFIG_B2_ACCOUNT=...
+RCLONE_CONFIG_B2_KEY=...
+```
+
+**Probá la restauración**, porque un backup que nunca se restauró es una
+suposición:
+
+```bash
+./scripts/restaurar.sh ./backups/cotizador_20260930_0300.sql.gz
+```
+
+Sin un segundo argumento restaura sobre `cotizador_prueba` y no toca la base
+real: es el simulacro. Al final muestra cuántas empresas, usuarios y proyectos
+quedaron, para comparar contra lo que esperás.
 
 ### Actualizar el servidor
 
@@ -48,6 +72,32 @@ docker compose logs -f app  # las migraciones corren solas en el arranque
 
 Las migraciones son parte del arranque (`docker-entrypoint.sh`), así que un
 `pull` + `up -d` alcanza: no hay un paso manual de migración.
+
+## Seguridad del acceso
+
+**Las rutas públicas tienen tope de uso.** Las que no piden login (el precio en
+vivo del wizard, la lectura de planos con IA, el formulario de requerimientos,
+el login y el alta de cuentas) se limitan por IP, y el login además por cuenta
+sin mirar la IP —si no, rotar direcciones alcanzaría para probar contraseñas de
+la misma cuenta sin tope—. La lectura de planos, que es la llamada que cuesta
+plata, tiene además un tope de 5 MB por imagen y exige que el dominio sea de una
+empresa. Los valores están juntos en `LIMITES`, en `src/lib/rate-limit.ts`.
+
+> El contador vive en memoria del proceso: alcanza para un contenedor, que es el
+> caso hoy. Con varias réplicas el límite efectivo se multiplica y hay que
+> moverlo a Postgres o Redis.
+
+**El portal del cliente exige confirmar el email.** El portal muestra los
+presupuestos cuyo email coincide con el de la cuenta, y registrarse es público:
+sin este paso, alcanzaba con registrarse usando el email de otro para ver su
+cotización. Ahora una cuenta de cliente no ve nada —ni el portal, ni el PDF, ni
+la pre-aprobación— hasta seguir el enlace que le llega por mail (vence a las 48
+horas y se usa una sola vez). Las cuentas que crea un admin no pasan por esto:
+el email lo puso alguien de adentro.
+
+> Para el portal, configurar `RESEND_API_KEY` deja de ser opcional. Sin
+> proveedor de correo, el enlace de confirmación queda en el log del contenedor
+> (`docker compose logs app`) como salida de emergencia.
 
 ## Multi-tenant: una instancia, varias empresas
 

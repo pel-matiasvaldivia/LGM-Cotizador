@@ -12,6 +12,8 @@ import LogoutButton from '@/components/auth/LogoutButton'
 import PreaprobarOferta from '@/components/cliente/PreaprobarOferta'
 import { CheckCircle2, Circle, Clock, FileText, Download } from 'lucide-react'
 import BrandLogo from '@/components/branding/BrandLogo'
+import VerificacionPendiente from '@/components/cliente/VerificacionPendiente'
+import { estaVerificado } from '@/lib/verificacion'
 import { getBrandActual } from '@/lib/tenant'
 
 const ESTADOS = ['borrador', 'enviado', 'preaprobado', 'aprobado'] as const
@@ -28,12 +30,30 @@ const estadoInfo: Record<string, { label: string; desc: string; color: string; b
 
 const usd = (n: number) => '$ ' + (n || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' USD'
 
-export default async function MiProyectoPage() {
+export default async function MiProyectoPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ verificado?: string }>
+}) {
   const user = await getCurrentUser()
   const brand = await getBrandActual()
 
   if (!user) {
     redirect('/mi-proyecto/login')
+  }
+
+  // Cuenta de cliente sin el email confirmado: no se le muestra ni la
+  // existencia del proyecto. Registrarse con el email de otro no alcanza para
+  // ver su presupuesto.
+  if (!estaVerificado(user)) {
+    const { verificado } = await searchParams
+    return (
+      <VerificacionPendiente
+        brand={brand}
+        email={user.email}
+        resultado={verificado === '0' ? 'invalido' : undefined}
+      />
+    )
   }
 
   // El usuario ya viene acotado a su empresa (getCurrentUser valida el tenant

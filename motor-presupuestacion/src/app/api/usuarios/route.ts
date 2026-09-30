@@ -54,7 +54,15 @@ export const POST = withErrorHandling(async (req: Request) => {
 
   const [user] = await db
     .insert(usuarios)
-    .values({ tenantId: tenant.id, email, nombre: nombre || 'Usuario', rol, passwordHash: await hashPassword(password) })
+    .values({
+      tenantId: tenant.id,
+      email,
+      nombre: nombre || 'Usuario',
+      rol,
+      passwordHash: await hashPassword(password),
+      // La da de alta un admin de la empresa: el email no lo elige el titular.
+      emailVerificadoAt: new Date(),
+    })
     .returning()
 
   return NextResponse.json({

@@ -1,6 +1,13 @@
 import { NextResponse } from 'next/server'
 import type Anthropic from '@anthropic-ai/sdk'
 import { anthropic, CLAUDE_MODEL, textoDeRespuesta, parsearJson } from '@/lib/anthropic'
+import { withErrorHandling } from '@/lib/api-helpers'
+import { requireTenant } from '@/lib/tenant'
+import { exigirLimite, LIMITES } from '@/lib/rate-limit'
+
+// Tope de imagen. Claude acepta más, pero acá el límite es económico: una
+// imagen grande es una llamada cara, y esta ruta la puede invocar cualquiera.
+const MAX_IMAGEN_BYTES = 5 * 1024 * 1024
 
 // Media types que acepta la API de visión de Claude.
 const MEDIA_VALIDOS = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'] as const
@@ -15,23 +22,35 @@ function parseDataUrl(input: string): { mediaType: MediaType; data: string } | n
   return { mediaType, data: m[2] }
 }
 
-export async function POST(req: Request) {
-  try {
-    const { imageBase64 } = await req.json()
+// Pública porque el wizard lee el plano antes de que el visitante se registre.
+// Por eso los tres frenos: que el dominio sea de una empresa, un tope de
+// llamadas por IP y un tope de tamaño. Es la ruta que gasta plata de verdad.
+export const POST = withErrorHandling(async (req: Request) => {
+  exigirLimite(req, 'vision', LIMITES.vision)
+  await requireTenant()
 
-    if (!imageBase64) {
-      return NextResponse.json({ error: 'Falta imagen' }, { status: 400 })
-    }
+  const { imageBase64 } = await req.json()
 
-    const img = parseDataUrl(imageBase64)
-    if (!img) {
-      return NextResponse.json(
-        { error: 'Formato de imagen inválido. Usá JPEG, PNG, GIF o WebP en base64.' },
-        { status: 400 },
-      )
-    }
+  if (!imageBase64) {
+    return NextResponse.json({ error: 'Falta imagen' }, { status: 400 })
+  }
 
-    const prompt = `Sos un ingeniero civil estructural analizando un boceto o plano enviado por el cliente para construir una nave industrial.
+  const img = parseDataUrl(imageBase64)
+  if (!img) {
+    return NextResponse.json(
+      { error: 'Formato de imagen inválido. Usá JPEG, PNG, GIF o WebP en base64.' },
+      { status: 400 },
+    )
+  }
+
+  if (Buffer.byteLength(img.data, 'base64') > MAX_IMAGEN_BYTES) {
+    return NextResponse.json(
+      { error: `La imagen supera los ${MAX_IMAGEN_BYTES / 1024 / 1024} MB` },
+      { status: 413 },
+    )
+  }
+
+  const prompt = `Sos un ingeniero civil estructural analizando un boceto o plano enviado por el cliente para construir una nave industrial.
 Extrae o infiere estimativamente si no está claro de la imagen las siguientes dimensiones. Respondé ÚNICAMENTE con un JSON puro con este formato:
 {
   "ancho_m": <numero>,
@@ -41,31 +60,27 @@ Extrae o infiere estimativamente si no está claro de la imagen las siguientes d
   "tipologia": "<ALMA_LLENA | ALVEOLAR | RETICULADO | INDEFINIDO>"
 }`
 
-    const content: Anthropic.ContentBlockParam[] = [
-      { type: 'image', source: { type: 'base64', media_type: img.mediaType, data: img.data } },
-      { type: 'text', text: prompt },
-    ]
+  const content: Anthropic.ContentBlockParam[] = [
+    { type: 'image', source: { type: 'base64', media_type: img.mediaType, data: img.data } },
+    { type: 'text', text: prompt },
+  ]
 
-    const response = await anthropic.messages.create({
-      model: CLAUDE_MODEL,
-      max_tokens: 512,
-      system: 'Respondé ÚNICAMENTE con el objeto JSON pedido, sin texto adicional.',
-      messages: [{ role: 'user', content }],
-    })
+  const response = await anthropic.messages.create({
+    model: CLAUDE_MODEL,
+    max_tokens: 512,
+    system: 'Respondé ÚNICAMENTE con el objeto JSON pedido, sin texto adicional.',
+    messages: [{ role: 'user', content }],
+  })
 
-    const aiText = textoDeRespuesta(response)
+  const aiText = textoDeRespuesta(response)
 
-    let data
-    try {
-      data = parsearJson(aiText)
-    } catch {
-      console.error('Claude vision parse error. Raw text:', aiText)
-      return NextResponse.json({ success: false, data: null, error: aiText })
-    }
-
-    return NextResponse.json({ success: true, data })
-  } catch (error: any) {
-    console.error('Error en Visión AI:', error)
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  let data
+  try {
+    data = parsearJson(aiText)
+  } catch {
+    console.error('Claude vision parse error. Raw text:', aiText)
+    return NextResponse.json({ success: false, data: null, error: aiText })
   }
-}
+
+  return NextResponse.json({ success: true, data })
+})

@@ -77,6 +77,11 @@ export const usuarios = pgTable('usuarios', {
   // les crea su primer admin. Es ortogonal a `rol`, que es el rol dentro de la
   // empresa por la que el usuario entra.
   superadmin: boolean('superadmin').notNull().default(false),
+  // Verificación del email (sólo aplica a las cuentas de cliente, que son las
+  // que se registran solas). Sin verificar no se ven presupuestos.
+  emailVerificadoAt: timestamp('email_verificado_at', { withTimezone: true }),
+  verificacionTokenHash: text('verificacion_token_hash'),
+  verificacionExpira: timestamp('verificacion_expira', { withTimezone: true }),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   // El mismo email puede existir en dos empresas distintas: la unicidad es
   // por tenant, no global.

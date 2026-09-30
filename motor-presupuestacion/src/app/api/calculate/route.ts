@@ -7,6 +7,7 @@ import { getParametros } from '@/lib/parametros'
 import { requireUser } from '@/lib/auth'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
 import { requireProyecto } from '@/lib/scope'
+import { exigirVerificado } from '@/lib/verificacion'
 import { itemToRow } from '@/lib/serializers'
 
 export const POST = withErrorHandling(async (req: Request) => {
@@ -19,6 +20,7 @@ export const POST = withErrorHandling(async (req: Request) => {
 
   const proyecto = await requireProyecto(proyectoId)
   // Un cliente solo puede recalcular sus propios proyectos
+  if (user.rol === 'cliente') exigirVerificado(user)
   if (user.rol === 'cliente' && proyecto.email?.toLowerCase() !== user.email) {
     return NextResponse.json({ error: 'Sin permisos sobre este proyecto' }, { status: 403 })
   }

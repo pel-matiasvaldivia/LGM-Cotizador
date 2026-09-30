@@ -67,7 +67,8 @@ async function main() {
     console.log(`✓ Usuario actualizado en "${tenant.slug}": ${email} (rol: ${rol})`)
   } else {
     await pool.query(
-      `INSERT INTO usuarios (tenant_id, email, password_hash, nombre, rol) VALUES ($1, $2, $3, $4, $5)`,
+      `INSERT INTO usuarios (tenant_id, email, password_hash, nombre, rol, email_verificado_at)
+       VALUES ($1, $2, $3, $4, $5, now())`,
       [tenant.id, email, hashPassword(password), nombre, rol]
     )
     console.log(`✓ Usuario creado en "${tenant.slug}": ${email} (rol: ${rol})`)

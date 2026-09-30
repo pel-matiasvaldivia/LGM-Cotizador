@@ -3,6 +3,7 @@ import { construirR04 } from '@/lib/pdf-r04'
 import { requireUser } from '@/lib/auth'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
 import { requireProyecto } from '@/lib/scope'
+import { exigirVerificado } from '@/lib/verificacion'
 
 export const GET = withErrorHandling(async (req: Request) => {
   const user = await requireUser()
@@ -19,6 +20,8 @@ export const GET = withErrorHandling(async (req: Request) => {
   // el suyo (mismo email) y únicamente una vez enviado.
   const esStaff = user.rol === 'comercial' || user.rol === 'admin'
   if (!esStaff) {
+    // "Es mío porque coincide el email" sólo vale si ese email está confirmado.
+    exigirVerificado(user)
     const propio = proyecto.email && proyecto.email.toLowerCase() === user.email.toLowerCase()
     if (!propio || proyecto.estado === 'borrador') {
       return NextResponse.json({ error: 'No autorizado' }, { status: 403 })

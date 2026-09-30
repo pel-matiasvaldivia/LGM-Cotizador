@@ -189,6 +189,31 @@ export async function notificarPreaprobacion(p: Proyecto): Promise<void> {
   }
 }
 
+// 4) Confirmación del email de una cuenta nueva del portal. Sin este paso la
+//    cuenta no ve ningún presupuesto, así que el mail tiene que salir sí o sí:
+//    si falla, el registro devuelve el aviso para poder reintentar.
+export async function enviarVerificacionEmail(
+  destinatario: string,
+  nombre: string,
+  link: string,
+  brand: Brand,
+): Promise<EmailResultado> {
+  return seguro(() => enviarEmail({
+    brand,
+    to: destinatario,
+    subject: `Confirmá tu email — ${brand.nombre}`,
+    html: plantilla(
+      brand,
+      `Confirmá tu email`,
+      fila(`Hola ${primerNombre(nombre)}, creaste una cuenta para seguir tu proyecto.`) +
+      fila(`Confirmá que este correo es tuyo para poder ver tu presupuesto. El enlace vence en 48 horas.`) +
+      fila(`<span style="color:#8a93a3;font-size:13px;">Si no fuiste vos, ignorá este mensaje: sin confirmar, la cuenta no accede a ningún dato.</span>`),
+      { label: 'Confirmar mi email', url: link },
+    ),
+    text: `Confirmá tu email para ver tu presupuesto: ${link}`,
+  }))
+}
+
 function primerNombre(nombre: string | null): string {
   return (nombre || '').trim().split(/\s+/)[0] || 'cliente'
 }

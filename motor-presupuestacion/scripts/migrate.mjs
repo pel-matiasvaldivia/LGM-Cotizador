@@ -246,8 +246,8 @@ async function seedAdmin(pool, tenantId) {
   }
 
   await pool.query(
-    `INSERT INTO usuarios (tenant_id, email, password_hash, nombre, rol, superadmin)
-     VALUES ($1, $2, $3, $4, 'admin', true)`,
+    `INSERT INTO usuarios (tenant_id, email, password_hash, nombre, rol, superadmin, email_verificado_at)
+     VALUES ($1, $2, $3, $4, 'admin', true, now())`,
     [tenantId, email, hashPassword(password), 'Administrador']
   )
   console.log(`[seed] usuario admin maestro creado: ${email}`)
