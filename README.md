@@ -95,9 +95,14 @@ la pre-aprobación— hasta seguir el enlace que le llega por mail (vence a las 
 horas y se usa una sola vez). Las cuentas que crea un admin no pasan por esto:
 el email lo puso alguien de adentro.
 
+El wizard lo avisa en su pantalla final —al crear la cuenta, al entrar con una
+que todavía no confirmó, y al seguir con una sesión abierta sin confirmar—, así
+el cliente se entera ahí y no tres días después al intentar entrar al portal.
+
 > Para el portal, configurar `RESEND_API_KEY` deja de ser opcional. Sin
 > proveedor de correo, el enlace de confirmación queda en el log del contenedor
-> (`docker compose logs app`) como salida de emergencia.
+> (`docker compose logs app`) como salida de emergencia, y el wizard le dice al
+> cliente que pida el enlace al equipo.
 
 ## Multi-tenant: una instancia, varias empresas
 

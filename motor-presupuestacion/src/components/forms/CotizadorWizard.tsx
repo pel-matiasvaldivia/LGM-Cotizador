@@ -4,9 +4,9 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Building2, Factory, Home, CheckCircle2, UploadCloud, Loader2,
-  Check, ChevronRight, Ruler, ToggleLeft, User, CalendarCheck, Info, ShieldCheck
+  Check, ChevronRight, Ruler, ToggleLeft, User, CalendarCheck, Info, ShieldCheck, MailCheck
 } from 'lucide-react'
-import ClientAuthStep from '@/components/auth/ClientAuthStep'
+import ClientAuthStep, { type AvisoVerificacion } from '@/components/auth/ClientAuthStep'
 import BrandLogo from '@/components/branding/BrandLogo'
 import type { Brand } from '@/lib/branding'
 
@@ -166,6 +166,9 @@ export default function CotizadorWizard({ brand }: { brand: Brand }) {
   const [visionLoading, setVisionLoading] = useState(false)
   const [visionSuccess, setVisionSuccess] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  // Estado del email de la cuenta: si quedó pendiente de confirmar, la pantalla
+  // final lo dice, porque sin eso el cliente no entra al portal.
+  const [avisoVerificacion, setAvisoVerificacion] = useState<AvisoVerificacion | null>(null)
   const [estimatedPrice, setEstimatedPrice] = useState<number | null>(null)
   const [estimating, setEstimating] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -287,7 +290,8 @@ export default function CotizadorWizard({ brand }: { brand: Brand }) {
     }
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (verificacion?: AvisoVerificacion) => {
+    if (verificacion) setAvisoVerificacion(verificacion)
     setSubmitting(true)
     try {
       const ancho = Number(formData.ancho_m) || 0
@@ -779,6 +783,24 @@ export default function CotizadorWizard({ brand }: { brand: Brand }) {
                 a la brevedad para enviarte el presupuesto detallado y acordar una reunión.
               </p>
 
+              {avisoVerificacion?.pendiente && (
+                <div className="bg-amber-50 border border-amber-200 rounded-2xl px-6 py-4 mb-6 max-w-sm text-left">
+                  <div className="flex items-start gap-3">
+                    <MailCheck className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-bold text-amber-900 mb-1">Falta un paso: confirmá tu email</p>
+                      <p className="text-sm text-amber-800/90">
+                        {avisoVerificacion.emailEnviado === false
+                          ? (avisoVerificacion.aviso
+                            || 'No pudimos enviarte el correo de confirmación. Escribinos y te pasamos el enlace.')
+                          : <>Te mandamos un correo a <strong>{formData.cliente_email}</strong>. Seguí
+                            el enlace para poder ver el estado de tu proyecto y descargar el presupuesto.</>}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {estimatedPrice !== null && estimatedPrice > 0 && (
                 <div className="bg-emerald-50 border border-emerald-200 rounded-2xl px-6 py-4 mb-6 max-w-xs">
                   <p className="text-xs text-emerald-600 font-semibold uppercase tracking-wide mb-1">Precio estimado</p>
@@ -791,13 +813,15 @@ export default function CotizadorWizard({ brand }: { brand: Brand }) {
                 </div>
               )}
 
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 mb-8 max-w-xs text-sm text-brand-ink">
-                <p className="font-bold mb-1">¿Querés hablar con un asesor ahora?</p>
-                <a href="https://wa.me/5492616666666" target="_blank" rel="noreferrer"
-                  className="text-brand font-semibold hover:underline">
-                  Contactanos por WhatsApp →
-                </a>
-              </div>
+              {brand.contacto.whatsapp && (
+                <div className="bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 mb-8 max-w-xs text-sm text-brand-ink">
+                  <p className="font-bold mb-1">¿Querés hablar con un asesor ahora?</p>
+                  <a href={`https://wa.me/${brand.contacto.whatsapp}`} target="_blank" rel="noreferrer"
+                    className="text-brand font-semibold hover:underline">
+                    Contactanos por WhatsApp →
+                  </a>
+                </div>
+              )}
 
               <button onClick={() => window.location.href = '/'}
                 className="bg-brand-ink text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-slate-700 transition-all">

@@ -3,6 +3,7 @@ import { createSession, findUserByEmail } from '@/lib/auth'
 import { verifyPassword } from '@/lib/password'
 import { withErrorHandling } from '@/lib/api-helpers'
 import { exigirLimite, exigirLimitePorClave, LIMITES } from '@/lib/rate-limit'
+import { estaVerificado } from '@/lib/verificacion'
 
 export const POST = withErrorHandling(async (req: Request) => {
   const { email, password } = await req.json().catch(() => ({}))
@@ -28,5 +29,10 @@ export const POST = withErrorHandling(async (req: Request) => {
   }
 
   await createSession(user.id)
-  return NextResponse.json({ success: true, rol: user.rol, nombre: user.nombre })
+  return NextResponse.json({
+    success: true,
+    rol: user.rol,
+    nombre: user.nombre,
+    verificado: estaVerificado(user),
+  })
 })

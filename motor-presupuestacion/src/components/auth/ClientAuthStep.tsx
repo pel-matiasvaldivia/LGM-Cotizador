@@ -6,6 +6,18 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 type Mode = 'register' | 'login'
 
+/**
+ * Lo que el paso le cuenta al wizard sobre el estado del email de la cuenta.
+ * Importa porque, sin confirmar, el cliente no va a poder entrar al portal a
+ * ver su presupuesto: conviene que se entere acá y no tres días después.
+ */
+export type AvisoVerificacion = {
+  pendiente: boolean
+  /** false cuando el sitio no tiene proveedor de correo configurado. */
+  emailEnviado?: boolean
+  aviso?: string
+}
+
 export default function ClientAuthStep({
   email,
   nombre,
@@ -14,7 +26,7 @@ export default function ClientAuthStep({
 }: {
   email: string
   nombre: string
-  onSuccess: () => void
+  onSuccess: (verificacion?: AvisoVerificacion) => void
   submitting: boolean
 }) {
   const [mode, setMode] = useState<Mode>('register')
@@ -24,13 +36,17 @@ export default function ClientAuthStep({
   const [loading, setLoading] = useState(false)
   const [checkingSession, setCheckingSession] = useState(true)
   const [existingEmail, setExistingEmail] = useState<string | null>(null)
+  const [sesionVerificada, setSesionVerificada] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {
     fetch('/api/auth/me')
       .then(res => res.json())
       .then(data => {
-        if (data.user?.email) setExistingEmail(data.user.email)
+        if (data.user?.email) {
+          setExistingEmail(data.user.email)
+          setSesionVerificada(data.user.verificado !== false)
+        }
       })
       .catch(() => {})
       .finally(() => setCheckingSession(false))
@@ -56,6 +72,10 @@ export default function ClientAuthStep({
 
     setLoading(true)
 
+    // Cada camino resuelve si la cuenta quedó con el email pendiente de
+    // confirmar, para que el wizard pueda decirlo en la pantalla final.
+    let verificacion: AvisoVerificacion = { pendiente: false }
+
     if (mode === 'register') {
       // El registro crea la cuenta y deja la sesión iniciada
       const res = await fetch('/api/auth/register', {
@@ -75,20 +95,31 @@ export default function ClientAuthStep({
         setLoading(false)
         return
       }
+
+      verificacion = {
+        pendiente: Boolean(data.verificacionPendiente),
+        emailEnviado: data.emailEnviado,
+        aviso: data.avisoEmail,
+      }
     } else {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       })
+      const data = await res.json().catch(() => ({}))
       if (!res.ok) {
-        setError('Contraseña incorrecta. Verificá tus datos.')
+        setError(res.status === 429
+          ? 'Demasiados intentos. Esperá unos minutos y probá de nuevo.'
+          : 'Contraseña incorrecta. Verificá tus datos.')
         setLoading(false)
         return
       }
+      // Una cuenta vieja que todavía no confirmó tiene el mismo problema.
+      verificacion = { pendiente: data.verificado === false, emailEnviado: true }
     }
 
-    onSuccess()
+    onSuccess(verificacion)
   }
 
   const inputClass =
@@ -115,7 +146,7 @@ export default function ClientAuthStep({
         </div>
 
         <button
-          onClick={onSuccess}
+          onClick={() => onSuccess({ pendiente: !sesionVerificada, emailEnviado: true })}
           disabled={submitting}
           className="w-full bg-brand text-white py-4 rounded-xl font-bold text-base hover:bg-brand-hover transition-all disabled:opacity-40 flex items-center justify-center gap-2 shadow-md shadow-brand-line mb-3"
         >
