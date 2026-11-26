@@ -10,22 +10,26 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import LogoutButton from '@/components/auth/LogoutButton'
 import PreaprobarOferta from '@/components/cliente/PreaprobarOferta'
+import FirmarContrato from '@/components/cliente/FirmarContrato'
 import { CheckCircle2, Circle, Clock, FileText, Download } from 'lucide-react'
 import BrandLogo from '@/components/branding/BrandLogo'
 import VerificacionPendiente from '@/components/cliente/VerificacionPendiente'
 import { estaVerificado } from '@/lib/verificacion'
 import { getBrandActual } from '@/lib/tenant'
+import { getContrato } from '@/lib/cierre'
 
-const ESTADOS = ['borrador', 'enviado', 'preaprobado', 'aprobado'] as const
+const ESTADOS = ['borrador', 'enviado', 'preaprobado', 'contrato', 'aprobado', 'produccion'] as const
 
 // Estados en los que el cliente ya puede ver y descargar su presupuesto.
-const ESTADOS_CON_PRESUPUESTO = ['enviado', 'preaprobado', 'aprobado']
+const ESTADOS_CON_PRESUPUESTO = ['enviado', 'preaprobado', 'contrato', 'aprobado', 'produccion']
 
 const estadoInfo: Record<string, { label: string; desc: string; color: string; bg: string }> = {
   borrador:    { label: 'Recibido',     desc: 'Tu solicitud fue recibida y está siendo revisada por nuestro equipo.',          color: 'text-slate-600',  bg: 'bg-slate-100' },
   enviado:     { label: 'Presupuesto',  desc: '¡Tu presupuesto ya está disponible! Podés verlo y descargarlo desde acá.',      color: 'text-blue-700',   bg: 'bg-blue-100' },
   preaprobado: { label: 'Preaprobado',  desc: 'Tu presupuesto está listo. Nos pondremos en contacto para coordinar la reunión.', color: 'text-amber-700',  bg: 'bg-amber-100' },
-  aprobado:    { label: 'Aprobado',     desc: '¡Proyecto aprobado! Nuestro equipo estará en contacto para comenzar.',   color: 'text-emerald-700', bg: 'bg-emerald-100' },
+  contrato:    { label: 'Contrato',     desc: 'Tu contrato está listo para firmar. Leelo y firmalo desde acá.',             color: 'text-purple-700', bg: 'bg-purple-100' },
+  aprobado:    { label: 'Aprobado',     desc: '¡Contrato firmado! Nuestra oficina técnica ya está trabajando en tu proyecto.', color: 'text-emerald-700', bg: 'bg-emerald-100' },
+  produccion:  { label: 'En producción', desc: 'Tu nave está en producción. Te avisamos cuando esté lista para la entrega.',  color: 'text-brand',      bg: 'bg-brand-soft' },
 }
 
 const usd = (n: number) => '$ ' + (n || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' USD'
@@ -92,6 +96,10 @@ export default async function MiProyectoPage({
   const precioM2 = resumen && superficieM2 > 0 ? resumen.totalConIvaUsd / superficieM2 : 0
   const reunionUrl = primero ? linkReunion(primero, brand) : null
 
+  // Contrato para firmar (o ya firmado). Es lo que sigue a la reunión de
+  // cierre, así que va arriba de todo cuando existe.
+  const contrato = primero ? await getContrato(primero.id) : null
+
   return (
     <div className="min-h-screen bg-brand-surface">
       {/* Header */}
@@ -145,32 +153,41 @@ export default async function MiProyectoPage({
 
               {/* Timeline */}
               <div className="relative">
-                {/* Línea de fondo */}
-                <div className="absolute top-5 left-5 right-5 h-0.5 bg-slate-100 -z-0" />
+                {/* Línea de fondo: va del centro del primer círculo al del
+                    último, por eso los márgenes de media columna. */}
                 <div
-                  className="absolute top-5 left-5 h-0.5 bg-brand transition-all duration-700 -z-0"
-                  style={{ width: estadoIndex >= 0 ? `${(estadoIndex / (ESTADOS.length - 1)) * (100 - (10 / ESTADOS.length))}%` : '0%' }}
+                  className="absolute top-4 sm:top-5 h-0.5 bg-slate-100 -z-0"
+                  style={{ left: `${100 / (ESTADOS.length * 2)}%`, right: `${100 / (ESTADOS.length * 2)}%` }}
+                />
+                <div
+                  className="absolute top-4 sm:top-5 h-0.5 bg-brand transition-all duration-700 -z-0"
+                  style={{
+                    left: `${100 / (ESTADOS.length * 2)}%`,
+                    width: estadoIndex > 0
+                      ? `${(estadoIndex / (ESTADOS.length - 1)) * (100 - 100 / ESTADOS.length)}%`
+                      : '0%',
+                  }}
                 />
 
-                <div className="relative grid grid-cols-4 gap-2">
+                <div className="relative grid grid-cols-6 gap-1">
                   {ESTADOS.map((est, i) => {
                     const done = estadoIndex >= i
                     const current = estadoIndex === i
                     const info = estadoInfo[est]
                     return (
                       <div key={est} className="flex flex-col items-center text-center gap-2">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all z-10 ${
+                        <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-all z-10 ${
                           done
                             ? 'bg-brand border-brand'
                             : 'bg-white border-slate-200'
                         } ${current ? 'ring-4 ring-brand-line' : ''}`}>
                           {done
-                            ? <CheckCircle2 className="w-5 h-5 text-white" />
-                            : <Circle className="w-5 h-5 text-slate-300" />
+                            ? <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                            : <Circle className="w-4 h-4 sm:w-5 sm:h-5 text-slate-300" />
                           }
                         </div>
                         <div>
-                          <p className={`text-xs font-bold ${done ? 'text-brand-ink' : 'text-slate-400'}`}>
+                          <p className={`text-[10px] sm:text-xs font-bold leading-tight ${done ? 'text-brand-ink' : 'text-slate-400'}`}>
                             {info.label}
                           </p>
                         </div>
@@ -228,6 +245,19 @@ export default async function MiProyectoPage({
                 <p className="text-xs text-slate-400 mt-4">Valores expresados en dólares estadounidenses.</p>
                 <PreaprobarOferta proyectoId={proyecto.id} estado={proyecto.estado} reunionUrl={reunionUrl} />
               </div>
+            )}
+
+            {/* Contrato: firmar, o constancia de la firma */}
+            {contrato && (
+              <FirmarContrato
+                proyectoId={proyecto.id}
+                numero={contrato.numero}
+                montoTotalUsd={contrato.montoTotalUsd}
+                plazoEntregaDias={contrato.plazoEntregaDias}
+                firmadoAt={contrato.firmadoAt ? contrato.firmadoAt.toISOString() : null}
+                firmadoPor={contrato.firmadoPor}
+                nombreSugerido={proyecto.razon_social || proyecto.cliente}
+              />
             )}
 
             {/* Detalles del proyecto */}

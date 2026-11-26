@@ -1,6 +1,13 @@
-import type { proyectos } from '@/db/schema'
-import { appUrl, enviarEmail, equipoComercial, linkReunion, type EmailAdjunto, type EmailResultado } from '@/lib/email'
+import { eq } from 'drizzle-orm'
+import { db } from '@/db'
+import { contratos, type Contrato, type OrdenProduccion, type proyectos } from '@/db/schema'
+import {
+  appUrl, enviarEmail, equipoComercial, equipoTecnico, linkReunion,
+  type EmailAdjunto, type EmailResultado,
+} from '@/lib/email'
 import { construirR04 } from '@/lib/pdf-r04'
+import { generarContratoPDF, generarOrdenProduccionPDF } from '@/lib/pdf-cierre'
+import { emisorDesdeTenant } from '@/lib/pdf-emisor'
 import { brandDesdeTenant, type Brand } from '@/lib/branding'
 import { getTenantPorId } from '@/lib/tenant'
 
@@ -189,7 +196,113 @@ export async function notificarPreaprobacion(p: Proyecto): Promise<void> {
   }
 }
 
-// 4) Confirmación del email de una cuenta nueva del portal. Sin este paso la
+// 4) El comercial cerró la venta y emitió el contrato: el cliente recibe el
+//    contrato para firmar, con el PDF adjunto.
+export async function notificarContratoEmitido(p: Proyecto, contrato: Contrato): Promise<void> {
+  if (!p.email) return
+  const brand = await brandDelProyecto(p)
+
+  let adjuntos: EmailAdjunto[] | undefined
+  try {
+    const tenant = await getTenantPorId(p.tenantId)
+    const buffer = await generarContratoPDF(contrato, p, emisorDesdeTenant(tenant, brand))
+    adjuntos = [{ filename: `${contrato.numero}.pdf`, content: buffer }]
+  } catch (err) {
+    console.error('[notificaciones] no se pudo adjuntar el contrato', err)
+  }
+
+  await seguro(() => enviarEmail({
+    brand,
+    to: p.email!,
+    subject: `Contrato ${contrato.numero} — listo para firmar`,
+    html: plantilla(
+      brand,
+      'Tu contrato está listo para firmar',
+      fila(`Hola ${primerNombre(p.cliente)}, como acordamos, preparamos el contrato de obra <strong>${contrato.numero}</strong> de tu proyecto <strong>${p.codigo}</strong>.`) +
+      fila(`Recoge el alcance y los importes del presupuesto que aprobaste, con un plazo de entrega de <strong>${contrato.plazoEntregaDias} días corridos</strong>.`) +
+      fila(`Podés leerlo en el PDF adjunto y <strong>firmarlo desde tu portal</strong>. Una vez firmado, arrancamos con la producción.`),
+      { label: 'Leer y firmar el contrato', url: `${appUrl()}/mi-proyecto` },
+    ),
+    attachments: adjuntos,
+  }))
+}
+
+// 5) El contrato se firmó: aviso al equipo para emitir la orden de producción,
+//    y confirmación al cliente.
+export async function notificarContratoFirmado(p: Proyecto, contrato: Contrato): Promise<void> {
+  const brand = await brandDelProyecto(p)
+  const comoFirmo = contrato.firmaMetodo === 'digital' ? 'digitalmente desde su portal' : 'en papel'
+
+  const equipo = equipoComercial()
+  if (equipo.length) {
+    await seguro(() => enviarEmail({
+      brand,
+      to: equipo,
+      subject: `Contrato firmado ${contrato.numero} — emitir orden de producción`,
+      html: plantilla(
+        brand,
+        `${p.cliente} firmó el contrato`,
+        fila(`El contrato <strong>${contrato.numero}</strong> del proyecto <strong>${p.codigo}</strong> quedó firmado ${comoFirmo} por <strong>${contrato.firmadoPor}</strong>.`) +
+        fila(`Ya se puede <strong>emitir la orden de producción</strong> para que oficina técnica arranque.`) +
+        datosProyecto(brand, p),
+        { label: 'Emitir la orden de producción', url: `${appUrl()}/proyectos/${p.id}` },
+      ),
+      replyTo: p.email || undefined,
+    }))
+  }
+
+  if (p.email) {
+    await seguro(() => enviarEmail({
+      brand,
+      to: p.email!,
+      subject: `Contrato firmado — ${p.codigo}`,
+      html: plantilla(
+        brand,
+        '¡Contrato firmado! Arrancamos',
+        fila(`Registramos la firma del contrato <strong>${contrato.numero}</strong>.`) +
+        fila(`Nuestra oficina técnica ya comienza con tu proyecto. El plazo comprometido es de <strong>${contrato.plazoEntregaDias} días corridos</strong>.`) +
+        fila(`Podés seguir el avance desde tu portal cuando quieras.`),
+        { label: 'Ver mi proyecto', url: `${appUrl()}/mi-proyecto` },
+      ),
+    }))
+  }
+}
+
+// 6) Orden de producción emitida: va a oficina técnica con el PDF adjunto. Es
+//    un documento interno (lleva costos de MO), así que el cliente no la recibe.
+export async function notificarOrdenProduccion(p: Proyecto, orden: OrdenProduccion): Promise<void> {
+  const equipo = equipoTecnico()
+  if (!equipo.length) return
+
+  const brand = await brandDelProyecto(p)
+
+  let adjuntos: EmailAdjunto[] | undefined
+  try {
+    const tenant = await getTenantPorId(p.tenantId)
+    const contrato = await db.query.contratos.findFirst({ where: eq(contratos.proyectoId, p.id) })
+    const buffer = await generarOrdenProduccionPDF(orden, contrato ?? null, p, emisorDesdeTenant(tenant, brand))
+    adjuntos = [{ filename: `${orden.numero}.pdf`, content: buffer }]
+  } catch (err) {
+    console.error('[notificaciones] no se pudo adjuntar la orden de producción', err)
+  }
+
+  await seguro(() => enviarEmail({
+    brand,
+    to: equipo,
+    subject: `Orden de producción ${orden.numero} — ${p.cliente}`,
+    html: plantilla(
+      brand,
+      `Nueva orden de producción: ${orden.numero}`,
+      fila(`Se emitió la orden de producción del proyecto <strong>${p.codigo}</strong>, con el contrato ya firmado.`) +
+      fila(`Entrega comprometida: <strong>${orden.fechaEntregaComprometida || 'a confirmar'}</strong> · Prioridad: <strong>${orden.prioridad}</strong>.`) +
+      fila(`El detalle técnico y el despiece están en el <strong>PDF adjunto</strong>.`) +
+      datosProyecto(brand, p),
+      { label: 'Ver el proyecto', url: `${appUrl()}/proyectos/${p.id}` },
+    ),
+  }))
+}
+
+// 7) Confirmación del email de una cuenta nueva del portal. Sin este paso la
 //    cuenta no ve ningún presupuesto, así que el mail tiene que salir sí o sí:
 //    si falla, el registro devuelve el aviso para poder reintentar.
 export async function enviarVerificacionEmail(

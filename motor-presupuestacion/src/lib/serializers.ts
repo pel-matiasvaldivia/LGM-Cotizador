@@ -1,4 +1,4 @@
-import type { DatosTecnicosRow, PresupuestoItem, Proyecto } from '@/db/schema'
+import type { Contrato, DatosTecnicosRow, OrdenProduccion, PresupuestoItem, Proyecto } from '@/db/schema'
 
 // Los componentes de UI consumen los nombres de columna (snake_case),
 // heredados del cliente de Supabase. Estos serializers mantienen ese contrato.
@@ -72,5 +72,41 @@ export function datosTecnicosToRow(d: DatosTecnicosRow) {
     especificaciones_adicionales: d.especificacionesAdicionales,
     raw_data: d.rawData,
     created_at: d.createdAt.toISOString(),
+  }
+}
+
+// Cierre de la venta. El snapshot (el presupuesto congelado) no viaja a la UI:
+// pesa, y ahí se muestran los totales, no el detalle.
+export function contratoToRow(c: Contrato) {
+  return {
+    id: c.id,
+    numero: c.numero,
+    plazo_entrega_dias: c.plazoEntregaDias,
+    fecha_inicio: c.fechaInicio,
+    anticipo_pct: c.anticipoPct,
+    forma_pago: c.formaPago,
+    lugar_entrega: c.lugarEntrega,
+    garantia_meses: c.garantiaMeses,
+    observaciones: c.observaciones,
+    monto_sin_iva_usd: c.montoSinIvaUsd,
+    iva_usd: c.ivaUsd,
+    monto_total_usd: c.montoTotalUsd,
+    firmado_at: c.firmadoAt ? c.firmadoAt.toISOString() : null,
+    firmado_por: c.firmadoPor,
+    firmado_email: c.firmadoEmail,
+    firma_metodo: c.firmaMetodo,
+    created_at: c.createdAt.toISOString(),
+  }
+}
+
+export function ordenToRow(o: OrdenProduccion) {
+  return {
+    id: o.id,
+    numero: o.numero,
+    fecha_entrega_comprometida: o.fechaEntregaComprometida,
+    prioridad: o.prioridad,
+    estado: o.estado,
+    notas_taller: o.notasTaller,
+    created_at: o.createdAt.toISOString(),
   }
 }

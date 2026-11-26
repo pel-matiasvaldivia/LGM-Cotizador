@@ -14,7 +14,9 @@ export default function PreaprobarOferta({
   estado: string
   reunionUrl?: string | null
 }) {
-  const yaPreaprobado = estado === 'preaprobado' || estado === 'aprobado'
+  // Desde la pre-aprobación en adelante (contrato, firma, producción) ya no hay
+  // nada que pre-aprobar.
+  const yaPreaprobado = estado !== 'borrador' && estado !== 'enviado'
   const [hecho, setHecho] = useState(yaPreaprobado)
   const [url, setUrl] = useState<string | null>(reunionUrl || null)
   const [loading, setLoading] = useState(false)

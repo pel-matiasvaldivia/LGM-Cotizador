@@ -2,7 +2,8 @@ import { asc, desc, eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import { db } from '@/db'
 import { datosTecnicos, documentosProyecto, presupuestoBaseItems } from '@/db/schema'
-import { datosTecnicosToRow, itemToRow, proyectoToRow } from '@/lib/serializers'
+import { contratoToRow, datosTecnicosToRow, itemToRow, ordenToRow, proyectoToRow } from '@/lib/serializers'
+import { getContrato, getOrdenProduccion } from '@/lib/cierre'
 import { isUuid } from '@/lib/api-helpers'
 import { calcularResumen } from '@/lib/calculator'
 import { getParametros } from '@/lib/parametros'
@@ -47,6 +48,10 @@ export default async function ProyectoDetallePage({
     created_at: d.createdAt.toISOString(),
   }))
 
+  // Cierre de la venta: contrato y orden de producción, si ya existen.
+  const contrato = await getContrato(id)
+  const orden = await getOrdenProduccion(id)
+
   return (
     <ProyectoDetalle
       proyecto={proyectoToRow(proyecto)}
@@ -54,6 +59,8 @@ export default async function ProyectoDetallePage({
       initialItems={items.map(itemToRow)}
       initialResumen={resumen}
       documentos={documentos}
+      initialContrato={contrato ? contratoToRow(contrato) : null}
+      initialOrden={orden ? ordenToRow(orden) : null}
     />
   )
 }
