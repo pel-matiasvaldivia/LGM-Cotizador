@@ -48,6 +48,11 @@ export const tenants = pgTable('tenants', {
   logoOscuroBase64: text('logo_oscuro_base64'),
   logoAlto: integer('logo_alto').notNull().default(48),
 
+  // Cotizador público: si el visitante ve el precio orientativo mientras arma
+  // la nave. Apagarlo es una decisión comercial (no mostrar números antes de
+  // que los revise un comercial), no un problema de cálculo.
+  mostrarPrecioEstimado: boolean('mostrar_precio_estimado').notNull().default(true),
+
   // Textos de la landing (bloques opcionales; lo que falte cae a los defaults
   // de la config de archivo). Ver BrandLanding en src/lib/branding.ts.
   landing: jsonb('landing').notNull().default(sql`'{}'::jsonb`),
@@ -77,6 +82,11 @@ export const usuarios = pgTable('usuarios', {
   // les crea su primer admin. Es ortogonal a `rol`, que es el rol dentro de la
   // empresa por la que el usuario entra.
   superadmin: boolean('superadmin').notNull().default(false),
+  // Verificación del email (sólo aplica a las cuentas de cliente, que son las
+  // que se registran solas). Sin verificar no se ven presupuestos.
+  emailVerificadoAt: timestamp('email_verificado_at', { withTimezone: true }),
+  verificacionTokenHash: text('verificacion_token_hash'),
+  verificacionExpira: timestamp('verificacion_expira', { withTimezone: true }),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   // El mismo email puede existir en dos empresas distintas: la unicidad es
   // por tenant, no global.

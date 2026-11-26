@@ -75,8 +75,14 @@ export async function enviarEmail(input: EmailInput): Promise<EmailResultado> {
   if (destinatarios.length === 0) return { sent: false, reason: 'sin destinatario' }
 
   if (!emailConfigurado()) {
-    // Modo desarrollo / sin proveedor: dejamos traza y seguimos.
-    console.info(`[email] (no enviado — RESEND_API_KEY ausente) → ${destinatarios.join(', ')} · ${input.subject}`)
+    // Sin proveedor configurado dejamos traza y seguimos. Va también el cuerpo
+    // en texto: es la única forma de que alguien recupere un enlace de
+    // confirmación en un despliegue sin correo. En producción hay que
+    // configurar RESEND_API_KEY — con el portal del cliente no es opcional.
+    console.info(
+      `[email] (no enviado — RESEND_API_KEY ausente) → ${destinatarios.join(', ')} · ${input.subject}` +
+      (input.text ? `\n[email] cuerpo: ${input.text}` : ''),
+    )
     return { sent: false, reason: 'no configurado' }
   }
 

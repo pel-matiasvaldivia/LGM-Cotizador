@@ -55,21 +55,29 @@ services:
       timeout: 5s
       retries: 12
 
-  # Backup diario de la base a ./backups (rotación: 14 días)
+  # Backup diario: dump verificado en ./backups y copia fuera del servidor.
+  # Ver scripts/backup.sh — sin BACKUP_REMOTO avisa en cada corrida que el
+  # respaldo vive sólo en esta máquina.
   backup:
     image: postgres:16-alpine
     container_name: logmetal_backup
     restart: unless-stopped
     environment:
+      - PGHOST=db
+      - PGUSER=lgm
+      - PGDATABASE=cotizador
       - PGPASSWORD=${POSTGRES_PASSWORD:?definir POSTGRES_PASSWORD en .env}
+      - BACKUP_RETENCION_DIAS=${BACKUP_RETENCION_DIAS:-14}
+      - BACKUP_CADA_SEGUNDOS=${BACKUP_CADA_SEGUNDOS:-86400}
+      # Destino remoto en formato rclone (ej: b2:mi-bucket/cotizador). Las
+      # credenciales van como RCLONE_CONFIG_* en el .env.
+      - BACKUP_REMOTO=${BACKUP_REMOTO:-}
+    env_file:
+      - .env
     volumes:
       - ./backups:/backups
-    entrypoint: >
-      sh -c 'while true; do
-        pg_dump -h db -U lgm cotizador | gzip > /backups/cotizador_$$(date +%Y%m%d_%H%M).sql.gz &&
-        find /backups -name "*.sql.gz" -mtime +14 -delete;
-        sleep 86400;
-      done'
+      - ./scripts/backup.sh:/usr/local/bin/backup.sh:ro
+    entrypoint: ["sh", "/usr/local/bin/backup.sh"]
     depends_on:
       db:
         condition: service_healthy

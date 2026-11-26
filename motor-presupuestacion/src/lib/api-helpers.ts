@@ -17,7 +17,15 @@ export function withErrorHandling<T extends unknown[]>(
       return await handler(...args)
     } catch (error) {
       if (error instanceof AuthError) {
-        return NextResponse.json({ error: error.message }, { status: error.status })
+        // Un 429 sin Retry-After obliga al cliente a adivinar cuándo reintentar.
+        const reintentarEn = (error as { reintentarEn?: number }).reintentarEn
+        return NextResponse.json(
+          { error: error.message },
+          {
+            status: error.status,
+            headers: reintentarEn ? { 'Retry-After': String(reintentarEn) } : undefined,
+          },
+        )
       }
       const message = error instanceof Error ? error.message : 'Error interno'
       console.error('[api]', message)

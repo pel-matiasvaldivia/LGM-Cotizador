@@ -214,6 +214,8 @@ export async function crearUsuarioDeEmpresa(
       nombre: String(entrada.nombre || '').trim() || 'Administrador',
       rol,
       passwordHash: await hashPassword(entrada.password),
+      // La crea el administrador de la plataforma: no hay nada que confirmar.
+      emailVerificadoAt: new Date(),
     })
     .returning({ id: usuarios.id, email: usuarios.email })
   return user

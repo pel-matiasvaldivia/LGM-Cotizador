@@ -3,6 +3,7 @@ import { db } from '@/db'
 import { datosTecnicos, documentosProyecto, proyectos } from '@/db/schema'
 import { withErrorHandling } from '@/lib/api-helpers'
 import { requireTenant } from '@/lib/tenant'
+import { exigirLimite, LIMITES } from '@/lib/rate-limit'
 import { notificarConsultaRecibida } from '@/lib/notificaciones'
 
 // Límites de la carga de documentación (base64 inline en la DB).
@@ -17,6 +18,9 @@ type DocEntrada = { nombre?: string; tipoMime?: string; tamanoBytes?: number; co
 // (canal 'formulario_cliente') para que el comercial lo tome y cotice.
 export const POST = withErrorHandling(async (req: Request) => {
   // El formulario es público, pero el proyecto entra en la empresa del dominio.
+  // El límite frena el alta masiva: cada solicitud crea un proyecto y puede
+  // dejar hasta 24 MB de adjuntos en la base.
+  exigirLimite(req, 'solicitud', LIMITES.solicitud)
   const tenant = await requireTenant()
   const body = await req.json()
 

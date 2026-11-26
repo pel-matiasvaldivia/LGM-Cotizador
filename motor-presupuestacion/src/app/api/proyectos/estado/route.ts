@@ -5,6 +5,7 @@ import { proyectos } from '@/db/schema'
 import { requireUser } from '@/lib/auth'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
 import { requireProyecto } from '@/lib/scope'
+import { exigirVerificado } from '@/lib/verificacion'
 import { linkReunion, notificarPreaprobacion, notificarPresupuestoEnviado } from '@/lib/notificaciones'
 
 // Ciclo de vida de un presupuesto. El cliente ve el presupuesto (precio + PDF)
@@ -32,7 +33,9 @@ export const PATCH = withErrorHandling(async (req: Request) => {
 
   const esStaff = user.rol === 'comercial' || user.rol === 'admin'
   if (!esStaff) {
-    // El cliente sólo puede pre-aprobar su propio presupuesto ya enviado.
+    // El cliente sólo puede pre-aprobar su propio presupuesto ya enviado, y
+    // "propio" exige tener el email confirmado.
+    exigirVerificado(user)
     const propio = proyecto.email && proyecto.email.toLowerCase() === user.email.toLowerCase()
     const transicionValida = estado === 'preaprobado' && proyecto.estado === 'enviado'
     if (!propio || !transicionValida) {
