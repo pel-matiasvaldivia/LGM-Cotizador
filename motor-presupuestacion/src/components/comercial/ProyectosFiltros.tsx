@@ -8,7 +8,9 @@ const estadoLabels: Record<string, string> = {
   borrador:    'Borrador',
   enviado:     'Enviado',
   preaprobado: 'Preaprobado',
-  aprobado:    'Aprobado',
+  contrato:    'Contrato a firmar',
+  aprobado:    'Contrato firmado',
+  produccion:  'En producción',
 }
 
 export default function ProyectosFiltros({

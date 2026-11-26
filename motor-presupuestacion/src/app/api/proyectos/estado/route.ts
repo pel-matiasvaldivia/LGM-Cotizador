@@ -10,7 +10,12 @@ import { linkReunion, notificarPreaprobacion, notificarPresupuestoEnviado } from
 
 // Ciclo de vida de un presupuesto. El cliente ve el presupuesto (precio + PDF)
 // recién a partir de 'enviado'.
-const ESTADOS = ['borrador', 'enviado', 'preaprobado', 'aprobado'] as const
+const ESTADOS = ['borrador', 'enviado', 'preaprobado', 'contrato', 'aprobado', 'produccion'] as const
+
+// Estados que maneja el cierre de la venta (contrato y orden de producción) y
+// que por lo tanto no se setean a mano: los pone el flujo, con su documento
+// detrás. Dejarlos acá habilitaría marcar un proyecto como firmado sin contrato.
+const ESTADOS_DEL_CIERRE: string[] = ['contrato', 'aprobado', 'produccion']
 type Estado = (typeof ESTADOS)[number]
 
 // PATCH → cambia el estado de un proyecto.
@@ -27,6 +32,13 @@ export const PATCH = withErrorHandling(async (req: Request) => {
   }
   if (!ESTADOS.includes(estado)) {
     return NextResponse.json({ error: 'Estado inválido' }, { status: 400 })
+  }
+
+  if (ESTADOS_DEL_CIERRE.includes(estado)) {
+    return NextResponse.json(
+      { error: 'Ese estado lo pone el cierre de la venta (contrato / orden de producción)' },
+      { status: 400 },
+    )
   }
 
   const proyecto = await requireProyecto(proyectoId)

@@ -399,10 +399,11 @@ function construir(marca) {
       ['5.', 'Etapa B · El cliente entra a su portal'],
       ['6.', 'Etapa C · El comercial analiza, modifica y envía'],
       ['7.', 'Etapa D · El cliente ve el presupuesto y pre-aprueba'],
-      ['8.', 'Notificaciones automáticas por email'],
-      ['9.', 'Mantenimiento del catálogo y los parámetros'],
-      ['10.', 'Preguntas frecuentes'],
-      ['11.', 'Datos de la empresa'],
+      ['8.', 'Etapa E · Cierre de la venta: contrato y orden de producción'],
+      ['9.', 'Notificaciones automáticas por email'],
+      ['10.', 'Mantenimiento del catálogo y los parámetros'],
+      ['11.', 'Preguntas frecuentes'],
+      ['12.', 'Datos de la empresa'],
     ].map(([n, t]) => parrafo([`${n}  ${t}`], { spacing: { after: 90 } })),
     new Paragraph({ children: [new PageBreak()] }),
   ]
@@ -420,6 +421,7 @@ function construir(marca) {
     vineta([['B. ', true], 'El cliente entra a su portal y sigue el estado de su proyecto.']),
     vineta([['C. ', true], 'El comercial analiza el costeo interno, modifica, descarga el PDF y lo envía.']),
     vineta([['D. ', true], 'El cliente ve el presupuesto y lo pre-aprueba; se coordina la reunión.']),
+    vineta([['E. ', true], 'Se cierra la venta: contrato, firma y orden de producción.']),
     parrafo([
       'Este manual recorre las cuatro etapas con capturas reales, tomadas sobre un proyecto de ejemplo: ',
       ['PROY-2026-2912', true],
@@ -676,7 +678,69 @@ function construir(marca) {
     new Paragraph({ children: [new PageBreak()] }),
 
     // ── 8 ──
-    h1('8. Notificaciones automáticas por email'),
+    h1('8. Etapa E · Cierre de la venta: contrato y orden de producción'),
+    parrafo([
+      'Lo que se acuerda en la reunión con el cliente (presencial o por Meet) se registra en el ' +
+      'proyecto, en la sección ', ['Cierre de la venta', true],
+      '. Son tres pasos encadenados: cada uno se habilita cuando terminó el anterior.',
+    ]),
+
+    h2('8.1 · Cerrar la venta y emitir el contrato'),
+    parrafo([
+      'El comercial presiona ', ['Cerrar la venta', true],
+      ' y carga lo acordado: plazo de entrega, fecha de inicio, anticipo, forma de pago, lugar de ' +
+      'entrega, garantía y condiciones particulares. Con eso se emite el contrato de obra, que ' +
+      'recoge el alcance y los importes del presupuesto aprobado.',
+    ]),
+    nota(
+      'El contrato congela el presupuesto',
+      'Lo que se firma queda guardado tal como estaba al emitirlo. Si después alguien modifica el ' +
+      'presupuesto, el contrato firmado sigue diciendo lo que se firmó. Mientras no esté firmado se ' +
+      'pueden corregir las condiciones y se vuelve a emitir.',
+      marca,
+    ),
+    p(''),
+
+    h2('8.2 · La firma'),
+    parrafo([
+      'El contrato le llega al cliente por mail, en PDF, y puede ', ['firmarlo desde su portal', true],
+      ': lee el contrato, escribe su nombre, acepta las condiciones y firma. Queda registrada la ' +
+      'fecha, la hora y la cuenta desde la que firmó.',
+    ]),
+    parrafo([
+      'Si prefieren firmarlo en papel, el comercial sube el escaneo con ',
+      ['Subir contrato firmado', true],
+      ' y queda registrado igual. Sin el archivo no se da por firmado: el respaldo es el documento.',
+    ]),
+
+    h2('8.3 · La orden de producción'),
+    parrafo([
+      'Con el contrato firmado se habilita ', ['Generar orden de producción', true],
+      '. La orden sale del contrato firmado (no de un recálculo) y lleva todo lo que oficina técnica ' +
+      'necesita: datos de la obra y del cliente, especificaciones técnicas, alcance, despiece por ' +
+      'rubro con material y mano de obra, fecha de entrega comprometida y prioridad. Se le manda ' +
+      'por mail a oficina técnica con el PDF adjunto.',
+    ]),
+    nota(
+      'Al taller no va nada sin la venta cerrada',
+      'La orden de producción no se puede emitir antes de que el contrato esté firmado. No es una ' +
+      'convención de la pantalla: el sistema lo rechaza.',
+      marca,
+    ),
+    p(''),
+    parrafo([
+      'La orden es un ', ['documento interno', true],
+      ': muestra los costos de mano de obra, así que el cliente no la ve ni la recibe.',
+    ]),
+    parrafo([
+      'A medida que avanzan estos pasos, el estado del proyecto va cambiando y el cliente lo ve en ' +
+      'su portal: ', ['Contrato', true], ' (hay contrato para firmar), ', ['Aprobado', true],
+      ' (contrato firmado) y ', ['En producción', true], ' (orden emitida).',
+    ]),
+    new Paragraph({ children: [new PageBreak()] }),
+
+    // ── 9 ──
+    h1('9. Notificaciones automáticas por email'),
     parrafo([
       'Desde que el cliente deja su email, la plataforma avisa en los momentos clave. No hay que ' +
       'hacer nada: salen solas.',
@@ -688,6 +752,9 @@ function construir(marca) {
         ['El cliente registra su consulta', 'Equipo comercial', 'Aviso de que hay una cotización nueva a la espera de revisión.'],
         ['El comercial envía el presupuesto', 'Cliente', 'Enlace a la plataforma y el PDF R-04 adjunto, invitándolo a pre-aprobar.'],
         ['El cliente pre-aprueba', 'Equipo comercial y cliente', 'Dispara la reunión: invitación de Google Calendar con enlace de Google Meet, y confirmación al cliente.'],
+        ['Se emite el contrato', 'Cliente', 'El contrato en PDF, con el enlace al portal para firmarlo.'],
+        ['Se firma el contrato', 'Equipo comercial y cliente', 'Aviso de que ya se puede emitir la orden de producción, y confirmación al cliente.'],
+        ['Se emite la orden de producción', 'Oficina técnica', 'La orden en PDF, con el despiece y la fecha de entrega comprometida.'],
       ],
       [2700, 1900, 5038],
       marca,
@@ -703,7 +770,7 @@ function construir(marca) {
     new Paragraph({ children: [new PageBreak()] }),
 
     // ── 9 ──
-    h1('9. Mantenimiento del catálogo y los parámetros'),
+    h1('10. Mantenimiento del catálogo y los parámetros'),
     parrafo([
       'El presupuesto sale tan bien como los datos que lo alimentan. Tres menús, todos del rol ', ['admin', true], ':',
     ]),
@@ -721,7 +788,7 @@ function construir(marca) {
     new Paragraph({ children: [new PageBreak()] }),
 
     // ── 10 ──
-    h1('10. Preguntas frecuentes'),
+    h1('11. Preguntas frecuentes'),
     ...[
       ['El cliente no ve su presupuesto en el portal.',
        'Dos causas posibles: el comercial todavía no presionó “Enviar presupuesto al cliente”, o el ' +
@@ -746,7 +813,7 @@ function construir(marca) {
     new Paragraph({ children: [new PageBreak()] }),
 
     // ── 11 ──
-    h1('11. Datos de la empresa'),
+    h1('12. Datos de la empresa'),
     parrafo(['Los datos cargados en la plataforma, tal como se imprimen en el presupuesto:']),
     tabla(
       ['Dato', 'Valor'],

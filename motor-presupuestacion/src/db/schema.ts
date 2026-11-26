@@ -150,7 +150,13 @@ export const proyectos = pgTable('proyectos', {
   email: text('email'),
   ubicacion: text('ubicacion'),
   canalOrigen: text('canal_origen').notNull().default('manual'),
-  estado: text('estado', { enum: ['borrador', 'enviado', 'preaprobado', 'aprobado'] }).notNull().default('borrador'),
+  // Ciclo de vida completo, de la consulta al taller:
+  //   borrador → enviado → preaprobado → contrato → aprobado → produccion
+  // 'contrato' es el contrato emitido esperando firma; 'aprobado' es el
+  // contrato ya firmado; 'produccion' es con la orden emitida.
+  estado: text('estado', {
+    enum: ['borrador', 'enviado', 'preaprobado', 'contrato', 'aprobado', 'produccion'],
+  }).notNull().default('borrador'),
   observaciones: text('observaciones'),
   // Códigos para la exportación a Flexxus (se asignan al exportar)
   codigoProyectoFlexxus: integer('codigo_proyecto_flexxus'),
@@ -248,6 +254,72 @@ export const documentosProyecto = pgTable('documentos_proyecto', {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 }, (t) => [index('documentos_proyecto_idx').on(t.proyectoId)])
 
+// ─── Cierre de la venta ────────────────────────────────────────
+// El contrato congela lo acordado en la reunión de cierre: el presupuesto tal
+// como quedó aprobado (en `snapshot`), los plazos y la forma de pago. Que el
+// snapshot esté acá y no se recalcule es el punto: si mañana alguien toca el
+// presupuesto, el contrato firmado sigue diciendo lo que se firmó.
+export const contratos = pgTable('contratos', {
+  id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
+  proyectoId: uuid('proyecto_id').notNull().references(() => proyectos.id, { onDelete: 'cascade' }),
+  numero: text('numero').notNull(),
+
+  plazoEntregaDias: integer('plazo_entrega_dias').notNull().default(0),
+  // Fechas como texto ISO 'AAAA-MM-DD': acá sólo interesa el día, y una
+  // columna date vuelve del driver como Date con hora y zona.
+  fechaInicio: text('fecha_inicio').notNull().default(''),
+  anticipoPct: doublePrecision('anticipo_pct').notNull().default(0),
+  formaPago: text('forma_pago').notNull().default(''),
+  lugarEntrega: text('lugar_entrega').notNull().default(''),
+  garantiaMeses: integer('garantia_meses').notNull().default(0),
+  observaciones: text('observaciones').notNull().default(''),
+
+  montoSinIvaUsd: doublePrecision('monto_sin_iva_usd').notNull().default(0),
+  ivaUsd: doublePrecision('iva_usd').notNull().default(0),
+  montoTotalUsd: doublePrecision('monto_total_usd').notNull().default(0),
+  tipoCambio: doublePrecision('tipo_cambio').notNull().default(0),
+
+  snapshot: jsonb('snapshot').notNull().default(sql`'{}'::jsonb`),
+
+  firmadoAt: timestamp('firmado_at', { withTimezone: true }),
+  firmadoPor: text('firmado_por').notNull().default(''),
+  firmadoEmail: text('firmado_email').notNull().default(''),
+  // 'digital' = el cliente aceptó desde su portal; 'manual' = se subió el
+  // contrato firmado en papel.
+  firmaMetodo: text('firma_metodo', { enum: ['digital', 'manual'] }),
+  firmaReferencia: text('firma_referencia').notNull().default(''),
+
+  emitidoPor: uuid('emitido_por').references(() => usuarios.id, { onDelete: 'set null' }),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (t) => [
+  uniqueIndex('contratos_proyecto_idx').on(t.proyectoId),
+  uniqueIndex('contratos_tenant_numero_idx').on(t.tenantId, t.numero),
+])
+
+// Lo que recibe oficina técnica para empezar: datos técnicos, despiece y
+// plazos. Sale del contrato firmado, nunca antes.
+export const ordenesProduccion = pgTable('ordenes_produccion', {
+  id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
+  proyectoId: uuid('proyecto_id').notNull().references(() => proyectos.id, { onDelete: 'cascade' }),
+  contratoId: uuid('contrato_id').references(() => contratos.id, { onDelete: 'set null' }),
+  numero: text('numero').notNull(),
+
+  fechaEntregaComprometida: text('fecha_entrega_comprometida').notNull().default(''),
+  prioridad: text('prioridad', { enum: ['baja', 'normal', 'alta'] }).notNull().default('normal'),
+  estado: text('estado', { enum: ['abierta', 'en_proceso', 'cerrada'] }).notNull().default('abierta'),
+  notasTaller: text('notas_taller').notNull().default(''),
+
+  snapshot: jsonb('snapshot').notNull().default(sql`'{}'::jsonb`),
+
+  emitidaPor: uuid('emitida_por').references(() => usuarios.id, { onDelete: 'set null' }),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (t) => [
+  uniqueIndex('ordenes_produccion_proyecto_idx').on(t.proyectoId),
+  uniqueIndex('ordenes_produccion_tenant_numero_idx').on(t.tenantId, t.numero),
+])
+
 // ─── Ingestas (WhatsApp / audio / texto crudo) ─────────────────
 
 export const ingestas = pgTable('ingestas', {
@@ -285,10 +357,21 @@ export const ratiosCostosRelations = relations(ratiosCostos, ({ one }) => ({
   subrubro: one(subrubros, { fields: [ratiosCostos.subrubroId], references: [subrubros.id] }),
 }))
 
-export const proyectosRelations = relations(proyectos, ({ many }) => ({
+export const proyectosRelations = relations(proyectos, ({ many, one }) => ({
   datosTecnicos: many(datosTecnicos),
   items: many(presupuestoBaseItems),
   documentos: many(documentosProyecto),
+  contrato: one(contratos, { fields: [proyectos.id], references: [contratos.proyectoId] }),
+  ordenProduccion: one(ordenesProduccion, { fields: [proyectos.id], references: [ordenesProduccion.proyectoId] }),
+}))
+
+export const contratosRelations = relations(contratos, ({ one }) => ({
+  proyecto: one(proyectos, { fields: [contratos.proyectoId], references: [proyectos.id] }),
+}))
+
+export const ordenesProduccionRelations = relations(ordenesProduccion, ({ one }) => ({
+  proyecto: one(proyectos, { fields: [ordenesProduccion.proyectoId], references: [proyectos.id] }),
+  contrato: one(contratos, { fields: [ordenesProduccion.contratoId], references: [contratos.id] }),
 }))
 
 export const documentosProyectoRelations = relations(documentosProyecto, ({ one }) => ({
@@ -334,3 +417,7 @@ export type PrecioReferencia = typeof preciosReferencia.$inferSelect
 export type NuevoPrecioReferencia = typeof preciosReferencia.$inferInsert
 export type DocumentoProyecto = typeof documentosProyecto.$inferSelect
 export type NuevoDocumentoProyecto = typeof documentosProyecto.$inferInsert
+export type Contrato = typeof contratos.$inferSelect
+export type NuevoContrato = typeof contratos.$inferInsert
+export type OrdenProduccion = typeof ordenesProduccion.$inferSelect
+export type NuevaOrdenProduccion = typeof ordenesProduccion.$inferInsert

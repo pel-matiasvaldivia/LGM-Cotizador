@@ -7,14 +7,16 @@ import { requireTenant } from '@/lib/tenant'
 import ProyectosFiltros from '@/components/comercial/ProyectosFiltros'
 import CompartirFormulario from '@/components/comercial/CompartirFormulario'
 
-const ESTADOS = ['borrador', 'enviado', 'preaprobado', 'aprobado'] as const
+const ESTADOS = ['borrador', 'enviado', 'preaprobado', 'contrato', 'aprobado', 'produccion'] as const
 type Estado = (typeof ESTADOS)[number]
 
 const estadoConfig: Record<string, { label: string; color: string }> = {
   borrador:    { label: 'Borrador',    color: 'bg-slate-100 text-slate-600' },
   enviado:     { label: 'Enviado',     color: 'bg-blue-100 text-blue-700' },
   preaprobado: { label: 'Preaprobado', color: 'bg-amber-100 text-amber-700' },
-  aprobado:    { label: 'Aprobado',    color: 'bg-emerald-100 text-emerald-700' },
+  contrato:    { label: 'Contrato a firmar', color: 'bg-purple-100 text-purple-700' },
+  aprobado:    { label: 'Contrato firmado',  color: 'bg-emerald-100 text-emerald-700' },
+  produccion:  { label: 'En producción',     color: 'bg-brand-soft text-brand' },
 }
 
 export default async function ProyectosPage({

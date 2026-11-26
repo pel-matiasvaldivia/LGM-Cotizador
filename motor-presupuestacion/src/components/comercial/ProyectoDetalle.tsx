@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Download, FileText, Calculator, Loader2, ArrowLeft, User, MapPin, Building2, Send, Box, Truck, Plus, Trash2, Pencil, Check, X, Paperclip } from 'lucide-react'
 import Link from 'next/link'
 import AgregarItemModal from './AgregarItemModal'
+import CierreVenta, { type ContratoRow, type OrdenRow } from './CierreVenta'
 
 type Tab = 'base0' | 'cliente'
 
@@ -13,12 +14,16 @@ export default function ProyectoDetalle({
   initialItems,
   initialResumen,
   documentos = [],
+  initialContrato = null,
+  initialOrden = null,
 }: {
   proyecto: any
   datosTecnicos: any
   initialItems: any[]
   initialResumen: any
   documentos?: any[]
+  initialContrato?: ContratoRow | null
+  initialOrden?: OrdenRow | null
 }) {
   const [tab, setTab] = useState<Tab>('base0')
   const [items, setItems] = useState<any[]>(initialItems)
@@ -269,14 +274,18 @@ export default function ProyectoDetalle({
     borrador:    'bg-slate-100 text-slate-600',
     enviado:     'bg-blue-100 text-blue-700',
     preaprobado: 'bg-amber-100 text-amber-700',
+    contrato:    'bg-purple-100 text-purple-700',
     aprobado:    'bg-emerald-100 text-emerald-700',
+    produccion:  'bg-brand-soft text-brand',
   }
 
   const estadoLabels: Record<string, string> = {
     borrador:    'Borrador',
     enviado:     'Enviado',
     preaprobado: 'Preaprobado',
-    aprobado:    'Aprobado',
+    contrato:    'Contrato a firmar',
+    aprobado:    'Contrato firmado',
+    produccion:  'En producción',
   }
 
   return (
@@ -427,6 +436,19 @@ export default function ProyectoDetalle({
           )}
         </div>
       </div>
+
+      {/* Cierre de la venta: contrato → firma → orden de producción. Aparece
+          cuando el presupuesto ya salió: antes de eso no hay nada que cerrar. */}
+      {estado !== 'borrador' && (
+        <CierreVenta
+          proyectoId={proyecto.id}
+          estado={estado}
+          contrato={initialContrato}
+          orden={initialOrden}
+          ubicacionObra={ubicacion}
+          onEstado={setEstado}
+        />
+      )}
 
       {/* Documentación adjunta por el cliente */}
       {documentos.length > 0 && (

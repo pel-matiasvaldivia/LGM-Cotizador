@@ -41,6 +41,15 @@ export function equipoComercial(): string[] {
   return raw.split(',').map((e) => e.trim()).filter(Boolean)
 }
 
+// Oficina técnica / taller: reciben la orden de producción. Sin una lista
+// propia cae al equipo comercial, que es quien venía recibiendo todo: mejor que
+// la orden llegue a alguien a que no llegue a nadie.
+export function equipoTecnico(): string[] {
+  const raw = process.env.EQUIPO_TECNICO_EMAILS || ''
+  const propios = raw.split(',').map((e) => e.trim()).filter(Boolean)
+  return propios.length ? propios : equipoComercial()
+}
+
 // URL base de la plataforma, para armar los links de los mails.
 export function appUrl(): string {
   return (process.env.APP_URL || 'http://localhost:3000').replace(/\/$/, '')
