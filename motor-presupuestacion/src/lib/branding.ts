@@ -115,6 +115,15 @@ export interface Brand {
   ctaFinal: { titulo: string; subtitulo: string; boton: string }
   /** Se agrega al copyright del footer: "© 2026 Razón Social · <footerNota>". */
   footerNota: string
+  /** Comportamiento del cotizador público. */
+  cotizador: {
+    /**
+     * Mostrar el precio orientativo en vivo mientras el visitante arma la nave.
+     * Apagado, el cotizador no pide ninguna estimación y la pantalla final
+     * avisa que el equipo comercial ya tiene la solicitud.
+     */
+    mostrarPrecioEstimado: boolean
+  }
 }
 
 /* ─── Marca neutra de base ───────────────────────────────────── */
@@ -213,6 +222,9 @@ const BRAND_BASE: Brand = {
     boton: 'Cotizar proyecto',
   },
   footerNota: '',
+  cotizador: {
+    mostrarPrecioEstimado: true,
+  },
 }
 
 /* ─── Merge y saneado ────────────────────────────────────────── */
@@ -309,6 +321,11 @@ function overridesEnv(): Json {
   set(patch, 'logoOscuro', env.BRAND_LOGO_OSCURO)
   set(patch, 'footerNota', env.BRAND_FOOTER_NOTA)
   if (env.BRAND_LOGO_ALTO) patch.logoAlto = Number(env.BRAND_LOGO_ALTO)
+
+  // Sin tenant en la base, el precio en vivo se apaga desde el entorno.
+  if (env.BRAND_PRECIO_ESTIMADO !== undefined && env.BRAND_PRECIO_ESTIMADO !== '') {
+    patch.cotizador = { mostrarPrecioEstimado: !/^(0|false|no|off)$/i.test(env.BRAND_PRECIO_ESTIMADO) }
+  }
 
   const theme: Json = {}
   set(theme, 'primary', env.BRAND_COLOR_PRIMARY)
@@ -450,6 +467,9 @@ export function brandDesdeTenant(tenant: Tenant | null): Brand {
       localidad: siDefinido(tenant.localidad, conLanding.contacto.localidad),
       provincia: siDefinido(tenant.provincia, conLanding.contacto.provincia),
       codigoPostal: siDefinido(tenant.codigoPostal, conLanding.contacto.codigoPostal),
+    },
+    cotizador: {
+      mostrarPrecioEstimado: tenant.mostrarPrecioEstimado,
     },
     fiscal: {
       cuit: siDefinido(tenant.cuit, conLanding.fiscal.cuit),

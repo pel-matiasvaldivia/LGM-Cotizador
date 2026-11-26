@@ -450,10 +450,20 @@ function construir(marca) {
         ['Domicilio', 'Domicilio legal/comercial, localidad, provincia y código postal.', 'Encabezado del presupuesto y sección de contacto del sitio.'],
         ['Contacto', 'Teléfono, email, web y WhatsApp.', 'Sitio público y pie del presupuesto.'],
         ['Identidad visual', 'Logo (claro y oscuro), color de acento y color institucional.', 'Todo el sitio, el portal y el PDF. Los hovers, fondos suaves y bordes se derivan solos de esos colores.'],
+        ['Cotizador', 'Si el visitante ve el precio estimado mientras arma su nave.', 'El cotizador público. Desactivado, no se muestra ningún precio.'],
         ['Textos del sitio', 'Títulos y textos de la landing.', 'Sitio público. Lo que se deje vacío usa el texto por defecto.'],
         ['Servicios', 'Las tarjetas de servicios del sitio.', 'Sitio público. Sin ninguna cargada, se muestran las que trae el sistema.'],
       ],
       [1500, 4200, 3938],
+      marca,
+    ),
+    p(''),
+    nota(
+      'Mostrar o no el precio estimado',
+      'En la sección Cotizador se decide si el visitante ve un precio orientativo mientras arma su ' +
+      'nave. Si se desactiva, el formulario no muestra ningún número en ningún paso y la pantalla ' +
+      'final le avisa que el equipo comercial ya tiene su proyecto y se comunica a la brevedad. ' +
+      'El presupuesto interno se calcula igual: lo que cambia es sólo lo que ve el visitante.',
       marca,
     ),
     p(''),

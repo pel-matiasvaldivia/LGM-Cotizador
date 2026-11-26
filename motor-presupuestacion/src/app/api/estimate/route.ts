@@ -10,7 +10,14 @@ import { AuthError } from '@/lib/errors'
 export async function POST(req: Request) {
   try {
     exigirLimite(req, 'estimate', LIMITES.estimacion)
-    await requireTenant()
+    const tenant = await requireTenant()
+
+    // La empresa puede decidir no mostrar precios antes de que los revise un
+    // comercial. Si eligió eso, acá tampoco se calculan: de nada serviría
+    // ocultar el cuadro si el número sigue a un fetch de distancia.
+    if (!tenant.mostrarPrecioEstimado) {
+      return NextResponse.json({ error: 'No disponible' }, { status: 404 })
+    }
 
     const { datosTecnicos } = await req.json()
 

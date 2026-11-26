@@ -58,6 +58,7 @@ export const GET = withErrorHandling(async () => {
       colorInk: t.colorInk,
       colorSurface: t.colorSurface,
       logoAlto: t.logoAlto,
+      mostrarPrecioEstimado: t.mostrarPrecioEstimado,
       tieneLogo: Boolean(t.logoBase64),
       tieneLogoOscuro: Boolean(t.logoOscuroBase64),
       landing: t.landing ?? {},
@@ -85,6 +86,13 @@ export const PATCH = withErrorHandling(async (req: Request) => {
   // El nombre es lo único que no puede quedar vacío: es el wordmark de fallback.
   if (cambios.nombre !== undefined && !cambios.nombre) {
     return NextResponse.json({ error: 'El nombre de la empresa es obligatorio' }, { status: 400 })
+  }
+
+  if (body.mostrarPrecioEstimado !== undefined) {
+    if (typeof body.mostrarPrecioEstimado !== 'boolean') {
+      return NextResponse.json({ error: 'mostrarPrecioEstimado debe ser true o false' }, { status: 400 })
+    }
+    cambios.mostrarPrecioEstimado = body.mostrarPrecioEstimado
   }
 
   if (body.logoAlto !== undefined) {

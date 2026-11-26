@@ -54,6 +54,7 @@ type Empresa = {
   colorInk: string
   colorSurface: string
   logoAlto: number
+  mostrarPrecioEstimado: boolean
   tieneLogo: boolean
   tieneLogoOscuro: boolean
   landing: Landing
@@ -159,6 +160,33 @@ function Color({
       </div>
       {ayuda && <p className="text-xs text-slate-400 mt-1">{ayuda}</p>}
     </div>
+  )
+}
+
+function Check({
+  label,
+  checked,
+  onChange,
+  ayuda,
+}: {
+  label: string
+  checked: boolean
+  onChange: (v: boolean) => void
+  ayuda?: string
+}) {
+  return (
+    <label className="flex items-start gap-3 cursor-pointer">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="mt-0.5 h-5 w-5 shrink-0 rounded border-gray-300 text-brand accent-brand focus:ring-2 focus:ring-brand cursor-pointer"
+      />
+      <span>
+        <span className="block text-sm font-medium text-slate-600">{label}</span>
+        {ayuda && <span className="block text-xs text-slate-400 mt-1">{ayuda}</span>}
+      </span>
+    </label>
   )
 }
 
@@ -309,6 +337,7 @@ export default function EmpresaPage() {
         colorInk: e.colorInk,
         colorSurface: e.colorSurface,
         logoAlto: e.logoAlto,
+        mostrarPrecioEstimado: e.mostrarPrecioEstimado,
         landing: e.landing,
       }
       // undefined = no tocar; null = borrar el actual
@@ -427,6 +456,22 @@ export default function EmpresaPage() {
                      ayuda="Entre 16 y 160. Un logo apaisado necesita menos alto que uno cuadrado." />
             </div>
           </div>
+        </Seccion>
+
+        <Seccion
+          titulo="Cotizador"
+          desc="Cómo se comporta el cotizador público con los visitantes que todavía no son clientes."
+        >
+          <Check
+            label="Mostrar el precio estimado mientras el visitante arma su nave"
+            checked={e.mostrarPrecioEstimado}
+            onChange={(v) => set('mostrarPrecioEstimado', v)}
+            ayuda={
+              e.mostrarPrecioEstimado
+                ? 'El visitante ve un precio orientativo que se actualiza en vivo con cada opción que activa, y también al final del formulario.'
+                : 'Desactivado: el formulario no muestra ningún precio, y al terminar le avisa que el equipo comercial ya tiene su solicitud y se comunica a la brevedad.'
+            }
+          />
         </Seccion>
 
         <Seccion titulo="Textos del sitio" desc="Lo que no completes usa el texto por defecto.">

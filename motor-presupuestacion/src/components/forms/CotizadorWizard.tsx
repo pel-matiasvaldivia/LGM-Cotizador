@@ -4,7 +4,8 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Building2, Factory, Home, CheckCircle2, UploadCloud, Loader2,
-  Check, ChevronRight, Ruler, ToggleLeft, User, CalendarCheck, Info, ShieldCheck, MailCheck
+  Check, ChevronRight, Ruler, ToggleLeft, User, CalendarCheck, Info, ShieldCheck, MailCheck,
+  Headset
 } from 'lucide-react'
 import ClientAuthStep, { type AvisoVerificacion } from '@/components/auth/ClientAuthStep'
 import BrandLogo from '@/components/branding/BrandLogo'
@@ -126,6 +127,10 @@ function PriceBadge({ price, loading }: { price: number | null; loading: boolean
 }
 
 export default function CotizadorWizard({ brand }: { brand: Brand }) {
+  // La empresa decide si el visitante ve un precio orientativo antes de que lo
+  // revise un comercial. Apagado, el wizard ni siquiera pide la estimación.
+  const mostrarPrecio = brand.cotizador.mostrarPrecioEstimado
+
   const [step, setStep] = useState(0)
   const [formData, setFormData] = useState<Record<string, any>>({
     tipologia: '',
@@ -189,6 +194,7 @@ export default function CotizadorWizard({ brand }: { brand: Brand }) {
     const largo = Number(data.largo_m) || 0
     const superficie = ancho * largo
 
+    if (!mostrarPrecio) return
     if (!data.tipologia || superficie <= 0) return
 
     if (estimateTimerRef.current) clearTimeout(estimateTimerRef.current)
@@ -229,7 +235,7 @@ export default function CotizadorWizard({ brand }: { brand: Brand }) {
         setEstimating(false)
       }
     }, 600)
-  }, [])
+  }, [mostrarPrecio])
 
   // Re-estimar cuando cambien campos relevantes
   useEffect(() => {
@@ -327,7 +333,7 @@ export default function CotizadorWizard({ brand }: { brand: Brand }) {
     }
   }
 
-  const showPrice = step >= 2 && (estimatedPrice !== null || estimating)
+  const showPrice = mostrarPrecio && step >= 2 && (estimatedPrice !== null || estimating)
 
   const inputClass = "w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand outline-none transition-shadow text-brand-ink"
   const labelClass = "block text-sm font-semibold text-slate-600 mb-2"
@@ -606,7 +612,12 @@ export default function CotizadorWizard({ brand }: { brand: Brand }) {
 
               <div className="flex items-start gap-2 mt-4 text-xs text-slate-500 bg-slate-50 rounded-xl p-3">
                 <Info className="w-4 h-4 shrink-0 mt-0.5 text-slate-400" />
-                <span>El alcance definitivo lo confirma nuestro equipo comercial. Los adicionales que actives ajustan el precio estimado en vivo.</span>
+                <span>
+                  El alcance definitivo lo confirma nuestro equipo comercial.
+                  {mostrarPrecio
+                    ? ' Los adicionales que actives ajustan el precio estimado en vivo.'
+                    : ' Todo lo que actives queda incluido en la solicitud que recibe el comercial.'}
+                </span>
               </div>
 
               <div className="flex gap-3 mt-6">
@@ -725,7 +736,7 @@ export default function CotizadorWizard({ brand }: { brand: Brand }) {
                   {formData.incluye_portones && (
                     <><span>Portones:</span><span className="font-semibold">{Number(formData.cantidad_portones) || 1}</span></>
                   )}
-                  {estimatedPrice !== null && estimatedPrice > 0 && (
+                  {mostrarPrecio && estimatedPrice !== null && estimatedPrice > 0 && (
                     <><span>Precio estimado:</span><span className="font-bold text-emerald-600">USD {estimatedPrice.toLocaleString('es-AR', { maximumFractionDigits: 0 })}</span></>
                   )}
                 </div>
@@ -778,10 +789,14 @@ export default function CotizadorWizard({ brand }: { brand: Brand }) {
               <p className="text-slate-600 text-lg mb-2">
                 Recibimos tu solicitud correctamente.
               </p>
-              <p className="text-slate-500 mb-8 max-w-sm">
-                Nuestro equipo comercial revisará tu proyecto y se pondrá en contacto
-                a la brevedad para enviarte el presupuesto detallado y acordar una reunión.
-              </p>
+              {/* Sin precio en vivo esto lo dice la tarjeta de abajo, que es el
+                  mensaje principal de la pantalla: no se repite acá. */}
+              {mostrarPrecio && (
+                <p className="text-slate-500 mb-8 max-w-sm">
+                  Nuestro equipo comercial revisará tu proyecto y se pondrá en contacto
+                  a la brevedad para enviarte el presupuesto detallado y acordar una reunión.
+                </p>
+              )}
 
               {avisoVerificacion?.pendiente && (
                 <div className="bg-amber-50 border border-amber-200 rounded-2xl px-6 py-4 mb-6 max-w-sm text-left">
@@ -801,15 +816,35 @@ export default function CotizadorWizard({ brand }: { brand: Brand }) {
                 </div>
               )}
 
-              {estimatedPrice !== null && estimatedPrice > 0 && (
-                <div className="bg-emerald-50 border border-emerald-200 rounded-2xl px-6 py-4 mb-6 max-w-xs">
-                  <p className="text-xs text-emerald-600 font-semibold uppercase tracking-wide mb-1">Precio estimado</p>
-                  <p className="text-3xl font-extrabold text-emerald-700">
-                    USD {estimatedPrice.toLocaleString('es-AR', { maximumFractionDigits: 0 })}
-                  </p>
-                  <p className="text-xs text-slate-500 mt-1">
-                    Valor orientativo. El presupuesto definitivo puede variar según relevamiento técnico.
-                  </p>
+              {mostrarPrecio ? (
+                estimatedPrice !== null && estimatedPrice > 0 && (
+                  <div className="bg-emerald-50 border border-emerald-200 rounded-2xl px-6 py-4 mb-6 max-w-xs">
+                    <p className="text-xs text-emerald-600 font-semibold uppercase tracking-wide mb-1">Precio estimado</p>
+                    <p className="text-3xl font-extrabold text-emerald-700">
+                      USD {estimatedPrice.toLocaleString('es-AR', { maximumFractionDigits: 0 })}
+                    </p>
+                    <p className="text-xs text-slate-500 mt-1">
+                      Valor orientativo. El presupuesto definitivo puede variar según relevamiento técnico.
+                    </p>
+                  </div>
+                )
+              ) : (
+                // Sin precio en vivo, la pantalla final tiene que dejar al
+                // visitante tranquilo: no se va con un número, pero sí con la
+                // certeza de que alguien ya lo tiene.
+                <div className="bg-brand-soft border border-brand-line rounded-2xl px-6 py-5 mt-2 mb-8 max-w-md">
+                  <div className="flex items-start gap-4 text-left">
+                    <Headset className="w-7 h-7 text-brand shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-bold text-brand-ink mb-1">
+                        El equipo comercial ya tiene tu proyecto
+                      </p>
+                      <p className="text-sm text-slate-600">
+                        Lo estamos revisando para armar tu presupuesto a medida.
+                        Nos comunicamos con vos a la brevedad.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               )}
 
