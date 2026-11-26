@@ -1,212 +1,70 @@
-# Manual de operaciones — Cotizador LOG METAL
+# Manual de operaciones
 
-Recorrido completo de una cotización de punta a punta, con capturas reales de la
-plataforma tomadas ejecutando el flujo sobre el proyecto de ejemplo
-**`PROY-2026-2912`** (nave Alveolar de 20 × 30 × 8 m, 600 m², con oficina interior
-y baño).
+El manual que se le entrega a cada empresa que usa la plataforma, en Word
+(`.docx`) para que lo puedan editar, y con la marca de esa empresa: logo en la
+portada y en el encabezado de cada página, y sus colores en los títulos.
 
-Etapas:
+El contenido vive **en un solo lugar**: `generar-manual.mjs`. No hay un Word
+maestro que alguien edite a mano y después quede desincronizado — el documento
+se vuelve a generar cuando cambia algo.
 
-- **A.** El cliente genera su cotización (canal Web).
-- **B.** El cliente entra a su portal.
-- **C.** El comercial analiza, modifica, descarga y envía.
-- **D.** El cliente ve el presupuesto actualizado.
-
-> Los importes (costo interno, precio de venta, IVA y total) son los que produce
-> el motor de cálculo Base 0 con la calibración de precios vigente.
-
----
-
-## A · El cliente genera su cotización
-
-Canal Web · pantalla pública `/cotizar`. Un asistente guiado de 7 pasos: el
-cliente arma su nave y ve un precio orientativo en vivo. Al finalizar, el sistema
-crea el proyecto y calcula automáticamente el presupuesto Base 0.
-
-### 01 · Inicio del cotizador
-El cliente entra a la pantalla pública y presiona **Comenzar Cotización**. No
-necesita cuenta todavía.
-
-![Inicio del cotizador](img/01-cotizar-bienvenida.jpg)
-
-### 02 · Tipo de estructura
-Elige el sistema estructural de la nave: Alveolar, Alma Llena o Reticulada. La
-selección avanza sola al siguiente paso.
-
-![Tipo de estructura](img/02-cotizar-tipologia.jpg)
-
-### 03 · Dimensiones y ubicación
-Carga ancho, largo, altura libre y la localidad de la obra. En el ejemplo: una
-nave de 20 × 30 × 8 m (600 m²) en Mendoza.
-
-![Dimensiones y ubicación](img/04-cotizar-dimensiones.jpg)
-
-### 04 · Tipo de cubierta
-Selecciona el material del techo (Chapa Trapezoidal o Panel Sándwich).
-
-![Tipo de cubierta](img/05-cotizar-cubierta.jpg)
-
-### 05 · Alcance del proyecto
-El paso clave: el cliente activa lo que necesita. Acá encendió **Oficina interior**
-(5 × 6 m), **Baño interior** e **Instalación eléctrica**. Cada opción incorpora sus
-rubros (tabiques, revestimientos, obra civil, sanitaria…) y el **precio estimado se
-actualiza en vivo** arriba a la derecha (USD 144.187).
-
-![Alcance del proyecto](img/07-cotizar-alcance-completo.jpg)
-
-### 06 · Planos (opcional)
-Puede subir un plano o boceto para que la IA extraiga más detalles. Es opcional:
-en el ejemplo se omite.
-
-![Planos opcionales](img/08-cotizar-planos.jpg)
-
-### 07 · Datos de contacto
-Completa nombre, empresa, DNI, email y teléfono. Un resumen del proyecto y el
-precio estimado quedan a la vista antes de confirmar.
-
-![Datos de contacto](img/09-cotizar-contacto.jpg)
-
-### 08 · Crea su cuenta del portal
-Con el mismo email define una contraseña. Estas son las credenciales con las que
-después entrará a seguir su proyecto.
-
-![Crear cuenta](img/10-cotizar-crear-cuenta.jpg)
-
-### 09 · Consulta registrada
-Al confirmar, el sistema crea el proyecto (código `PROY-2026-2912`) y ejecuta el
-cálculo del presupuesto Base 0. El cliente ve la confirmación.
-
-![Consulta registrada](img/11-cotizar-gracias.jpg)
-
----
-
-## B · El cliente entra a su portal
-
-Portal del cliente · `/mi-proyecto`. Con las credenciales recién creadas, el
-cliente accede para seguir el estado del proyecto en tiempo real.
-
-### 10 · Estado: Recibido
-El portal muestra el código del proyecto, una línea de tiempo (Recibido →
-Presupuesto → Preaprobado → Aprobado) y el detalle técnico de la solicitud.
-Todavía **no hay precio visible**: el presupuesto aún no fue enviado por el equipo
-comercial.
-
-![Portal cliente - Recibido](img/12-cliente-portal-recibido.jpg)
-
----
-
-## C · El comercial analiza, modifica, descarga y envía
-
-Portal comercial · `/proyectos`. El comercial recibe el proyecto, revisa el
-costeo interno, ajusta lo que haga falta, descarga el presupuesto y lo envía.
-
-### 11 · Ingreso al portal comercial
-El comercial inicia sesión con sus credenciales en `/login`.
-
-![Login comercial](img/14-comercial-login-lleno.jpg)
-
-### 12 · Lista de proyectos
-Ve el proyecto nuevo generado desde el canal Web, en estado **Borrador**, y lo
-abre.
-
-![Lista de proyectos](img/15-comercial-lista-proyectos.jpg)
-
-### 13 · Análisis — Presupuesto Base 0 (interno)
-La pestaña **Presupuesto Base 0** muestra el costo real de la empresa: cada rubro
-y subrubro con material, mano de obra e incidencia, más la cascada de costeo
-(indirectos → beneficio → IVA) y el **costo y precio por m²**. Esta vista es
-interna y no se comparte con el cliente.
-
-![Detalle Base 0](img/16-comercial-detalle-base0.jpg)
-
-### 14 · Modificación — agregar un ítem
-Si el comercial necesita sumar algo que no vino en el Base 0, presiona **Agregar
-ítem**.
-
-![Modal agregar ítem](img/17-comercial-modal-agregar-item.jpg)
-
-### 15 · Biblioteca de precios
-Busca el ítem en la biblioteca de precios de referencia (Revista Cifras) o lo
-carga a medida.
-
-![Buscar en la biblioteca](img/18-comercial-buscar-item.jpg)
-
-### 16 · Presupuesto recalculado
-Al agregar el ítem, el presupuesto se recalcula solo: los totales, la incidencia y
-el precio por m² se actualizan al instante.
-
-![Ítem agregado y recalculado](img/19-comercial-item-agregado.jpg)
-
-### 17 · Vista previa del presupuesto al cliente
-La pestaña **Presupuesto Cliente** muestra el R-04 tal como lo verá el cliente:
-rubros y subrubros con precio de venta, subtotal, IVA y total. **No se expone el
-costo interno ni el costo por m².**
-
-![Vista cliente](img/20-comercial-vista-cliente.jpg)
-
-### 18 · Descarga del PDF R-04
-Con **Descargar R-04** obtiene el PDF del presupuesto, con el encabezado
-identificado (*Presupuesto N° PROY-2026-2912*) y el detalle por rubro y subrubro.
-
-![PDF R-04](img/24-pdf-r04-pagina1.jpg)
-
-### 19 · Envío al cliente
-Al presionar **Enviar presupuesto al cliente**, el estado del proyecto pasa a
-**Enviado** y aparece la confirmación “Presupuesto enviado al cliente”. Esto
-habilita la vista del presupuesto en el portal del cliente.
-
-![Presupuesto enviado](img/21-comercial-enviado.jpg)
-
----
-
-## D · El cliente ve el presupuesto y pre-aprueba
-
-Portal del cliente · `/mi-proyecto`. El cliente vuelve a entrar, encuentra el
-presupuesto disponible (precio + PDF) y, si quiere avanzar, lo pre-aprueba: eso
-dispara la coordinación de una reunión por Google Meet.
-
-### 20 · Presupuesto disponible
-La línea de tiempo avanzó a **Presupuesto** y aparece la tarjeta **Tu
-presupuesto**: subtotal sin IVA, precio por m² y total con IVA (USD 174.480), más
-el botón **Descargar PDF**. Los valores coinciden exactamente con los del
-comercial.
-
-![Portal cliente - Presupuesto](img/23-cliente-portal-presupuesto.jpg)
-
-### 21 · Pre-aprobar la oferta
-Debajo del presupuesto, el cliente encuentra el botón **Pre-aprobar la oferta**
-para avanzar con el proyecto.
-
-![Pre-aprobar la oferta](img/25-cliente-preaprobar-boton.jpg)
-
-### 22 · Reunión por Google Meet
-Al pre-aprobar, el estado pasa a **Preaprobado** y aparece “Oferta pre-aprobada”
-con el botón **Agendar reunión (Google Meet)**. En paralelo, el equipo comercial
-recibe el aviso por mail para coordinar la reunión.
-
-![Oferta pre-aprobada](img/26-cliente-preaprobado.jpg)
-
----
-
-## Notificaciones automáticas por email
-
-Desde que el cliente deja su email, la plataforma envía notificaciones en los
-cuatro momentos clave. Se configuran con un proveedor de email (Resend) y la
-lista del equipo comercial (ver `.env.example`). Si no están configuradas, el
-flujo funciona igual y los envíos quedan registrados en el log.
-
-| Momento | Destinatario | Contenido |
-| --- | --- | --- |
-| El cliente registra su consulta | Cliente | Bienvenida: “Recibimos tu consulta, el equipo comercial te enviará la cotización formal a la brevedad”, con el código y el link al portal. |
-| El cliente registra su consulta | Equipo comercial | Aviso: “El cliente X creó la cotización PROY-xxx-xxx y está a la espera de tu revisión”. |
-| El comercial presiona “Enviar cotización” | Cliente | Link a la plataforma (login con su email) + **PDF R-04 adjunto**, invitándolo a pre-aprobar. |
-| El cliente pre-aprueba | Equipo comercial + cliente | Dispara la reunión: mail para **agendar por Google Meet** (evento de Google Calendar con el cliente invitado) + confirmación al cliente. |
-
-### Configuración
+## Generarlo
 
 ```bash
-RESEND_API_KEY=...                                   # proveedor de email
-EMAIL_FROM=LOG METAL <no-reply@logmetal.com.ar>      # remitente verificado
-EQUIPO_COMERCIAL_EMAILS=comercial@logmetal.com.ar    # avisos internos (coma-separado)
-APP_URL=https://cotizador.logmetal.com.ar            # base para los links de los mails
+# Con la base a mano (lo normal): logo, colores y datos salen del tenant
+DATABASE_URL=postgres://... npm run manual -- --slug log-metal
+
+# Sin base: alcanza con el nombre, el logo y el color
+npm run manual -- --empresa "Acme Estructuras" --logo ./acme.png --color "#0B6E4F"
+
+# Versión genérica, sin marca (para mostrar la plataforma)
+npm run manual -- --empresa "Tu Empresa"
 ```
+
+| Opción | Para qué |
+| --- | --- |
+| `--slug` | Empresa de la base. Trae nombre, razón social, CUIT, domicilio, contacto, logo y colores. Necesita `DATABASE_URL`. |
+| `--empresa` | Nombre, cuando no se usa la base (o para pisar el de la base). |
+| `--logo` | Archivo PNG o JPG. Sin logo se usa el nombre en texto. |
+| `--color` / `--ink` | Color de acento y color institucional, en hexadecimal. |
+| `--salida` | Dónde escribir el `.docx`. Por defecto, acá al lado. |
+
+El `.docx` es editable: la empresa puede agregarle sus propias secciones,
+cambiar textos o reemplazar el logo desde Word sin tocar nada del código.
+
+## Qué contiene
+
+Un recorrido completo de punta a punta, con capturas reales tomadas sobre el
+proyecto de ejemplo `PROY-2026-2912` (nave Alveolar de 20 × 30 × 8 m, 600 m²,
+con oficina interior y baño):
+
+1. Qué es la plataforma
+2. Puesta en marcha: los datos de la empresa (menú **Empresa**)
+3. Cuentas y roles, y la confirmación del email del cliente
+4. **Etapa A** · El cliente genera su cotización (`/cotizar`)
+5. **Etapa B** · El cliente entra a su portal (`/mi-proyecto`)
+6. **Etapa C** · El comercial analiza, modifica y envía (`/proyectos`)
+7. **Etapa D** · El cliente ve el presupuesto y pre-aprueba
+8. Notificaciones automáticas por email
+9. Mantenimiento del catálogo y los parámetros
+10. Preguntas frecuentes
+11. Datos de la empresa (se completan solos con `--slug`)
+
+Los importes de las capturas son los que produjo el motor Base 0 con la
+calibración de precios de ese día: son un ejemplo, no una lista de precios.
+
+## Archivos
+
+| Archivo | Qué es |
+| --- | --- |
+| `generar-manual.mjs` | El generador. Acá se edita el texto del manual. |
+| `img/` | Las capturas, numeradas por paso. |
+| `Manual-Operaciones.docx` | El manual ya generado para LOG METAL, listo para enviar. |
+| `Manual-Operaciones-LOGMETAL.pdf` | La versión vieja en PDF, no editable. Se conserva como referencia. |
+
+### Actualizar las capturas
+
+Si cambia una pantalla, se reemplaza el `.jpg` correspondiente en `img/`
+manteniendo el nombre y se vuelve a generar. Los nombres los referencia el
+generador uno por uno; si falta alguno, avisa por consola y sigue sin esa
+imagen en vez de romper.
