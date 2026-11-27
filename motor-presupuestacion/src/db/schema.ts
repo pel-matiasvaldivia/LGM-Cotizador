@@ -364,6 +364,10 @@ export const materialesOrden = pgTable('materiales_orden', {
     enum: ['pendiente', 'disponible', 'faltante', 'pedido', 'recibido'],
   }).notNull().default('pendiente'),
   origen: text('origen', { enum: ['flexxus', 'explosion', 'manual'] }).notNull().default('flexxus'),
+  // Cuando lo propuso el motor: de qué obra se escaló y con qué factor, para
+  // poder explicar de dónde salió cada cantidad.
+  obraReferenciaId: uuid('obra_referencia_id').references(() => obrasReferencia.id, { onDelete: 'set null' }),
+  factorEscala: doublePrecision('factor_escala'),
   nota: text('nota').notNull().default(''),
   orden: integer('orden').notNull().default(0),
 
@@ -493,6 +497,47 @@ export const despachoItems = pgTable('despacho_items', {
   observaciones: text('observaciones').notNull().default(''),
 }, (t) => [index('despacho_items_despacho_idx').on(t.despachoId)])
 
+// ─── Obras de referencia ───────────────────────────────────────
+// El despiece de obras ya hechas, guardado como patrón junto con la geometría
+// que lo produjo. Es lo que permite proponer la lista de materiales de una
+// obra nueva en vez de pedir que la suban.
+export const obrasReferencia = pgTable('obras_referencia', {
+  id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
+  proyectoId: uuid('proyecto_id').references(() => proyectos.id, { onDelete: 'set null' }),
+
+  nombre: text('nombre').notNull(),
+  tipologia: text('tipologia').notNull().default(''),
+  ancho: doublePrecision('ancho').notNull().default(0),
+  largo: doublePrecision('largo').notNull().default(0),
+  alturaLibre: doublePrecision('altura_libre').notNull().default(0),
+  superficie: doublePrecision('superficie').notNull(),
+  tipoCubierta: text('tipo_cubierta').notNull().default(''),
+  tipoCerramiento: text('tipo_cerramiento').notNull().default(''),
+
+  activa: boolean('activa').notNull().default(true),
+  notas: text('notas').notNull().default(''),
+
+  cargadaPor: uuid('cargada_por').references(() => usuarios.id, { onDelete: 'set null' }),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (t) => [index('obras_referencia_tenant_idx').on(t.tenantId)])
+
+export const obrasReferenciaItems = pgTable('obras_referencia_items', {
+  id: uuid('id').primaryKey().default(sql`gen_random_uuid()`),
+  obraId: uuid('obra_id').notNull().references(() => obrasReferencia.id, { onDelete: 'cascade' }),
+
+  subconjunto: text('subconjunto').notNull().default(''),
+  codigo: text('codigo').notNull().default(''),
+  descripcion: text('descripcion').notNull(),
+  unidad: text('unidad').notNull().default(''),
+  cantidad: doublePrecision('cantidad').notNull().default(0),
+  // Sobre qué escala el renglón al llevarlo a otra obra.
+  base: text('base', {
+    enum: ['m2_cubierta', 'm2_lateral', 'ml_perimetro', 'unidad_porton', 'global'],
+  }).notNull().default('m2_cubierta'),
+  orden: integer('orden').notNull().default(0),
+}, (t) => [index('obras_referencia_items_idx').on(t.obraId)])
+
 // Todo paso del circuito deja un renglón acá. Es lo que permite contestar
 // "¿por qué esta obra está parada?".
 export const bitacoraOrden = pgTable('bitacora_orden', {
@@ -606,6 +651,15 @@ export const despachoItemsRelations = relations(despachoItems, ({ one }) => ({
   parte: one(partesFabricacion, { fields: [despachoItems.parteId], references: [partesFabricacion.id] }),
 }))
 
+export const obrasReferenciaRelations = relations(obrasReferencia, ({ many, one }) => ({
+  items: many(obrasReferenciaItems),
+  proyecto: one(proyectos, { fields: [obrasReferencia.proyectoId], references: [proyectos.id] }),
+}))
+
+export const obrasReferenciaItemsRelations = relations(obrasReferenciaItems, ({ one }) => ({
+  obra: one(obrasReferencia, { fields: [obrasReferenciaItems.obraId], references: [obrasReferencia.id] }),
+}))
+
 export const bitacoraOrdenRelations = relations(bitacoraOrden, ({ one }) => ({
   orden: one(ordenesProduccion, { fields: [bitacoraOrden.ordenId], references: [ordenesProduccion.id] }),
   usuario: one(usuarios, { fields: [bitacoraOrden.usuarioId], references: [usuarios.id] }),
@@ -669,3 +723,7 @@ export type NuevaParteFabricacion = typeof partesFabricacion.$inferInsert
 export type Despacho = typeof despachos.$inferSelect
 export type DespachoItem = typeof despachoItems.$inferSelect
 export type BitacoraOrden = typeof bitacoraOrden.$inferSelect
+export type ObraReferencia = typeof obrasReferencia.$inferSelect
+export type NuevaObraReferencia = typeof obrasReferencia.$inferInsert
+export type ObraReferenciaItem = typeof obrasReferenciaItems.$inferSelect
+export type BaseEscala = ObraReferenciaItem['base']

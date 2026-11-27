@@ -303,6 +303,89 @@ export async function cargarMateriales(
     ? `${lineas.length} renglones en ${[...entrantes].join(', ')} (reemplaza ${pisados.length})`
     : `${lineas.length} renglones en ${[...entrantes].join(', ')}`
   await anotar(orden, usuario, 'oficina_tecnica', 'Despiece cargado', detalle)
+
+  // Lo que se carga hoy es el patrón de mañana: el despiece completo de esta
+  // orden queda guardado como obra de referencia, y la próxima obra parecida
+  // se propone sola en vez de pedir otro archivo.
+  await aprenderDeEsteDespiece(orden, usuario)
+
+  await sincronizarEtapa(orden, { notificar: true })
+  return lineas.length
+}
+
+async function aprenderDeEsteDespiece(orden: OrdenProduccion, usuario: Usuario): Promise<void> {
+  try {
+    const [completo, proyecto] = await Promise.all([
+      db.query.materialesOrden.findMany({
+        where: eq(materialesOrden.ordenId, orden.id),
+        orderBy: [asc(materialesOrden.orden)],
+      }),
+      db.query.proyectos.findFirst({ where: eq(proyectos.id, orden.proyectoId) }),
+    ])
+    if (!proyecto) return
+    const { registrarObraReferencia } = await import('@/lib/explosion')
+    await registrarObraReferencia(
+      orden.tenantId,
+      orden.proyectoId,
+      `${proyecto.codigo} · ${proyecto.razonSocial || proyecto.cliente}`,
+      completo.map((m) => ({
+        subconjunto: m.subconjunto,
+        codigo: m.codigo,
+        descripcion: m.descripcion,
+        unidad: m.unidad,
+        cantidad: m.cantidadRequerida,
+      })),
+      usuario.id,
+    )
+  } catch (err) {
+    // Que no se pueda guardar el patrón no puede frenar la carga del despiece.
+    console.error('[produccion] no se pudo guardar la obra de referencia', err)
+  }
+}
+
+/**
+ * Carga el despiece propuesto por el motor. A diferencia de la importación,
+ * reemplaza todo: es la lista completa de la obra, no un subconjunto suelto.
+ */
+export async function cargarDespiecePropuesto(
+  orden: OrdenProduccion,
+  lineas: Array<LineaMaterial & { obraReferenciaId: string; factor: number }>,
+  usuario: Usuario,
+  detalle: string,
+): Promise<number> {
+  requireSector(usuario, 'oficina_tecnica')
+  if (lineas.length === 0) throw new AuthError('La propuesta no tiene renglones', 400)
+
+  const recibidos = await db.query.recepcionesMaterial.findFirst({
+    where: eq(recepcionesMaterial.ordenId, orden.id),
+  })
+  if (recibidos) {
+    throw new AuthError('Ya hay materiales ingresados: no se puede reemplazar el despiece', 409)
+  }
+
+  await db.delete(materialesOrden).where(eq(materialesOrden.ordenId, orden.id))
+  await db.insert(materialesOrden).values(
+    lineas.map((l, i) => ({
+      tenantId: orden.tenantId,
+      ordenId: orden.id,
+      proyectoId: orden.proyectoId,
+      subconjunto: l.subconjunto.slice(0, 200),
+      codigo: l.codigo.slice(0, 60),
+      descripcion: l.descripcion.slice(0, 400),
+      unidad: l.unidad.slice(0, 20),
+      cantidadRequerida: l.cantidad,
+      origen: 'explosion' as const,
+      obraReferenciaId: l.obraReferenciaId,
+      factorEscala: l.factor,
+      orden: i,
+    })),
+  )
+
+  // A diferencia de la importación, esto NO se guarda como obra de
+  // referencia: es una copia escalada de otra obra, no una obra nueva. Si se
+  // guardara, la próxima se escalaría de una copia y el error se compondría.
+  // Una obra vuelve a ser patrón cuando se carga su estructura real.
+  await anotar(orden, usuario, 'oficina_tecnica', 'Despiece generado', detalle)
   await sincronizarEtapa(orden, { notificar: true })
   return lineas.length
 }

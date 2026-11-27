@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react'
 import { AlertTriangle, CheckCircle2, FileUp, Loader2, Package } from 'lucide-react'
+import GenerarDespiece from './GenerarDespiece'
 import { cantidad, porSubconjunto, type MaterialRow } from './tipos'
 
 // Paso 1 (oficina técnica): el despiece de materiales de la obra.
@@ -103,19 +104,28 @@ export default function PanelMateriales({ proyectoId, materiales, puede, onCambi
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl border border-dashed border-slate-300 p-6 text-center">
-        <Package className="mx-auto mb-2 h-8 w-8 text-slate-300" />
-        <p className="text-sm font-semibold text-brand-ink">Todavía no hay despiece cargado</p>
-        <p className="mx-auto mt-1 max-w-md text-xs text-slate-500">
-          Subí la estructura de producto exportada del sistema de gestión (.xlsx o .csv). Si la
-          obra tiene un archivo por subconjunto —columnas, vigas, correas, escalera— se suben de a
-          uno y se van sumando. De ahí salen los materiales que abastecimiento verifica contra el
-          depósito.
-        </p>
-        {puede
-          ? <Importador ref={ref} cargando={cargando} onArchivo={(f) => enviar(f, false)} />
-          : <p className="mt-3 text-xs text-slate-400">Este paso lo hace oficina técnica.</p>}
-      </div>
+      {/* Lo primero es la propuesta: la plataforma ya tiene la geometría de la
+          obra, así que el despiece lo propone ella. Subir el archivo queda
+          como alternativa, para la primera obra y para los casos especiales. */}
+      {puede
+        ? <GenerarDespiece proyectoId={proyectoId} onCambio={onCambio} />
+        : <p className="rounded-xl bg-slate-50 p-4 text-sm text-slate-500">
+            Oficina técnica tiene que definir el despiece de materiales antes de que
+            abastecimiento pueda verificar el stock.
+          </p>}
+
+      {puede && (
+        <div className="rounded-xl border border-dashed border-slate-300 p-5 text-center">
+          <Package className="mx-auto mb-2 h-7 w-7 text-slate-300" />
+          <p className="text-sm font-semibold text-brand-ink">O subí la estructura de producto</p>
+          <p className="mx-auto mt-1 max-w-md text-xs text-slate-500">
+            Exportada del sistema de gestión (.xlsx o .csv), un archivo por subconjunto. Hace falta
+            la primera vez, cuando todavía no hay ninguna obra parecida de la que escalar, y cuando
+            esta obra no se parece a nada de lo hecho.
+          </p>
+          <Importador ref={ref} cargando={cargando} onArchivo={(f) => enviar(f, false)} />
+        </div>
+      )}
       {preview && archivo && (
         <Preview
           preview={preview}

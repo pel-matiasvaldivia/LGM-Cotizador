@@ -788,12 +788,45 @@ function construir(marca) {
 
     h2('9.1 · Despiece de materiales (oficina técnica)'),
     parrafo([
-      'Oficina técnica sube la estructura de producto exportada del sistema de gestión, en ',
-      ['.xlsx', true], ' o ', ['.csv', true],
-      '. El sistema la lee y muestra primero un ', ['resumen de lo que entendió', true],
-      ': cuántos renglones de material, cuántos subconjuntos, cómo dedujo el agrupamiento y qué ' +
-      'descartó. Recién cuando eso está bien se confirma la importación.',
+      'La plataforma ', ['propone el despiece sola', true],
+      '. Ya sabe la geometría de la obra desde que el cliente cotizó —luz, largo, altura libre, ' +
+      'superficie y tipología—, así que busca entre las obras ya hechas la más parecida y escala ' +
+      'su despiece. Muestra de qué obra lo sacó, en qué se diferencian y con qué factor escaló ' +
+      'cada renglón, para que se pueda revisar antes de aceptarlo.',
     ]),
+    parrafo([
+      'Cada renglón escala sobre ', ['su propia base', true],
+      ': la estructura y las correas por metro cuadrado de planta, el cierre lateral por metro ' +
+      'cuadrado de lateral (perímetro × altura), la zinguería por metros de perímetro, y lo que no ' +
+      'crece con los metros —una escalera, los insertos— no escala.',
+    ]),
+    nota(
+      'Por qué escala una obra y no promedia varias',
+      'Promediar mezcla juegos de perfiles distintos y da un despiece que nunca existió, con medio ' +
+      'W410 y medio W360 en la misma viga. Oficina técnica estima tomando la obra más parecida que ' +
+      'ya hizo; el motor hace lo mismo y dice cuál usó. Si la que eligió no es la que corresponde, ' +
+      'se puede elegir otra de la lista.',
+      marca,
+    ),
+    p(''),
+    parrafo([
+      'La otra vía es ', ['subir la estructura de producto', true],
+      ' exportada del sistema de gestión, en ', ['.xlsx', true], ' o ', ['.csv', true],
+      '. Hace falta la primera vez, cuando todavía no hay ninguna obra de la que escalar, y cuando ' +
+      'la obra no se parece a nada de lo hecho. El sistema muestra primero un ',
+      ['resumen de lo que entendió', true],
+      ': cuántos renglones, cuántos subconjuntos, cómo dedujo el agrupamiento y qué descartó. ' +
+      'Recién cuando eso está bien se confirma.',
+    ]),
+    nota(
+      'Cada despiece que se carga mejora el siguiente',
+      'La estructura que se sube queda guardada como obra de referencia, con la geometría que la ' +
+      'produjo. Cuantas más obras haya cargadas, más parecida es la que el motor encuentra y menos ' +
+      'hay que corregir. La propuesta escalada, en cambio, no se guarda como patrón: es una copia ' +
+      'de otra obra, y escalar copias de copias arrastra el error.',
+      marca,
+    ),
+    p(''),
     parrafo([
       'El sistema de gestión exporta ', ['un subconjunto por archivo', true],
       ' —columnas, vigas, correas, escalera, fundaciones—, así que la obra se arma subiendo varios. ' +
