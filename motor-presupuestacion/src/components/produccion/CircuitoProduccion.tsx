@@ -97,10 +97,15 @@ export default function CircuitoProduccion({ proyectoId, ubicacionObra }: {
         </Seccion>
       )}
 
-      {/* Lo ya hecho queda a mano, plegado: la trazabilidad se consulta. */}
-      {ORDEN.slice(0, Math.max(indiceActual, 0)).length > 0 && !cerrada && (
-        <Anteriores datos={datos} proyectoId={proyectoId} ubicacionObra={ubicacionObra} indiceActual={indiceActual} onCambio={cargar} />
-      )}
+      {/* Lo ya hecho queda a mano, plegado. Con la orden cerrada quedan todos:
+          la trazabilidad se consulta justamente después de terminada la obra. */}
+      <Anteriores
+        datos={datos}
+        proyectoId={proyectoId}
+        ubicacionObra={ubicacionObra}
+        indiceActual={cerrada ? ORDEN.length : indiceActual}
+        onCambio={cargar}
+      />
 
       {cerrada && (
         <div className="rounded-xl bg-emerald-50 p-4 text-sm text-emerald-800">
@@ -225,7 +230,7 @@ function Linea({ etapa }: { etapa: Etapa }) {
   const cerrada = etapa === 'cerrada'
   return (
     <div className="grid grid-cols-6 gap-1">
-      {HITOS.map((h) => {
+      {HITOS.map((h, i) => {
         const pos = ORDEN.indexOf(h.etapas[0])
         const hecho = cerrada || pos < indice
         const activo = !cerrada && h.etapas.includes(etapa)
@@ -238,7 +243,7 @@ function Linea({ etapa }: { etapa: Etapa }) {
                   : 'bg-slate-200 text-slate-500'
               }`}
             >
-              {hecho ? <Check className="h-3.5 w-3.5" /> : pos + 1}
+              {hecho ? <Check className="h-3.5 w-3.5" /> : i + 1}
             </div>
             <p className={`mt-1 text-[10px] leading-tight sm:text-xs ${activo ? 'font-bold text-brand-ink' : 'text-slate-500'}`}>
               {h.titulo}
