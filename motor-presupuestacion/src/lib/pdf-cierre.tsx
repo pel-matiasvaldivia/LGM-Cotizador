@@ -13,7 +13,7 @@ import type { SnapshotPresupuesto } from '@/lib/cierre'
 // Y los dos los firma una empresa concreta (multi-tenant): su marca y sus datos
 // fiscales llegan por `emisor`.
 
-function estilos(emisor: EmisorPDF) {
+export function estilos(emisor: EmisorPDF) {
   return StyleSheet.create({
     page: { padding: 40, fontSize: 9, fontFamily: 'Helvetica', lineHeight: 1.4 },
     header: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 18 },
@@ -34,7 +34,7 @@ function estilos(emisor: EmisorPDF) {
   })
 }
 
-function fecha(valor: Date | string | null | undefined): string {
+export function fecha(valor: Date | string | null | undefined): string {
   if (!valor) return '—'
   const d = typeof valor === 'string' ? new Date(`${valor}T00:00:00Z`) : valor
   if (Number.isNaN(d.getTime())) return '—'
@@ -45,7 +45,7 @@ function usd(n: number | null | undefined): string {
   return 'u$d ' + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
-function Encabezado({ emisor, titulo, numero, subtitulo }: {
+export function Encabezado({ emisor, titulo, numero, subtitulo }: {
   emisor: EmisorPDF
   titulo: string
   numero: string
@@ -75,7 +75,7 @@ function Encabezado({ emisor, titulo, numero, subtitulo }: {
   )
 }
 
-function Dato({ k, v }: { k: string; v: string }) {
+export function Dato({ k, v }: { k: string; v: string }) {
   return (
     <View style={{ flexDirection: 'row', marginBottom: 2 }}>
       <Text style={{ width: 130, color: '#666' }}>{k}</Text>

@@ -18,8 +18,8 @@ import {
   bitacoraOrden, despachoItems, despachos, materialesOrden, ordenesCompra, ordenesCompraItems,
   ordenesProduccion, partesFabricacion, recepcionesMaterial,
   SECTORES,
-  type Despacho, type EtapaProduccion, type MaterialOrden, type OrdenCompra, type OrdenProduccion,
-  type ParteFabricacion, type Sector, type Usuario,
+  type Despacho, type DespachoItem, type EtapaProduccion, type MaterialOrden, type OrdenCompra,
+  type OrdenCompraItem, type OrdenProduccion, type ParteFabricacion, type Sector, type Usuario,
 } from '@/db/schema'
 import { AuthError } from '@/lib/errors'
 
@@ -74,9 +74,9 @@ export function normalizarSectores(valor: unknown): Sector[] {
 
 export interface EstadoCircuito {
   materiales: MaterialOrden[]
-  ordenesCompra: Array<OrdenCompra & { items: Array<{ materialId: string; cantidad: number; cantidadRecibida: number }> }>
+  ordenesCompra: Array<OrdenCompra & { items: OrdenCompraItem[] }>
   partes: ParteFabricacion[]
-  despachos: Array<Despacho & { items: Array<{ cantidad: number; cantidadRecibida: number; parteId: string | null }> }>
+  despachos: Array<Despacho & { items: DespachoItem[] }>
 }
 
 export async function leerCircuito(ordenId: string): Promise<EstadoCircuito> {

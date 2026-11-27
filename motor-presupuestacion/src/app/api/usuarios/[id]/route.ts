@@ -6,6 +6,7 @@ import { requireUser } from '@/lib/auth'
 import { hashPassword } from '@/lib/password'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
 import { requireTenant } from '@/lib/tenant'
+import { normalizarSectores } from '@/lib/produccion'
 
 const ROLES = ['admin', 'comercial', 'cliente'] as const
 type Rol = (typeof ROLES)[number]
@@ -52,6 +53,11 @@ export const PATCH = withErrorHandling(async (req: Request, ctx: { params: Promi
     cambios.rol = rol
   }
 
+  if (body.sectores !== undefined) {
+    const rolFinal = cambios.rol ?? target.rol
+    cambios.sectores = rolFinal === 'cliente' ? [] : normalizarSectores(body.sectores)
+  }
+
   if (body.password !== undefined && body.password !== '') {
     const password = String(body.password)
     if (password.length < 6) return NextResponse.json({ error: 'La contraseña debe tener al menos 6 caracteres' }, { status: 400 })
@@ -67,7 +73,10 @@ export const PATCH = withErrorHandling(async (req: Request, ctx: { params: Promi
     .where(and(eq(usuarios.id, id), eq(usuarios.tenantId, tenant.id)))
     .returning()
   return NextResponse.json({
-    usuario: { id: user.id, email: user.email, nombre: user.nombre, rol: user.rol, created_at: user.createdAt.toISOString() },
+    usuario: {
+      id: user.id, email: user.email, nombre: user.nombre, rol: user.rol,
+      sectores: user.sectores ?? [], created_at: user.createdAt.toISOString(),
+    },
   })
 })
 

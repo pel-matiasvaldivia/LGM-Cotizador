@@ -1,4 +1,7 @@
-import type { Contrato, DatosTecnicosRow, OrdenProduccion, PresupuestoItem, Proyecto } from '@/db/schema'
+import type {
+  BitacoraOrden, Contrato, DatosTecnicosRow, Despacho, DespachoItem, MaterialOrden, OrdenCompra,
+  OrdenCompraItem, OrdenProduccion, ParteFabricacion, PresupuestoItem, Proyecto,
+} from '@/db/schema'
 
 // Los componentes de UI consumen los nombres de columna (snake_case),
 // heredados del cliente de Supabase. Estos serializers mantienen ese contrato.
@@ -106,7 +109,106 @@ export function ordenToRow(o: OrdenProduccion) {
     fecha_entrega_comprometida: o.fechaEntregaComprometida,
     prioridad: o.prioridad,
     estado: o.estado,
+    etapa: o.etapa,
+    etapa_at: o.etapaAt?.toISOString() ?? null,
     notas_taller: o.notasTaller,
     created_at: o.createdAt.toISOString(),
+  }
+}
+
+// ─── Circuito de producción ────────────────────────────────────
+
+export function materialToRow(m: MaterialOrden) {
+  const pendiente = Math.max(m.cantidadRequerida - m.cantidadDisponible - m.cantidadRecibida, 0)
+  return {
+    id: m.id,
+    subconjunto: m.subconjunto,
+    codigo: m.codigo,
+    descripcion: m.descripcion,
+    unidad: m.unidad,
+    cantidad_requerida: m.cantidadRequerida,
+    cantidad_disponible: m.cantidadDisponible,
+    cantidad_recibida: m.cantidadRecibida,
+    // Lo que todavía falta conseguir: es el número que mira abastecimiento.
+    cantidad_pendiente: Number(pendiente.toFixed(4)),
+    estado: m.estado,
+    origen: m.origen,
+    nota: m.nota,
+  }
+}
+
+export function ordenCompraToRow(o: OrdenCompra, items: OrdenCompraItem[] = []) {
+  return {
+    id: o.id,
+    numero: o.numero,
+    estado: o.estado,
+    fecha_necesidad: o.fechaNecesidad,
+    proveedor: o.proveedor,
+    referencia_erp: o.referenciaErp,
+    notas: o.notas,
+    pedida_at: o.pedidaAt?.toISOString() ?? null,
+    cerrada_at: o.cerradaAt?.toISOString() ?? null,
+    created_at: o.createdAt.toISOString(),
+    items: items.map((i) => ({
+      id: i.id,
+      material_id: i.materialId,
+      cantidad: i.cantidad,
+      cantidad_recibida: i.cantidadRecibida,
+    })),
+  }
+}
+
+export function parteToRow(p: ParteFabricacion) {
+  return {
+    id: p.id,
+    nombre: p.nombre,
+    cantidad: p.cantidad,
+    unidad: p.unidad,
+    estado: p.estado,
+    cantidad_despachada: p.cantidadDespachada,
+    responsable: p.responsable,
+    notas: p.notas,
+    iniciada_at: p.iniciadaAt?.toISOString() ?? null,
+    terminada_at: p.terminadaAt?.toISOString() ?? null,
+  }
+}
+
+export function despachoToRow(d: Despacho, items: DespachoItem[] = []) {
+  return {
+    id: d.id,
+    numero: d.numero,
+    estado: d.estado,
+    fecha_salida: d.fechaSalida,
+    transporte: d.transporte,
+    chofer: d.chofer,
+    patente: d.patente,
+    destino: d.destino,
+    observaciones: d.observaciones,
+    despachado_at: d.despachadoAt?.toISOString() ?? null,
+    recibido_por: d.recibidoPor,
+    recibido_at: d.recibidoAt?.toISOString() ?? null,
+    conformidad: d.conformidad,
+    observaciones_obra: d.observacionesObra,
+    items: items.map((i) => ({
+      id: i.id,
+      parte_id: i.parteId,
+      descripcion: i.descripcion,
+      cantidad: i.cantidad,
+      unidad: i.unidad,
+      cantidad_recibida: i.cantidadRecibida,
+      observaciones: i.observaciones,
+    })),
+  }
+}
+
+export function bitacoraToRow(b: BitacoraOrden) {
+  return {
+    id: b.id,
+    sector: b.sector,
+    etapa: b.etapa,
+    accion: b.accion,
+    detalle: b.detalle,
+    usuario: b.usuarioNombre,
+    created_at: b.createdAt.toISOString(),
   }
 }
