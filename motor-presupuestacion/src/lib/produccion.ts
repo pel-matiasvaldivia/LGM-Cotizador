@@ -16,7 +16,7 @@ import { and, asc, eq, inArray } from 'drizzle-orm'
 import { db } from '@/db'
 import {
   bitacoraOrden, despachoItems, despachos, materialesOrden, ordenesCompra, ordenesCompraItems,
-  ordenesProduccion, partesFabricacion, recepcionesMaterial,
+  ordenesProduccion, partesFabricacion, proyectos, recepcionesMaterial,
   SECTORES,
   type Despacho, type DespachoItem, type EtapaProduccion, type MaterialOrden, type OrdenCompra,
   type OrdenCompraItem, type OrdenProduccion, type ParteFabricacion, type Sector, type Usuario,
@@ -145,17 +145,45 @@ export function etapaDerivada(estado: EstadoCircuito, cerradaAMano = false): Eta
   return cerradaAMano ? 'cerrada' : 'obra'
 }
 
-/** Recalcula la etapa de la orden y la guarda si cambió. */
-export async function sincronizarEtapa(orden: OrdenProduccion): Promise<EtapaProduccion> {
+/**
+ * Recalcula la etapa de la orden y la guarda si cambió.
+ *
+ * El aviso al sector que ahora tiene que mover sale sólo desde los pasos que
+ * escriben (`notificar`), nunca desde una lectura: si no, abrir el tablero
+ * mandaría mails.
+ */
+export async function sincronizarEtapa(
+  orden: OrdenProduccion,
+  opciones: { notificar?: boolean } = {},
+): Promise<EtapaProduccion> {
   const estado = await leerCircuito(orden.id)
   const etapa = etapaDerivada(estado, orden.estado === 'cerrada')
-  if (etapa !== orden.etapa) {
-    await db
-      .update(ordenesProduccion)
-      .set({ etapa, etapaAt: new Date() })
-      .where(eq(ordenesProduccion.id, orden.id))
-  }
+  if (etapa === orden.etapa) return etapa
+
+  await db
+    .update(ordenesProduccion)
+    .set({ etapa, etapaAt: new Date() })
+    .where(eq(ordenesProduccion.id, orden.id))
+
+  if (opciones.notificar) await avisarAlSector(orden, etapa)
   return etapa
+}
+
+async function avisarAlSector(orden: OrdenProduccion, etapa: EtapaProduccion): Promise<void> {
+  const sector = ETAPAS.find((e) => e.clave === etapa)?.sector
+  if (!sector) return
+  try {
+    // Import diferido: notificaciones arrastra el generador de PDF, y no tiene
+    // por qué entrar en los bundles que sólo usan las reglas del circuito.
+    const [{ notificarSectorProduccion }, proyecto] = await Promise.all([
+      import('@/lib/notificaciones'),
+      db.query.proyectos.findFirst({ where: eq(proyectos.id, orden.proyectoId) }),
+    ])
+    if (proyecto) await notificarSectorProduccion(proyecto, orden, sector, tituloEtapa(etapa))
+  } catch (err) {
+    // Un mail que no sale no puede frenar el circuito.
+    console.error('[produccion] no se pudo avisar al sector', err)
+  }
 }
 
 /* ─── Bitácora ────────────────────────────────────────────────── */
@@ -254,7 +282,7 @@ export async function cargarMateriales(
   )
 
   await anotar(orden, usuario, 'oficina_tecnica', 'Despiece cargado', `${lineas.length} renglones (${origen})`)
-  await sincronizarEtapa(orden)
+  await sincronizarEtapa(orden, { notificar: true })
   return lineas.length
 }
 
@@ -310,7 +338,7 @@ export async function verificarStock(
     orden, usuario, 'abastecimiento', 'Stock verificado',
     `${disponibles} renglones con stock, ${faltantes} con faltante`,
   )
-  await sincronizarEtapa(orden)
+  await sincronizarEtapa(orden, { notificar: true })
   return { disponibles, faltantes }
 }
 
@@ -384,7 +412,7 @@ export async function emitirOrdenCompra(
     .where(inArray(materialesOrden.id, renglones.map((r) => r.material.id)))
 
   await anotar(orden, usuario, 'abastecimiento', `Orden de compra ${numero}`, `${renglones.length} renglones`)
-  await sincronizarEtapa(orden)
+  await sincronizarEtapa(orden, { notificar: true })
   return oc
 }
 
@@ -402,7 +430,7 @@ export async function marcarOrdenCompraPedida(
     .set({ estado: 'pedida', pedidaAt: new Date(), referenciaErp: referenciaErp.slice(0, 100) })
     .where(eq(ordenesCompra.id, oc.id))
   await anotar(orden, usuario, 'abastecimiento', `OC ${oc.numero} cursada`, referenciaErp)
-  await sincronizarEtapa(orden)
+  await sincronizarEtapa(orden, { notificar: true })
 }
 
 /* ─── Paso 4 · Ingreso de materiales ──────────────────────────── */
@@ -463,7 +491,7 @@ export async function registrarIngreso(
     orden, usuario, 'abastecimiento', 'Ingreso de material',
     `${material.descripcion}: ${cantidad} ${material.unidad}`.trim(),
   )
-  await sincronizarEtapa(orden)
+  await sincronizarEtapa(orden, { notificar: true })
   return actualizado
 }
 
@@ -524,7 +552,7 @@ export async function definirPartes(
   )
 
   await anotar(orden, usuario, 'oficina_tecnica', 'Partes definidas', `${nombres.length} partes`)
-  await sincronizarEtapa(orden)
+  await sincronizarEtapa(orden, { notificar: true })
   return nombres.length
 }
 
@@ -577,7 +605,7 @@ export async function actualizarParte(
   if (set.estado) {
     await anotar(orden, usuario, 'taller', `Parte ${ESTADO_PARTE[set.estado]}`, parte.nombre)
   }
-  await sincronizarEtapa(orden)
+  await sincronizarEtapa(orden, { notificar: true })
   return actualizada
 }
 
@@ -631,6 +659,9 @@ export async function crearDespacho(
         throw new AuthError(`"${parte.nombre}" todavía no está terminada`, 409)
       }
       const disponible = parte.cantidad - parte.cantidadDespachada
+      if (disponible <= EPS) {
+        throw new AuthError(`"${parte.nombre}" ya se despachó por completo`, 409)
+      }
       if (cantidad - disponible > EPS) {
         throw new AuthError(
           `De "${parte.nombre}" quedan ${disponible} ${parte.unidad} sin despachar`,
@@ -674,7 +705,7 @@ export async function crearDespacho(
   }
 
   await anotar(orden, usuario, 'logistica', `Remito ${numero} preparado`, `${renglones.length} renglones`)
-  await sincronizarEtapa(orden)
+  await sincronizarEtapa(orden, { notificar: true })
   return despacho
 }
 
@@ -691,7 +722,7 @@ export async function marcarEnTransito(
     .set({ estado: 'en_transito', despachadoAt: new Date() })
     .where(eq(despachos.id, despacho.id))
   await anotar(orden, usuario, 'logistica', `Remito ${despacho.numero} despachado`, despacho.destino)
-  await sincronizarEtapa(orden)
+  await sincronizarEtapa(orden, { notificar: true })
 }
 
 /* ─── Paso 7 · Control de llegada a obra ──────────────────────── */
@@ -766,7 +797,7 @@ export async function registrarRecepcionObra(
     orden, usuario, 'logistica', `Remito ${despacho.numero} recibido en obra`,
     `${recibidoPor} · ${datos.conformidad}${datos.observaciones ? ` · ${datos.observaciones}` : ''}`,
   )
-  await sincronizarEtapa(orden)
+  await sincronizarEtapa(orden, { notificar: true })
 }
 
 /* ─── Cierre ──────────────────────────────────────────────────── */

@@ -1,6 +1,6 @@
-import { eq } from 'drizzle-orm'
+import { and, eq, ne } from 'drizzle-orm'
 import { db } from '@/db'
-import { contratos, type Contrato, type OrdenProduccion, type proyectos } from '@/db/schema'
+import { contratos, usuarios, type Contrato, type OrdenProduccion, type proyectos } from '@/db/schema'
 import {
   appUrl, enviarEmail, equipoComercial, equipoTecnico, linkReunion,
   type EmailAdjunto, type EmailResultado,
@@ -329,4 +329,42 @@ export async function enviarVerificacionEmail(
 
 function primerNombre(nombre: string | null): string {
   return (nombre || '').trim().split(/\s+/)[0] || 'cliente'
+}
+
+// 7) Traspaso entre sectores del circuito de producción: cuando una obra pasa
+//    a una etapa, los del sector que tiene que mover reciben el aviso.
+//
+//    Los destinatarios salen de los usuarios asignados a ese sector, no de una
+//    lista en el .env: así el aviso sigue a la gente cuando cambia de equipo,
+//    sin que nadie tenga que acordarse de actualizar una variable.
+export async function notificarSectorProduccion(
+  p: Proyecto,
+  orden: OrdenProduccion,
+  sector: string,
+  etapaTitulo: string,
+): Promise<void> {
+  const brand = await brandDelProyecto(p)
+
+  const staff = await db.query.usuarios.findMany({
+    where: and(eq(usuarios.tenantId, p.tenantId), ne(usuarios.rol, 'cliente')),
+  })
+  const destinatarios = staff
+    .filter((u) => Array.isArray(u.sectores) && (u.sectores as string[]).includes(sector))
+    .map((u) => u.email)
+  if (!destinatarios.length) return
+
+  await seguro(() => enviarEmail({
+    brand,
+    to: destinatarios,
+    subject: `${etapaTitulo} — ${orden.numero} (${p.cliente})`,
+    html: plantilla(
+      brand,
+      `Te toca: ${etapaTitulo}`,
+      fila(`La obra <strong>${p.codigo}</strong> (${orden.numero}) pasó a <strong>${etapaTitulo}</strong> y está esperando por tu sector.`) +
+      fila(`Entrega comprometida: <strong>${orden.fechaEntregaComprometida || 'a confirmar'}</strong>.`) +
+      datosProyecto(brand, p),
+      { label: 'Abrir la obra', url: `${appUrl()}/proyectos/${p.id}` },
+    ),
+    text: `${p.codigo} pasó a ${etapaTitulo}: ${appUrl()}/proyectos/${p.id}`,
+  }))
 }
