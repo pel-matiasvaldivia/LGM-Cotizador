@@ -38,6 +38,24 @@ por tamaño: son los catálogos que entrega cada proveedor.
 | Ternium, *Tubos y perfiles* (versión 01, 2018) | Perfiles C y U conformados en frío (peso laminado y galvanizado); tubos redondos, cuadrados y rectangulares, de uso estructural y de uso general |
 | Acindar, *Tablas y equivalencias* | Barras nervadas DN A 420 S y lisas AL 220; ángulos de alas iguales; UPN, IPN, IPB (HEB), IPBl (HEA), IPE y W; planchuelas lisas |
 
+## Cruzar el maestro del ERP
+
+```bash
+node scripts/catalogos/cruzar-maestro.mjs \
+  --maestro "./Listado de Artículos.csv" --salida ./desvios.csv
+```
+
+Lista los artículos cuyo peso declarado en el nombre no coincide con el del
+proveedor, y arriesga la causa: el peso de otro espesor del mismo perfil, el
+de otro perfil, la columna del laminado puesta en un galvanizado (o al revés),
+o un redondeo del nombre. Lo que no encaja en ninguna queda marcado para
+verificar contra el material.
+
+Sobre el maestro de obra metálica de LOG METAL (474 artículos, noviembre 2026):
+104 se pudieron cruzar, 88 coinciden y 16 no. Los dos desvíos gruesos son el
+`140 X 60 X 20 X 3.2` cargado con el peso del `160` (+7,2 %) y el
+`220 X 80 X 20 X 2.5` con el del mismo perfil en 3,2 mm (+27,4 %).
+
 ## Salvedades
 
 - Los pesos son **nominales**. La norma admite tolerancia (±5 % en barras de
