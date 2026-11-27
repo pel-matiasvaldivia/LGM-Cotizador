@@ -56,8 +56,16 @@ function Verificacion({ proyectoId, materiales, puede, onCambio, onError }: {
   onCambio: () => void
   onError: (e: string | null) => void
 }) {
+  // El stock que trajo la exportación del ERP viene cargado de entrada, pero
+  // hay que confirmarlo: es el stock general del artículo, no lo reservado
+  // para esta obra, y puede estar desactualizado.
   const [valores, setValores] = useState<Record<string, string>>(
-    Object.fromEntries(materiales.map((m) => [m.id, m.estado === 'pendiente' ? '' : String(m.cantidad_disponible)])),
+    Object.fromEntries(materiales.map((m) => [
+      m.id,
+      m.estado !== 'pendiente' ? String(m.cantidad_disponible)
+        : m.stock_erp != null ? String(Math.min(m.stock_erp, m.cantidad_requerida))
+        : '',
+    ])),
   )
   const [guardando, setGuardando] = useState(false)
 
@@ -102,6 +110,11 @@ function Verificacion({ proyectoId, materiales, puede, onCambio, onError }: {
         <p className="text-xs text-slate-500">
           Cargá cuánto hay en depósito de cada renglón. Lo que falte se convierte en el pedido de
           compra de esta obra.
+          {materiales.some((m) => m.stock_erp != null) && (
+            <> Lo que trajo la exportación del sistema de gestión viene propuesto, acotado a lo que
+            hace falta: <strong>confirmalo contra el depósito</strong>, porque es stock general y no
+            está reservado para esta obra.</>
+          )}
         </p>
       </div>
 
@@ -127,6 +140,11 @@ function Verificacion({ proyectoId, materiales, puede, onCambio, onError }: {
                       {falta > 0 && valores[m.id] !== '' && (
                         <span className="ml-2 text-xs font-semibold text-red-600">
                           faltan {cantidad(falta, m.unidad)}
+                        </span>
+                      )}
+                      {m.stock_erp != null && (
+                        <span className="ml-2 text-xs text-slate-400">
+                          ERP: {cantidad(m.stock_erp, m.unidad)} en total
                         </span>
                       )}
                     </td>

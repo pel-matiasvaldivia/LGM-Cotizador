@@ -3,8 +3,8 @@ import { requireUser } from '@/lib/auth'
 import { isUuid, withErrorHandling } from '@/lib/api-helpers'
 import { AuthError } from '@/lib/errors'
 import { requireOrdenDelProyecto } from '@/lib/scope'
-import { cargarMateriales, requireSector } from '@/lib/produccion'
-import { filasDesdeCsv, interpretarDespiece } from '@/lib/despiece-import'
+import { cargarMateriales, raizSubconjunto, requireSector, subconjuntosCargados } from '@/lib/produccion'
+import { decodificar, filasDesdeCsv, interpretarDespiece } from '@/lib/despiece-import'
 import { leerXlsx } from '@/lib/xlsx-lite'
 
 // Despiece de materiales de la obra (oficina técnica).
@@ -40,13 +40,20 @@ export const POST = withErrorHandling(async (req: Request) => {
   const buffer = Buffer.from(await archivo.arrayBuffer())
   const filas = archivo.name.toLowerCase().endsWith('.xlsx')
     ? (leerXlsx(buffer)[0]?.filas ?? [])
-    : filasDesdeCsv(buffer.toString('utf8'))
+    : filasDesdeCsv(decodificar(buffer))
 
   const preview = interpretarDespiece(filas)
+
+  // Qué va a pisar este archivo: el ERP exporta un subconjunto por vez, así
+  // que importar es casi siempre agregar, y de vez en cuando reemplazar uno.
+  const yaCargados = await subconjuntosCargados(orden.id)
+  const entrantes = [...new Set(preview.lineas.map((l) => raizSubconjunto(l.subconjunto)))]
+  const reemplaza = entrantes.filter((s) => yaCargados.includes(s))
+
   if (!aplicar || preview.lineas.length === 0) {
-    return NextResponse.json({ preview, aplicado: false })
+    return NextResponse.json({ preview, aplicado: false, entrantes, reemplaza })
   }
 
   const cantidad = await cargarMateriales(orden, preview.lineas, 'flexxus', user)
-  return NextResponse.json({ preview, aplicado: true, renglones: cantidad })
+  return NextResponse.json({ preview, aplicado: true, renglones: cantidad, entrantes, reemplaza })
 })

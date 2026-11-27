@@ -354,6 +354,9 @@ export const materialesOrden = pgTable('materiales_orden', {
   unidad: text('unidad').notNull().default(''),
 
   cantidadRequerida: doublePrecision('cantidad_requerida').notNull().default(0),
+  // Existencia que traía la exportación del ERP. Punto de partida de la
+  // verificación, nunca la verificación misma: es stock general, no reservado.
+  stockErp: doublePrecision('stock_erp'),
   cantidadDisponible: doublePrecision('cantidad_disponible').notNull().default(0),
   cantidadRecibida: doublePrecision('cantidad_recibida').notNull().default(0),
 

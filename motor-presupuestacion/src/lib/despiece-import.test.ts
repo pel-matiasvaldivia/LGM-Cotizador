@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { filasDesdeCsv, interpretarDespiece, numeroArg } from './despiece-import'
+import { decodificar, filasDesdeCsv, interpretarDespiece, numeroArg } from './despiece-import'
 
 // Estructura de producto como la exporta el ERP: el producto de la obra se
 // abre en subconjuntos (CASABENE_*) y cada uno en artículos reales.
@@ -119,5 +119,85 @@ describe('filasDesdeCsv', () => {
   it('respeta las comillas escapadas', () => {
     const filas = filasDesdeCsv('a,b\n1,"TUBO 2 7/8"" REDONDO"\n')
     expect(filas[1][1]).toBe('TUBO 2 7/8" REDONDO')
+  })
+})
+
+// Exportación real del ERP: cada celda es una fórmula de Excel (="..."),
+// separador punto y coma, Windows-1252, y el árbol marcado con sangría dentro
+// del propio texto de la descripción.
+const ERP = `Código;Descripción;Unidades;Uni. Med.;Costo Uni.;Costo Tot.;Stock;% Merma;Subdepósito;
+
+="04915 ";="CASABENE_PORTA TENSORES"; ;=" ";$ 185358,6880;$ 185358,6880;0,0000; ;=" ";
+="04883";="          PORTA TENSOR TIPO T ";128,0000;="UN ";$ 1344,2963;$ 172069,9200;376,0000; ;=" ";
+="02369";="                    PERFIL W 200X15 KG/M ";96,0000;="KG ";$ 1792,3950;$ 172069,9200;6866,0000; ;=" ";
+="04916";="          BULON HXAGONAL 5/16\` X 1 3/8\` P/GRUESO ";320,0000;="UN ";$ 41,5274;$ 13288,7680;0,0000; ;=" ";
+`
+
+describe('estructura de producto del ERP', () => {
+  it('desenvuelve las celdas con fórmula de Excel', () => {
+    const p = interpretarDespiece(filasDesdeCsv(ERP))
+    expect(p.metodoSubconjunto).toBe('sangria')
+    expect(p.lineas.map((l) => l.codigo)).toEqual(['02369', '04916'])
+  })
+
+  it('toma como material la hoja del árbol, no el conjunto que la contiene', () => {
+    // PORTA TENSOR TIPO T se fabrica con el perfil de abajo: contar los dos
+    // duplicaría el acero.
+    const { lineas, omitidos } = interpretarDespiece(filasDesdeCsv(ERP))
+    expect(lineas).toHaveLength(2)
+    expect(omitidos.map((o) => o.descripcion)).toContain('PORTA TENSOR TIPO T')
+    expect(lineas[0].subconjunto).toBe('CASABENE_PORTA TENSORES › PORTA TENSOR TIPO T')
+    expect(lineas[1].subconjunto).toBe('CASABENE_PORTA TENSORES')
+  })
+
+  it('trae el stock del ERP, con el negativo a cero', () => {
+    const { lineas } = interpretarDespiece(filasDesdeCsv(ERP))
+    expect(lineas[0].stock).toBe(6866)
+    const negativo = interpretarDespiece(filasDesdeCsv(
+      `Código;Descripción;Unidades;Uni. Med.;Stock\n="1";="PADRE"; ;=" ";0\n="2";="   UPN 100";64,0000;="KG ";-363,6000\n`,
+    ))
+    expect(negativo.lineas[0].stock).toBe(0)
+  })
+
+  it('no se rompe con la comilla de pulgada dentro de la descripción', () => {
+    const { lineas } = interpretarDespiece(filasDesdeCsv(
+      `Código;Descripción;Unidades;Uni. Med.;Stock\n="1";="CASABENE_ESCALERA"; ;=" ";0\n="01408";="   CHAPA ANTI. SEMILLA 1/8" (3,2 MM) (28,2 KG/M2) ";1137,0000;="KG ";586,5600\n`,
+    ))
+    expect(lineas).toHaveLength(1)
+    expect(lineas[0].descripcion).toBe('CHAPA ANTI. SEMILLA 1/8" (3,2 MM) (28,2 KG/M2)')
+    expect(lineas[0].cantidad).toBe(1137)
+    expect(lineas[0].unidad).toBe('kg')
+  })
+
+  it('detecta la exportación con las columnas corridas y no se queda con su stock', () => {
+    // Exportada con coma de separador y coma decimal: cada importe se parte en
+    // dos y la unidad deja de caer en su columna.
+    const rota = 'Código,Descripción,Unidades,Uni. Med.,Costo Uni.,Costo Tot.,Stock,% Merma,Subdepósito,,,,\n'
+      + ',,,,,,,,,,,,\n'
+      + '04315 ,CASABENE_VIGAS_V03, , ,$ 4156900931,2430,$ 4156900931,2430,1,0, , ,\n'
+      + '03500,          PERFIL W 410X38.8 KG/M (W16X26) ,10709,0,KG ,$ 1866,990,$ 19984054,1910,138215,0, , \n'
+    const p = interpretarDespiece(filasDesdeCsv(rota))
+    expect(p.lineas).toHaveLength(1)
+    expect(p.lineas[0].cantidad).toBe(10709)
+    expect(p.lineas[0].unidad).toBe('kg')
+    expect(p.lineas[0].stock).toBeNull()
+    expect(p.advertencias.join(' ')).toContain('corridas')
+  })
+
+  it('elige el separador por el encabezado, no por las comas decimales', () => {
+    const filas = filasDesdeCsv('a;b;c\n="x";1.234,56;2.000,00\n')
+    expect(filas[1]).toHaveLength(3)
+  })
+})
+
+describe('decodificar', () => {
+  it('lee el Windows-1252 que exporta el ERP', () => {
+    // "Código;Descripción" en cp1252: la ó es un solo byte 0xF3.
+    const bytes = new Uint8Array([0x43, 0xf3, 0x64, 0x69, 0x67, 0x6f, 0x3b, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x63, 0x69, 0xf3, 0x6e])
+    expect(decodificar(bytes)).toBe('Código;Descripción')
+  })
+
+  it('deja intacto el UTF-8', () => {
+    expect(decodificar(new TextEncoder().encode('Código'))).toBe('Código')
   })
 })

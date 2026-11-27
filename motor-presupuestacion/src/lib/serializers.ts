@@ -127,6 +127,7 @@ export function materialToRow(m: MaterialOrden) {
     descripcion: m.descripcion,
     unidad: m.unidad,
     cantidad_requerida: m.cantidadRequerida,
+    stock_erp: m.stockErp,
     cantidad_disponible: m.cantidadDisponible,
     cantidad_recibida: m.cantidadRecibida,
     // Lo que todavía falta conseguir: es el número que mira abastecimiento.

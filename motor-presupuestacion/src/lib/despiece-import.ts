@@ -19,6 +19,12 @@ export interface LineaDespiece {
   descripcion: string
   unidad: string
   cantidad: number
+  /**
+   * Existencia que traía la exportación del ERP, si la traía. Es el stock
+   * general del artículo, no una reserva para esta obra: sirve como punto de
+   * partida de la verificación, nunca como la verificación misma.
+   */
+  stock: number | null
   /** Fila de la planilla, para poder señalar el problema. */
   fila: number
 }
@@ -42,12 +48,30 @@ const ENCABEZADOS = {
   unidad: ['uni med', 'unidad', 'un med', 'u med', 'medida', 'uni. med.'],
   subconjunto: ['subconjunto', 'conjunto', 'grupo', 'padre', 'componente'],
   nivel: ['nivel', 'level', 'orden nivel'],
+  stock: ['stock', 'existencia', 'existencias'],
 } as const
+
+// Unidades que usa el catálogo. Sirven para reconocer la columna cuando la
+// exportación sale descuadrada y la unidad no cae donde debería.
+const UNIDADES = new Set([
+  'kg', 'un', 'u', 'm', 'm2', 'm3', 'ml', 'mt', 'lt', 'l', 'tn', 'gl', 'jg', 'par', 'hs',
+])
 
 type Columna = keyof typeof ENCABEZADOS
 
+/**
+ * El ERP exporta cada celda como fórmula de Excel: `="00232"`, `="KG "`. Sin
+ * desenvolverla, el código queda con comillas y la sangría del árbol —que va
+ * adentro del texto— no se ve.
+ */
+export function celda(valor: Celda): string {
+  const texto = String(valor ?? '')
+  const m = texto.match(/^\s*=\s*"([\s\S]*)"\s*$/)
+  return m ? m[1] : texto
+}
+
 export function normalizarTexto(valor: Celda): string {
-  return String(valor ?? '')
+  return celda(valor)
     .toLowerCase()
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
@@ -93,9 +117,24 @@ function mapearColumnas(filas: Celda[][]): { fila: number; mapa: Partial<Record<
 
 /** Sangría del nombre del artículo: el ERP la usa para marcar el nivel. */
 function sangria(valor: Celda): number {
-  const texto = String(valor ?? '')
-  const espacios = texto.length - texto.trimStart().length
-  return Math.floor(espacios / 2)
+  const texto = celda(valor)
+  return texto.length - texto.trimStart().length
+}
+
+/**
+ * La unidad, aunque la exportación venga corrida. Pasa cuando el ERP exporta
+ * con coma como separador y los importes llevan coma decimal: cada importe se
+ * parte en dos y todo lo que sigue se desplaza.
+ */
+function unidadDe(fila: Celda[], indice: number | undefined): { unidad: string; corrida: boolean } {
+  const directa = indice !== undefined ? celda(fila[indice]).trim().toLowerCase() : ''
+  if (UNIDADES.has(directa)) return { unidad: directa, corrida: false }
+  for (const c of fila) {
+    const t = celda(c).trim().toLowerCase()
+    // La unidad está, pero en otra columna: la fila se corrió.
+    if (UNIDADES.has(t)) return { unidad: t, corrida: true }
+  }
+  return { unidad: directa, corrida: false }
 }
 
 /** OBRA_SUBCONJUNTO: prefijo antes del guion bajo, cuando se repite. */
@@ -145,20 +184,38 @@ export function interpretarDespiece(filas: Celda[][]): PreviewDespiece {
     advertencias.push('La planilla no trae columna de código de artículo: no se va a poder cruzar con el ERP.')
   }
 
+  const anchoCabecera = filas[cabecera.fila].length
   const crudas = filas
     .slice(cabecera.fila + 1)
     .map((fila, i) => ({
       fila: cabecera.fila + i + 2, // 1-based, como lo ve quien abre la planilla
-      codigo: mapa.codigo !== undefined ? String(fila[mapa.codigo] ?? '').trim() : '',
-      descripcionCruda: String(fila[mapa.descripcion!] ?? ''),
-      descripcion: String(fila[mapa.descripcion!] ?? '').trim(),
-      unidad: mapa.unidad !== undefined ? String(fila[mapa.unidad] ?? '').trim() : '',
-      cantidad: numeroArg(fila[mapa.cantidad!]),
-      subconjuntoCol: mapa.subconjunto !== undefined ? String(fila[mapa.subconjunto] ?? '').trim() : '',
-      nivel: mapa.nivel !== undefined ? numeroArg(fila[mapa.nivel]) : null,
+      codigo: mapa.codigo !== undefined ? celda(fila[mapa.codigo]).trim() : '',
+      descripcion: celda(fila[mapa.descripcion!]).trim(),
+      ...(() => {
+        const u = unidadDe(fila, mapa.unidad)
+        return { unidad: u.unidad, corrida: u.corrida }
+      })(),
+      cantidad: numeroArg(celda(fila[mapa.cantidad!])),
+      stock: mapa.stock !== undefined ? numeroArg(celda(fila[mapa.stock])) : null,
+      subconjuntoCol: mapa.subconjunto !== undefined ? celda(fila[mapa.subconjunto]).trim() : '',
+      nivel: mapa.nivel !== undefined ? numeroArg(celda(fila[mapa.nivel])) : null,
       sangria: sangria(fila[mapa.descripcion!]),
+      descuadrada: fila.length > anchoCabecera,
     }))
     .filter((r) => r.descripcion !== '')
+
+  // Una fila con más campos que el encabezado es una exportación rota: el ERP
+  // salió con coma como separador y los importes llevan coma decimal, así que
+  // cada importe se partió en dos. La cantidad todavía se lee bien, pero las
+  // columnas de la derecha ya no son las que dicen ser.
+  if (crudas.some((r) => r.descuadrada || r.corrida)) {
+    advertencias.push(
+      'Las columnas de esta exportación están corridas: la unidad de medida no cae donde dice el ' +
+      'encabezado. Pasa cuando el ERP exporta con coma como separador y los importes llevan coma ' +
+      'decimal, porque cada importe se parte en dos. Las cantidades se leen igual, pero el stock ' +
+      'no se toma. Conviene volver a exportar con punto y coma.',
+    )
+  }
 
   if (crudas.length === 0) {
     return { lineas: [], subconjuntos: [], metodoSubconjunto: 'ninguno', omitidos: [], advertencias: ['La planilla no tiene renglones.'] }
@@ -174,10 +231,28 @@ export function interpretarDespiece(filas: Celda[][]): PreviewDespiece {
   const prefijo = metodo === 'prefijo' ? prefijoComun(crudas.map((r) => r.descripcion)) : null
   const nivelBase = metodo === 'nivel' ? Math.min(...crudas.map((r) => r.nivel ?? 0)) : 0
 
+  // Con sangría el árbol puede tener más de dos niveles: un subconjunto que
+  // cuelga de otro (un porta tensor que a su vez lleva su perfil). El material
+  // es la HOJA: el renglón que no tiene nada colgando. Los intermedios son
+  // conjuntos que se fabrican, no cosas que se compran, y contarlos duplicaría
+  // el material de sus hijos.
+  const rutas = new Map<number, string>()
+  const hojas = new Set<number>()
+  if (metodo === 'sangria') {
+    const pila: Array<{ sangria: number; nombre: string }> = []
+    crudas.forEach((r, i) => {
+      while (pila.length > 0 && pila[pila.length - 1].sangria >= r.sangria) pila.pop()
+      rutas.set(i, pila.map((p) => p.nombre).join(' › '))
+      const siguiente = crudas[i + 1]
+      if (!siguiente || siguiente.sangria <= r.sangria) hojas.add(i)
+      pila.push({ sangria: r.sangria, nombre: r.descripcion.replace(/\s+/g, ' ') })
+    })
+  }
+
   const lineas: LineaDespiece[] = []
   let actual = ''
 
-  for (const r of crudas) {
+  for (const [i, r] of crudas.entries()) {
     const esEncabezado = (() => {
       switch (metodo) {
         case 'columna':
@@ -186,7 +261,7 @@ export function interpretarDespiece(filas: Celda[][]): PreviewDespiece {
         case 'nivel':
           return (r.nivel ?? nivelBase) <= nivelBase
         case 'sangria':
-          return r.sangria === 0
+          return !hojas.has(i)
         case 'prefijo':
           return prefijo != null && r.descripcion.startsWith(`${prefijo}_`)
         default:
@@ -196,11 +271,17 @@ export function interpretarDespiece(filas: Celda[][]): PreviewDespiece {
 
     if (esEncabezado) {
       actual = r.descripcion.replace(/\s+/g, ' ')
-      omitidos.push({ fila: r.fila, descripcion: actual, motivo: 'Subconjunto del árbol, no es material' })
+      omitidos.push({
+        fila: r.fila,
+        descripcion: actual,
+        motivo: r.sangria > 0 ? 'Conjunto del árbol: lo componen los renglones de abajo' : 'Subconjunto del árbol, no es material',
+      })
       continue
     }
 
-    const subconjunto = metodo === 'columna' && r.subconjuntoCol ? r.subconjuntoCol : actual
+    const subconjunto = metodo === 'columna' && r.subconjuntoCol
+      ? r.subconjuntoCol
+      : metodo === 'sangria' ? (rutas.get(i) || actual) : actual
     if (r.cantidad == null) {
       omitidos.push({ fila: r.fila, descripcion: r.descripcion, motivo: 'Sin cantidad' })
       continue
@@ -216,6 +297,9 @@ export function interpretarDespiece(filas: Celda[][]): PreviewDespiece {
       descripcion: r.descripcion.replace(/\s+/g, ' '),
       unidad: r.unidad.toLowerCase(),
       cantidad: r.cantidad,
+      // El stock negativo del ERP (entregado sin ingresar) no es una
+      // existencia: para verificar, es cero.
+      stock: r.corrida || r.stock == null ? null : Math.max(r.stock, 0),
       fila: r.fila,
     })
   }
@@ -244,12 +328,38 @@ export function interpretarDespiece(filas: Celda[][]): PreviewDespiece {
   return { lineas, subconjuntos, metodoSubconjunto: metodo, omitidos, advertencias }
 }
 
-/** CSV simple con separador autodetectado (coma, punto y coma o tabulación). */
+/**
+ * Texto del archivo. El ERP exporta en Windows-1252, no en UTF-8: leído como
+ * UTF-8, "Descripción" y cada acento del catálogo quedan rotos. Se intenta
+ * UTF-8 estricto y, si no valida, se cae a Windows-1252.
+ */
+export function decodificar(datos: Uint8Array): string {
+  try {
+    return new TextDecoder('utf-8', { fatal: true }).decode(datos)
+  } catch {
+    return new TextDecoder('windows-1252').decode(datos)
+  }
+}
+
+/**
+ * CSV con separador autodetectado (punto y coma, tabulación o coma).
+ *
+ * Tolerante a propósito, porque lo que exporta el ERP no es CSV de manual:
+ * cada celda viene como fórmula de Excel (`="00232"`) y adentro del texto hay
+ * comillas sueltas, como en `CHAPA 1/8" (3,2 MM)`. Un parser estricto toma esa
+ * comilla como fin de campo y a partir de ahí la fila entera se corre.
+ *
+ * La regla: una comilla cierra sólo si después viene el separador, un salto de
+ * línea o el fin del archivo. Cualquier otra es parte del texto.
+ */
 export function filasDesdeCsv(texto: string): Celda[][] {
   const limpio = texto.replace(/^﻿/, '').replace(/\r\n?/g, '\n')
-  const muestra = limpio.split('\n').slice(0, 10).join('\n')
+
+  // El separador se decide por el encabezado: en los datos, las comas decimales
+  // de los importes ganarían la cuenta y romperían un archivo con punto y coma.
+  const encabezado = limpio.split('\n').find((l) => l.trim() !== '') ?? ''
   const sep = [';', '\t', ',']
-    .map((s) => ({ s, n: muestra.split(s).length }))
+    .map((s) => ({ s, n: encabezado.split(s).length }))
     .sort((a, b) => b.n - a.n)[0].s
 
   const filas: Celda[][] = []
@@ -257,21 +367,29 @@ export function filasDesdeCsv(texto: string): Celda[][] {
   let fila: Celda[] = []
   let comillas = false
 
+  const cierra = (i: number) => {
+    const sig = limpio[i + 1]
+    return sig === undefined || sig === sep || sig === '\n'
+  }
+
   for (let i = 0; i < limpio.length; i++) {
     const c = limpio[i]
     if (comillas) {
       if (c === '"' && limpio[i + 1] === '"') {
         campo += '"'
         i++
-      } else if (c === '"') {
+      } else if (c === '"' && cierra(i)) {
         comillas = false
       } else {
         campo += c
       }
       continue
     }
-    if (c === '"') comillas = true
-    else if (c === sep) {
+    // Apertura: al principio del campo, o justo después del `=` de Excel.
+    if (c === '"' && (campo === '' || campo === '=')) {
+      campo = ''
+      comillas = true
+    } else if (c === sep) {
       fila.push(campo)
       campo = ''
     } else if (c === '\n') {

@@ -14,6 +14,8 @@ export interface MaterialRow {
   descripcion: string
   unidad: string
   cantidad_requerida: number
+  /** Existencia que traía la exportación del ERP, si la traía. */
+  stock_erp: number | null
   cantidad_disponible: number
   cantidad_recibida: number
   cantidad_pendiente: number

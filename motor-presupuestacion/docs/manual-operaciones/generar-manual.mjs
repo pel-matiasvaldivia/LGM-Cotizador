@@ -795,8 +795,19 @@ function construir(marca) {
       'descartó. Recién cuando eso está bien se confirma la importación.',
     ]),
     parrafo([
-      'Una vez que hay ingresos registrados contra el despiece, ya no se puede reemplazar: esos ' +
-      'renglones tienen material comprado detrás.',
+      'El sistema de gestión exporta ', ['un subconjunto por archivo', true],
+      ' —columnas, vigas, correas, escalera, fundaciones—, así que la obra se arma subiendo varios. ' +
+      'Cada importación agrega el subconjunto que trae y deja en paz al resto: volver a exportar ' +
+      'las vigas después de un cambio no borra las fundaciones. Si el subconjunto ya estaba ' +
+      'cargado, lo reemplaza, y el aviso lo dice antes de aplicar.',
+    ]),
+    parrafo([
+      'Si la exportación trae la columna ', ['Stock', true],
+      ', el sistema la guarda y la usa como punto de partida de la verificación.',
+    ]),
+    parrafo([
+      'Un subconjunto con material ya ingresado no se puede reemplazar: esos renglones tienen ' +
+      'compras hechas detrás.',
     ]),
 
     h2('9.2 · Verificación de stock (abastecimiento)'),
@@ -805,6 +816,15 @@ function construir(marca) {
       '. No es un sí o un no: la disponibilidad parcial es lo normal, y de esa resta sale ' +
       'exactamente cuánto hay que comprar.',
     ]),
+    nota(
+      'El stock del sistema de gestión viene propuesto, pero hay que confirmarlo',
+      'Si la exportación lo traía, cada renglón arranca con esa existencia ya cargada, acotada a ' +
+      'lo que hace falta para la obra. Es una ayuda para no tipear cincuenta números, no una ' +
+      'verificación: ese stock es general, no está reservado para esta obra y puede estar ' +
+      'desactualizado. Al lado de cada renglón se muestra la existencia total para poder compararla.',
+      marca,
+    ),
+    p(''),
 
     h2('9.3 · Compra de los faltantes'),
     parrafo([

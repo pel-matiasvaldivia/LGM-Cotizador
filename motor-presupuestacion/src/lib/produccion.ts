@@ -238,6 +238,8 @@ export interface LineaMaterial {
   descripcion: string
   unidad: string
   cantidad: number
+  /** Existencia que traía la exportación del ERP, si venía confiable. */
+  stock?: number | null
 }
 
 /**
@@ -255,17 +257,32 @@ export async function cargarMateriales(
   requireSector(usuario, 'oficina_tecnica')
   if (lineas.length === 0) throw new AuthError('El despiece no tiene renglones', 400)
 
-  const recibidos = await db.query.recepcionesMaterial.findFirst({
-    where: eq(recepcionesMaterial.ordenId, orden.id),
+  // El ERP exporta UN subconjunto por archivo, así que una obra se arma
+  // subiendo varios. La importación reemplaza sólo los subconjuntos que vienen
+  // en el archivo y deja en paz al resto: volver a exportar las vigas después
+  // de un cambio no puede borrar las fundaciones.
+  const entrantes = new Set(lineas.map((l) => raizSubconjunto(l.subconjunto)))
+
+  const previos = await db.query.materialesOrden.findMany({
+    where: eq(materialesOrden.ordenId, orden.id),
   })
-  if (recibidos) {
-    throw new AuthError(
-      'Ya hay materiales ingresados contra este despiece: no se puede reemplazar. Corregí los renglones que haga falta.',
-      409,
-    )
+  const pisados = previos.filter((m) => entrantes.has(raizSubconjunto(m.subconjunto)))
+
+  if (pisados.length > 0) {
+    const conIngreso = await db.query.recepcionesMaterial.findMany({
+      where: eq(recepcionesMaterial.ordenId, orden.id),
+    })
+    const ids = new Set(pisados.map((m) => m.id))
+    if (conIngreso.some((r) => ids.has(r.materialId))) {
+      throw new AuthError(
+        'Ya hay materiales ingresados contra estos subconjuntos: no se pueden reemplazar.',
+        409,
+      )
+    }
+    await db.delete(materialesOrden).where(inArray(materialesOrden.id, pisados.map((m) => m.id)))
   }
 
-  await db.delete(materialesOrden).where(eq(materialesOrden.ordenId, orden.id))
+  const base = previos.length - pisados.length
   await db.insert(materialesOrden).values(
     lineas.map((l, i) => ({
       tenantId: orden.tenantId,
@@ -276,14 +293,29 @@ export async function cargarMateriales(
       descripcion: l.descripcion.slice(0, 400),
       unidad: l.unidad.slice(0, 20),
       cantidadRequerida: l.cantidad,
+      stockErp: l.stock ?? null,
       origen,
-      orden: i,
+      orden: base + i,
     })),
   )
 
-  await anotar(orden, usuario, 'oficina_tecnica', 'Despiece cargado', `${lineas.length} renglones (${origen})`)
+  const detalle = pisados.length > 0
+    ? `${lineas.length} renglones en ${[...entrantes].join(', ')} (reemplaza ${pisados.length})`
+    : `${lineas.length} renglones en ${[...entrantes].join(', ')}`
+  await anotar(orden, usuario, 'oficina_tecnica', 'Despiece cargado', detalle)
   await sincronizarEtapa(orden, { notificar: true })
   return lineas.length
+}
+
+/** "CASABENE_PORTA TENSORES › PORTA TENSOR TIPO T" → el subconjunto de arriba. */
+export function raizSubconjunto(subconjunto: string): string {
+  return subconjunto.split('›')[0].trim()
+}
+
+/** Los subconjuntos que ya tiene cargados la orden, para avisar qué se pisa. */
+export async function subconjuntosCargados(ordenId: string): Promise<string[]> {
+  const filas = await db.query.materialesOrden.findMany({ where: eq(materialesOrden.ordenId, ordenId) })
+  return [...new Set(filas.map((m) => raizSubconjunto(m.subconjunto)).filter(Boolean))]
 }
 
 /* ─── Paso 2 · Verificación de stock (abastecimiento) ─────────── */

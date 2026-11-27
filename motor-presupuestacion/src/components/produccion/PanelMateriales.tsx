@@ -12,7 +12,10 @@ import { cantidad, porSubconjunto, type MaterialRow } from './tipos'
 // que no existen.
 
 interface Preview {
-  lineas: Array<{ subconjunto: string; codigo: string; descripcion: string; unidad: string; cantidad: number; fila: number }>
+  lineas: Array<{
+    subconjunto: string; codigo: string; descripcion: string; unidad: string
+    cantidad: number; stock: number | null; fila: number
+  }>
   subconjuntos: string[]
   metodoSubconjunto: 'columna' | 'nivel' | 'sangria' | 'prefijo' | 'ninguno'
   omitidos: Array<{ fila: number; descripcion: string; motivo: string }>
@@ -34,6 +37,7 @@ export default function PanelMateriales({ proyectoId, materiales, puede, onCambi
   onCambio: () => void
 }) {
   const [preview, setPreview] = useState<Preview | null>(null)
+  const [alcance, setAlcance] = useState<{ entrantes: string[]; reemplaza: string[] }>({ entrantes: [], reemplaza: [] })
   const [archivo, setArchivo] = useState<File | null>(null)
   const [cargando, setCargando] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -57,6 +61,7 @@ export default function PanelMateriales({ proyectoId, materiales, puede, onCambi
         onCambio()
       } else {
         setPreview(data.preview)
+        setAlcance({ entrantes: data.entrantes ?? [], reemplaza: data.reemplaza ?? [] })
         setArchivo(file)
       }
     } catch (err) {
@@ -72,10 +77,12 @@ export default function PanelMateriales({ proyectoId, materiales, puede, onCambi
         <ListaMateriales materiales={materiales} />
         {puede && (
           <details className="text-sm">
-            <summary className="cursor-pointer text-slate-500 hover:text-brand">Reemplazar el despiece</summary>
+            <summary className="cursor-pointer text-slate-500 hover:text-brand">
+              Sumar o reemplazar un subconjunto
+            </summary>
             <p className="mt-2 text-xs text-slate-500">
-              Sólo mientras no haya ingresos registrados: una vez que entró material contra estos
-              renglones, el despiece queda fijo.
+              Cada archivo trae un subconjunto: si ya está cargado se reemplaza, y si no, se agrega.
+              Un subconjunto con material ya ingresado no se puede reemplazar.
             </p>
             <Importador ref={ref} cargando={cargando} onArchivo={(f) => enviar(f, false)} />
           </details>
@@ -83,6 +90,7 @@ export default function PanelMateriales({ proyectoId, materiales, puede, onCambi
         {preview && archivo && (
           <Preview
             preview={preview}
+            alcance={alcance}
             cargando={cargando}
             onAplicar={() => enviar(archivo, true)}
             onCancelar={() => setPreview(null)}
@@ -99,8 +107,10 @@ export default function PanelMateriales({ proyectoId, materiales, puede, onCambi
         <Package className="mx-auto mb-2 h-8 w-8 text-slate-300" />
         <p className="text-sm font-semibold text-brand-ink">Todavía no hay despiece cargado</p>
         <p className="mx-auto mt-1 max-w-md text-xs text-slate-500">
-          Subí la estructura de producto exportada del sistema de gestión (.xlsx o .csv). De ahí
-          salen los materiales que abastecimiento va a verificar contra el depósito.
+          Subí la estructura de producto exportada del sistema de gestión (.xlsx o .csv). Si la
+          obra tiene un archivo por subconjunto —columnas, vigas, correas, escalera— se suben de a
+          uno y se van sumando. De ahí salen los materiales que abastecimiento verifica contra el
+          depósito.
         </p>
         {puede
           ? <Importador ref={ref} cargando={cargando} onArchivo={(f) => enviar(f, false)} />
@@ -109,6 +119,7 @@ export default function PanelMateriales({ proyectoId, materiales, puede, onCambi
       {preview && archivo && (
         <Preview
           preview={preview}
+          alcance={alcance}
           cargando={cargando}
           onAplicar={() => enviar(archivo, true)}
           onCancelar={() => setPreview(null)}
@@ -149,8 +160,9 @@ function Importador({ ref, cargando, onArchivo }: {
   )
 }
 
-function Preview({ preview, cargando, onAplicar, onCancelar }: {
+function Preview({ preview, alcance, cargando, onAplicar, onCancelar }: {
   preview: Preview
+  alcance: { entrantes: string[]; reemplaza: string[] }
   cargando: boolean
   onAplicar: () => void
   onCancelar: () => void
@@ -163,9 +175,25 @@ function Preview({ preview, cargando, onAplicar, onCancelar }: {
         <li><strong>{preview.lineas.length}</strong> renglones de material</li>
         <li><strong>{preview.subconjuntos.length}</strong> subconjuntos, agrupados {COMO_DEDUJO[preview.metodoSubconjunto]}</li>
         {preview.omitidos.length > 0 && (
-          <li><strong>{preview.omitidos.length}</strong> renglones descartados (encabezados del árbol o sin cantidad)</li>
+          <li><strong>{preview.omitidos.length}</strong> renglones descartados (conjuntos del árbol o sin cantidad)</li>
+        )}
+        {preview.lineas.some((l) => l.stock != null) && (
+          <li>trae el <strong>stock del sistema de gestión</strong>, que queda propuesto en la verificación</li>
         )}
       </ul>
+
+      {/* El ERP exporta un subconjunto por archivo: importar casi siempre
+          agrega, y sólo reemplaza el subconjunto que se volvió a exportar. */}
+      {alcance.reemplaza.length > 0 ? (
+        <p className="mb-3 rounded-lg bg-sky-50 p-3 text-xs text-sky-900">
+          Se <strong>reemplaza</strong> {alcance.reemplaza.join(', ')}, que ya estaba cargado. El
+          resto del despiece queda como está.
+        </p>
+      ) : alcance.entrantes.length > 0 ? (
+        <p className="mb-3 rounded-lg bg-slate-100 p-3 text-xs text-slate-600">
+          Se <strong>agrega</strong> {alcance.entrantes.join(', ')} a lo que ya haya cargado.
+        </p>
+      ) : null}
 
       {preview.advertencias.length > 0 && (
         <div className="mb-3 rounded-lg bg-amber-50 p-3 text-xs text-amber-900">
@@ -216,7 +244,7 @@ function Preview({ preview, cargando, onAplicar, onCancelar }: {
           className="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-50"
         >
           {cargando ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
-          Importar {preview.lineas.length} renglones
+          {alcance.reemplaza.length > 0 ? 'Reemplazar' : 'Agregar'} {preview.lineas.length} renglones
         </button>
         <button type="button" onClick={onCancelar} className="rounded-lg px-4 py-2 text-sm text-slate-500 hover:bg-slate-100">
           Cancelar
