@@ -34,6 +34,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
             Proyectos
           </Link>
           <Link
+            href="/produccion"
+            className="hover:text-brand transition-colors text-sm uppercase font-semibold tracking-wider"
+          >
+            Producción
+          </Link>
+          <Link
             href="/proyectos/nuevo"
             className="hover:text-brand transition-colors text-sm uppercase font-semibold tracking-wider"
           >

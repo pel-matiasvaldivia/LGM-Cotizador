@@ -9,8 +9,9 @@
 import { and, eq } from 'drizzle-orm'
 import { db } from '@/db'
 import {
-  documentosProyecto, presupuestoBaseItems, proyectos, ratiosCostos, rubros, subrubros,
-  type Proyecto,
+  documentosProyecto, ordenesProduccion, presupuestoBaseItems, proyectos, ratiosCostos, rubros,
+  subrubros,
+  type OrdenProduccion, type Proyecto,
 } from '@/db/schema'
 import { AuthError } from '@/lib/errors'
 import { requireTenant } from '@/lib/tenant'
@@ -29,6 +30,20 @@ export async function requireProyecto(proyectoId: string): Promise<Proyecto> {
   const proyecto = await proyectoDelTenant(proyectoId)
   if (!proyecto) throw new AuthError('Proyecto no encontrado', 404)
   return proyecto
+}
+
+/**
+ * Orden de producción del proyecto, validando el tenant. Es la entrada de todo
+ * el circuito de producción: si la orden no existe todavía, el circuito no
+ * puede empezar porque no hay contrato firmado detrás.
+ */
+export async function requireOrdenDelProyecto(proyectoId: string): Promise<OrdenProduccion> {
+  const proyecto = await requireProyecto(proyectoId)
+  const orden = await db.query.ordenesProduccion.findFirst({
+    where: eq(ordenesProduccion.proyectoId, proyecto.id),
+  })
+  if (!orden) throw new AuthError('El proyecto todavía no tiene orden de producción', 404)
+  return orden
 }
 
 /** Ítem de presupuesto, validando que su proyecto sea de la empresa actual. */

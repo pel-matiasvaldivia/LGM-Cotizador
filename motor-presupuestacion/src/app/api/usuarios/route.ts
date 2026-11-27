@@ -6,6 +6,7 @@ import { requireUser, findUserByEmail } from '@/lib/auth'
 import { hashPassword } from '@/lib/password'
 import { withErrorHandling } from '@/lib/api-helpers'
 import { requireTenant } from '@/lib/tenant'
+import { normalizarSectores } from '@/lib/produccion'
 
 const ROLES = ['admin', 'comercial', 'cliente'] as const
 type Rol = (typeof ROLES)[number]
@@ -28,6 +29,7 @@ export const GET = withErrorHandling(async () => {
       email: u.email,
       nombre: u.nombre,
       rol: u.rol,
+      sectores: u.sectores ?? [],
       created_at: u.createdAt.toISOString(),
     })),
   })
@@ -59,6 +61,9 @@ export const POST = withErrorHandling(async (req: Request) => {
       email,
       nombre: nombre || 'Usuario',
       rol,
+      // Los sectores sólo tienen sentido para el staff: un cliente no
+      // interviene en el circuito de producción.
+      sectores: rol === 'cliente' ? [] : normalizarSectores(body.sectores),
       passwordHash: await hashPassword(password),
       // La da de alta un admin de la empresa: el email no lo elige el titular.
       emailVerificadoAt: new Date(),
@@ -66,6 +71,9 @@ export const POST = withErrorHandling(async (req: Request) => {
     .returning()
 
   return NextResponse.json({
-    usuario: { id: user.id, email: user.email, nombre: user.nombre, rol: user.rol, created_at: user.createdAt.toISOString() },
+    usuario: {
+      id: user.id, email: user.email, nombre: user.nombre, rol: user.rol,
+      sectores: user.sectores ?? [], created_at: user.createdAt.toISOString(),
+    },
   })
 })

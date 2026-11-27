@@ -1,0 +1,7061 @@
+{
+  "generado": "2026-11-26",
+  "perfiles": [
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 1/2 x 1/8",
+      "dimensiones": "12.7 x 12.7 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 0.56,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 5/8 x 1/8",
+      "dimensiones": "15.9 x 15.9 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 0.74,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 3/4 x 1/8",
+      "dimensiones": "19.1 x 19.1 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 0.89,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 7/8 x 1/8",
+      "dimensiones": "22.2 x 22.2 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 1.04,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 1 x 1/8",
+      "dimensiones": "25.4 x 25.4 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 1.19,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 1 1/4 x 1/8",
+      "dimensiones": "31.8 x 31.8 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 1.55,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 1 x 3/16",
+      "dimensiones": "25.4 x 25.4 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 1.72,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 1 1/2 x 1/8",
+      "dimensiones": "38.1 x 38.1 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 1.86,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 1 3/4 x 1/8",
+      "dimensiones": "44.5 x 44.5 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 2.22,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 1 1/4 x 3/16",
+      "dimensiones": "31.8 x 31.8 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 2.25,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 2 x 1/8",
+      "dimensiones": "50.8 x 50.8 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 2.52,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 1 1/2 x 3/16",
+      "dimensiones": "38.1 x 38.1 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 2.71,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 1 3/4 x 3/16",
+      "dimensiones": "44.5 x 44.5 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 3.25,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 1 1/2 x1/4",
+      "dimensiones": "38.1 x 38.1 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 3.53,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 2 x3/16",
+      "dimensiones": "50.8 x 50.8 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 3.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 2 1/4 x 3/16",
+      "dimensiones": "57.2 x 57.2 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 4.17,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 1 3/4 x 1/4",
+      "dimensiones": "44.5 x 44.5 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 4.24,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 2 1/2 x 3/16",
+      "dimensiones": "63.5 x 63.5 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 4.71,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 2 x1/4",
+      "dimensiones": "50.8 x 50.8 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 4.84,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 2 1/4 x 1/4",
+      "dimensiones": "57.2 x 57.2 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 5.46,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 2 1/2 x1/4",
+      "dimensiones": "63.5 x 63.5 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 6.18,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 80       80     42",
+      "dimensiones": "3.9 x 3.9 x 5.9 mm",
+      "espesorMm": 5.9,
+      "kgM": 6.29,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 3 x 1/4",
+      "dimensiones": "76.2 x 76.2 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 7.4,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 3 x 5/16",
+      "dimensiones": "76.2 x 76.2 x 7.9 mm",
+      "espesorMm": 7.9,
+      "kgM": 9.02,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 3 1/2 x 5/16",
+      "dimensiones": "88.9 x 88.9 x 7.9 mm",
+      "espesorMm": 7.9,
+      "kgM": 10.65,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 3 x 3/8",
+      "dimensiones": "76.2 x 76.2 x 9.5 mm",
+      "espesorMm": 9.5,
+      "kgM": 10.71,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 4 x 5/16",
+      "dimensiones": "101.6 x 101.6 x 7.9 mm",
+      "espesorMm": 7.9,
+      "kgM": 12.28,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 3 1/2 x 3/8",
+      "dimensiones": "88.9 x 88.9 x 9.5 mm",
+      "espesorMm": 9.5,
+      "kgM": 12.67,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 4 x 3/8",
+      "dimensiones": "101.6 x 101.6 x 9.5 mm",
+      "espesorMm": 9.5,
+      "kgM": 14.63,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 4 x 1/2",
+      "dimensiones": "101.6 x 101.6 x 12.7 mm",
+      "espesorMm": 12.7,
+      "kgM": 19.19,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 80     80    45    6,0   8,0",
+      "dimensiones": "1.45 x 1.45 x 11 mm",
+      "espesorMm": 11,
+      "kgM": 26.5,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 100     100     50     4,5",
+      "dimensiones": "6.8 x 6.8 x 10.6 mm",
+      "espesorMm": 10.6,
+      "kgM": 34.2,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 100     100    50    6,0   8,5",
+      "dimensiones": "1.55 x 1.55 x 13.5 mm",
+      "espesorMm": 13.5,
+      "kgM": 41.2,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 120     120     58     5,1",
+      "dimensiones": "7.7 x 7.7 x 14.2 mm",
+      "espesorMm": 14.2,
+      "kgM": 54.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 120     120    55    7,0   9,0",
+      "dimensiones": "1.6 x 1.6 x 17 mm",
+      "espesorMm": 17,
+      "kgM": 60.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 140     140     66     5,7",
+      "dimensiones": "8.6 x 8.6 x 18.3 mm",
+      "espesorMm": 18.3,
+      "kgM": 81.9,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 140     140    60    7,0   10,0",
+      "dimensiones": "1.75 x 1.75 x 20.4 mm",
+      "espesorMm": 20.4,
+      "kgM": 86.4,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 160     160    65    7,5   10,5",
+      "dimensiones": "1.84 x 1.84 x 24 mm",
+      "espesorMm": 24,
+      "kgM": 115.6,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Ángulo alas iguales",
+      "proveedor": "Acindar",
+      "designacion": "Ángulo 160     160     74     6,3",
+      "dimensiones": "9.5 x 9.5 x 22.8 mm",
+      "espesorMm": 22.8,
+      "kgM": 116.9,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra lisa AL 220",
+      "proveedor": "Acindar",
+      "designacion": "Barra lisa AL 220 Ø 6 mm",
+      "dimensiones": "Ø 6 mm",
+      "espesorMm": null,
+      "kgM": 0.222,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra lisa AL 220",
+      "proveedor": "Acindar",
+      "designacion": "Barra lisa AL 220 Ø 8 mm",
+      "dimensiones": "Ø 8 mm",
+      "espesorMm": null,
+      "kgM": 0.395,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra lisa AL 220",
+      "proveedor": "Acindar",
+      "designacion": "Barra lisa AL 220 Ø 10 mm",
+      "dimensiones": "Ø 10 mm",
+      "espesorMm": null,
+      "kgM": 0.617,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra lisa AL 220",
+      "proveedor": "Acindar",
+      "designacion": "Barra lisa AL 220 Ø 12 mm",
+      "dimensiones": "Ø 12 mm",
+      "espesorMm": null,
+      "kgM": 0.888,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra lisa AL 220",
+      "proveedor": "Acindar",
+      "designacion": "Barra lisa AL 220 Ø 16 mm",
+      "dimensiones": "Ø 16 mm",
+      "espesorMm": null,
+      "kgM": 1.58,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra lisa AL 220",
+      "proveedor": "Acindar",
+      "designacion": "Barra lisa AL 220 Ø 20 mm",
+      "dimensiones": "Ø 20 mm",
+      "espesorMm": null,
+      "kgM": 2.47,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra lisa AL 220",
+      "proveedor": "Acindar",
+      "designacion": "Barra lisa AL 220 Ø 25 mm",
+      "dimensiones": "Ø 25 mm",
+      "espesorMm": null,
+      "kgM": 3.85,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra nervada DN A 420 S",
+      "proveedor": "Acindar",
+      "designacion": "Barra nervada DN A 420 S Ø 6 mm",
+      "dimensiones": "Ø 6 mm",
+      "espesorMm": null,
+      "kgM": 0.222,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra nervada DN A 420 S",
+      "proveedor": "Acindar",
+      "designacion": "Barra nervada DN A 420 S Ø 8 mm",
+      "dimensiones": "Ø 8 mm",
+      "espesorMm": null,
+      "kgM": 0.395,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra nervada DN A 420 S",
+      "proveedor": "Acindar",
+      "designacion": "Barra nervada DN A 420 S Ø 10 mm",
+      "dimensiones": "Ø 10 mm",
+      "espesorMm": null,
+      "kgM": 0.617,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra nervada DN A 420 S",
+      "proveedor": "Acindar",
+      "designacion": "Barra nervada DN A 420 S Ø 12 mm",
+      "dimensiones": "Ø 12 mm",
+      "espesorMm": null,
+      "kgM": 0.888,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra nervada DN A 420 S",
+      "proveedor": "Acindar",
+      "designacion": "Barra nervada DN A 420 S Ø 16 mm",
+      "dimensiones": "Ø 16 mm",
+      "espesorMm": null,
+      "kgM": 1.58,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra nervada DN A 420 S",
+      "proveedor": "Acindar",
+      "designacion": "Barra nervada DN A 420 S Ø 20 mm",
+      "dimensiones": "Ø 20 mm",
+      "espesorMm": null,
+      "kgM": 2.47,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra nervada DN A 420 S",
+      "proveedor": "Acindar",
+      "designacion": "Barra nervada DN A 420 S Ø 25 mm",
+      "dimensiones": "Ø 25 mm",
+      "espesorMm": null,
+      "kgM": 3.85,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra nervada DN A 420 S",
+      "proveedor": "Acindar",
+      "designacion": "Barra nervada DN A 420 S Ø 32 mm",
+      "dimensiones": "Ø 32 mm",
+      "espesorMm": null,
+      "kgM": 6.31,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Barra nervada DN A 420 S",
+      "proveedor": "Acindar",
+      "designacion": "Barra nervada DN A 420 S Ø 40 mm",
+      "dimensiones": "Ø 40 mm",
+      "espesorMm": null,
+      "kgM": 9.86,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 100",
+      "dimensiones": "h 100 mm",
+      "espesorMm": null,
+      "kgM": 20.4,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 120",
+      "dimensiones": "h 120 mm",
+      "espesorMm": null,
+      "kgM": 26.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 140",
+      "dimensiones": "h 140 mm",
+      "espesorMm": null,
+      "kgM": 33.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 160",
+      "dimensiones": "h 160 mm",
+      "espesorMm": null,
+      "kgM": 42.6,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 180",
+      "dimensiones": "h 180 mm",
+      "espesorMm": null,
+      "kgM": 51.2,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 200",
+      "dimensiones": "h 200 mm",
+      "espesorMm": null,
+      "kgM": 61.3,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 220",
+      "dimensiones": "h 220 mm",
+      "espesorMm": null,
+      "kgM": 71.5,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 240",
+      "dimensiones": "h 240 mm",
+      "espesorMm": null,
+      "kgM": 83.2,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 260",
+      "dimensiones": "h 260 mm",
+      "espesorMm": null,
+      "kgM": 93,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 280",
+      "dimensiones": "h 280 mm",
+      "espesorMm": null,
+      "kgM": 103,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 300",
+      "dimensiones": "h 300 mm",
+      "espesorMm": null,
+      "kgM": 117,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 320",
+      "dimensiones": "h 320 mm",
+      "espesorMm": null,
+      "kgM": 127,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 340",
+      "dimensiones": "h 340 mm",
+      "espesorMm": null,
+      "kgM": 134,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 360",
+      "dimensiones": "h 360 mm",
+      "espesorMm": null,
+      "kgM": 142,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 400",
+      "dimensiones": "h 400 mm",
+      "espesorMm": null,
+      "kgM": 155,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 450",
+      "dimensiones": "h 450 mm",
+      "espesorMm": null,
+      "kgM": 171,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 500",
+      "dimensiones": "h 500 mm",
+      "espesorMm": null,
+      "kgM": 187,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPB (HEB)",
+      "proveedor": "Acindar",
+      "designacion": "IPB (HEB) 550",
+      "dimensiones": "h 550 mm",
+      "espesorMm": null,
+      "kgM": 199,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 100",
+      "dimensiones": "h 100 mm",
+      "espesorMm": null,
+      "kgM": 16.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 120",
+      "dimensiones": "h 120 mm",
+      "espesorMm": null,
+      "kgM": 19.9,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 140",
+      "dimensiones": "h 140 mm",
+      "espesorMm": null,
+      "kgM": 24.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 160",
+      "dimensiones": "h 160 mm",
+      "espesorMm": null,
+      "kgM": 30.4,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 180",
+      "dimensiones": "h 180 mm",
+      "espesorMm": null,
+      "kgM": 35.5,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 200",
+      "dimensiones": "h 200 mm",
+      "espesorMm": null,
+      "kgM": 42.3,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 220",
+      "dimensiones": "h 220 mm",
+      "espesorMm": null,
+      "kgM": 50.5,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 240",
+      "dimensiones": "h 240 mm",
+      "espesorMm": null,
+      "kgM": 60.3,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 260",
+      "dimensiones": "h 260 mm",
+      "espesorMm": null,
+      "kgM": 68.2,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 280",
+      "dimensiones": "h 280 mm",
+      "espesorMm": null,
+      "kgM": 76.4,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 300",
+      "dimensiones": "h 300 mm",
+      "espesorMm": null,
+      "kgM": 88.3,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 320",
+      "dimensiones": "h 320 mm",
+      "espesorMm": null,
+      "kgM": 97.6,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 340",
+      "dimensiones": "h 340 mm",
+      "espesorMm": null,
+      "kgM": 105,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 360",
+      "dimensiones": "h 360 mm",
+      "espesorMm": null,
+      "kgM": 112,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 400",
+      "dimensiones": "h 400 mm",
+      "espesorMm": null,
+      "kgM": 125,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 450",
+      "dimensiones": "h 450 mm",
+      "espesorMm": null,
+      "kgM": 140,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 500",
+      "dimensiones": "h 500 mm",
+      "espesorMm": null,
+      "kgM": 155,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPBl (HEA)",
+      "proveedor": "Acindar",
+      "designacion": "IPBl (HEA) 550",
+      "dimensiones": "h 550 mm",
+      "espesorMm": null,
+      "kgM": 166,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 80",
+      "dimensiones": "h 80 mm",
+      "espesorMm": null,
+      "kgM": 6,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 100",
+      "dimensiones": "h 100 mm",
+      "espesorMm": null,
+      "kgM": 8,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 120",
+      "dimensiones": "h 120 mm",
+      "espesorMm": null,
+      "kgM": 10.4,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 140",
+      "dimensiones": "h 140 mm",
+      "espesorMm": null,
+      "kgM": 12.9,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 160",
+      "dimensiones": "h 160 mm",
+      "espesorMm": null,
+      "kgM": 15.8,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 180",
+      "dimensiones": "h 180 mm",
+      "espesorMm": null,
+      "kgM": 18.8,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 200",
+      "dimensiones": "h 200 mm",
+      "espesorMm": null,
+      "kgM": 22.4,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 220",
+      "dimensiones": "h 220 mm",
+      "espesorMm": null,
+      "kgM": 26.2,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 240",
+      "dimensiones": "h 240 mm",
+      "espesorMm": null,
+      "kgM": 30.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 270",
+      "dimensiones": "h 270 mm",
+      "espesorMm": null,
+      "kgM": 36.1,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 300",
+      "dimensiones": "h 300 mm",
+      "espesorMm": null,
+      "kgM": 42.2,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 330",
+      "dimensiones": "h 330 mm",
+      "espesorMm": null,
+      "kgM": 49.1,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 360",
+      "dimensiones": "h 360 mm",
+      "espesorMm": null,
+      "kgM": 57.1,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 400",
+      "dimensiones": "h 400 mm",
+      "espesorMm": null,
+      "kgM": 66.3,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 450",
+      "dimensiones": "h 450 mm",
+      "espesorMm": null,
+      "kgM": 77.6,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 500",
+      "dimensiones": "h 500 mm",
+      "espesorMm": null,
+      "kgM": 90.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 550",
+      "dimensiones": "h 550 mm",
+      "espesorMm": null,
+      "kgM": 106,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPE",
+      "proveedor": "Acindar",
+      "designacion": "IPE 600",
+      "dimensiones": "h 600 mm",
+      "espesorMm": null,
+      "kgM": 122,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 80",
+      "dimensiones": "h 80 mm",
+      "espesorMm": null,
+      "kgM": 5.9,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 100",
+      "dimensiones": "h 100 mm",
+      "espesorMm": null,
+      "kgM": 8.3,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 120",
+      "dimensiones": "h 120 mm",
+      "espesorMm": null,
+      "kgM": 11.2,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 140",
+      "dimensiones": "h 140 mm",
+      "espesorMm": null,
+      "kgM": 14.3,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 160",
+      "dimensiones": "h 160 mm",
+      "espesorMm": null,
+      "kgM": 17.9,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 180",
+      "dimensiones": "h 180 mm",
+      "espesorMm": null,
+      "kgM": 21.9,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 200",
+      "dimensiones": "h 200 mm",
+      "espesorMm": null,
+      "kgM": 26.2,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 220",
+      "dimensiones": "h 220 mm",
+      "espesorMm": null,
+      "kgM": 31.1,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 240",
+      "dimensiones": "h 240 mm",
+      "espesorMm": null,
+      "kgM": 36.2,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 260",
+      "dimensiones": "h 260 mm",
+      "espesorMm": null,
+      "kgM": 41.9,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 280",
+      "dimensiones": "h 280 mm",
+      "espesorMm": null,
+      "kgM": 47.9,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 300",
+      "dimensiones": "h 300 mm",
+      "espesorMm": null,
+      "kgM": 54.2,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 320",
+      "dimensiones": "h 320 mm",
+      "espesorMm": null,
+      "kgM": 61,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 340",
+      "dimensiones": "h 340 mm",
+      "espesorMm": null,
+      "kgM": 68,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 360",
+      "dimensiones": "h 360 mm",
+      "espesorMm": null,
+      "kgM": 76,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 400",
+      "dimensiones": "h 400 mm",
+      "espesorMm": null,
+      "kgM": 92.4,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 450",
+      "dimensiones": "h 450 mm",
+      "espesorMm": null,
+      "kgM": 115,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 500",
+      "dimensiones": "h 500 mm",
+      "espesorMm": null,
+      "kgM": 141,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "IPN",
+      "proveedor": "Acindar",
+      "designacion": "IPN 550",
+      "dimensiones": "h 550 mm",
+      "espesorMm": null,
+      "kgM": 199,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 80x40x15 x 1.6 mm",
+      "dimensiones": "80x40x15 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.22,
+      "kgMGalvanizado": 2.26
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 80x50x15 x 1.6 mm",
+      "dimensiones": "80x50x15 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.47,
+      "kgMGalvanizado": 2.51
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 100x45x10 x 1.6 mm",
+      "dimensiones": "100x45x10 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.5,
+      "kgMGalvanizado": 2.54
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 100x50x15 x 1.6 mm",
+      "dimensiones": "100x50x15 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.73,
+      "kgMGalvanizado": 2.77
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 80x40x15 x 2 mm",
+      "dimensiones": "80x40x15 mm",
+      "espesorMm": 2,
+      "kgM": 2.76,
+      "kgMGalvanizado": 2.8
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 120x50x15 x 1.6 mm",
+      "dimensiones": "120x50x15 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.98,
+      "kgMGalvanizado": 3.02
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 80x50x15 x 2 mm",
+      "dimensiones": "80x50x15 mm",
+      "espesorMm": 2,
+      "kgM": 3.08,
+      "kgMGalvanizado": 3.12
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 100x45x10 x 2 mm",
+      "dimensiones": "100x45x10 mm",
+      "espesorMm": 2,
+      "kgM": 3.11,
+      "kgMGalvanizado": 3.15
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 80x40x15 x 2.5 mm",
+      "dimensiones": "80x40x15 mm",
+      "espesorMm": 2.5,
+      "kgM": 3.38,
+      "kgMGalvanizado": 3.41
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 100x50x15 x 2 mm",
+      "dimensiones": "100x50x15 mm",
+      "espesorMm": 2,
+      "kgM": 3.39,
+      "kgMGalvanizado": 3.43
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 120x50x15 x 2 mm",
+      "dimensiones": "120x50x15 mm",
+      "espesorMm": 2,
+      "kgM": 3.71,
+      "kgMGalvanizado": 3.75
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 80x50x15 x 2.5 mm",
+      "dimensiones": "80x50x15 mm",
+      "espesorMm": 2.5,
+      "kgM": 3.77,
+      "kgMGalvanizado": 3.81
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 100x45x10 x 2.5 mm",
+      "dimensiones": "100x45x10 mm",
+      "espesorMm": 2.5,
+      "kgM": 3.81,
+      "kgMGalvanizado": 3.85
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 80x40x15 x 3.2 mm",
+      "dimensiones": "80x40x15 mm",
+      "espesorMm": 3.2,
+      "kgM": 4.12,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 100x50x15 x 2.5 mm",
+      "dimensiones": "100x50x15 mm",
+      "espesorMm": 2.5,
+      "kgM": 4.16,
+      "kgMGalvanizado": 4.2
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 140x60x20 x 2 mm",
+      "dimensiones": "140x60x20 mm",
+      "espesorMm": 2,
+      "kgM": 4.49,
+      "kgMGalvanizado": 4.55
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 120x50x15 x 2.5 mm",
+      "dimensiones": "120x50x15 mm",
+      "espesorMm": 2.5,
+      "kgM": 4.55,
+      "kgMGalvanizado": 4.6
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 80x50x15 x 3.2 mm",
+      "dimensiones": "80x50x15 mm",
+      "espesorMm": 3.2,
+      "kgM": 4.62,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 100x45x10 x 3.2 mm",
+      "dimensiones": "100x45x10 mm",
+      "espesorMm": 3.2,
+      "kgM": 4.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 160x60x20 x 2 mm",
+      "dimensiones": "160x60x20 mm",
+      "espesorMm": 2,
+      "kgM": 4.8,
+      "kgMGalvanizado": 4.87
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 100x50x15 x 3.2 mm",
+      "dimensiones": "100x50x15 mm",
+      "espesorMm": 3.2,
+      "kgM": 5.17,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 180x70x20 x 2 mm",
+      "dimensiones": "180x70x20 mm",
+      "espesorMm": 2,
+      "kgM": 5.4,
+      "kgMGalvanizado": 5.47
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 140x60x20 x 2.5 mm",
+      "dimensiones": "140x60x20 mm",
+      "espesorMm": 2.5,
+      "kgM": 5.53,
+      "kgMGalvanizado": 5.59
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 120x50x15 x 3.2 mm",
+      "dimensiones": "120x50x15 mm",
+      "espesorMm": 3.2,
+      "kgM": 5.68,
+      "kgMGalvanizado": 5.72
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 160x60x20 x 2.5 mm",
+      "dimensiones": "160x60x20 mm",
+      "espesorMm": 2.5,
+      "kgM": 5.93,
+      "kgMGalvanizado": 5.99
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 200x80x20 x 2 mm",
+      "dimensiones": "200x80x20 mm",
+      "espesorMm": 2,
+      "kgM": 6.03,
+      "kgMGalvanizado": 6.11
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 220x80x20 x 2 mm",
+      "dimensiones": "220x80x20 mm",
+      "espesorMm": 2,
+      "kgM": 6.34,
+      "kgMGalvanizado": 6.42
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 180x70x20 x 2.5 mm",
+      "dimensiones": "180x70x20 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.67,
+      "kgMGalvanizado": 6.74
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 140x60x20 x 3.2 mm",
+      "dimensiones": "140x60x20 mm",
+      "espesorMm": 3.2,
+      "kgM": 6.88,
+      "kgMGalvanizado": 6.94
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 160x60x20 x 3.2 mm",
+      "dimensiones": "160x60x20 mm",
+      "espesorMm": 3.2,
+      "kgM": 7.44,
+      "kgMGalvanizado": 7.5
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 200x80x20 x 2.5 mm",
+      "dimensiones": "200x80x20 mm",
+      "espesorMm": 2.5,
+      "kgM": 7.46,
+      "kgMGalvanizado": 7.53
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 220x80x20 x 2.5 mm",
+      "dimensiones": "220x80x20 mm",
+      "espesorMm": 2.5,
+      "kgM": 7.85,
+      "kgMGalvanizado": 7.93
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 180x70x20 x 3.2 mm",
+      "dimensiones": "180x70x20 mm",
+      "espesorMm": 3.2,
+      "kgM": 8.39,
+      "kgMGalvanizado": 8.46
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 240x80x25 x 2.5 mm",
+      "dimensiones": "240x80x25 mm",
+      "espesorMm": 2.5,
+      "kgM": 8.44,
+      "kgMGalvanizado": 8.53
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 200x80x20 x 3.2 mm",
+      "dimensiones": "200x80x20 mm",
+      "espesorMm": 3.2,
+      "kgM": 9.39,
+      "kgMGalvanizado": 9.47
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 220x80x20 x 3.2 mm",
+      "dimensiones": "220x80x20 mm",
+      "espesorMm": 3.2,
+      "kgM": 9.95,
+      "kgMGalvanizado": 10.03
+    },
+    {
+      "familia": "Perfil C",
+      "proveedor": "Ternium",
+      "designacion": "Perfil C 240x80x25 x 3.2 mm",
+      "dimensiones": "240x80x25 mm",
+      "espesorMm": 3.2,
+      "kgM": 10.7,
+      "kgMGalvanizado": 10.79
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 80x40 x 2 mm",
+      "dimensiones": "80x40 mm",
+      "espesorMm": 2,
+      "kgM": 2.39,
+      "kgMGalvanizado": 2.42
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 100x50 x 2 mm",
+      "dimensiones": "100x50 mm",
+      "espesorMm": 2,
+      "kgM": 2.95,
+      "kgMGalvanizado": 2.99
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 120x50 x 2 mm",
+      "dimensiones": "120x50 mm",
+      "espesorMm": 2,
+      "kgM": 3.27,
+      "kgMGalvanizado": 3.31
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 100x50 x 2.5 mm",
+      "dimensiones": "100x50 mm",
+      "espesorMm": 2.5,
+      "kgM": 3.69,
+      "kgMGalvanizado": 3.73
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 140x60 x 2 mm",
+      "dimensiones": "140x60 mm",
+      "espesorMm": 2,
+      "kgM": 3.89,
+      "kgMGalvanizado": 3.94
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 120x50 x 2.5 mm",
+      "dimensiones": "120x50 mm",
+      "espesorMm": 2.5,
+      "kgM": 4.08,
+      "kgMGalvanizado": 4.12
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 160x60 x 2 mm",
+      "dimensiones": "160x60 mm",
+      "espesorMm": 2,
+      "kgM": 4.21,
+      "kgMGalvanizado": 4.26
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 100x50 x 3.2 mm",
+      "dimensiones": "100x50 mm",
+      "espesorMm": 3.2,
+      "kgM": 4.7,
+      "kgMGalvanizado": 4.74
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 140x60 x 2.5 mm",
+      "dimensiones": "140x60 mm",
+      "espesorMm": 2.5,
+      "kgM": 4.87,
+      "kgMGalvanizado": 4.92
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 180x70 x 2 mm",
+      "dimensiones": "180x70 mm",
+      "espesorMm": 2,
+      "kgM": 4.9,
+      "kgMGalvanizado": 4.96
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 120x50 x 3.2 mm",
+      "dimensiones": "120x50 mm",
+      "espesorMm": 3.2,
+      "kgM": 5.2,
+      "kgMGalvanizado": 5.24
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 160x60 x 2.5 mm",
+      "dimensiones": "160x60 mm",
+      "espesorMm": 2.5,
+      "kgM": 5.26,
+      "kgMGalvanizado": 5.31
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 180x70 x 2.5 mm",
+      "dimensiones": "180x70 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.08,
+      "kgMGalvanizado": 6.15
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 140x60 x 3.2 mm",
+      "dimensiones": "140x60 mm",
+      "espesorMm": 3.2,
+      "kgM": 6.2,
+      "kgMGalvanizado": 6.25
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 160x60 x 3.2 mm",
+      "dimensiones": "160x60 mm",
+      "espesorMm": 3.2,
+      "kgM": 6.71,
+      "kgMGalvanizado": 6.76
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 200x80 x 2.5 mm",
+      "dimensiones": "200x80 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.87,
+      "kgMGalvanizado": 6.94
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 180x70 x 3.2 mm",
+      "dimensiones": "180x70 mm",
+      "espesorMm": 3.2,
+      "kgM": 7.71,
+      "kgMGalvanizado": 7.77
+    },
+    {
+      "familia": "Perfil U",
+      "proveedor": "Ternium",
+      "designacion": "Perfil U 200x80 x 3.2 mm",
+      "dimensiones": "200x80 mm",
+      "espesorMm": 3.2,
+      "kgM": 8.72,
+      "kgMGalvanizado": 8.79
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 6x4x9",
+      "dimensiones": "150x100x13,5",
+      "espesorMm": null,
+      "kgM": 13.5,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 8x4x10",
+      "dimensiones": "200x100x15",
+      "espesorMm": null,
+      "kgM": 15,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 10x4x12",
+      "dimensiones": "250x100x17,9",
+      "espesorMm": null,
+      "kgM": 17.9,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 6x4x12",
+      "dimensiones": "150x100x18",
+      "espesorMm": null,
+      "kgM": 18,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 8x4x13",
+      "dimensiones": "200x100x19,3",
+      "espesorMm": null,
+      "kgM": 19.3,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 12x4x14",
+      "dimensiones": "310x100x21,0",
+      "espesorMm": null,
+      "kgM": 21,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 10x4x15",
+      "dimensiones": "250x100x22,3",
+      "espesorMm": null,
+      "kgM": 22.3,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 6x6x15",
+      "dimensiones": "150x150x22,5",
+      "espesorMm": null,
+      "kgM": 22.5,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 8x4x15",
+      "dimensiones": "200x100x22,5",
+      "espesorMm": null,
+      "kgM": 22.5,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 12x4x16",
+      "dimensiones": "310x100x23,8",
+      "espesorMm": null,
+      "kgM": 23.8,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 10x4x17",
+      "dimensiones": "250x100x25,3",
+      "espesorMm": null,
+      "kgM": 25.3,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 8x5,25x18",
+      "dimensiones": "200x135x26,6",
+      "espesorMm": null,
+      "kgM": 26.6,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 12x4x19",
+      "dimensiones": "310x100x28,3",
+      "espesorMm": null,
+      "kgM": 28.3,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 10x4x19",
+      "dimensiones": "250x100x28,4",
+      "espesorMm": null,
+      "kgM": 28.4,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 6x6x20",
+      "dimensiones": "150x150x29,8",
+      "espesorMm": null,
+      "kgM": 29.8,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 8x5,25x21",
+      "dimensiones": "200x135x31,3",
+      "espesorMm": null,
+      "kgM": 31.3,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 10x5,75x22",
+      "dimensiones": "250x145x32,7",
+      "espesorMm": null,
+      "kgM": 32.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 12x4x22",
+      "dimensiones": "310x100x32,7",
+      "espesorMm": null,
+      "kgM": 32.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 14x5x22",
+      "dimensiones": "360x130x32,9",
+      "espesorMm": null,
+      "kgM": 32.9,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 8x6,5x24",
+      "dimensiones": "200x165x35,9",
+      "espesorMm": null,
+      "kgM": 35.9,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 10x5,75x26",
+      "dimensiones": "250x145x38,5",
+      "espesorMm": null,
+      "kgM": 38.5,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 12x6,5x26",
+      "dimensiones": "310x165x38,7",
+      "espesorMm": null,
+      "kgM": 38.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 16x5,5x26",
+      "dimensiones": "410x140x38,8",
+      "espesorMm": null,
+      "kgM": 38.8,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 14x5x26",
+      "dimensiones": "360x130x39",
+      "espesorMm": null,
+      "kgM": 39,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 12x6,5x30",
+      "dimensiones": "310x165x44,5",
+      "espesorMm": null,
+      "kgM": 44.5,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 14x6,75x30",
+      "dimensiones": "360x170x44,6",
+      "espesorMm": null,
+      "kgM": 44.6,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 10x5,75x30",
+      "dimensiones": "250x145x44,8",
+      "espesorMm": null,
+      "kgM": 44.8,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 8x8x31",
+      "dimensiones": "200x200x46,1",
+      "espesorMm": null,
+      "kgM": 46.1,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 16x5,5x31",
+      "dimensiones": "410x140x46,1",
+      "espesorMm": null,
+      "kgM": 46.1,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 14x6,75x34",
+      "dimensiones": "360x170x51",
+      "espesorMm": null,
+      "kgM": 51,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 8x8x35",
+      "dimensiones": "200x200x52",
+      "espesorMm": null,
+      "kgM": 52,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 12x6,5x35",
+      "dimensiones": "310x165x52",
+      "espesorMm": null,
+      "kgM": 52,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 18x6x35",
+      "dimensiones": "460x150x52",
+      "espesorMm": null,
+      "kgM": 52,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 16x7x36",
+      "dimensiones": "410x180x53",
+      "espesorMm": null,
+      "kgM": 53,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 14x6,75x38",
+      "dimensiones": "360x170x58",
+      "espesorMm": null,
+      "kgM": 58,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 16x7x40",
+      "dimensiones": "410x180x60",
+      "espesorMm": null,
+      "kgM": 60,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 18x6x40",
+      "dimensiones": "460x150x60",
+      "espesorMm": null,
+      "kgM": 60,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 21x6,5x44",
+      "dimensiones": "530x165x66",
+      "espesorMm": null,
+      "kgM": 66,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 16x7x45",
+      "dimensiones": "410x180x67",
+      "espesorMm": null,
+      "kgM": 67,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 18x6x46",
+      "dimensiones": "460x150x68",
+      "espesorMm": null,
+      "kgM": 68,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 14x8x48",
+      "dimensiones": "360x200x72",
+      "espesorMm": null,
+      "kgM": 72,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 21x8,25x48",
+      "dimensiones": "530x210x72",
+      "espesorMm": null,
+      "kgM": 72,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 10x10x49",
+      "dimensiones": "250x250x73",
+      "espesorMm": null,
+      "kgM": 73,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 18x7,5x50",
+      "dimensiones": "460x190x74",
+      "espesorMm": null,
+      "kgM": 74,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 21x6,5x50",
+      "dimensiones": "530x165x74",
+      "espesorMm": null,
+      "kgM": 74,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 12x10x53",
+      "dimensiones": "310x250x79",
+      "espesorMm": null,
+      "kgM": 79,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 14x8x53",
+      "dimensiones": "360x200x79",
+      "espesorMm": null,
+      "kgM": 79,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 21x8,25x55",
+      "dimensiones": "530x210x82",
+      "espesorMm": null,
+      "kgM": 82,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 24x7x55",
+      "dimensiones": "610x180x82",
+      "espesorMm": null,
+      "kgM": 82,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 16x7x57",
+      "dimensiones": "410x180x85",
+      "espesorMm": null,
+      "kgM": 85,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 21x6,5x57",
+      "dimensiones": "530x165x85",
+      "espesorMm": null,
+      "kgM": 85,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 21x8,25x62",
+      "dimensiones": "530x210x92",
+      "espesorMm": null,
+      "kgM": 92,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 12x12x65",
+      "dimensiones": "310x310x97",
+      "espesorMm": null,
+      "kgM": 97,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 18x7,5x60",
+      "dimensiones": "460x190x97",
+      "espesorMm": null,
+      "kgM": 97,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 21x8,25x68",
+      "dimensiones": "530x210x101",
+      "espesorMm": null,
+      "kgM": 101,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 24x9x68",
+      "dimensiones": "610x230x101",
+      "espesorMm": null,
+      "kgM": 101,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 24x9x76",
+      "dimensiones": "610x230x113",
+      "espesorMm": null,
+      "kgM": 113,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 12x12x79",
+      "dimensiones": "310x310x117",
+      "espesorMm": null,
+      "kgM": 117,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 14x10x82",
+      "dimensiones": "360x250x122",
+      "espesorMm": null,
+      "kgM": 122,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 24x9x84",
+      "dimensiones": "610x230x125",
+      "espesorMm": null,
+      "kgM": 125,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 27x10x84",
+      "dimensiones": "690x250x125",
+      "espesorMm": null,
+      "kgM": 125,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Perfil W",
+      "proveedor": "Acindar",
+      "designacion": "Perfil W 24x9x94",
+      "dimensiones": "610x230x140",
+      "espesorMm": null,
+      "kgM": 140,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 12.7 x 3.2 mm",
+      "dimensiones": "12.7 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 0.32,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 15.9 x 3.2 mm",
+      "dimensiones": "15.9 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 0.4,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 12.7 x 4.8 mm",
+      "dimensiones": "12.7 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 0.48,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 19 x 3.2 mm",
+      "dimensiones": "19 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 0.48,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 22.2 x 3.2 mm",
+      "dimensiones": "22.2 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 0.56,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 15.9 x 4.8 mm",
+      "dimensiones": "15.9 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 0.6,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 12.7 x 6.4 mm",
+      "dimensiones": "12.7 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 0.64,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 25.4 x 3.2 mm",
+      "dimensiones": "25.4 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 0.64,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 19 x 4.8 mm",
+      "dimensiones": "19 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 0.72,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 15.9 x 6.4 mm",
+      "dimensiones": "15.9 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 0.79,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 31.8 x 3.2 mm",
+      "dimensiones": "31.8 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 0.8,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 22.2 x 4.8 mm",
+      "dimensiones": "22.2 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 0.84,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 19 x 6.4 mm",
+      "dimensiones": "19 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 0.95,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 25.4 x 4.8 mm",
+      "dimensiones": "25.4 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 0.96,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 38.1 x 3.2 mm",
+      "dimensiones": "38.1 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 0.96,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 22.2 x 6.4 mm",
+      "dimensiones": "22.2 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 1.12,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 44.5 x 3.2 mm",
+      "dimensiones": "44.5 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 1.12,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 19 x 7.9 mm",
+      "dimensiones": "19 x 7.9 mm",
+      "espesorMm": 7.9,
+      "kgM": 1.18,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 31.8 x 4.8 mm",
+      "dimensiones": "31.8 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 1.2,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 25.4 x 6.4 mm",
+      "dimensiones": "25.4 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 1.28,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 50.8 x 3.2 mm",
+      "dimensiones": "50.8 x 3.2 mm",
+      "espesorMm": 3.2,
+      "kgM": 1.28,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 22.2 x 7.9 mm",
+      "dimensiones": "22.2 x 7.9 mm",
+      "espesorMm": 7.9,
+      "kgM": 1.38,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 19 x 9.5 mm",
+      "dimensiones": "19 x 9.5 mm",
+      "espesorMm": 9.5,
+      "kgM": 1.42,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 38.1 x 4.8 mm",
+      "dimensiones": "38.1 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 1.44,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 25.4 x 7.9 mm",
+      "dimensiones": "25.4 x 7.9 mm",
+      "espesorMm": 7.9,
+      "kgM": 1.58,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 31.8 x 6.4 mm",
+      "dimensiones": "31.8 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 1.6,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 44.5 x 4.8 mm",
+      "dimensiones": "44.5 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 1.68,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 25.4 x 9.5 mm",
+      "dimensiones": "25.4 x 9.5 mm",
+      "espesorMm": 9.5,
+      "kgM": 1.89,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 38.1 x 6.4 mm",
+      "dimensiones": "38.1 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 1.91,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 50.8 x 4.8 mm",
+      "dimensiones": "50.8 x 4.8 mm",
+      "espesorMm": 4.8,
+      "kgM": 1.91,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 31.8 x 7.9 mm",
+      "dimensiones": "31.8 x 7.9 mm",
+      "espesorMm": 7.9,
+      "kgM": 1.97,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 44.5 x 6.4 mm",
+      "dimensiones": "44.5 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 2.24,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 38.1 x 7.9 mm",
+      "dimensiones": "38.1 x 7.9 mm",
+      "espesorMm": 7.9,
+      "kgM": 2.36,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 31.8 x 9.5 mm",
+      "dimensiones": "31.8 x 9.5 mm",
+      "espesorMm": 9.5,
+      "kgM": 2.37,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 25.4 x 12.7 mm",
+      "dimensiones": "25.4 x 12.7 mm",
+      "espesorMm": 12.7,
+      "kgM": 2.53,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 50.8 x 6.4 mm",
+      "dimensiones": "50.8 x 6.4 mm",
+      "espesorMm": 6.4,
+      "kgM": 2.55,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 44.5 x 7.9 mm",
+      "dimensiones": "44.5 x 7.9 mm",
+      "espesorMm": 7.9,
+      "kgM": 2.76,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 38.1 x 9.5 mm",
+      "dimensiones": "38.1 x 9.5 mm",
+      "espesorMm": 9.5,
+      "kgM": 2.84,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 50.8 x 7.9 mm",
+      "dimensiones": "50.8 x 7.9 mm",
+      "espesorMm": 7.9,
+      "kgM": 3.15,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 31.8 x 12.7 mm",
+      "dimensiones": "31.8 x 12.7 mm",
+      "espesorMm": 12.7,
+      "kgM": 3.17,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 44.5 x 9.5 mm",
+      "dimensiones": "44.5 x 9.5 mm",
+      "espesorMm": 9.5,
+      "kgM": 3.32,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 50.8 x 9.5 mm",
+      "dimensiones": "50.8 x 9.5 mm",
+      "espesorMm": 9.5,
+      "kgM": 3.79,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 38.1 x 12.7 mm",
+      "dimensiones": "38.1 x 12.7 mm",
+      "espesorMm": 12.7,
+      "kgM": 3.8,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 44.5 x 12.7 mm",
+      "dimensiones": "44.5 x 12.7 mm",
+      "espesorMm": 12.7,
+      "kgM": 4.44,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 50.8 x 12.7 mm",
+      "dimensiones": "50.8 x 12.7 mm",
+      "espesorMm": 12.7,
+      "kgM": 5.06,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 50.8 x 15.9 mm",
+      "dimensiones": "50.8 x 15.9 mm",
+      "espesorMm": 15.9,
+      "kgM": 6.34,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 50.8 x 19 mm",
+      "dimensiones": "50.8 x 19 mm",
+      "espesorMm": 19,
+      "kgM": 7.58,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 11.37 x 12.7 mm",
+      "dimensiones": "11.37 x 12.7 mm",
+      "espesorMm": 12.7,
+      "kgM": 15.19,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 11.37 x 15.9 mm",
+      "dimensiones": "11.37 x 15.9 mm",
+      "espesorMm": 15.9,
+      "kgM": 19.02,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 11.37 x 19 mm",
+      "dimensiones": "11.37 x 19 mm",
+      "espesorMm": 19,
+      "kgM": 22.73,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Planchuela lisa",
+      "proveedor": "Acindar",
+      "designacion": "Planchuela 11.37 x 25.4 mm",
+      "dimensiones": "11.37 x 25.4 mm",
+      "espesorMm": 25.4,
+      "kgM": 30.39,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 45x45 mm x 1.6 mm",
+      "dimensiones": "45x45 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.192,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 40x40 mm x 2 mm",
+      "dimensiones": "40x40 mm",
+      "espesorMm": 2,
+      "kgM": 2.407,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 50x50 mm x 1.6 mm",
+      "dimensiones": "50x50 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.442,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 45x45 mm x 2 mm",
+      "dimensiones": "45x45 mm",
+      "espesorMm": 2,
+      "kgM": 2.72,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 60x60 mm x 1.6 mm",
+      "dimensiones": "60x60 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.944,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 40x40 mm x 2.5 mm",
+      "dimensiones": "40x40 mm",
+      "espesorMm": 2.5,
+      "kgM": 2.978,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 50x50 mm x 2 mm",
+      "dimensiones": "50x50 mm",
+      "espesorMm": 2,
+      "kgM": 3.033,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 70x70 mm x 1.6 mm",
+      "dimensiones": "70x70 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.445,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 60x60 mm x 2 mm",
+      "dimensiones": "60x60 mm",
+      "espesorMm": 2,
+      "kgM": 3.66,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 40x40 mm x 3.2 mm",
+      "dimensiones": "40x40 mm",
+      "espesorMm": 3.2,
+      "kgM": 3.756,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 50x50 mm x 2.5 mm",
+      "dimensiones": "50x50 mm",
+      "espesorMm": 2.5,
+      "kgM": 3.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 80x80 mm x 1.6 mm",
+      "dimensiones": "80x80 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.946,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 70x70 mm x 2 mm",
+      "dimensiones": "70x70 mm",
+      "espesorMm": 2,
+      "kgM": 4.286,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 60x60 mm x 2.5 mm",
+      "dimensiones": "60x60 mm",
+      "espesorMm": 2.5,
+      "kgM": 4.544,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 40x40 mm x 4 mm",
+      "dimensiones": "40x40 mm",
+      "espesorMm": 4,
+      "kgM": 4.617,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 50x50 mm x 3.2 mm",
+      "dimensiones": "50x50 mm",
+      "espesorMm": 3.2,
+      "kgM": 4.759,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 80x80 mm x 2 mm",
+      "dimensiones": "80x80 mm",
+      "espesorMm": 2,
+      "kgM": 4.913,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 100x100 mm x 1.6 mm",
+      "dimensiones": "100x100 mm",
+      "espesorMm": 1.6,
+      "kgM": 4.948,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 70x70 mm x 2.5 mm",
+      "dimensiones": "70x70 mm",
+      "espesorMm": 2.5,
+      "kgM": 5.327,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 90x90 mm x 2 mm",
+      "dimensiones": "90x90 mm",
+      "espesorMm": 2,
+      "kgM": 5.539,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 60x60 mm x 3.2 mm",
+      "dimensiones": "60x60 mm",
+      "espesorMm": 3.2,
+      "kgM": 5.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 50x50 mm x 4 mm",
+      "dimensiones": "50x50 mm",
+      "espesorMm": 4,
+      "kgM": 5.869,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 80x80 mm x 2.5 mm",
+      "dimensiones": "80x80 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.11,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 100x100 mm x 2 mm",
+      "dimensiones": "100x100 mm",
+      "espesorMm": 2,
+      "kgM": 6.165,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 70x70 mm x 3.2 mm",
+      "dimensiones": "70x70 mm",
+      "espesorMm": 3.2,
+      "kgM": 6.763,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 90x90 mm x 2.5 mm",
+      "dimensiones": "90x90 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.893,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 60x60 mm x 4 mm",
+      "dimensiones": "60x60 mm",
+      "espesorMm": 4,
+      "kgM": 7.122,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 70x70 mm x 3.6 mm",
+      "dimensiones": "70x70 mm",
+      "espesorMm": 3.6,
+      "kgM": 7.573,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 100x100 mm x 2.5 mm",
+      "dimensiones": "100x100 mm",
+      "espesorMm": 2.5,
+      "kgM": 7.676,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 80x80 mm x 3.2 mm",
+      "dimensiones": "80x80 mm",
+      "espesorMm": 3.2,
+      "kgM": 7.765,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 90x90 mm x 3.2 mm",
+      "dimensiones": "90x90 mm",
+      "espesorMm": 3.2,
+      "kgM": 8.768,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 80x80 mm x 4 mm",
+      "dimensiones": "80x80 mm",
+      "espesorMm": 4,
+      "kgM": 9.628,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 100x100 mm x 3.2 mm",
+      "dimensiones": "100x100 mm",
+      "espesorMm": 3.2,
+      "kgM": 9.77,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 90x90 mm x 4 mm",
+      "dimensiones": "90x90 mm",
+      "espesorMm": 4,
+      "kgM": 10.881,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 10x10 mm x 0.8 mm",
+      "dimensiones": "10x10 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.235,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 10x10 mm x 0.9 mm",
+      "dimensiones": "10x10 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.262,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 10x10 mm x 1.25 mm",
+      "dimensiones": "10x10 mm",
+      "espesorMm": 1.25,
+      "kgM": 0.353,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 15x15 mm x 0.8 mm",
+      "dimensiones": "15x15 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.36,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 15x15 mm x 0.9 mm",
+      "dimensiones": "15x15 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.403,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 20x20 mm x 0.8 mm",
+      "dimensiones": "20x20 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.485,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 20x20 mm x 0.9 mm",
+      "dimensiones": "20x20 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.544,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 15x15 mm x 1.25 mm",
+      "dimensiones": "15x15 mm",
+      "espesorMm": 1.25,
+      "kgM": 0.549,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 25x25 mm x 0.8 mm",
+      "dimensiones": "25x25 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.611,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 25x25 mm x 0.9 mm",
+      "dimensiones": "25x25 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.685,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 15x15 mm x 1.6 mm",
+      "dimensiones": "15x15 mm",
+      "espesorMm": 1.6,
+      "kgM": 0.689,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 30x30 mm x 0.8 mm",
+      "dimensiones": "30x30 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.736,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 20x20 mm x 1.25 mm",
+      "dimensiones": "20x20 mm",
+      "espesorMm": 1.25,
+      "kgM": 0.744,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 30x30 mm x 0.9 mm",
+      "dimensiones": "30x30 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.826,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 15x15 mm x 2 mm",
+      "dimensiones": "15x15 mm",
+      "espesorMm": 2,
+      "kgM": 0.841,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 20x20 mm x 1.6 mm",
+      "dimensiones": "20x20 mm",
+      "espesorMm": 1.6,
+      "kgM": 0.939,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 25x25 mm x 1.25 mm",
+      "dimensiones": "25x25 mm",
+      "espesorMm": 1.25,
+      "kgM": 0.94,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 35x35 mm x 0.9 mm",
+      "dimensiones": "35x35 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.967,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 40x40 mm x 0.9 mm",
+      "dimensiones": "40x40 mm",
+      "espesorMm": 0.9,
+      "kgM": 1.108,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 30x30 mm x 1.25 mm",
+      "dimensiones": "30x30 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.136,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 20x20 mm x 2 mm",
+      "dimensiones": "20x20 mm",
+      "espesorMm": 2,
+      "kgM": 1.154,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 25x25 mm x 1.6 mm",
+      "dimensiones": "25x25 mm",
+      "espesorMm": 1.6,
+      "kgM": 1.19,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 45x45 mm x 0.9 mm",
+      "dimensiones": "45x45 mm",
+      "espesorMm": 0.9,
+      "kgM": 1.248,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 35x35 mm x 1.25 mm",
+      "dimensiones": "35x35 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.332,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 50x50 mm x 0.9 mm",
+      "dimensiones": "50x50 mm",
+      "espesorMm": 0.9,
+      "kgM": 1.389,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 30x30 mm x 1.6 mm",
+      "dimensiones": "30x30 mm",
+      "espesorMm": 1.6,
+      "kgM": 1.44,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 25x25 mm x 2 mm",
+      "dimensiones": "25x25 mm",
+      "espesorMm": 2,
+      "kgM": 1.467,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 40x40 mm x 1.25 mm",
+      "dimensiones": "40x40 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.527,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 35x35 mm x 1.6 mm",
+      "dimensiones": "35x35 mm",
+      "espesorMm": 1.6,
+      "kgM": 1.691,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 45x45 mm x 1.25 mm",
+      "dimensiones": "45x45 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.723,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 30x30 mm x 2 mm",
+      "dimensiones": "30x30 mm",
+      "espesorMm": 2,
+      "kgM": 1.781,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 50x50 mm x 1.25 mm",
+      "dimensiones": "50x50 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.919,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 40x40 mm x 1.6 mm",
+      "dimensiones": "40x40 mm",
+      "espesorMm": 1.6,
+      "kgM": 1.941,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 35x35 mm x 2 mm",
+      "dimensiones": "35x35 mm",
+      "espesorMm": 2,
+      "kgM": 2.094,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 45x45 mm x 1.6 mm",
+      "dimensiones": "45x45 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.192,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 30x30 mm x 2.5 mm",
+      "dimensiones": "30x30 mm",
+      "espesorMm": 2.5,
+      "kgM": 2.195,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 60x60 mm x 1.25 mm",
+      "dimensiones": "60x60 mm",
+      "espesorMm": 1.25,
+      "kgM": 2.31,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 40x40 mm x 2 mm",
+      "dimensiones": "40x40 mm",
+      "espesorMm": 2,
+      "kgM": 2.407,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 50x50 mm x 1.6 mm",
+      "dimensiones": "50x50 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.442,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 70x70 mm x 1.25 mm",
+      "dimensiones": "70x70 mm",
+      "espesorMm": 1.25,
+      "kgM": 2.702,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 45x45 mm x 2 mm",
+      "dimensiones": "45x45 mm",
+      "espesorMm": 2,
+      "kgM": 2.72,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 60x60 mm x 1.6 mm",
+      "dimensiones": "60x60 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.944,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 40x40 mm x 2.5 mm",
+      "dimensiones": "40x40 mm",
+      "espesorMm": 2.5,
+      "kgM": 2.978,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 50x50 mm x 2 mm",
+      "dimensiones": "50x50 mm",
+      "espesorMm": 2,
+      "kgM": 3.033,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 70x70 mm x 1.6 mm",
+      "dimensiones": "70x70 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.445,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 60x60 mm x 2 mm",
+      "dimensiones": "60x60 mm",
+      "espesorMm": 2,
+      "kgM": 3.66,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 40x40 mm x 3.2 mm",
+      "dimensiones": "40x40 mm",
+      "espesorMm": 3.2,
+      "kgM": 3.756,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 50x50 mm x 2.5 mm",
+      "dimensiones": "50x50 mm",
+      "espesorMm": 2.5,
+      "kgM": 3.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 80x80 mm x 1.6 mm",
+      "dimensiones": "80x80 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.946,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 70x70 mm x 2 mm",
+      "dimensiones": "70x70 mm",
+      "espesorMm": 2,
+      "kgM": 4.286,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 60x60 mm x 2.5 mm",
+      "dimensiones": "60x60 mm",
+      "espesorMm": 2.5,
+      "kgM": 4.544,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 40x40 mm x 4 mm",
+      "dimensiones": "40x40 mm",
+      "espesorMm": 4,
+      "kgM": 4.617,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 50x50 mm x 3.2 mm",
+      "dimensiones": "50x50 mm",
+      "espesorMm": 3.2,
+      "kgM": 4.759,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 80x80 mm x 2 mm",
+      "dimensiones": "80x80 mm",
+      "espesorMm": 2,
+      "kgM": 4.913,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 100x100 mm x 1.6 mm",
+      "dimensiones": "100x100 mm",
+      "espesorMm": 1.6,
+      "kgM": 4.948,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 70x70 mm x 2.5 mm",
+      "dimensiones": "70x70 mm",
+      "espesorMm": 2.5,
+      "kgM": 5.327,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 90x90 mm x 2 mm",
+      "dimensiones": "90x90 mm",
+      "espesorMm": 2,
+      "kgM": 5.539,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 60x60 mm x 3.2 mm",
+      "dimensiones": "60x60 mm",
+      "espesorMm": 3.2,
+      "kgM": 5.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 50x50 mm x 4 mm",
+      "dimensiones": "50x50 mm",
+      "espesorMm": 4,
+      "kgM": 5.869,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 80x80 mm x 2.5 mm",
+      "dimensiones": "80x80 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.11,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 100x100 mm x 2 mm",
+      "dimensiones": "100x100 mm",
+      "espesorMm": 2,
+      "kgM": 6.165,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 70x70 mm x 3.2 mm",
+      "dimensiones": "70x70 mm",
+      "espesorMm": 3.2,
+      "kgM": 6.763,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 90x90 mm x 2.5 mm",
+      "dimensiones": "90x90 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.893,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 60x60 mm x 4 mm",
+      "dimensiones": "60x60 mm",
+      "espesorMm": 4,
+      "kgM": 7.122,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 70x70 mm x 3.6 mm",
+      "dimensiones": "70x70 mm",
+      "espesorMm": 3.6,
+      "kgM": 7.573,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 100x100 mm x 2.5 mm",
+      "dimensiones": "100x100 mm",
+      "espesorMm": 2.5,
+      "kgM": 7.676,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 80x80 mm x 3.2 mm",
+      "dimensiones": "80x80 mm",
+      "espesorMm": 3.2,
+      "kgM": 7.765,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 90x90 mm x 3.2 mm",
+      "dimensiones": "90x90 mm",
+      "espesorMm": 3.2,
+      "kgM": 8.768,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 80x80 mm x 4 mm",
+      "dimensiones": "80x80 mm",
+      "espesorMm": 4,
+      "kgM": 9.628,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 100x100 mm x 3.2 mm",
+      "dimensiones": "100x100 mm",
+      "espesorMm": 3.2,
+      "kgM": 9.77,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo cuadrado uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo cuadrado 90x90 mm x 4 mm",
+      "dimensiones": "90x90 mm",
+      "espesorMm": 4,
+      "kgM": 10.881,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x60 mm x 1.6 mm",
+      "dimensiones": "30x60 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.192,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x50 mm x 1.6 mm",
+      "dimensiones": "40x50 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.192,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x60 mm x 2 mm",
+      "dimensiones": "20x60 mm",
+      "espesorMm": 2,
+      "kgM": 2.407,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x50 mm x 2 mm",
+      "dimensiones": "30x50 mm",
+      "espesorMm": 2,
+      "kgM": 2.407,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x70 mm x 1.6 mm",
+      "dimensiones": "30x70 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.442,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x60 mm x 1.6 mm",
+      "dimensiones": "40x60 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.442,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x60 mm x 2 mm",
+      "dimensiones": "30x60 mm",
+      "espesorMm": 2,
+      "kgM": 2.72,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x50 mm x 2 mm",
+      "dimensiones": "40x50 mm",
+      "espesorMm": 2,
+      "kgM": 2.72,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x100 mm x 1.6 mm",
+      "dimensiones": "20x100 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.944,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x80 mm x 1.6 mm",
+      "dimensiones": "40x80 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.944,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x70 mm x 1.6 mm",
+      "dimensiones": "50x70 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.944,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x60 mm x 2.5 mm",
+      "dimensiones": "20x60 mm",
+      "espesorMm": 2.5,
+      "kgM": 2.978,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x50 mm x 2.5 mm",
+      "dimensiones": "30x50 mm",
+      "espesorMm": 2.5,
+      "kgM": 2.978,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x70 mm x 2 mm",
+      "dimensiones": "30x70 mm",
+      "espesorMm": 2,
+      "kgM": 3.033,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x60 mm x 2 mm",
+      "dimensiones": "40x60 mm",
+      "espesorMm": 2,
+      "kgM": 3.033,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x100 mm x 1.6 mm",
+      "dimensiones": "40x100 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.445,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x90 mm x 1.6 mm",
+      "dimensiones": "50x90 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.445,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x80 mm x 1.6 mm",
+      "dimensiones": "60x80 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.445,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x100 mm x 2 mm",
+      "dimensiones": "20x100 mm",
+      "espesorMm": 2,
+      "kgM": 3.66,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x80 mm x 2 mm",
+      "dimensiones": "40x80 mm",
+      "espesorMm": 2,
+      "kgM": 3.66,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x70 mm x 2 mm",
+      "dimensiones": "50x70 mm",
+      "espesorMm": 2,
+      "kgM": 3.66,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x100 mm x 1.6 mm",
+      "dimensiones": "50x100 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.695,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x60 mm x 3.2 mm",
+      "dimensiones": "20x60 mm",
+      "espesorMm": 3.2,
+      "kgM": 3.756,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x50 mm x 3.2 mm",
+      "dimensiones": "30x50 mm",
+      "espesorMm": 3.2,
+      "kgM": 3.756,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x70 mm x 2.5 mm",
+      "dimensiones": "30x70 mm",
+      "espesorMm": 2.5,
+      "kgM": 3.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x60 mm x 2.5 mm",
+      "dimensiones": "40x60 mm",
+      "espesorMm": 2.5,
+      "kgM": 3.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x120 mm x 1.6 mm",
+      "dimensiones": "40x120 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.946,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x100 mm x 1.6 mm",
+      "dimensiones": "60x100 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.946,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x100 mm x 2 mm",
+      "dimensiones": "40x100 mm",
+      "espesorMm": 2,
+      "kgM": 4.286,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x90 mm x 2 mm",
+      "dimensiones": "50x90 mm",
+      "espesorMm": 2,
+      "kgM": 4.286,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x80 mm x 2 mm",
+      "dimensiones": "60x80 mm",
+      "espesorMm": 2,
+      "kgM": 4.286,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x120 mm x 1.6 mm",
+      "dimensiones": "60x120 mm",
+      "espesorMm": 1.6,
+      "kgM": 4.447,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 80x100 mm x 1.6 mm",
+      "dimensiones": "80x100 mm",
+      "espesorMm": 1.6,
+      "kgM": 4.447,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x80 mm x 2.5 mm",
+      "dimensiones": "40x80 mm",
+      "espesorMm": 2.5,
+      "kgM": 4.544,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x70 mm x 2.5 mm",
+      "dimensiones": "50x70 mm",
+      "espesorMm": 2.5,
+      "kgM": 4.544,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x100 mm x 2 mm",
+      "dimensiones": "50x100 mm",
+      "espesorMm": 2,
+      "kgM": 4.599,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x70 mm x 3.2 mm",
+      "dimensiones": "30x70 mm",
+      "espesorMm": 3.2,
+      "kgM": 4.759,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x60 mm x 3.2 mm",
+      "dimensiones": "40x60 mm",
+      "espesorMm": 3.2,
+      "kgM": 4.759,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x120 mm x 2 mm",
+      "dimensiones": "40x120 mm",
+      "espesorMm": 2,
+      "kgM": 4.913,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x100 mm x 2 mm",
+      "dimensiones": "60x100 mm",
+      "espesorMm": 2,
+      "kgM": 4.913,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x140 mm x 1.6 mm",
+      "dimensiones": "60x140 mm",
+      "espesorMm": 1.6,
+      "kgM": 4.948,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 80x120 mm x 1.6 mm",
+      "dimensiones": "80x120 mm",
+      "espesorMm": 1.6,
+      "kgM": 4.948,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x100 mm x 2.5 mm",
+      "dimensiones": "40x100 mm",
+      "espesorMm": 2.5,
+      "kgM": 5.327,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x80 mm x 2.5 mm",
+      "dimensiones": "60x80 mm",
+      "espesorMm": 2.5,
+      "kgM": 5.327,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x120 mm x 2 mm",
+      "dimensiones": "60x120 mm",
+      "espesorMm": 2,
+      "kgM": 5.539,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 80x100 mm x 2 mm",
+      "dimensiones": "80x100 mm",
+      "espesorMm": 2,
+      "kgM": 5.539,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x80 mm x 3.2 mm",
+      "dimensiones": "40x80 mm",
+      "espesorMm": 3.2,
+      "kgM": 5.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x70 mm x 3.2 mm",
+      "dimensiones": "50x70 mm",
+      "espesorMm": 3.2,
+      "kgM": 5.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x120 mm x 2.5 mm",
+      "dimensiones": "40x120 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.11,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x100 mm x 2.5 mm",
+      "dimensiones": "60x100 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.11,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x140 mm x 2 mm",
+      "dimensiones": "60x140 mm",
+      "espesorMm": 2,
+      "kgM": 6.165,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 80x120 mm x 2 mm",
+      "dimensiones": "80x120 mm",
+      "espesorMm": 2,
+      "kgM": 6.165,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x100 mm x 3.2 mm",
+      "dimensiones": "40x100 mm",
+      "espesorMm": 3.2,
+      "kgM": 6.763,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x90 mm x 3.2 mm",
+      "dimensiones": "50x90 mm",
+      "espesorMm": 3.2,
+      "kgM": 6.763,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x80 mm x 3.2 mm",
+      "dimensiones": "60x80 mm",
+      "espesorMm": 3.2,
+      "kgM": 6.763,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x120 mm x 2.5 mm",
+      "dimensiones": "60x120 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.893,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 80x100 mm x 2.5 mm",
+      "dimensiones": "80x100 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.893,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x100 mm x 3.2 mm",
+      "dimensiones": "50x100 mm",
+      "espesorMm": 3.2,
+      "kgM": 7.264,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x100 mm x 3.6 mm",
+      "dimensiones": "40x100 mm",
+      "espesorMm": 3.6,
+      "kgM": 7.573,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x140 mm x 2.5 mm",
+      "dimensiones": "60x140 mm",
+      "espesorMm": 2.5,
+      "kgM": 7.676,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x120 mm x 3.2 mm",
+      "dimensiones": "40x120 mm",
+      "espesorMm": 3.2,
+      "kgM": 7.765,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x100 mm x 3.2 mm",
+      "dimensiones": "60x100 mm",
+      "espesorMm": 3.2,
+      "kgM": 7.765,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x120 mm x 3.2 mm",
+      "dimensiones": "60x120 mm",
+      "espesorMm": 3.2,
+      "kgM": 8.768,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 80x100 mm x 3.2 mm",
+      "dimensiones": "80x100 mm",
+      "espesorMm": 3.2,
+      "kgM": 8.768,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x120 mm x 4 mm",
+      "dimensiones": "40x120 mm",
+      "espesorMm": 4,
+      "kgM": 9.628,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x100 mm x 4 mm",
+      "dimensiones": "60x100 mm",
+      "espesorMm": 4,
+      "kgM": 9.628,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x140 mm x 3.2 mm",
+      "dimensiones": "60x140 mm",
+      "espesorMm": 3.2,
+      "kgM": 9.77,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 80x120 mm x 3.2 mm",
+      "dimensiones": "80x120 mm",
+      "espesorMm": 3.2,
+      "kgM": 9.77,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x120 mm x 4 mm",
+      "dimensiones": "60x120 mm",
+      "espesorMm": 4,
+      "kgM": 10.881,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 10x20 mm x 0.8 mm",
+      "dimensiones": "10x20 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.36,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 10x20 mm x 0.9 mm",
+      "dimensiones": "10x20 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.403,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x20 mm x 0.8 mm",
+      "dimensiones": "15x20 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.423,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x20 mm x 0.9 mm",
+      "dimensiones": "15x20 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.473,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 10x30 mm x 0.8 mm",
+      "dimensiones": "10x30 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.485,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x25 mm x 0.8 mm",
+      "dimensiones": "15x25 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.485,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 14x30 mm x 0.8 mm",
+      "dimensiones": "14x30 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.485,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 10x30 mm x 0.9 mm",
+      "dimensiones": "10x30 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.544,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x25 mm x 0.9 mm",
+      "dimensiones": "15x25 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.544,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 14x30 mm x 0.9 mm",
+      "dimensiones": "14x30 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.544,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x30 mm x 0.8 mm",
+      "dimensiones": "15x30 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.548,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 10x20 mm x 1.25 mm",
+      "dimensiones": "10x20 mm",
+      "espesorMm": 1.25,
+      "kgM": 0.549,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 10x40 mm x 0.8 mm",
+      "dimensiones": "10x40 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.611,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x30 mm x 0.8 mm",
+      "dimensiones": "20x30 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.611,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x30 mm x 0.9 mm",
+      "dimensiones": "15x30 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.614,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x20 mm x 1.25 mm",
+      "dimensiones": "15x20 mm",
+      "espesorMm": 1.25,
+      "kgM": 0.647,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 10x40 mm x 0.9 mm",
+      "dimensiones": "10x40 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.685,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x30 mm x 0.9 mm",
+      "dimensiones": "20x30 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.685,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 10x20 mm x 1.6 mm",
+      "dimensiones": "10x20 mm",
+      "espesorMm": 1.6,
+      "kgM": 0.689,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x40 mm x 0.8 mm",
+      "dimensiones": "20x40 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.736,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 10x30 mm x 1.25 mm",
+      "dimensiones": "10x30 mm",
+      "espesorMm": 1.25,
+      "kgM": 0.744,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x25 mm x 1.25 mm",
+      "dimensiones": "15x25 mm",
+      "espesorMm": 1.25,
+      "kgM": 0.744,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 14x30 mm x 1.25 mm",
+      "dimensiones": "14x30 mm",
+      "espesorMm": 1.25,
+      "kgM": 0.744,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 25x40 mm x 0.8 mm",
+      "dimensiones": "25x40 mm",
+      "espesorMm": 0.8,
+      "kgM": 0.799,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x20 mm x 1.6 mm",
+      "dimensiones": "15x20 mm",
+      "espesorMm": 1.6,
+      "kgM": 0.814,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x40 mm x 0.9 mm",
+      "dimensiones": "20x40 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.826,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 10x20 mm x 2 mm",
+      "dimensiones": "10x20 mm",
+      "espesorMm": 2,
+      "kgM": 0.841,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x30 mm x 1.25 mm",
+      "dimensiones": "15x30 mm",
+      "espesorMm": 1.25,
+      "kgM": 0.842,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 25x40 mm x 0.9 mm",
+      "dimensiones": "25x40 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.896,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 10x30 mm x 1.6 mm",
+      "dimensiones": "10x30 mm",
+      "espesorMm": 1.6,
+      "kgM": 0.939,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x25 mm x 1.6 mm",
+      "dimensiones": "15x25 mm",
+      "espesorMm": 1.6,
+      "kgM": 0.939,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 14x30 mm x 1.6 mm",
+      "dimensiones": "14x30 mm",
+      "espesorMm": 1.6,
+      "kgM": 0.939,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 10x40 mm x 1.25 mm",
+      "dimensiones": "10x40 mm",
+      "espesorMm": 1.25,
+      "kgM": 0.94,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x30 mm x 1.25 mm",
+      "dimensiones": "20x30 mm",
+      "espesorMm": 1.25,
+      "kgM": 0.94,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x50 mm x 0.9 mm",
+      "dimensiones": "20x50 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.967,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x40 mm x 0.9 mm",
+      "dimensiones": "30x40 mm",
+      "espesorMm": 0.9,
+      "kgM": 0.967,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x20 mm x 2 mm",
+      "dimensiones": "15x20 mm",
+      "espesorMm": 2,
+      "kgM": 0.998,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 25x50 mm x 0.9 mm",
+      "dimensiones": "25x50 mm",
+      "espesorMm": 0.9,
+      "kgM": 1.037,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x30 mm x 1.6 mm",
+      "dimensiones": "15x30 mm",
+      "espesorMm": 1.6,
+      "kgM": 1.064,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x60 mm x 0.9 mm",
+      "dimensiones": "20x60 mm",
+      "espesorMm": 0.9,
+      "kgM": 1.108,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x50 mm x 0.9 mm",
+      "dimensiones": "30x50 mm",
+      "espesorMm": 0.9,
+      "kgM": 1.108,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x40 mm x 1.25 mm",
+      "dimensiones": "20x40 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.136,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 10x30 mm x 2 mm",
+      "dimensiones": "10x30 mm",
+      "espesorMm": 2,
+      "kgM": 1.154,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x25 mm x 2 mm",
+      "dimensiones": "15x25 mm",
+      "espesorMm": 2,
+      "kgM": 1.154,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 14x30 mm x 2 mm",
+      "dimensiones": "14x30 mm",
+      "espesorMm": 2,
+      "kgM": 1.154,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x30 mm x 1.6 mm",
+      "dimensiones": "20x30 mm",
+      "espesorMm": 1.6,
+      "kgM": 1.19,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 25x40 mm x 1.25 mm",
+      "dimensiones": "25x40 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.234,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x60 mm x 0.9 mm",
+      "dimensiones": "30x60 mm",
+      "espesorMm": 0.9,
+      "kgM": 1.248,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x50 mm x 0.9 mm",
+      "dimensiones": "40x50 mm",
+      "espesorMm": 0.9,
+      "kgM": 1.248,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 15x30 mm x 2 mm",
+      "dimensiones": "15x30 mm",
+      "espesorMm": 2,
+      "kgM": 1.311,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x50 mm x 1.25 mm",
+      "dimensiones": "20x50 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.332,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x40 mm x 1.25 mm",
+      "dimensiones": "30x40 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.332,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 25x53 mm x 1.25 mm",
+      "dimensiones": "25x53 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.332,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x70 mm x 0.9 mm",
+      "dimensiones": "30x70 mm",
+      "espesorMm": 0.9,
+      "kgM": 1.389,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x60 mm x 0.9 mm",
+      "dimensiones": "40x60 mm",
+      "espesorMm": 0.9,
+      "kgM": 1.389,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 25x50 mm x 1.25 mm",
+      "dimensiones": "25x50 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.43,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x40 mm x 1.6 mm",
+      "dimensiones": "20x40 mm",
+      "espesorMm": 1.6,
+      "kgM": 1.44,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 10x40 mm x 2 mm",
+      "dimensiones": "10x40 mm",
+      "espesorMm": 2,
+      "kgM": 1.467,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x30 mm x 2 mm",
+      "dimensiones": "20x30 mm",
+      "espesorMm": 2,
+      "kgM": 1.467,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x60 mm x 1.25 mm",
+      "dimensiones": "20x60 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.527,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x50 mm x 1.25 mm",
+      "dimensiones": "30x50 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.527,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 25x40 mm x 1.6 mm",
+      "dimensiones": "25x40 mm",
+      "espesorMm": 1.6,
+      "kgM": 1.566,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x50 mm x 1.6 mm",
+      "dimensiones": "20x50 mm",
+      "espesorMm": 1.6,
+      "kgM": 1.691,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x40 mm x 1.6 mm",
+      "dimensiones": "30x40 mm",
+      "espesorMm": 1.6,
+      "kgM": 1.691,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 25x53 mm x 1.6 mm",
+      "dimensiones": "25x53 mm",
+      "espesorMm": 1.6,
+      "kgM": 1.691,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x60 mm x 1.25 mm",
+      "dimensiones": "30x60 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.723,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x50 mm x 1.25 mm",
+      "dimensiones": "40x50 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.723,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x40 mm x 2 mm",
+      "dimensiones": "20x40 mm",
+      "espesorMm": 2,
+      "kgM": 1.781,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 25x50 mm x 1.6 mm",
+      "dimensiones": "25x50 mm",
+      "espesorMm": 1.6,
+      "kgM": 1.816,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x70 mm x 1.25 mm",
+      "dimensiones": "30x70 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.919,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x60 mm x 1.25 mm",
+      "dimensiones": "40x60 mm",
+      "espesorMm": 1.25,
+      "kgM": 1.919,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 25x40 mm x 2 mm",
+      "dimensiones": "25x40 mm",
+      "espesorMm": 2,
+      "kgM": 1.937,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x60 mm x 1.6 mm",
+      "dimensiones": "20x60 mm",
+      "espesorMm": 1.6,
+      "kgM": 1.941,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x50 mm x 1.6 mm",
+      "dimensiones": "30x50 mm",
+      "espesorMm": 1.6,
+      "kgM": 1.941,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x50 mm x 2 mm",
+      "dimensiones": "20x50 mm",
+      "espesorMm": 2,
+      "kgM": 2.094,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x40 mm x 2 mm",
+      "dimensiones": "30x40 mm",
+      "espesorMm": 2,
+      "kgM": 2.094,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x60 mm x 1.6 mm",
+      "dimensiones": "30x60 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.192,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x50 mm x 1.6 mm",
+      "dimensiones": "40x50 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.192,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x40 mm x 2.5 mm",
+      "dimensiones": "20x40 mm",
+      "espesorMm": 2.5,
+      "kgM": 2.195,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 25x50 mm x 2 mm",
+      "dimensiones": "25x50 mm",
+      "espesorMm": 2,
+      "kgM": 2.25,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x100 mm x 1.25 mm",
+      "dimensiones": "20x100 mm",
+      "espesorMm": 1.25,
+      "kgM": 2.31,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x80 mm x 1.25 mm",
+      "dimensiones": "40x80 mm",
+      "espesorMm": 1.25,
+      "kgM": 2.31,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x70 mm x 1.25 mm",
+      "dimensiones": "50x70 mm",
+      "espesorMm": 1.25,
+      "kgM": 2.31,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x60 mm x 2 mm",
+      "dimensiones": "20x60 mm",
+      "espesorMm": 2,
+      "kgM": 2.407,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x50 mm x 2 mm",
+      "dimensiones": "30x50 mm",
+      "espesorMm": 2,
+      "kgM": 2.407,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x70 mm x 1.6 mm",
+      "dimensiones": "30x70 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.442,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x60 mm x 1.6 mm",
+      "dimensiones": "40x60 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.442,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x100 mm x 1.25 mm",
+      "dimensiones": "40x100 mm",
+      "espesorMm": 1.25,
+      "kgM": 2.702,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x80 mm x 1.25 mm",
+      "dimensiones": "60x80 mm",
+      "espesorMm": 1.25,
+      "kgM": 2.702,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x60 mm x 2 mm",
+      "dimensiones": "30x60 mm",
+      "espesorMm": 2,
+      "kgM": 2.72,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x50 mm x 2 mm",
+      "dimensiones": "40x50 mm",
+      "espesorMm": 2,
+      "kgM": 2.72,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x100 mm x 1.6 mm",
+      "dimensiones": "20x100 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.944,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x80 mm x 1.6 mm",
+      "dimensiones": "40x80 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.944,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x70 mm x 1.6 mm",
+      "dimensiones": "50x70 mm",
+      "espesorMm": 1.6,
+      "kgM": 2.944,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x60 mm x 2.5 mm",
+      "dimensiones": "20x60 mm",
+      "espesorMm": 2.5,
+      "kgM": 2.978,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x50 mm x 2.5 mm",
+      "dimensiones": "30x50 mm",
+      "espesorMm": 2.5,
+      "kgM": 2.978,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x70 mm x 2 mm",
+      "dimensiones": "30x70 mm",
+      "espesorMm": 2,
+      "kgM": 3.033,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x60 mm x 2 mm",
+      "dimensiones": "40x60 mm",
+      "espesorMm": 2,
+      "kgM": 3.033,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x100 mm x 1.6 mm",
+      "dimensiones": "40x100 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.445,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x90 mm x 1.6 mm",
+      "dimensiones": "50x90 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.445,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x80 mm x 1.6 mm",
+      "dimensiones": "60x80 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.445,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x100 mm x 2 mm",
+      "dimensiones": "20x100 mm",
+      "espesorMm": 2,
+      "kgM": 3.66,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x80 mm x 2 mm",
+      "dimensiones": "40x80 mm",
+      "espesorMm": 2,
+      "kgM": 3.66,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x70 mm x 2 mm",
+      "dimensiones": "50x70 mm",
+      "espesorMm": 2,
+      "kgM": 3.66,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x100 mm x 1.6 mm",
+      "dimensiones": "50x100 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.695,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 20x60 mm x 3.2 mm",
+      "dimensiones": "20x60 mm",
+      "espesorMm": 3.2,
+      "kgM": 3.756,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x50 mm x 3.2 mm",
+      "dimensiones": "30x50 mm",
+      "espesorMm": 3.2,
+      "kgM": 3.756,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x70 mm x 2.5 mm",
+      "dimensiones": "30x70 mm",
+      "espesorMm": 2.5,
+      "kgM": 3.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x60 mm x 2.5 mm",
+      "dimensiones": "40x60 mm",
+      "espesorMm": 2.5,
+      "kgM": 3.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x120 mm x 1.6 mm",
+      "dimensiones": "40x120 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.946,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x100 mm x 1.6 mm",
+      "dimensiones": "60x100 mm",
+      "espesorMm": 1.6,
+      "kgM": 3.946,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x100 mm x 2 mm",
+      "dimensiones": "40x100 mm",
+      "espesorMm": 2,
+      "kgM": 4.286,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x90 mm x 2 mm",
+      "dimensiones": "50x90 mm",
+      "espesorMm": 2,
+      "kgM": 4.286,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x80 mm x 2 mm",
+      "dimensiones": "60x80 mm",
+      "espesorMm": 2,
+      "kgM": 4.286,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x120 mm x 1.6 mm",
+      "dimensiones": "60x120 mm",
+      "espesorMm": 1.6,
+      "kgM": 4.447,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 80x100 mm x 1.6 mm",
+      "dimensiones": "80x100 mm",
+      "espesorMm": 1.6,
+      "kgM": 4.447,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x80 mm x 2.5 mm",
+      "dimensiones": "40x80 mm",
+      "espesorMm": 2.5,
+      "kgM": 4.544,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x70 mm x 2.5 mm",
+      "dimensiones": "50x70 mm",
+      "espesorMm": 2.5,
+      "kgM": 4.544,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x100 mm x 2 mm",
+      "dimensiones": "50x100 mm",
+      "espesorMm": 2,
+      "kgM": 4.599,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 30x70 mm x 3.2 mm",
+      "dimensiones": "30x70 mm",
+      "espesorMm": 3.2,
+      "kgM": 4.759,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x60 mm x 3.2 mm",
+      "dimensiones": "40x60 mm",
+      "espesorMm": 3.2,
+      "kgM": 4.759,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x120 mm x 2 mm",
+      "dimensiones": "40x120 mm",
+      "espesorMm": 2,
+      "kgM": 4.913,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x100 mm x 2 mm",
+      "dimensiones": "60x100 mm",
+      "espesorMm": 2,
+      "kgM": 4.913,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x140 mm x 1.6 mm",
+      "dimensiones": "60x140 mm",
+      "espesorMm": 1.6,
+      "kgM": 4.948,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x100 mm x 2.5 mm",
+      "dimensiones": "40x100 mm",
+      "espesorMm": 2.5,
+      "kgM": 5.327,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x80 mm x 2.5 mm",
+      "dimensiones": "60x80 mm",
+      "espesorMm": 2.5,
+      "kgM": 5.327,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x120 mm x 2 mm",
+      "dimensiones": "60x120 mm",
+      "espesorMm": 2,
+      "kgM": 5.539,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 80x100 mm x 2 mm",
+      "dimensiones": "80x100 mm",
+      "espesorMm": 2,
+      "kgM": 5.539,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x80 mm x 3.2 mm",
+      "dimensiones": "40x80 mm",
+      "espesorMm": 3.2,
+      "kgM": 5.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x70 mm x 3.2 mm",
+      "dimensiones": "50x70 mm",
+      "espesorMm": 3.2,
+      "kgM": 5.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x120 mm x 2.5 mm",
+      "dimensiones": "40x120 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.11,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x100 mm x 2.5 mm",
+      "dimensiones": "60x100 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.11,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x140 mm x 2 mm",
+      "dimensiones": "60x140 mm",
+      "espesorMm": 2,
+      "kgM": 6.165,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 80x120 mm x 2 mm",
+      "dimensiones": "80x120 mm",
+      "espesorMm": 2,
+      "kgM": 6.165,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x100 mm x 3.2 mm",
+      "dimensiones": "40x100 mm",
+      "espesorMm": 3.2,
+      "kgM": 6.763,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x90 mm x 3.2 mm",
+      "dimensiones": "50x90 mm",
+      "espesorMm": 3.2,
+      "kgM": 6.763,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x80 mm x 3.2 mm",
+      "dimensiones": "60x80 mm",
+      "espesorMm": 3.2,
+      "kgM": 6.763,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x120 mm x 2.5 mm",
+      "dimensiones": "60x120 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.893,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 80x100 mm x 2.5 mm",
+      "dimensiones": "80x100 mm",
+      "espesorMm": 2.5,
+      "kgM": 6.893,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 50x100 mm x 3.2 mm",
+      "dimensiones": "50x100 mm",
+      "espesorMm": 3.2,
+      "kgM": 7.264,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x100 mm x 3.6 mm",
+      "dimensiones": "40x100 mm",
+      "espesorMm": 3.6,
+      "kgM": 7.573,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x140 mm x 2.5 mm",
+      "dimensiones": "60x140 mm",
+      "espesorMm": 2.5,
+      "kgM": 7.676,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x120 mm x 3.2 mm",
+      "dimensiones": "40x120 mm",
+      "espesorMm": 3.2,
+      "kgM": 7.765,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x100 mm x 3.2 mm",
+      "dimensiones": "60x100 mm",
+      "espesorMm": 3.2,
+      "kgM": 7.765,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x120 mm x 3.2 mm",
+      "dimensiones": "60x120 mm",
+      "espesorMm": 3.2,
+      "kgM": 8.768,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 80x100 mm x 3.2 mm",
+      "dimensiones": "80x100 mm",
+      "espesorMm": 3.2,
+      "kgM": 8.768,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 40x120 mm x 4 mm",
+      "dimensiones": "40x120 mm",
+      "espesorMm": 4,
+      "kgM": 9.628,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x100 mm x 4 mm",
+      "dimensiones": "60x100 mm",
+      "espesorMm": 4,
+      "kgM": 9.628,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x140 mm x 3.2 mm",
+      "dimensiones": "60x140 mm",
+      "espesorMm": 3.2,
+      "kgM": 9.77,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 80x120 mm x 2.5 mm",
+      "dimensiones": "80x120 mm",
+      "espesorMm": 2.5,
+      "kgM": 9.77,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo rectangular uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo rectangular 60x120 mm x 4 mm",
+      "dimensiones": "60x120 mm",
+      "espesorMm": 4,
+      "kgM": 10.881,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 57.15 mm (2 1/4\") x 1.6 mm",
+      "dimensiones": "Ø 57.15 mm (2 1/4\")",
+      "espesorMm": 1.6,
+      "kgM": 2.192,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 60.33 mm (2 3/8\") x 1.6 mm",
+      "dimensiones": "Ø 60.33 mm (2 3/8\")",
+      "espesorMm": 1.6,
+      "kgM": 2.317,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 50.80 mm (2\") x 2 mm",
+      "dimensiones": "Ø 50.80 mm (2\")",
+      "espesorMm": 2,
+      "kgM": 2.407,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 63.50 mm (2 1/2\") x 1.6 mm",
+      "dimensiones": "Ø 63.50 mm (2 1/2\")",
+      "espesorMm": 1.6,
+      "kgM": 2.442,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 57.15 mm (2 1/4\") x 2 mm",
+      "dimensiones": "Ø 57.15 mm (2 1/4\")",
+      "espesorMm": 2,
+      "kgM": 2.72,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 60.33 mm (2 3/8\") x 2 mm",
+      "dimensiones": "Ø 60.33 mm (2 3/8\")",
+      "espesorMm": 2,
+      "kgM": 2.877,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 76.20 mm (3\") x 1.6 mm",
+      "dimensiones": "Ø 76.20 mm (3\")",
+      "espesorMm": 1.6,
+      "kgM": 2.944,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 50.80 mm (2\") x 2.5 mm",
+      "dimensiones": "Ø 50.80 mm (2\")",
+      "espesorMm": 2.5,
+      "kgM": 2.978,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 63.50 mm (2 1/2\") x 2 mm",
+      "dimensiones": "Ø 63.50 mm (2 1/2\")",
+      "espesorMm": 2,
+      "kgM": 3.033,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 88.90 mm (3 1/2\") x 1.6 mm",
+      "dimensiones": "Ø 88.90 mm (3 1/2\")",
+      "espesorMm": 1.6,
+      "kgM": 3.445,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 76.20 mm (3\") x 2 mm",
+      "dimensiones": "Ø 76.20 mm (3\")",
+      "espesorMm": 2,
+      "kgM": 3.66,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 50.80 mm (2\") x 3.2 mm",
+      "dimensiones": "Ø 50.80 mm (2\")",
+      "espesorMm": 3.2,
+      "kgM": 3.756,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 63.50 mm (2 1/2\") x 2.5 mm",
+      "dimensiones": "Ø 63.50 mm (2 1/2\")",
+      "espesorMm": 2.5,
+      "kgM": 3.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 101.60 mm (4\") x 1.6 mm",
+      "dimensiones": "Ø 101.60 mm (4\")",
+      "espesorMm": 1.6,
+      "kgM": 3.946,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 88.90 mm (3 1/2\") x 2 mm",
+      "dimensiones": "Ø 88.90 mm (3 1/2\")",
+      "espesorMm": 2,
+      "kgM": 4.286,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 114.30 mm (4 1/2\") x 1.6 mm",
+      "dimensiones": "Ø 114.30 mm (4 1/2\")",
+      "espesorMm": 1.6,
+      "kgM": 4.447,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 60.33 mm (2 3/8\") x 3.2 mm",
+      "dimensiones": "Ø 60.33 mm (2 3/8\")",
+      "espesorMm": 3.2,
+      "kgM": 4.508,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 76.20 mm (3\") x 2.5 mm",
+      "dimensiones": "Ø 76.20 mm (3\")",
+      "espesorMm": 2.5,
+      "kgM": 4.544,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 63.50 mm (2 1/2\") x 3.2 mm",
+      "dimensiones": "Ø 63.50 mm (2 1/2\")",
+      "espesorMm": 3.2,
+      "kgM": 4.759,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 101.60 mm (4\") x 2 mm",
+      "dimensiones": "Ø 101.60 mm (4\")",
+      "espesorMm": 2,
+      "kgM": 4.913,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 127.00 mm (5\") x 1.6 mm",
+      "dimensiones": "Ø 127.00 mm (5\")",
+      "espesorMm": 1.6,
+      "kgM": 4.948,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 88.90 mm (3 1/2\") x 2.5 mm",
+      "dimensiones": "Ø 88.90 mm (3 1/2\")",
+      "espesorMm": 2.5,
+      "kgM": 5.327,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 114.30 mm (4 1/2\") x 2 mm",
+      "dimensiones": "Ø 114.30 mm (4 1/2\")",
+      "espesorMm": 2,
+      "kgM": 5.539,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 76.20 mm (3\") x 3.2 mm",
+      "dimensiones": "Ø 76.20 mm (3\")",
+      "espesorMm": 3.2,
+      "kgM": 5.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 63.50 mm (2 1/2\") x 4 mm",
+      "dimensiones": "Ø 63.50 mm (2 1/2\")",
+      "espesorMm": 4,
+      "kgM": 5.869,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 101.60 mm (4\") x 2.5 mm",
+      "dimensiones": "Ø 101.60 mm (4\")",
+      "espesorMm": 2.5,
+      "kgM": 6.11,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 127.00 mm (5\") x 2 mm",
+      "dimensiones": "Ø 127.00 mm (5\")",
+      "espesorMm": 2,
+      "kgM": 6.165,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 88.90 mm (3 1/2\") x 3.2 mm",
+      "dimensiones": "Ø 88.90 mm (3 1/2\")",
+      "espesorMm": 3.2,
+      "kgM": 6.763,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 114.30 mm (4 1/2\") x 2.5 mm",
+      "dimensiones": "Ø 114.30 mm (4 1/2\")",
+      "espesorMm": 2.5,
+      "kgM": 6.893,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 76.20 mm (3\") x 4 mm",
+      "dimensiones": "Ø 76.20 mm (3\")",
+      "espesorMm": 4,
+      "kgM": 7.122,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 88.90 mm (3 1/2\") x 3.6 mm",
+      "dimensiones": "Ø 88.90 mm (3 1/2\")",
+      "espesorMm": 3.6,
+      "kgM": 7.573,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 127.00 mm (5\") x 2.5 mm",
+      "dimensiones": "Ø 127.00 mm (5\")",
+      "espesorMm": 2.5,
+      "kgM": 7.676,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 101.60 mm (4\") x 3.2 mm",
+      "dimensiones": "Ø 101.60 mm (4\")",
+      "espesorMm": 3.2,
+      "kgM": 7.765,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 88.90 mm (3 1/2\") x 4 mm",
+      "dimensiones": "Ø 88.90 mm (3 1/2\")",
+      "espesorMm": 4,
+      "kgM": 8.375,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 114.30 mm (4 1/2\") x 3.2 mm",
+      "dimensiones": "Ø 114.30 mm (4 1/2\")",
+      "espesorMm": 3.2,
+      "kgM": 8.768,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 101.60 mm (4\") x 4 mm",
+      "dimensiones": "Ø 101.60 mm (4\")",
+      "espesorMm": 4,
+      "kgM": 9.628,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 127.00 mm (5\") x 3.2 mm",
+      "dimensiones": "Ø 127.00 mm (5\")",
+      "espesorMm": 3.2,
+      "kgM": 9.77,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 114.30 mm (4 1/2\") x 3.6 mm",
+      "dimensiones": "Ø 114.30 mm (4 1/2\")",
+      "espesorMm": 3.6,
+      "kgM": 9.828,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo estructural",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 114.30 mm (4 1/2\") x 4 mm",
+      "dimensiones": "Ø 114.30 mm (4 1/2\")",
+      "espesorMm": 4,
+      "kgM": 10.881,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 12.7 mm (1/2\") x 0.8 mm",
+      "dimensiones": "Ø 12.7 mm (1/2\")",
+      "espesorMm": 0.8,
+      "kgM": 0.235,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 12.7 mm (1/2\") x 0.9 mm",
+      "dimensiones": "Ø 12.7 mm (1/2\")",
+      "espesorMm": 0.9,
+      "kgM": 0.262,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 15.88 mm (5/8\") x 0.8 mm",
+      "dimensiones": "Ø 15.88 mm (5/8\")",
+      "espesorMm": 0.8,
+      "kgM": 0.297,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 15.88 mm (5/8\") x 0.9 mm",
+      "dimensiones": "Ø 15.88 mm (5/8\")",
+      "espesorMm": 0.9,
+      "kgM": 0.332,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 12.7 mm (1/2\") x 1.25 mm",
+      "dimensiones": "Ø 12.7 mm (1/2\")",
+      "espesorMm": 1.25,
+      "kgM": 0.353,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 19.05 mm (3/4\") x 0.8 mm",
+      "dimensiones": "Ø 19.05 mm (3/4\")",
+      "espesorMm": 0.8,
+      "kgM": 0.36,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 19.05 mm (3/4\") x 0.9 mm",
+      "dimensiones": "Ø 19.05 mm (3/4\")",
+      "espesorMm": 0.9,
+      "kgM": 0.403,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 22.23 mm (7/8\") x 0.8 mm",
+      "dimensiones": "Ø 22.23 mm (7/8\")",
+      "espesorMm": 0.8,
+      "kgM": 0.423,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 15.88 mm (5/8\") x 1.25 mm",
+      "dimensiones": "Ø 15.88 mm (5/8\")",
+      "espesorMm": 1.25,
+      "kgM": 0.451,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 22.23 mm (7/8\") x 0.9 mm",
+      "dimensiones": "Ø 22.23 mm (7/8\")",
+      "espesorMm": 0.9,
+      "kgM": 0.473,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 25.4 mm (1\") x 0.8 mm",
+      "dimensiones": "Ø 25.4 mm (1\")",
+      "espesorMm": 0.8,
+      "kgM": 0.485,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 25.4 mm (1\") x 0.9 mm",
+      "dimensiones": "Ø 25.4 mm (1\")",
+      "espesorMm": 0.9,
+      "kgM": 0.544,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 28.58 mm (1 1/8\") x 0.8 mm",
+      "dimensiones": "Ø 28.58 mm (1 1/8\")",
+      "espesorMm": 0.8,
+      "kgM": 0.548,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 19.05 mm (3/4\") x 1.25 mm",
+      "dimensiones": "Ø 19.05 mm (3/4\")",
+      "espesorMm": 1.25,
+      "kgM": 0.549,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 15.88 mm (5/8\") x 1.6 mm",
+      "dimensiones": "Ø 15.88 mm (5/8\")",
+      "espesorMm": 1.6,
+      "kgM": 0.563,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 31.75 mm (1 1/4\") x 0.8 mm",
+      "dimensiones": "Ø 31.75 mm (1 1/4\")",
+      "espesorMm": 0.8,
+      "kgM": 0.611,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 28.58 mm (1 1/8\") x 0.9 mm",
+      "dimensiones": "Ø 28.58 mm (1 1/8\")",
+      "espesorMm": 0.9,
+      "kgM": 0.614,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 22.23 mm (7/8\") x 1.25 mm",
+      "dimensiones": "Ø 22.23 mm (7/8\")",
+      "espesorMm": 1.25,
+      "kgM": 0.647,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 34.93 mm (1 3/8\") x 0.8 mm",
+      "dimensiones": "Ø 34.93 mm (1 3/8\")",
+      "espesorMm": 0.8,
+      "kgM": 0.673,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 15.88 mm (5/8\") x 2 mm",
+      "dimensiones": "Ø 15.88 mm (5/8\")",
+      "espesorMm": 2,
+      "kgM": 0.684,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 31.75 mm (1 1/4\") x 0.9 mm",
+      "dimensiones": "Ø 31.75 mm (1 1/4\")",
+      "espesorMm": 0.9,
+      "kgM": 0.685,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 19.05 mm (3/4\") x 1.6 mm",
+      "dimensiones": "Ø 19.05 mm (3/4\")",
+      "espesorMm": 1.6,
+      "kgM": 0.689,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 38.10 mm (1 1/2\") x 0.8 mm",
+      "dimensiones": "Ø 38.10 mm (1 1/2\")",
+      "espesorMm": 0.8,
+      "kgM": 0.736,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 25.4 mm (1\") x 1.25 mm",
+      "dimensiones": "Ø 25.4 mm (1\")",
+      "espesorMm": 1.25,
+      "kgM": 0.744,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 34.93 mm (1 3/8\") x 0.9 mm",
+      "dimensiones": "Ø 34.93 mm (1 3/8\")",
+      "espesorMm": 0.9,
+      "kgM": 0.755,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 41.28 mm (1 5/8\") x 0.8 mm",
+      "dimensiones": "Ø 41.28 mm (1 5/8\")",
+      "espesorMm": 0.8,
+      "kgM": 0.799,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 22.23 mm (7/8\") x 1.6 mm",
+      "dimensiones": "Ø 22.23 mm (7/8\")",
+      "espesorMm": 1.6,
+      "kgM": 0.814,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 38.10 mm (1 1/2\") x 0.9 mm",
+      "dimensiones": "Ø 38.10 mm (1 1/2\")",
+      "espesorMm": 0.9,
+      "kgM": 0.826,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 19.05 mm (3/4\") x 2 mm",
+      "dimensiones": "Ø 19.05 mm (3/4\")",
+      "espesorMm": 2,
+      "kgM": 0.841,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 28.58 mm (1 1/8\") x 1.25 mm",
+      "dimensiones": "Ø 28.58 mm (1 1/8\")",
+      "espesorMm": 1.25,
+      "kgM": 0.842,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 41.28 mm (1 5/8\") x 0.9 mm",
+      "dimensiones": "Ø 41.28 mm (1 5/8\")",
+      "espesorMm": 0.9,
+      "kgM": 0.896,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 25.4 mm (1\") x 1.6 mm",
+      "dimensiones": "Ø 25.4 mm (1\")",
+      "espesorMm": 1.6,
+      "kgM": 0.939,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 31.75 mm (1 1/4\") x 1.25 mm",
+      "dimensiones": "Ø 31.75 mm (1 1/4\")",
+      "espesorMm": 1.25,
+      "kgM": 0.94,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 44.45 mm (1 3/4\") x 0.9 mm",
+      "dimensiones": "Ø 44.45 mm (1 3/4\")",
+      "espesorMm": 0.9,
+      "kgM": 0.967,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 22.23 mm (7/8\") x 2 mm",
+      "dimensiones": "Ø 22.23 mm (7/8\")",
+      "espesorMm": 2,
+      "kgM": 0.998,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 47.63 mm (1 7/8\") x 0.9 mm",
+      "dimensiones": "Ø 47.63 mm (1 7/8\")",
+      "espesorMm": 0.9,
+      "kgM": 1.037,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 34.93 mm (1 3/8\") x 1.25 mm",
+      "dimensiones": "Ø 34.93 mm (1 3/8\")",
+      "espesorMm": 1.25,
+      "kgM": 1.038,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 28.58 mm (1 1/8\") x 1.6 mm",
+      "dimensiones": "Ø 28.58 mm (1 1/8\")",
+      "espesorMm": 1.6,
+      "kgM": 1.064,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 50.80 mm (2\") x 0.9 mm",
+      "dimensiones": "Ø 50.80 mm (2\")",
+      "espesorMm": 0.9,
+      "kgM": 1.108,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 38.10 mm (1 1/2\") x 1.25 mm",
+      "dimensiones": "Ø 38.10 mm (1 1/2\")",
+      "espesorMm": 1.25,
+      "kgM": 1.136,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 25.4 mm (1\") x 2 mm",
+      "dimensiones": "Ø 25.4 mm (1\")",
+      "espesorMm": 2,
+      "kgM": 1.154,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 31.75 mm (1 1/4\") x 1.6 mm",
+      "dimensiones": "Ø 31.75 mm (1 1/4\")",
+      "espesorMm": 1.6,
+      "kgM": 1.19,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 41.28 mm (1 5/8\") x 1.25 mm",
+      "dimensiones": "Ø 41.28 mm (1 5/8\")",
+      "espesorMm": 1.25,
+      "kgM": 1.234,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 57.15 mm (2 1/4\") x 0.9 mm",
+      "dimensiones": "Ø 57.15 mm (2 1/4\")",
+      "espesorMm": 0.9,
+      "kgM": 1.248,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 28.58 mm (1 1/8\") x 2 mm",
+      "dimensiones": "Ø 28.58 mm (1 1/8\")",
+      "espesorMm": 2,
+      "kgM": 1.311,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 34.93 mm (1 3/8\") x 1.6 mm",
+      "dimensiones": "Ø 34.93 mm (1 3/8\")",
+      "espesorMm": 1.6,
+      "kgM": 1.315,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 44.45 mm (1 3/4\") x 1.25 mm",
+      "dimensiones": "Ø 44.45 mm (1 3/4\")",
+      "espesorMm": 1.25,
+      "kgM": 1.332,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 63.50 mm (2 1/2\") x 0.9 mm",
+      "dimensiones": "Ø 63.50 mm (2 1/2\")",
+      "espesorMm": 0.9,
+      "kgM": 1.389,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 47.63 mm (1 7/8\") x 1.25 mm",
+      "dimensiones": "Ø 47.63 mm (1 7/8\")",
+      "espesorMm": 1.25,
+      "kgM": 1.43,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 38.10 mm (1 1/2\") x 1.6 mm",
+      "dimensiones": "Ø 38.10 mm (1 1/2\")",
+      "espesorMm": 1.6,
+      "kgM": 1.44,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 31.75 mm (1 1/4\") x 2 mm",
+      "dimensiones": "Ø 31.75 mm (1 1/4\")",
+      "espesorMm": 2,
+      "kgM": 1.467,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 50.80 mm (2\") x 1.25 mm",
+      "dimensiones": "Ø 50.80 mm (2\")",
+      "espesorMm": 1.25,
+      "kgM": 1.527,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 41.28 mm (1 5/8\") x 1.6 mm",
+      "dimensiones": "Ø 41.28 mm (1 5/8\")",
+      "espesorMm": 1.6,
+      "kgM": 1.566,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 34.93 mm (1 3/8\") x 2 mm",
+      "dimensiones": "Ø 34.93 mm (1 3/8\")",
+      "espesorMm": 2,
+      "kgM": 1.624,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 44.45 mm (1 3/4\") x 1.6 mm",
+      "dimensiones": "Ø 44.45 mm (1 3/4\")",
+      "espesorMm": 1.6,
+      "kgM": 1.691,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 57.15 mm (2 1/4\") x 1.25 mm",
+      "dimensiones": "Ø 57.15 mm (2 1/4\")",
+      "espesorMm": 1.25,
+      "kgM": 1.723,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 38.10 mm (1 1/2\") x 2 mm",
+      "dimensiones": "Ø 38.10 mm (1 1/2\")",
+      "espesorMm": 2,
+      "kgM": 1.781,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 47.63 mm (1 7/8\") x 1.6 mm",
+      "dimensiones": "Ø 47.63 mm (1 7/8\")",
+      "espesorMm": 1.6,
+      "kgM": 1.816,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 63.50 mm (2 1/2\") x 1.25 mm",
+      "dimensiones": "Ø 63.50 mm (2 1/2\")",
+      "espesorMm": 1.25,
+      "kgM": 1.919,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 41.28 mm (1 5/8\") x 2 mm",
+      "dimensiones": "Ø 41.28 mm (1 5/8\")",
+      "espesorMm": 2,
+      "kgM": 1.937,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 50.80 mm (2\") x 1.6 mm",
+      "dimensiones": "Ø 50.80 mm (2\")",
+      "espesorMm": 1.6,
+      "kgM": 1.941,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 44.45 mm (1 3/4\") x 2 mm",
+      "dimensiones": "Ø 44.45 mm (1 3/4\")",
+      "espesorMm": 2,
+      "kgM": 2.094,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 57.15 mm (2 1/4\") x 1.6 mm",
+      "dimensiones": "Ø 57.15 mm (2 1/4\")",
+      "espesorMm": 1.6,
+      "kgM": 2.192,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 38.10 mm (1 1/2\") x 2.5 mm",
+      "dimensiones": "Ø 38.10 mm (1 1/2\")",
+      "espesorMm": 2.5,
+      "kgM": 2.195,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 47.63 mm (1 7/8\") x 2 mm",
+      "dimensiones": "Ø 47.63 mm (1 7/8\")",
+      "espesorMm": 2,
+      "kgM": 2.25,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 76.20 mm (3\") x 1.25 mm",
+      "dimensiones": "Ø 76.20 mm (3\")",
+      "espesorMm": 1.25,
+      "kgM": 2.31,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 60.33 mm (2 3/8\") x 1.6 mm",
+      "dimensiones": "Ø 60.33 mm (2 3/8\")",
+      "espesorMm": 1.6,
+      "kgM": 2.317,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 50.80 mm (2\") x 2 mm",
+      "dimensiones": "Ø 50.80 mm (2\")",
+      "espesorMm": 2,
+      "kgM": 2.407,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 63.50 mm (2 1/2\") x 1.6 mm",
+      "dimensiones": "Ø 63.50 mm (2 1/2\")",
+      "espesorMm": 1.6,
+      "kgM": 2.442,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 88.90 mm (3 1/2\") x 1.25 mm",
+      "dimensiones": "Ø 88.90 mm (3 1/2\")",
+      "espesorMm": 1.25,
+      "kgM": 2.702,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 57.15 mm (2 1/4\") x 2 mm",
+      "dimensiones": "Ø 57.15 mm (2 1/4\")",
+      "espesorMm": 2,
+      "kgM": 2.72,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 60.33 mm (2 3/8\") x 2 mm",
+      "dimensiones": "Ø 60.33 mm (2 3/8\")",
+      "espesorMm": 2,
+      "kgM": 2.877,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 76.20 mm (3\") x 1.6 mm",
+      "dimensiones": "Ø 76.20 mm (3\")",
+      "espesorMm": 1.6,
+      "kgM": 2.944,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 50.80 mm (2\") x 2.5 mm",
+      "dimensiones": "Ø 50.80 mm (2\")",
+      "espesorMm": 2.5,
+      "kgM": 2.978,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 63.50 mm (2 1/2\") x 2 mm",
+      "dimensiones": "Ø 63.50 mm (2 1/2\")",
+      "espesorMm": 2,
+      "kgM": 3.033,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 88.90 mm (3 1/2\") x 1.6 mm",
+      "dimensiones": "Ø 88.90 mm (3 1/2\")",
+      "espesorMm": 1.6,
+      "kgM": 3.445,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 76.20 mm (3\") x 2 mm",
+      "dimensiones": "Ø 76.20 mm (3\")",
+      "espesorMm": 2,
+      "kgM": 3.66,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 50.80 mm (2\") x 3.2 mm",
+      "dimensiones": "Ø 50.80 mm (2\")",
+      "espesorMm": 3.2,
+      "kgM": 3.756,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 63.50 mm (2 1/2\") x 2.5 mm",
+      "dimensiones": "Ø 63.50 mm (2 1/2\")",
+      "espesorMm": 2.5,
+      "kgM": 3.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 101.60 mm (4\") x 1.6 mm",
+      "dimensiones": "Ø 101.60 mm (4\")",
+      "espesorMm": 1.6,
+      "kgM": 3.946,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 88.90 mm (3 1/2\") x 2 mm",
+      "dimensiones": "Ø 88.90 mm (3 1/2\")",
+      "espesorMm": 2,
+      "kgM": 4.286,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 114.30 mm (4 1/2\") x 1.6 mm",
+      "dimensiones": "Ø 114.30 mm (4 1/2\")",
+      "espesorMm": 1.6,
+      "kgM": 4.447,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 60.33 mm (2 3/8\") x 3.2 mm",
+      "dimensiones": "Ø 60.33 mm (2 3/8\")",
+      "espesorMm": 3.2,
+      "kgM": 4.508,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 76.20 mm (3\") x 2.5 mm",
+      "dimensiones": "Ø 76.20 mm (3\")",
+      "espesorMm": 2.5,
+      "kgM": 4.544,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 63.50 mm (2 1/2\") x 3.2 mm",
+      "dimensiones": "Ø 63.50 mm (2 1/2\")",
+      "espesorMm": 3.2,
+      "kgM": 4.759,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 101.60 mm (4\") x 2 mm",
+      "dimensiones": "Ø 101.60 mm (4\")",
+      "espesorMm": 2,
+      "kgM": 4.913,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 127.00 mm (5\") x 1.6 mm",
+      "dimensiones": "Ø 127.00 mm (5\")",
+      "espesorMm": 1.6,
+      "kgM": 4.948,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 88.90 mm (3 1/2\") x 2.5 mm",
+      "dimensiones": "Ø 88.90 mm (3 1/2\")",
+      "espesorMm": 2.5,
+      "kgM": 5.327,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 114.30 mm (4 1/2\") x 2 mm",
+      "dimensiones": "Ø 114.30 mm (4 1/2\")",
+      "espesorMm": 2,
+      "kgM": 5.539,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 76.20 mm (3\") x 3.2 mm",
+      "dimensiones": "Ø 76.20 mm (3\")",
+      "espesorMm": 3.2,
+      "kgM": 5.761,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 63.50 mm (2 1/2\") x 4 mm",
+      "dimensiones": "Ø 63.50 mm (2 1/2\")",
+      "espesorMm": 4,
+      "kgM": 5.869,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 101.60 mm (4\") x 2.5 mm",
+      "dimensiones": "Ø 101.60 mm (4\")",
+      "espesorMm": 2.5,
+      "kgM": 6.11,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 127.00 mm (5\") x 2 mm",
+      "dimensiones": "Ø 127.00 mm (5\")",
+      "espesorMm": 2,
+      "kgM": 6.165,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 88.90 mm (3 1/2\") x 3.2 mm",
+      "dimensiones": "Ø 88.90 mm (3 1/2\")",
+      "espesorMm": 3.2,
+      "kgM": 6.763,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 114.30 mm (4 1/2\") x 2.5 mm",
+      "dimensiones": "Ø 114.30 mm (4 1/2\")",
+      "espesorMm": 2.5,
+      "kgM": 6.893,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 76.20 mm (3\") x 4 mm",
+      "dimensiones": "Ø 76.20 mm (3\")",
+      "espesorMm": 4,
+      "kgM": 7.122,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 88.90 mm (3 1/2\") x 3.6 mm",
+      "dimensiones": "Ø 88.90 mm (3 1/2\")",
+      "espesorMm": 3.6,
+      "kgM": 7.573,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 127.00 mm (5\") x 2.5 mm",
+      "dimensiones": "Ø 127.00 mm (5\")",
+      "espesorMm": 2.5,
+      "kgM": 7.676,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 101.60 mm (4\") x 3.2 mm",
+      "dimensiones": "Ø 101.60 mm (4\")",
+      "espesorMm": 3.2,
+      "kgM": 7.765,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 88.90 mm (3 1/2\") x 4 mm",
+      "dimensiones": "Ø 88.90 mm (3 1/2\")",
+      "espesorMm": 4,
+      "kgM": 8.375,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 114.30 mm (4 1/2\") x 3.2 mm",
+      "dimensiones": "Ø 114.30 mm (4 1/2\")",
+      "espesorMm": 3.2,
+      "kgM": 8.768,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 101.60 mm (4\") x 4 mm",
+      "dimensiones": "Ø 101.60 mm (4\")",
+      "espesorMm": 4,
+      "kgM": 9.628,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 127.00 mm (5\") x 3.2 mm",
+      "dimensiones": "Ø 127.00 mm (5\")",
+      "espesorMm": 3.2,
+      "kgM": 9.77,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 114.30 mm (4 1/2\") x 3.6 mm",
+      "dimensiones": "Ø 114.30 mm (4 1/2\")",
+      "espesorMm": 3.6,
+      "kgM": 9.828,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "Tubo redondo uso general",
+      "proveedor": "Ternium",
+      "designacion": "Tubo redondo Ø 114.30 mm (4 1/2\") x 4 mm",
+      "dimensiones": "Ø 114.30 mm (4 1/2\")",
+      "espesorMm": 4,
+      "kgM": 10.881,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 80",
+      "dimensiones": "h 80 mm",
+      "espesorMm": null,
+      "kgM": 8.6,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 100",
+      "dimensiones": "h 100 mm",
+      "espesorMm": null,
+      "kgM": 10.6,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 120",
+      "dimensiones": "h 120 mm",
+      "espesorMm": null,
+      "kgM": 13.3,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 340",
+      "dimensiones": "h 340 mm",
+      "espesorMm": null,
+      "kgM": 15.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 140",
+      "dimensiones": "h 140 mm",
+      "espesorMm": null,
+      "kgM": 16,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 160",
+      "dimensiones": "h 160 mm",
+      "espesorMm": null,
+      "kgM": 18.8,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 360",
+      "dimensiones": "h 360 mm",
+      "espesorMm": null,
+      "kgM": 19.61,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 180",
+      "dimensiones": "h 180 mm",
+      "espesorMm": null,
+      "kgM": 21.9,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 200",
+      "dimensiones": "h 200 mm",
+      "espesorMm": null,
+      "kgM": 25.2,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 220",
+      "dimensiones": "h 220 mm",
+      "espesorMm": null,
+      "kgM": 29.3,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 240",
+      "dimensiones": "h 240 mm",
+      "espesorMm": null,
+      "kgM": 33.1,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 260",
+      "dimensiones": "h 260 mm",
+      "espesorMm": null,
+      "kgM": 37.8,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 280",
+      "dimensiones": "h 280 mm",
+      "espesorMm": null,
+      "kgM": 41.8,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 450",
+      "dimensiones": "h 450 mm",
+      "espesorMm": null,
+      "kgM": 45.85,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 300",
+      "dimensiones": "h 300 mm",
+      "espesorMm": null,
+      "kgM": 46.1,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 320",
+      "dimensiones": "h 320 mm",
+      "espesorMm": null,
+      "kgM": 59.4,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 500",
+      "dimensiones": "h 500 mm",
+      "espesorMm": null,
+      "kgM": 68.74,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 400",
+      "dimensiones": "h 400 mm",
+      "espesorMm": null,
+      "kgM": 71.7,
+      "kgMGalvanizado": null
+    },
+    {
+      "familia": "UPN",
+      "proveedor": "Acindar",
+      "designacion": "UPN 550",
+      "dimensiones": "h 550 mm",
+      "espesorMm": null,
+      "kgM": 136.7,
+      "kgMGalvanizado": null
+    }
+  ]
+}

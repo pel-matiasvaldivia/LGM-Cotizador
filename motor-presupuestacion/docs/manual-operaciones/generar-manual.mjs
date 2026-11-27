@@ -400,10 +400,11 @@ function construir(marca) {
       ['6.', 'Etapa C · El comercial analiza, modifica y envía'],
       ['7.', 'Etapa D · El cliente ve el presupuesto y pre-aprueba'],
       ['8.', 'Etapa E · Cierre de la venta: contrato y orden de producción'],
-      ['9.', 'Notificaciones automáticas por email'],
-      ['10.', 'Mantenimiento del catálogo y los parámetros'],
-      ['11.', 'Preguntas frecuentes'],
-      ['12.', 'Datos de la empresa'],
+      ['9.', 'Etapa F · Producción: del despiece a la entrega en obra'],
+      ['10.', 'Notificaciones automáticas por email'],
+      ['11.', 'Mantenimiento del catálogo y los parámetros'],
+      ['12.', 'Preguntas frecuentes'],
+      ['13.', 'Datos de la empresa'],
     ].map(([n, t]) => parrafo([`${n}  ${t}`], { spacing: { after: 90 } })),
     new Paragraph({ children: [new PageBreak()] }),
   ]
@@ -490,6 +491,29 @@ function construir(marca) {
       [1300, 3200, 5138],
       marca,
     ),
+    p(''),
+    h2('Sectores del circuito de producción'),
+    parrafo([
+      'Además del rol, cada persona del equipo interno se asigna a uno o más ', ['sectores', true],
+      '. El rol decide a qué parte del sistema entra; el sector, qué pasos del circuito de producción ' +
+      'puede dar. Una misma persona puede estar en varios: es lo habitual cuando quien compra también ' +
+      'recibe la mercadería.',
+    ]),
+    tabla(
+      ['Sector', 'De qué se ocupa en el circuito'],
+      [
+        ['Oficina técnica', 'Carga el despiece de materiales, define las partes a fabricar y cierra la orden al terminar.'],
+        ['Abastecimiento', 'Verifica el stock, emite el pedido de los faltantes y registra el ingreso de los materiales.'],
+        ['Taller', 'Marca el avance de cada parte: pendiente, en fabricación, terminada.'],
+        ['Logística y obra', 'Arma los remitos, despacha a la obra y registra el control de llegada.'],
+      ],
+      [2600, 7038],
+      marca,
+    ),
+    p(''),
+    parrafo([
+      'El ', ['admin', true], ' entra a todos los sectores, para poder destrabar cuando falta alguien.',
+    ]),
     p(''),
     parrafo([
       'Las cuentas de ', ['admin', true], ' y ', ['comercial', true],
@@ -740,7 +764,140 @@ function construir(marca) {
     new Paragraph({ children: [new PageBreak()] }),
 
     // ── 9 ──
-    h1('9. Notificaciones automáticas por email'),
+    h1('9. Etapa F · Producción: del despiece a la entrega en obra'),
+    parrafo([
+      'Con la orden de producción emitida aparece, dentro del proyecto, la sección ',
+      ['Producción', true],
+      '. Es el circuito completo del taller, con un paso por sector y todo lo que pasa anotado en ' +
+      'la bitácora. Arriba de todo hay una línea con los seis hitos, para ver de un vistazo dónde ' +
+      'está la obra.',
+    ]),
+    parrafo([
+      'En el menú superior, ', ['Producción', true],
+      ' abre el tablero de todas las obras. Cada uno ve primero las que están esperando por su ' +
+      'sector, y después el resto ordenado por fecha de entrega comprometida.',
+    ]),
+    nota(
+      'La etapa no se elige: se deduce',
+      'Nadie marca "ya estoy en fabricación". La etapa sale del estado real de los datos: si falta ' +
+      'verificar un material, la obra está en verificación, aunque el taller ya haya empezado otra ' +
+      'cosa. Y si aparece un faltante nuevo, la obra vuelve sola a la etapa de compras.',
+      marca,
+    ),
+    p(''),
+
+    h2('9.1 · Despiece de materiales (oficina técnica)'),
+    parrafo([
+      'Oficina técnica sube la estructura de producto exportada del sistema de gestión, en ',
+      ['.xlsx', true], ' o ', ['.csv', true],
+      '. El sistema la lee y muestra primero un ', ['resumen de lo que entendió', true],
+      ': cuántos renglones de material, cuántos subconjuntos, cómo dedujo el agrupamiento y qué ' +
+      'descartó. Recién cuando eso está bien se confirma la importación.',
+    ]),
+    parrafo([
+      'El sistema de gestión exporta ', ['un subconjunto por archivo', true],
+      ' —columnas, vigas, correas, escalera, fundaciones—, así que la obra se arma subiendo varios. ' +
+      'Cada importación agrega el subconjunto que trae y deja en paz al resto: volver a exportar ' +
+      'las vigas después de un cambio no borra las fundaciones. Si el subconjunto ya estaba ' +
+      'cargado, lo reemplaza, y el aviso lo dice antes de aplicar.',
+    ]),
+    parrafo([
+      'Si la exportación trae la columna ', ['Stock', true],
+      ', el sistema la guarda y la usa como punto de partida de la verificación.',
+    ]),
+    parrafo([
+      'Un subconjunto con material ya ingresado no se puede reemplazar: esos renglones tienen ' +
+      'compras hechas detrás.',
+    ]),
+
+    h2('9.2 · Verificación de stock (abastecimiento)'),
+    parrafo([
+      'Abastecimiento carga, renglón por renglón, ', ['cuánto hay en depósito', true],
+      '. No es un sí o un no: la disponibilidad parcial es lo normal, y de esa resta sale ' +
+      'exactamente cuánto hay que comprar.',
+    ]),
+    nota(
+      'El stock del sistema de gestión viene propuesto, pero hay que confirmarlo',
+      'Si la exportación lo traía, cada renglón arranca con esa existencia ya cargada, acotada a ' +
+      'lo que hace falta para la obra. Es una ayuda para no tipear cincuenta números, no una ' +
+      'verificación: ese stock es general, no está reservado para esta obra y puede estar ' +
+      'desactualizado. Al lado de cada renglón se muestra la existencia total para poder compararla.',
+      marca,
+    ),
+    p(''),
+
+    h2('9.3 · Compra de los faltantes'),
+    parrafo([
+      'Con la verificación hecha, el botón ', ['Generar pedido de materiales', true],
+      ' arma el pedido con los faltantes de esta obra, las cantidades que faltan y la fecha en que ' +
+      'se necesitan. Sale en PDF para mandárselo a compras.',
+    ]),
+    nota(
+      'Es un pedido de referencia, no la orden de compra del ERP',
+      'La plataforma no maneja precios ni proveedores: eso lo negocia compras en el sistema de ' +
+      'gestión. Lo que sí hace es seguir el pedido, para que nadie tenga que preguntar por teléfono ' +
+      'en qué quedó. Al cursarlo se anota el número del ERP y queda vinculado.',
+      marca,
+    ),
+    p(''),
+
+    h2('9.4 · Ingreso de materiales'),
+    parrafo([
+      'Cada vez que llega mercadería, abastecimiento registra el ingreso con el remito del ' +
+      'proveedor. Los ingresos ', ['se suman', true],
+      ': si el acero entra en tres viajes, se cargan los tres y el renglón queda completo recién ' +
+      'con el último.',
+    ]),
+
+    h2('9.5 · Fabricación (taller)'),
+    parrafo([
+      'Oficina técnica define qué se fabrica —por defecto, una parte por subconjunto del despiece, ' +
+      'que es como está organizada la estructura— y el taller las va moviendo: pendiente, en ' +
+      'fabricación, terminada.',
+    ]),
+    nota(
+      'El taller no arranca con material sin resolver',
+      'Si queda algún renglón sin stock y sin recibir, el sistema no deja marcar una parte como ' +
+      'empezada. Es la regla que evita que una parte quede a medias esperando el acero.',
+      marca,
+    ),
+    p(''),
+
+    h2('9.6 · Despacho a obra'),
+    parrafo([
+      'Logística arma el remito con las partes terminadas, con transporte, chofer, patente y ' +
+      'destino. Una nave sale en varios viajes, así que se pueden hacer todos los remitos que haga ' +
+      'falta; cada parte sólo se puede despachar una vez.',
+    ]),
+    parrafo([
+      'El remito sale en PDF con el detalle de lo que viaja y el espacio para la firma de quien ' +
+      'recibe, para que vaya impreso con el camión.',
+    ]),
+
+    h2('9.7 · Control de llegada a la obra'),
+    parrafo([
+      'Cuando el camión llega, se registra quién recibió, cuándo y en qué estado: conforme, con ' +
+      'observaciones o rechazado. Si no llegó conforme, hay que decir qué pasó: sin eso no se ' +
+      'guarda.',
+    ]),
+    nota(
+      'Un despacho no se da por entregado hasta que la obra lo confirma',
+      'Es el único dato del circuito que aporta el destino y no quien despachó. Mientras falte una ' +
+      'confirmación, la orden no se puede cerrar.',
+      marca,
+    ),
+    p(''),
+
+    h2('9.8 · Cierre y trazabilidad'),
+    parrafo([
+      'Con todo entregado y confirmado, oficina técnica cierra la orden. La ', ['bitácora', true],
+      ' queda guardada con cada movimiento: qué sector lo hizo, qué hizo, cuándo y con qué nombre. ' +
+      'Es lo que permite contestar, meses después, por qué una obra se demoró.',
+    ]),
+    new Paragraph({ children: [new PageBreak()] }),
+
+    // ── 10 ──
+    h1('10. Notificaciones automáticas por email'),
     parrafo([
       'Desde que el cliente deja su email, la plataforma avisa en los momentos clave. No hay que ' +
       'hacer nada: salen solas.',
@@ -755,6 +912,7 @@ function construir(marca) {
         ['Se emite el contrato', 'Cliente', 'El contrato en PDF, con el enlace al portal para firmarlo.'],
         ['Se firma el contrato', 'Equipo comercial y cliente', 'Aviso de que ya se puede emitir la orden de producción, y confirmación al cliente.'],
         ['Se emite la orden de producción', 'Oficina técnica', 'La orden en PDF, con el despiece y la fecha de entrega comprometida.'],
+        ['La obra pasa a una etapa nueva', 'El sector que tiene que mover', 'Aviso de que la obra lo está esperando, con el enlace para abrirla.'],
       ],
       [2700, 1900, 5038],
       marca,
@@ -769,8 +927,8 @@ function construir(marca) {
     ),
     new Paragraph({ children: [new PageBreak()] }),
 
-    // ── 9 ──
-    h1('10. Mantenimiento del catálogo y los parámetros'),
+    // ── 11 ──
+    h1('11. Mantenimiento del catálogo y los parámetros'),
     parrafo([
       'El presupuesto sale tan bien como los datos que lo alimentan. Tres menús, todos del rol ', ['admin', true], ':',
     ]),
@@ -788,7 +946,7 @@ function construir(marca) {
     new Paragraph({ children: [new PageBreak()] }),
 
     // ── 10 ──
-    h1('11. Preguntas frecuentes'),
+    h1('12. Preguntas frecuentes'),
     ...[
       ['El cliente no ve su presupuesto en el portal.',
        'Dos causas posibles: el comercial todavía no presionó “Enviar presupuesto al cliente”, o el ' +
@@ -813,7 +971,7 @@ function construir(marca) {
     new Paragraph({ children: [new PageBreak()] }),
 
     // ── 11 ──
-    h1('12. Datos de la empresa'),
+    h1('13. Datos de la empresa'),
     parrafo(['Los datos cargados en la plataforma, tal como se imprimen en el presupuesto:']),
     tabla(
       ['Dato', 'Valor'],

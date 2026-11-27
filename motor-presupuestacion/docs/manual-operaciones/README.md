@@ -46,10 +46,11 @@ con oficina interior y baño):
 6. **Etapa C** · El comercial analiza, modifica y envía (`/proyectos`)
 7. **Etapa D** · El cliente ve el presupuesto y pre-aprueba
 8. **Etapa E** · Cierre de la venta: contrato, firma y orden de producción
-9. Notificaciones automáticas por email
-10. Mantenimiento del catálogo y los parámetros
-11. Preguntas frecuentes
-12. Datos de la empresa (se completan solos con `--slug`)
+9. **Etapa F** · Producción: del despiece a la entrega en obra
+10. Notificaciones automáticas por email
+11. Mantenimiento del catálogo y los parámetros
+12. Preguntas frecuentes
+13. Datos de la empresa (se completan solos con `--slug`)
 
 Los importes de las capturas son los que produjo el motor Base 0 con la
 calibración de precios de ese día: son un ejemplo, no una lista de precios.

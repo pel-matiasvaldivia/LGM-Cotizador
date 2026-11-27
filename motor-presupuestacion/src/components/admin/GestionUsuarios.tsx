@@ -8,7 +8,19 @@ type Usuario = {
   email: string
   nombre: string
   rol: 'admin' | 'comercial' | 'cliente'
+  sectores: Sector[]
   created_at: string
+}
+
+// Sectores del circuito de producción. El rol decide a qué parte del sistema
+// entra el usuario; el sector, qué pasos del circuito puede dar.
+type Sector = 'oficina_tecnica' | 'abastecimiento' | 'taller' | 'logistica'
+const SECTORES: Sector[] = ['oficina_tecnica', 'abastecimiento', 'taller', 'logistica']
+const sectorLabel: Record<Sector, string> = {
+  oficina_tecnica: 'Oficina técnica',
+  abastecimiento: 'Abastecimiento',
+  taller: 'Taller',
+  logistica: 'Logística y obra',
 }
 
 const ROLES: Usuario['rol'][] = ['admin', 'comercial', 'cliente']
@@ -23,7 +35,9 @@ const rolColor: Record<Usuario['rol'], string> = {
   cliente: 'bg-slate-100 text-slate-600',
 }
 
-const FORM_VACIO = { email: '', nombre: '', rol: 'comercial' as Usuario['rol'], password: '' }
+const FORM_VACIO = {
+  email: '', nombre: '', rol: 'comercial' as Usuario['rol'], password: '', sectores: [] as Sector[],
+}
 
 export default function GestionUsuarios({ currentUserId }: { currentUserId: string }) {
   const [open, setOpen] = useState(false)
@@ -65,7 +79,7 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
 
   const editar = (u: Usuario) => {
     setEditId(u.id)
-    setForm({ email: u.email, nombre: u.nombre, rol: u.rol, password: '' })
+    setForm({ email: u.email, nombre: u.nombre, rol: u.rol, password: '', sectores: u.sectores ?? [] })
     setError(null)
   }
 
@@ -77,7 +91,9 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
       const url = editId ? `/api/usuarios/${editId}` : '/api/usuarios'
       const method = editId ? 'PATCH' : 'POST'
       // En edición, la contraseña vacía significa "no cambiar"
-      const payload: any = { email: form.email, nombre: form.nombre, rol: form.rol }
+      const payload: any = {
+        email: form.email, nombre: form.nombre, rol: form.rol, sectores: form.sectores,
+      }
       if (form.password) payload.password = form.password
       if (!editId && !form.password) throw new Error('La contraseña es obligatoria')
 
@@ -212,6 +228,38 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
                     className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-brand-ink placeholder:text-slate-400 focus:ring-2 focus:ring-brand focus:border-transparent outline-none"
                   />
                 </div>
+
+                {/* Un usuario puede estar en varios sectores: en una PyME la
+                    misma persona compra y recibe. El admin entra a todos. */}
+                {form.rol !== 'cliente' && (
+                  <div className="mb-3">
+                    <p className="text-xs font-semibold text-slate-500 mb-1.5">
+                      Sectores del circuito de producción
+                      {form.rol === 'admin' && ' (el administrador entra a todos igual)'}
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      {SECTORES.map((sec) => (
+                        <label key={sec} className="flex items-center gap-1.5 text-sm text-brand-ink">
+                          <input
+                            type="checkbox"
+                            checked={form.sectores.includes(sec)}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                sectores: e.target.checked
+                                  ? [...form.sectores, sec]
+                                  : form.sectores.filter((s) => s !== sec),
+                              })
+                            }
+                            className="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
+                          />
+                          {sectorLabel[sec]}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex items-center gap-2">
                   <button
                     type="submit"
@@ -255,6 +303,11 @@ export default function GestionUsuarios({ currentUserId }: { currentUserId: stri
                             <span className={`text-xs font-bold px-2 py-1 rounded-full ${rolColor[u.rol]}`}>
                               {rolLabel[u.rol]}
                             </span>
+                            {u.sectores?.length > 0 && (
+                              <p className="mt-1 text-xs text-slate-400">
+                                {u.sectores.map((s) => sectorLabel[s]).join(' · ')}
+                              </p>
+                            )}
                           </td>
                           <td className="py-2.5 pl-3">
                             <div className="flex items-center justify-end gap-1">

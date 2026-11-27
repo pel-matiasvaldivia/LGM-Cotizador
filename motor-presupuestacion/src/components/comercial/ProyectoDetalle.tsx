@@ -1,10 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { Download, FileText, Calculator, Loader2, ArrowLeft, User, MapPin, Building2, Send, Box, Truck, Plus, Trash2, Pencil, Check, X, Paperclip } from 'lucide-react'
+import { Download, FileText, Calculator, Loader2, ArrowLeft, User, MapPin, Building2, Send, Box, Truck, Plus, Trash2, Pencil, Check, X, Paperclip, Factory } from 'lucide-react'
 import Link from 'next/link'
 import AgregarItemModal from './AgregarItemModal'
 import CierreVenta, { type ContratoRow, type OrdenRow } from './CierreVenta'
+import CircuitoProduccion from '@/components/produccion/CircuitoProduccion'
 
 type Tab = 'base0' | 'cliente'
 
@@ -448,6 +449,20 @@ export default function ProyectoDetalle({
           ubicacionObra={ubicacion}
           onEstado={setEstado}
         />
+      )}
+
+      {/* Circuito de producción: del despiece a la entrega en obra. Aparece
+          con la orden emitida, que es lo que lo habilita. */}
+      {initialOrden && (
+        <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm mb-6">
+          <div className="flex items-center gap-2 text-slate-400 mb-4">
+            <Factory className="w-4 h-4" />
+            <span className="text-xs font-semibold uppercase tracking-wide">
+              Producción · {initialOrden.numero}
+            </span>
+          </div>
+          <CircuitoProduccion proyectoId={proyecto.id} ubicacionObra={ubicacion} />
+        </div>
       )}
 
       {/* Documentación adjunta por el cliente */}
